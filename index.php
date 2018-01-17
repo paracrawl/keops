@@ -1,7 +1,9 @@
 <?php    
     // load up your config file
     require_once("resources/config.php");
-     
+    require_once("dao/user_dao.php"); 
+    
+    
     require_once(TEMPLATES_PATH . "/header.php");
 ?>
     <div class="container">
