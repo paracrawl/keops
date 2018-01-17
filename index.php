@@ -16,6 +16,6 @@
         <?php echo "ADIOS\n" ?>
     </div>
 <?php
-    require_once(TEMPLATES_PATH . "/footer.php");
+  require_once(TEMPLATES_PATH . "/footer.php");
 ?>
 
