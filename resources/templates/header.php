@@ -25,12 +25,12 @@
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
-          <form class="navbar-form navbar-right">
+          <form class="navbar-form navbar-right" action="users/user_login.php"  method="post" >
             <div class="form-group">
-              <input type="text" id="username" placeholder="Username" class="form-control">
+              <input type="text" id="email" name="email" placeholder="Email address" class="form-control">
             </div>
             <div class="form-group">
-              <input type="password" id="password" placeholder="Password" class="form-control">
+              <input type="password" id="password" name="password" placeholder="Password" class="form-control">
             </div>
             <button type="submit" class="btn btn-success">Sign in</button>
           </form>
