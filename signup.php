@@ -7,12 +7,12 @@
   session_start();
 
 ?>
-    <div class="container">
+    <div class="container signup">
       <div class="page-header">
         <h1>Sign up</h1>
         <p>Please enter the required fields to create your account.</p>
 
-        <div class="panel panel-primary" style="margin-top: 20px;">
+        <div class="panel panel-primary">
           <div class="panel-heading">
             <h3 class="panel-title"><strong>Note</strong></h3>
           </div>
@@ -21,15 +21,16 @@
           </div>
         </div>
       </div>
-      <form class="form-horizontal" method="post" action="">
+      
+      <form class="form-horizontal" method="post" action="" role="form" data-toggle="validator">
         <div class="form-group">
           <label for="username" class="col-sm-4 control-label">Username</label>
           <div class="col-sm-4">
             <div class="input-group">
               <div class="input-group-addon">required</div>
-              <input class="form-control" name="username" id="username" type="text" size="30" value="" aria-describedby="helpUsername">
+              <input class="form-control" name="username" id="username" type="text" size="30" value="" aria-describedby="helpUsername" required="" autofocus="">
             </div>
-            <span id="helpUsername" class="help-block">Please enter your desired username</span>
+            <div id="helpEmail" class="help-block with-errors">Please enter your username</div>
           </div>
         </div>
         <div class="form-group">
@@ -37,100 +38,32 @@
           <div class="col-sm-4">
             <div class="input-group">
               <div class="input-group-addon">required</div>
-              <input class="form-control" name="email" id="email" type="text" size="30" value="" aria-describedby="helpEmail">
+              <input class="form-control" name="email" id="email_address" type="email" size="30" value="" aria-describedby="helpEmail"  required="">
             </div>
-            <span id="helpEmail" class="help-block">Please enter your email address</span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="id_projects" class="col-sm-4 control-label">Projects</label>
-          <div class="col-sm-4">
-            <div class="input-group">
-              <div class="input-group-addon">required</div>
-              <select class="form-control" name="projects" id="id_projects" multiple="multiple">
-
-                <option value="NewsTask">NewsTask</option>
-
-                <option value="ITTask">ITTask</option>
-
-                <option value="Testing">Testing</option>
-
-              </select>
-            </div>
-            <span id="helpProjects" class="help-block">Which annotation projects will you work on?</span>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="id_languages" class="col-sm-4 control-label">Languages</label>
-          <div class="col-sm-4">
-            <div class="input-group">
-              <div class="input-group-addon">required</div>
-              <select class="form-control" name="languages" id="id_languages" multiple="multiple">
-                <option value="2baq">Basque (Euskara)</option>
-                <option value="2bul">Bulgarian (Български)</option>
-                <option value="2ces">Czech (Čeština)</option>
-                <option value="2deu">German (Deutsch)</option>
-                <option value="2eng">English</option>
-                <option value="2fin">Finnish (Suomi)</option>
-                <option value="2nld">Dutch (Nederlands)</option>
-                <option value="2ptb">Portuguese (Português)</option>
-                <option value="2rom">Romanian (Română)</option>
-                <option value="2rus">Russian (Русский)</option>
-                <option value="2esn">Spanish (Español)</option>
-                <option value="2trk">Turkish (Türkçe)</option>
-              </select>
-            </div>
-            <span id="helpLanguages" class="help-block">Which target languages will you evaluate?</span>
-          </div>
-        </div>
-        
-        <div class="form-group">
-          <label for="inputName" class="control-label">Name</label>
-          <input type="text" class="form-control" id="inputName" placeholder="Cina Saffary" required>
-        </div>
-        <div class="form-group has-feedback">
-          <label for="inputTwitter" class="control-label">Twitter</label>
-          <div class="input-group">
-            <span class="input-group-addon">@</span>
-            <input type="text" pattern="^[_A-z0-9]{1,}$" maxlength="15" class="form-control" id="inputTwitter" placeholder="1000hz" required>
+            <div id="helpEmail" class="help-block with-errors">Enter your email address</div>
           </div>
           <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-          <div class="help-block with-errors">Hey look, this one has feedback icons!</div>
         </div>
         <div class="form-group">
-          <label for="inputEmail" class="control-label">Email</label>
-          <input type="email" class="form-control" id="inputEmail" placeholder="Email" data-error="Bruh, that email address is invalid" required>
-          <div class="help-block with-errors"></div>
-        </div>
-        <div class="form-group">
-          <label for="inputPassword" class="control-label">Password</label>
-          <div class="form-inline row">
-            <div class="form-group col-sm-6">
-              <input type="password" data-minlength="6" class="form-control" id="inputPassword" placeholder="Password" required>
-              <div class="help-block">Minimum of 6 characters</div>
+          <label for="inputPassword" class="control-label col-sm-4">Password</label>
+          <div class="col-sm-4">
+            <div class="input-group">
+              <div class="input-group-addon">required</div>
+              <input type="password" data-minlength="6" class="form-control" id="inputPassword" required>
             </div>
-            <div class="form-group col-sm-6">
-              <input type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword" data-match-error="Whoops, these don't match" placeholder="Confirm" required>
-              <div class="help-block with-errors"></div>
-            </div>
+            <div class="help-block">Minimum of 6 characters</div>
           </div>
         </div>
         <div class="form-group">
-          <div class="radio">
-            <label>
-              <input type="radio" name="underwear" required>
-              Boxers
-            </label>
-          </div>
-          <div class="radio">
-            <label>
-              <input type="radio" name="underwear" required>
-              Briefs
-            </label>
+          <label for="inputPasswordConfirm" class="control-label col-sm-4">Confirm password</label>
+          <div class="col-sm-4">
+            <div class="input-group">
+              <div class="input-group-addon">required</div>
+              <input type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword" data-match-error="Password doesn't match" required>
+            </div>
+            <div class="help-block with-errors"></div>
           </div>
         </div>
-
         <button type="submit" class="col-sm-offset-4 btn btn-primary">Sign up</button>
 
       </form>

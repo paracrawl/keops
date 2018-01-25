@@ -7,7 +7,7 @@
   session_start();
 
 ?>
-    <div class="container">
+    <div class="container signin">
       <div class="page-header">
         <h1>Sign in</h1>
         <p>Please enter your username and password to access the system.</p>
@@ -16,7 +16,7 @@
         
         <div class="form-group">
           <label for="email" class="sr-only control-label">Email address</label>
-          <input type="text" name="email" class="form-control" placeholder="Email address" required="" autofocus="">
+          <input type="email" name="email" class="form-control" placeholder="Email address" required="" autofocus="">
           <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
           <div class="help-block with-errors">Enter your email address</div>
         </div>
