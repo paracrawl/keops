@@ -4,8 +4,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] ."/dao/user_dao.php");
 require_once($_SERVER['DOCUMENT_ROOT'] ."/utils/utils.php");
 
 
-session_start();
-
+if(!isset($_SESSION)) { 
+        session_start(); 
+    } 
 $failedparams = checkPostParameters(["email", "password"]);
 
 if (count($failedparams) == 0){
@@ -21,20 +22,34 @@ if (count($failedparams) == 0){
   $password_hash = $userinfo->password;
   
   if ($password_hash == null || $password_hash==""){
-    echo "Not registered";
+    //"Not registered";
+    $_SESSION['error']="notregistered";
+    $_SESSION['userinfo']=null;
   }
   else {
     if (password_verify($password, $password_hash)) {
       //Valid password
-      $_SESSION['email'] = $email;
       $_SESSION['userinfo'] = $userinfo;
+      
     } else {
-      echo "Wrong password";
+      
+      //echo "Wrong password";
+      $_SESSION['error']="wrongpassword";
+      $_SESSION['userinfo']=null;
     }
   }
 }
 else {
-  echo "Missing params";
+  if (in_array("email", $failedparams) || in_array("password", $failedparams)){
+    $_SESSION["error"] = "missingdata";   
+    $_SESSION["userinfo"] = null;
+  }
+  else {
+    $_SESSION["error"] = "unknownerror";
+    $_SESSION["userinfo"] = null;
+
+  }
 }
+header("Location: /index.php");
 
   

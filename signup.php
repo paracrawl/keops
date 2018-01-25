@@ -4,8 +4,9 @@
 
   require_once(TEMPLATES_PATH . "/header.php");
   
-  session_start();
-
+if(!isset($_SESSION)) { 
+        session_start(); 
+    } 
 ?>
     <div class="container">
       <div class="page-header">

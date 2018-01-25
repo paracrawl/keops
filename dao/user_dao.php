@@ -3,9 +3,9 @@
 require_once($_SERVER['DOCUMENT_ROOT'] ."/db/keopsdb.class.php");
 require_once($_SERVER['DOCUMENT_ROOT'] ."/dto/user_dto.php");
    
-session_start();
-
-
+if(!isset($_SESSION)) { 
+        session_start(); 
+    } 
 class user_dao {
   private $conn;
   

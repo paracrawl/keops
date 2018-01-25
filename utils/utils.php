@@ -9,3 +9,4 @@ function checkPostParameters($names){
   }
   return $failed;
 }
+
