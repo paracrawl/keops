@@ -1,8 +1,11 @@
 <?php
 
-require_once("db/keopsdb.class.php");
-require_once("dto/user_dto.php");
+require_once($_SERVER['DOCUMENT_ROOT'] ."/db/keopsdb.class.php");
+require_once($_SERVER['DOCUMENT_ROOT'] ."/dto/user_dto.php");
    
+session_start();
+
+
 class user_dao {
   private $conn;
   
@@ -11,13 +14,12 @@ class user_dao {
       $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
   }
-  
-  function get_user($username) {
+  function getUser($email) {
     try {
       $user = new user_dto();
       
-      $query = $this->conn->prepare("SELECT * FROM USERS WHERE username like ?;");
-      $query->bindParam(1, $username);
+      $query = $this->conn->prepare("SELECT * FROM USERS WHERE email like ?;");
+      $query->bindParam(1, $email);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while($row = $query->fetch()){
@@ -36,8 +38,19 @@ class user_dao {
     }
   }
 
-  function get_users() {
-
+  function getUserPassword($email){
+    try {
+      $query = $this->conn->prepare("SELECT password FROM USERS WHERE email LIKE ?;");
+      $query->bindParam(1, $email);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      $password = $query->fetch();
+      return $password["password"];
+      
+    } catch (Exception $ex) {
+      throw new Exception("Error in user_dao::getUserPassword : " . $ex->getMessage());
+    }
+  
   }
 
 }

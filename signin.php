@@ -1,8 +1,11 @@
 <?php    
   // load up your config file
-  require_once("resources/config.php");
+  require_once($_SERVER['DOCUMENT_ROOT'] ."/resources/config.php");
 
   require_once(TEMPLATES_PATH . "/header.php");
+  
+  session_start();
+
 ?>
     <div class="container">
       <div class="page-header">
@@ -12,8 +15,8 @@
       <form class="form-signin" role="form" data-toggle="validator">
         
         <div class="form-group">
-          <label for="username" class="sr-only control-label">Email address</label>
-          <input type="text" name="username" class="form-control" placeholder="Email address" required="" autofocus="">
+          <label for="email" class="sr-only control-label">Email address</label>
+          <input type="text" name="email" class="form-control" placeholder="Email address" required="" autofocus="">
           <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
           <div class="help-block with-errors">Enter your email address</div>
         </div>
