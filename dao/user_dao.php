@@ -1,7 +1,7 @@
 <?php
 
-require_once($_SERVER['DOCUMENT_ROOT'] ."/db/keopsdb.class.php");
-require_once($_SERVER['DOCUMENT_ROOT'] ."/dto/user_dto.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/db/keopsdb.class.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dto/user_dto.php");
    
 if(!isset($_SESSION)) { 
         session_start(); 
