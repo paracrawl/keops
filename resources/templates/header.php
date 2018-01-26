@@ -32,7 +32,7 @@
               <input type="password" id="password" name="password" placeholder="Password" class="form-control">
             </div>
             <button type="submit" class="btn btn-success">Sign in</button>
-            <a href="/signup" type="button" class="btn btn-primary">Sign up</a>
+            <a href="/signup.php" type="button" class="btn btn-primary" method="post">Sign up</a>
           </form>
         </div><!--/.nav-collapse -->
       </div>

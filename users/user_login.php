@@ -25,17 +25,21 @@ if (count($failedparams) == 0){
     //"Not registered";
     $_SESSION['error']="notregistered";
     $_SESSION['userinfo']=null;
+    header("Location: /signin.php");
+
   }
   else {
     if (password_verify($password, $password_hash)) {
       //Valid password
       $_SESSION['userinfo'] = $userinfo;
-      
+      header("Location: /index.php");
     } else {
       
       //echo "Wrong password";
       $_SESSION['error']="wrongpassword";
       $_SESSION['userinfo']=null;
+      header("Location: /signin.php");
+
     }
   }
 }
@@ -43,13 +47,15 @@ else {
   if (in_array("email", $failedparams) || in_array("password", $failedparams)){
     $_SESSION["error"] = "missingdata";   
     $_SESSION["userinfo"] = null;
+    header("Location: /signin.php");
+
   }
   else {
     $_SESSION["error"] = "unknownerror";
     $_SESSION["userinfo"] = null;
+    header("Location: /signin.php");
 
   }
 }
-header("Location: /index.php");
 
   

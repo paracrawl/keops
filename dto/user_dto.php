@@ -11,8 +11,6 @@ class user_dto{
   public $role;
   public $password;
   
-  public function check_password($pass){
-    //md5 or whatever, check and return true/false
-  }
+
   
 }

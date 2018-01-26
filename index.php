@@ -19,37 +19,19 @@ if(!isset($_SESSION)) {
     //$user = new user_dto();
     //$user = $user_dao->getUser("mbanon");
     $user = $_SESSION["userinfo"];
-    echo "<h2>" . $user->username . " (" . $user->name . ")</h2>";
+    echo "<h3>" . $user->username . " (" . $user->name . ")</h3>";
+    echo "<h2>Projects</h2>";
+    echo "Project 1<br>";
+    echo "Project 2<br>";
+    if ($user->isAdmin() || $user->isStaff()) {
+
+      echo("<a href=\"admin/admin.php\">Manage projects</a>");
+    }
     echo "<a href=\"/users/user_logout.php\">Logout</a>";
   } else {
-    if (isset($_SESSION["error"])) {
-      switch ($_SESSION["error"]) {
-        // These errors should be displayed in a fancier way (popup warnings or so)
-        case "notregistered":
-          echo "User is not registered.";
-          $_SESSION["error"] = null;
-          break;
-        case "wrongpassword":
-          echo "Email and password do not match";
-          $_SESSION["error"] = null;
-          break;
-        case "missingdata":
-          echo "Please introduce both email and password.";
-          $_SESSION["error"] = null;
-          break;
-        case "unknownerror":
-        default:
-          echo "An error occurred. Please try again later.";
-          $_SESSION["error"] = null;
-          break;
-      }
-      $_SESSION["userinfo"] = null;
-    }
-    else {
-      echo "Not logged in.";
-    }
+    echo "Not logged in.";
   }
-    ?>
+  ?>
   </div>
 <?php
 require_once(TEMPLATES_PATH . "/footer.php");
