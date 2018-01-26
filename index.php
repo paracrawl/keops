@@ -25,7 +25,7 @@ if(!isset($_SESSION)) {
     echo "Project 2<br>";
     if ($user->isAdmin() || $user->isStaff()) {
 
-      echo("<a href=\"admin/admin.php\">Manage projects</a>");
+      echo("<a href=\"admin/index.php\">Manage projects</a>");
     }
     echo "<a href=\"/users/user_logout.php\">Logout</a>";
   } else {

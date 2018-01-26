@@ -1,14 +1,23 @@
 <?php
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dto/user_dto.php");
+
 if(!isset($_SESSION)) { 
   session_start();
 }
 
 function isSignedIn(){
-  $failed = [];
-  foreach ($names as $name){
-    if (!(isset($_POST[$name]) && $_POST[$name]!=null && $_POST[$name]!=null)){
-      array_push($failed, $name);
-    }
-  }
-  return $failed;
+  return isset($_SESSION["userinfo"]);
 }
+
+function getUserRole(){
+  $role = null;
+  if (isset($_SESSION["userinfo"])) {
+    $user = $_SESSION["userinfo"];
+    $role = $user->role;
+  }
+  return $role;
+}
+
+$SIGNEDIN = isSignedIn();
+$USER_ROLE = getUserRole();
+$USER = $_SESSION["userinfo"];
