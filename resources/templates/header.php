@@ -1,17 +1,6 @@
 <?php
   require_once(RESOURCES_PATH . "/session.php");
 ?>
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>KEOPS | </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/general.css" />
-  </head>
-  <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -29,7 +18,7 @@
             <?php
             if ($ADMIN_VIEW_PERMISSIONS) {
             ?>
-            <li><a href="#">Management</a></li>
+            <li><a href="/admin">Management</a></li>
             <?php
             }
             ?>
@@ -43,7 +32,7 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $USER->name ?><span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li class="dropdown-header">Account</li>
-                <li><a href="">Sign out <?= $USER->name ?></a></li>
+                <li><a href="/users/user_logout.php">Sign out <?= $USER->name ?></a></li>
               </ul>
             </li>
           </ul>

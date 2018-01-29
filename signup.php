@@ -3,13 +3,23 @@
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 
   require_once(RESOURCES_PATH . "/session.php");
-  require_once(TEMPLATES_PATH . "/header.php");
   
   if ($SIGNEDIN) {
     header("Location: /index.php");
   }
 ?>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>KEOPS | Sign up</title>
+    <?php
+    require_once(TEMPLATES_PATH . "/head.php");
+    ?>
+  </head>
+  <body>
     <div class="container signup">
+      <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
       <div class="page-header">
         <h1>Sign up</h1>
         <p>Please enter the required fields to create your account.</p>
@@ -25,6 +35,7 @@
       </div>
       
       <form class="form-horizontal" method="post" action="" role="form" data-toggle="validator">
+        <input name="token" id="token" type="hidden" value="<?= "TOKEN_ID" ?>">
         <div class="form-group">
           <label for="username" class="col-sm-4 control-label">Username</label>
           <div class="col-sm-4">
@@ -70,6 +81,11 @@
 
       </form>
     </div>
-<?php
-  require_once(TEMPLATES_PATH . "/footer.php");
-?>
+    <?php
+    require_once(TEMPLATES_PATH . "/footer.php");
+    ?>
+    <?php
+    require_once(TEMPLATES_PATH . "/resources.php");
+    ?>
+  </body>
+</html>
