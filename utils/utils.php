@@ -10,3 +10,11 @@ function checkPostParameters($names){
   return $failed;
 }
 
+
+function getSignUpURL($token) {
+  if (isset($token)) {
+    return (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]" . "/signup.php?token=" . token;
+  } else {
+    return "";
+  }
+}
