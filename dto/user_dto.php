@@ -20,4 +20,8 @@ class user_dto{
   function isStaff() {
     return $this->role == user_dto::STAFF;
   }
+  
+  function isUser() {
+    return $this->role == user_dto::USER;
+  }
 }

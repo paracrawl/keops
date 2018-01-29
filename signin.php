@@ -1,39 +1,50 @@
 <?php
   // load up your config file
-  require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/resources/config.php");
+  require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 
+  require_once(RESOURCES_PATH . "/session.php");
   require_once(TEMPLATES_PATH . "/header.php");
   
-  if (!isset($_SESSION)) {
-    session_start();
-  }
-  if (isset($_SESSION["error"])) {
-    switch ($_SESSION["error"]) {
-      // These errors should be displayed in a fancier way (popup warnings or so)
-      case "notregistered":     
-      case "wrongpassword":
-        echo "Email and password do not match";
-        $_SESSION["error"] = null;
-        break;
-      case "missingdata":
-        echo "Please introduce both email and password.";
-        $_SESSION["error"] = null;
-        break;
-      case "unknownerror":
-      default:
-        echo "An error occurred. Please try again later.";
-        $_SESSION["error"] = null;
-        break;
-    }
-    $_SESSION["userinfo"] = null;
-  } else {
-
+  if ($SIGNEDIN) {
+    header("Location: /index.php");
   }
 ?>
     <div class="container signin">
       <div class="page-header">
         <h1>Sign in</h1>
         <p>Please enter your username and password to access the system.</p>
+        <?php
+        if (isset($_SESSION["error"])) {
+        ?>
+        <div class="panel panel-danger">
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong>Oops!</strong></h3>
+          </div>
+          <div class="panel-body">
+            <p>
+            <?php
+              switch ($_SESSION["error"]) {
+                case "notregistered":     
+                case "wrongpassword":
+                  echo "Email and password do not match. Please try again.";
+                  break;
+                case "missingdata":
+                  echo "You should specify your email and password. Please try again.";
+                  break;
+                case "unknownerror":
+                default:
+                  echo "An error occurred. Please try again later.";
+                  break;
+              }
+              $_SESSION["error"] = null;
+              $_SESSION["userinfo"] = null;
+            ?>
+            </p>
+          </div>
+        </div>
+        <?php
+        }
+        ?>
       </div>
       <form class="form-signin" role="form" data-toggle="validator" action="users/user_login.php" method="post">
         

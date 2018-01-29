@@ -1,5 +1,5 @@
 <?php
-require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/resources/session.php");
+  require_once(RESOURCES_PATH . "/session.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,10 +25,16 @@ require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/resources/session.ph
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Tasks</a></li>
+            <li><a href="/index.php">Tasks</a></li>
+            <?php
+            if ($ADMIN_VIEW_PERMISSIONS) {
+            ?>
+            <li><a href="#">Management</a></li>
+            <?php
+            }
+            ?>
           </ul>
           <?php
-          echo $SIGNEDIN;
           if ($SIGNEDIN) {
           ?>
           <ul class="nav navbar-nav navbar-right">
@@ -38,13 +44,6 @@ require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/resources/session.ph
               <ul class="dropdown-menu">
                 <li class="dropdown-header">Account</li>
                 <li><a href="">Sign out <?= $USER->name ?></a></li>
-
-                <li role="separator" class="divider"></li>
-                <li class="dropdown-header">Management</li>
-
-                <li><a href="/admin/">Admin backend</a></li>
-
-                <li><a href="">Campaign status</a></li>
               </ul>
             </li>
           </ul>

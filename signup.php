@@ -1,12 +1,13 @@
 <?php    
   // load up your config file
-  require_once($_SERVER['DOCUMENT_ROOT'] ."/resources/config.php");
+  require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 
+  require_once(RESOURCES_PATH . "/session.php");
   require_once(TEMPLATES_PATH . "/header.php");
   
-if(!isset($_SESSION)) { 
-        session_start(); 
-    } 
+  if ($SIGNEDIN) {
+    header("Location: /index.php");
+  }
 ?>
     <div class="container signup">
       <div class="page-header">

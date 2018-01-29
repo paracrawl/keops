@@ -18,6 +18,13 @@ function getUserRole(){
   return $role;
 }
 
+function canSeeAdminView() {
+  $role = getUserRole();
+  if ($role == user_dto::ADMIN || $role == user_dto::STAFF) {
+    return true;
+  }
+}
+
 $SIGNEDIN = isSignedIn();
-$USER_ROLE = getUserRole();
+$ADMIN_VIEW_PERMISSIONS = canSeeAdminView();
 $USER = $_SESSION["userinfo"];
