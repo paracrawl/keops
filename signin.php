@@ -3,13 +3,22 @@
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 
   require_once(RESOURCES_PATH . "/session.php");
-  require_once(TEMPLATES_PATH . "/header.php");
   
   if ($SIGNEDIN) {
     header("Location: /index.php");
   }
-?>
+?><!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>KEOPS | Sign up</title>
+    <?php
+    require_once(TEMPLATES_PATH . "/head.php");
+    ?>
+  </head>
+  <body>
     <div class="container signin">
+      <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
       <div class="page-header">
         <h1>Sign in</h1>
         <p>Please enter your username and password to access the system.</p>
@@ -64,6 +73,11 @@
         </div>
       </form>
     </div>
-<?php
-  require_once(TEMPLATES_PATH . "/footer.php");
-?>
+    <?php
+    require_once(TEMPLATES_PATH . "/footer.php");
+    ?>
+    <?php
+    require_once(TEMPLATES_PATH . "/resources.php");
+    ?>
+  </body>
+</html>
