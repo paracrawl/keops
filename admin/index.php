@@ -18,10 +18,11 @@
     <div class="container">
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
       <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#home">Dashboard</a></li>
+        <li class="active"><a data-toggle="tab" href="#dashboard">Dashboard</a></li>
         <li><a data-toggle="tab" href="#users">Users</a></li>
         <li><a data-toggle="tab" href="#projects">Projects</a></li>
         <li><a data-toggle="tab" href="#languages">Languages</a></li>
+        <li><a data-toggle="tab" href="#invitations">Invitations</a></li>
       </ul>
 
       <div class="tab-content">
@@ -70,6 +71,10 @@
         <div id="languages" class="tab-pane fade">
           <h3>Dashboards</h3>
           <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+        </div>
+        <div id="invitations" class="tab-pane fade">
+          <h3>Invitations</h3>
+          <p>Invite users</p>
         </div>
       </div>
     </div>
