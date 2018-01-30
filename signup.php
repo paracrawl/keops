@@ -6,6 +6,7 @@
   
   if ($SIGNEDIN) {
     header("Location: /index.php");
+    die();
   }
 ?>
 <!DOCTYPE html>
@@ -43,7 +44,7 @@
               <div class="input-group-addon">required</div>
               <input class="form-control" name="username" id="username" type="text" size="30" value="" aria-describedby="helpUsername" required="" autofocus="">
             </div>
-            <div id="helpEmail" class="help-block with-errors">Please enter your username</div>
+            <div id="helpUsername" class="help-block with-errors">Please enter your username</div>
           </div>
         </div>
         <div class="form-group">

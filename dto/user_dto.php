@@ -8,6 +8,7 @@ class user_dto{
   public $creation_date;
   public $role;
   public $password;
+  public $active;
   
   const ADMIN = "ADMIN";
   const STAFF = "STAFF";

@@ -1,12 +1,10 @@
 <?php
 
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/user_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/utils/utils.php");
+require_once(RESOURCES_PATH . "/session.php");
 
-
-if(!isset($_SESSION)) { 
-        session_start(); 
-    } 
 $failedparams = checkPostParameters(["email", "password"]);
 
 if (count($failedparams) == 0){

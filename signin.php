@@ -6,6 +6,7 @@
   
   if ($SIGNEDIN) {
     header("Location: /index.php");
+    die();
   }
 ?><!DOCTYPE html>
 <html>

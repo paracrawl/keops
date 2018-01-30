@@ -4,6 +4,15 @@
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/user_dao.php");
 
   require_once(RESOURCES_PATH . "/session.php");
+  
+  if (!$SIGNEDIN) {
+    header("Location: /signin.php");
+    die();
+  }
+  else if (!$ADMIN_VIEW_PERMISSIONS) {
+    header("Location: /index.php");
+    die();
+  }
 ?>
 <!DOCTYPE html>
 <html>
@@ -15,7 +24,6 @@
     ?>
   </head>
   <body>
-    
     <div class="container">
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
       <ul class="nav nav-tabs">
@@ -25,7 +33,6 @@
         <li><a data-toggle="tab" href="#languages">Languages</a></li>
         <li><a data-toggle="tab" href="#invitations">Invitations</a></li>
       </ul>
-
       <div class="tab-content">
         <div id="dashboard" class="tab-pane fade in active">
           <h3>Dashboard</h3>
@@ -33,38 +40,36 @@
         </div>
         <div id="users" class="tab-pane fade">
           <h3>Users</h3>
+          <?php
               echo "<a href=\"invite.php\">Send invitation</a><br>";
-
+              
+          ?>
           <p>Invite user / Create user / Delete user / </p>
           <table id="users-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
               <tr>
-                <th></th>
                 <th>ID</th>
                 <th>Username</th>
+                <th>Name</th>
                 <th>Email</th>
-                <th></th>
-                <th></th>
+                <th>Creation date</th>
+                <th>Role</th>
+                <th>Active?</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td></td>
-                <td>1</td>
-                <td>User1</td>
-                <td>user@users.com</td>
-                <td>a</td>
-                <td>b</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>2</td>
-                <td>User2</td>
-                <td>user2@users.com</td>
-                <td>b</td>
-                <td>a</td>
-              </tr>
             </tbody>
+            <tfoot>
+              <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Creation date</th>
+                <th>Role</th>
+                <th>Active?</th>
+              </tr>
+            </tfoot>
           </table>
         </div>
         <div id="projects" class="tab-pane fade">

@@ -10,6 +10,20 @@ body{
   margin-bottom: 80px;
 }
 
+.form-horizontal .checkbox {
+  margin-top: 4px;
+  width: 20px;
+  height: 20px;
+}
+
+.red {
+  color: #b92c28;
+}
+
+.green {
+  color: #398439;
+}
+
 /* Footer */
 footer {
     position: absolute;
