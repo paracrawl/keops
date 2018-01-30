@@ -18,6 +18,15 @@ function getUserRole(){
   return $role;
 }
 
+function getUserId(){
+  $id = null;
+  if (isset($_SESSION["userinfo"])) {
+    $user = $_SESSION["userinfo"];
+    $id = $user->id;
+  }
+  return $id;
+}
+
 function canSeeAdminView() {
   $role = getUserRole();
   if ($role == user_dto::ADMIN || $role == user_dto::STAFF) {

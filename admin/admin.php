@@ -6,3 +6,6 @@
  * and open the template in the editor.
  */
 
+  //This is the function to store in DB
+  $password_hash = password_hash("", PASSWORD_DEFAULT);
+  echo $password_hash;
