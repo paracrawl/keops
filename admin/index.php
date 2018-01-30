@@ -41,10 +41,10 @@
         <div id="users" class="tab-pane fade">
           <h3>Users</h3>
           <?php
-              echo "<a href=\"invite.php\">Send invitation</a><br>";
+              echo "<a href=\"invite.php\" class=\"btn btn-primary\">Send invitation</a><br>";
               
           ?>
-          <p>Invite user / Create user / Delete user / </p>
+          <hr>
           <table id="users-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
               <tr>
@@ -82,7 +82,30 @@
         </div>
         <div id="invitations" class="tab-pane fade">
           <h3>Invitations</h3>
-          <p>Invite users</p>
+          <table id="users-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Date Sent</th>
+                <th>Date Used</th>
+                <th>Token</th>
+                <th>Admin</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Date Sent</th>
+                <th>Date Used</th>
+                <th>Token</th>
+                <th>Admin</th>
+              </tr>
+            </tfoot>
+          </table>
         </div>
       </div>
     </div>
