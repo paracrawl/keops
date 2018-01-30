@@ -15,6 +15,7 @@
     ?>
   </head>
   <body>
+    
     <div class="container">
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
       <ul class="nav nav-tabs">
@@ -32,6 +33,8 @@
         </div>
         <div id="users" class="tab-pane fade">
           <h3>Users</h3>
+              echo "<a href=\"invite.php\">Send invitation</a><br>";
+
           <p>Invite user / Create user / Delete user / </p>
           <table id="users-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
