@@ -6,7 +6,7 @@ $(document).ready(function() {
         return '<a href="/admin/edit_user.php?id=' + row[0] + '">' + row[1] + '</a>';
       }
     },
-    {
+    /*{
       targets: 5,
       data: function ( row, type, val, meta ) {
         if (row[5]){
@@ -20,7 +20,7 @@ $(document).ready(function() {
           return '<span class="glyphicon glyphicon-remove red" aria-hidden="true"></span>';
         }
       }
-    },
+    },*/
     {
       targets: 6,
       className: "text-center",
@@ -37,5 +37,32 @@ $(document).ready(function() {
     processing: true,
     serverSide: true,
     ajax: "/users/list_users.php"
+  });
+  
+  if (location.hash) {
+    $('a[href=\'' + location.hash + '\']').tab('show');
+  }
+  var activeTab = localStorage.getItem('activeTab');
+  if (activeTab) {
+    $('a[href="' + activeTab + '"]').tab('show');
+  }
+
+  $('body').on('click', 'a[data-toggle=\'tab\']', function (e) {
+    e.preventDefault();
+    var tab_name = this.getAttribute('href');
+    if (history.pushState) {
+      history.pushState(null, null, tab_name);
+    }
+    else {
+      location.hash = tab_name;
+    }
+    localStorage.setItem('activeTab', tab_name);
+
+    $(this).tab('show');
+    return false;
+  });
+  $(window).on('popstate', function () {
+    var anchor = location.hash || $('a[data-toggle=\'tab\']').first().attr('href');
+    $('a[href=\'' + anchor + '\']').tab('show');
   });
 });
