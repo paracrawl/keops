@@ -1,12 +1,9 @@
 <?php
 
-require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/db/keopsdb.class.php");
+require_once(DB_CONNECTION);
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/user_dto.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/utils/datatables_helper.class.php' );
-   
-if(!isset($_SESSION)) { 
-        session_start(); 
-    } 
+
 class user_dao {
   private $conn;
   
@@ -121,9 +118,7 @@ class user_dao {
           array( 'db' => 'active', 'dt' => 6)
       );
 
-      return json_encode(
-          DatatablesProcessing::simple( $request, $this->conn, "users", "id", $columns )
-      );
+      return json_encode(DatatablesProcessing::simple( $request, $this->conn, "users", "id", $columns ));
     } catch (Exception $ex) {
       throw new Exception("Error in user_dao::getDatatablesUsers : " . $ex->getMessage());
     }

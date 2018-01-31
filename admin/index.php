@@ -40,10 +40,9 @@
         </div>
         <div id="users" class="tab-pane fade">
           <h3>Users</h3>
-          <?php
-              echo "<a href=\"invite.php\" class=\"btn btn-primary\">Send invitation</a><br>";
-              
-          ?>
+          <p class="text-right">
+            <a href="invite.php" class="btn btn-primary">Send invitation</a>
+          </p>
           <hr>
           <table id="users-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
@@ -74,14 +73,67 @@
         </div>
         <div id="projects" class="tab-pane fade">
           <h3>Projects</h3>
-          <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+          <p class="text-right">
+            <a href="projects/project_new.php" class="btn btn-primary">New project</a>
+          </p>
+          <hr>
+          <table id="projects-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th title="Source language">SL</th>
+                <th title="Target language">TL</th>
+                <th>Description</th>
+                <th>Task size</th>
+                <th>Creation date</th>
+                <th>Owner</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th title="Source language">SL</th>
+                <th title="Target language">TL</th>
+                <th>Description</th>
+                <th>Task size</th>
+                <th>Creation date</th>
+                <th>Owner</th>
+              </tr>
+            </tfoot>
+          </table>
         </div>
         <div id="languages" class="tab-pane fade">
-          <h3>Dashboards</h3>
-          <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+          <h3>Languages</h3>
+          <p>Existing languages available for projects and users</p>
+          <hr>
+          TODO: add new languages
+          <hr>
+          <table id="languages-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Code</th>
+                <th>Language name</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>ID</th>
+                <th>Code</th>
+                <th>Language name</th>
+              </tr>
+            </tfoot>
+          </table>
         </div>
         <div id="invitations" class="tab-pane fade">
           <h3>Invitations</h3>
+          <hr>
           <table id="users-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
               <tr>

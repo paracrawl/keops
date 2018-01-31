@@ -16,7 +16,7 @@
   }
 
 
-$missing_params = checkPostParameters(["email", "campaigns"]);
+$missing_params = checkPostParameters(["email", "projects"]);
 
 if (count($missing_params) ==0){
   $invite_dao = new invite_dao();

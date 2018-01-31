@@ -3,7 +3,7 @@ $(document).ready(function() {
     columnDefs: [ {
       targets: 1,
       data: function( row, type, val, meta ) {
-        return '<a href="/admin/edit_user.php?id=' + row[0] + '">' + row[1] + '</a>';
+        return '<a href="/admin/user_edit.php?id=' + row[0] + '">' + row[1] + '</a>';
       }
     },
     /*{
@@ -36,9 +36,35 @@ $(document).ready(function() {
     order: [[ 1, 'asc' ]],
     processing: true,
     serverSide: true,
-    ajax: "/users/list_users.php"
+    ajax: "/users/user_list.php",
+    stateSave: true
   });
   
+  var projects_table = $("#projects-table").DataTable({
+    columnDefs: [ {
+      targets: 1,
+      data: function( row, type, val, meta ) {
+        return '<a href="/admin/projects/project_edit.php?id=' + row[0] + '">' + row[1] + '</a>';
+      }
+    }],
+    order: [[ 1, 'asc' ]],
+    processing: true,
+    serverSide: true,
+    ajax: "/services/project_service.php?service=list_dt",
+    stateSave: true
+  });
+  
+  var languages_table = $("#languages-table").DataTable({
+    pageLength: 25,
+    order: [[ 1, 'asc' ]],
+    processing: true,
+    serverSide: true,
+    ajax: "/languages/language_list.php",
+    stateSave: true
+  });
+  
+  
+  // Activate Bootstrap tab on loading or user click.
   if (location.hash) {
     $('a[href=\'' + location.hash + '\']').tab('show');
   }
