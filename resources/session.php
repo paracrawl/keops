@@ -36,4 +36,4 @@ function canSeeAdminView() {
 
 $SIGNEDIN = isSignedIn();
 $ADMIN_VIEW_PERMISSIONS = canSeeAdminView();
-$USER = $_SESSION["userinfo"];
+$USER = $SIGNEDIN ? $_SESSION["userinfo"] : null;

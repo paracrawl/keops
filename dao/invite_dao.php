@@ -1,12 +1,9 @@
 <?php
 
-require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/db/keopsdb.class.php");
+require_once(DB_CONNECTION);
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/invite_dto.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/utils/datatables_helper.class.php' );
-   
-if(!isset($_SESSION)) { 
-        session_start(); 
-    } 
+
 class invite_dao {
   private $conn;
   
@@ -38,9 +35,8 @@ class invite_dao {
       $this->conn->close_conn();
       return true;
     } catch (Exception $ex) {
-      throw new Exception("Error in user_dao::getUser : " . $ex->getMessage());
-      
+      throw new Exception("Error in user_dao::inviteUser : " . $ex->getMessage());
+    }
   }
-}
   
 }

@@ -34,12 +34,18 @@ class DatatablesProcessing {
 			for ( $j=0, $jen=count($columns) ; $j<$jen ; $j++ ) {
 				$column = $columns[$j];
 
+                // Is there an alias?
+                $prop = 'db';
+                if ( isset( $column['alias'] )) {
+                  $prop = 'alias';
+                }
+                
 				// Is there a formatter?
 				if ( isset( $column['formatter'] ) ) {
-					$row[ $column['dt'] ] = $column['formatter']( $data[$i][ $column['db'] ], $data[$i] );
+					$row[ $column['dt'] ] = $column['formatter']( $data[$i][ $column[$prop] ], $data[$i] );
 				}
 				else {
-					$row[ $column['dt'] ] = $data[$i][ $columns[$j]['db'] ];
+					$row[ $column['dt'] ] = $data[$i][ $columns[$j][$prop] ];
 				}
 			}
 
@@ -235,9 +241,10 @@ class DatatablesProcessing {
 
 		// Main query to actually get the data
 		$data = self::sql_exec( $db, $bindings,
-			"SELECT ".implode(", ", self::pluck($columns, 'db'))."
+			"SELECT ".implode(", ", self::pluck_select($columns, 'db', 'alias'))."
 			 FROM $table $where $order $limit"
 		);
+
 		// Data set length after filtering
 		$resFilterLength = self::sql_exec( $db, $bindings,
 			"SELECT COUNT({$primaryKey})
@@ -446,6 +453,7 @@ class DatatablesProcessing {
 	 */
 	static function fatal ( $msg )
 	{
+        error_log($msg);
 		echo json_encode( array( 
 			"error" => $msg
 		) );
@@ -495,6 +503,20 @@ class DatatablesProcessing {
 
 		return $out;
 	}
+    
+    static function pluck_select($a, $prop, $alias = 'alias', $join = ' as ')
+    {
+      $out = array();
+      for ( $i=0, $len=count($a) ; $i<$len ; $i++) {
+        if (array_key_exists($alias, $a[$i])) {
+          $out[] = $a[$i][$prop] . $join . $a[$i][$alias];
+        }
+        else {
+          $out[] = $a[$i][$prop];
+        }
+      }
+      return $out;
+    }
 
 
 	/**
