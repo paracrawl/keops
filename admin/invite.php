@@ -44,9 +44,9 @@
             <div id="helpProjects" class="help-block with-errors">Select the projects (TODO)</div>
           </div>
         </div>
-        Name: <input type="text" name="name2" id="name"><br>
+<!--        Name: <input type="text" name="name2" id="name"><br>
         E-mail: <input type="text" name="email2" id="email"><br>
-        Campaigns: <input type="text" name="campaigns2" id="campaigns" value="NONE"><br>
+        Campaigns: <input type="text" name="campaigns2" id="campaigns" value="NONE"><br>-->
         <div class="form-group">
           <div class="col-sm-4 text-right">
             <a href="/admin/#invitations" class="col-sm-offset-1 btn btn-danger">Cancel</a>

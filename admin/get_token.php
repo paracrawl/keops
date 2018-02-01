@@ -19,14 +19,28 @@
 $missing_params = checkPostParameters(["email", "projects"]);
 
 if (count($missing_params) ==0){
-  $invite_dao = new invite_dao();
-  $token = uniqid();
+  
+  $email = $_POST["email"];
   $admin = getUserId();
-  if ($invite_dao->inviteUser($admin, $token, $email)){
-    echo getSignUpURL($token);
-  }
-  else {
-    echo "Error";
+  
+  $invite_dao = new invite_dao();
+  $invite_dto = new invite_dto($admin, $email);
+  
+  switch ($invite_dao->inviteUser($invite_dto)){ 
+    case "ok":      
+        echo $invite_dto->getInviteUrl();
+      break;
+    case "alreadyexisted":
+      if ($invite_dto->date_used!=null){
+        echo "The user is already registered.";
+      }
+      else {
+        echo "User was already invited: ".$invite_dto->getInviteUrl();
+      }
+      break;
+    case null:
+    default:
+      break;
   }
   
 }

@@ -12,30 +12,36 @@ class invite_dao {
       $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   }
   
-  function inviteUser($admin, $token, $email) {
+  function inviteUser($invite_dto) {
     try {
-     // $invite = new invite_dto();
-
+      // $invite = new invite_dto();
       $query = $this->conn->prepare("INSERT INTO tokens (admin, token, email) VALUES (?, ?, ?);");
-      $query->bindParam(1, $admin);
-      $query->bindParam(2, $token);
-      $query->bindParam(3, $email);
+      $query->bindParam(1, $invite_dto->admin);
+      $query->bindParam(2, $invite_dto->token);
+      $query->bindParam(3, $invite_dto->email);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
-//      while ($row = $query->fetch()) {
-//        $user->id = $row['id'];
-//        $user->username = $row['username'];
-//        $user->name = $row['name'];
-//        $user->email = $row['email'];
-//        $user->creation_date = $row['creation_date'];
-//        $user->role = $row['role'];
-//        $user->password = $row['password'];
-//        $user->active = $row['active'];
-//      }
       $this->conn->close_conn();
-      return true;
+      return "ok";
     } catch (Exception $ex) {
-      throw new Exception("Error in user_dao::inviteUser : " . $ex->getMessage());
+      //throw new Exception("Error in user_dao::inviteUser : " . $ex->getMessage());
+      try {
+        $query = $this->conn->prepare("SELECT * FROM tokens;");
+        $query->execute();
+        $query->setFetchMode(PDO::FETCH_ASSOC);
+        while ($row = $query->fetch()) {
+          $invite_dto->id = $row['id'];
+          $invite_dto->admin = $row['admin'];
+          $invite_dto->token = $row['token'];
+          $invite_dto->email = $row['email'];
+          $invite_dto->date_sent = $row['date_sent'];
+          $invite_dto->date_used = $row['date_used'];
+        }
+        $this->conn->close_conn();
+        return "alreadyexisted";
+      } catch (Exception $ex) {
+        return "error";
+      }
     }
   }
   

@@ -8,6 +8,11 @@
     header("Location: /index.php");
     die();
   }
+  
+  $token_id = null;
+  if(isset($_GET["token"]) && $_GET["token"]!=null && $_GET["token"] != ""){
+    $token_id = $_GET["token"];
+  }
 ?>
 <!DOCTYPE html>
 <html>
@@ -36,7 +41,7 @@
       </div>
       
       <form class="form-horizontal" method="post" action="" role="form" data-toggle="validator">
-        <input name="token" id="token" type="hidden" value="<?= "TOKEN_ID" ?>">
+        <input name="token" id="token" value="<?= $token_id ?>">
         <div class="form-group">
           <label for="username" class="col-sm-4 control-label">Username</label>
           <div class="col-sm-4">
