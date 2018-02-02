@@ -4,16 +4,8 @@
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/user_dao.php");
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/language_dao.php");
 
+  $PAGETYPE = "admin";
   require_once(RESOURCES_PATH . "/session.php");
-  
-  if (!$SIGNEDIN) {
-    header("Location: /signin.php");
-    die();
-  }
-  else if (!$ADMIN_VIEW_PERMISSIONS) {
-    header("Location: /index.php");
-    die();
-  }
 ?>
 <!DOCTYPE html>
 <html>
@@ -34,7 +26,7 @@
         <div class="form-group">
           <label for="name" class="col-sm-1 control-label">Name</label>
           <div class="col-sm-4">
-            <input type="text" name="name" class="form-control" aria-describedby="helpName" placeholder="Name" required="" autofocus="">
+            <input type="text" name="name" class="form-control" aria-describedby="helpName" placeholder="Name" maxlength="100" required="" autofocus="">
             <div id="helpName" class="help-block with-errors"></div>
           </div>
         </div>
@@ -65,7 +57,7 @@
         <div class="form-group">
           <label for="description" class="col-sm-1 control-label">Description</label>
           <div class="col-sm-4">
-            <textarea name="description" class="form-control" aria-describedby="helpDesc" placeholder="Description"></textarea>
+            <textarea name="description" class="form-control" aria-describedby="helpDesc" placeholder="Description" maxlength="500" required=""></textarea>
             <div id="helpDesc" class="help-block with-errors"></div>
           </div>
         </div>

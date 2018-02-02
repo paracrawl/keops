@@ -2,17 +2,8 @@
   // load up your config file
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 
+  $PAGETYPE = "user";
   require_once(RESOURCES_PATH . "/session.php");
-  
-  if ($SIGNEDIN) {
-    header("Location: /index.php");
-    die();
-  }
-  
-  $token_id = null;
-  if(isset($_GET["token"]) && $_GET["token"]!=null && $_GET["token"] != ""){
-    $token_id = $_GET["token"];
-  }
 ?>
 <!DOCTYPE html>
 <html>
@@ -47,7 +38,7 @@
           <div class="col-sm-4">
             <div class="input-group">
               <div class="input-group-addon">required</div>
-              <input class="form-control" name="username" id="username" type="text" size="30" value="" aria-describedby="helpUsername" required="" autofocus="">
+              <input class="form-control" name="username" id="username" type="text" size="30" value="" aria-describedby="helpUsername" maxlength="50" required="" autofocus="">
             </div>
             <div id="helpUsername" class="help-block with-errors">Please enter your username</div>
           </div>
@@ -57,7 +48,7 @@
           <div class="col-sm-4">
             <div class="input-group">
               <div class="input-group-addon">required</div>
-              <input class="form-control" name="email" id="email_address" type="email" size="30" value="" aria-describedby="helpEmail"  required="">
+              <input class="form-control" name="email" id="email_address" type="email" size="30" value="" aria-describedby="helpEmail" maxlength="200" required="">
             </div>
             <div id="helpEmail" class="help-block with-errors">Enter your email address</div>
           </div>

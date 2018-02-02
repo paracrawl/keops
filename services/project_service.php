@@ -3,9 +3,11 @@
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/project_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/utils/utils.php");
+$PAGETYPE = "admin";
 require_once(RESOURCES_PATH . "/session.php");
 
 const ERROR_CREATE_PROJECT = "Error while creating the project.";
+const MISSING_PARAMETERS = "Missing parameters while saving the project: ";
 
 $service = filter_input(INPUT_GET, "service");
 if ($service == "new") {
@@ -29,12 +31,14 @@ if ($service == "new") {
     }
     else {
       $_SESSION['error'] = ERROR_CREATE_PROJECT;
+      $_SESSION['project'] = $project_dto;
       header("Location: " . filter_input(INPUT_SERVER, 'HTTP_REFERER'));
     }
     die();
   }
   else {
-    echo "Missing params: " . implode(', ', $failedparams);
+    $_SESSION['error'] = MISSING_PARAMETERS . implode(', ', $failedparams);
+    header("Location: " . filter_input(INPUT_SERVER, 'HTTP_REFERER'));
     die();
   }
 }

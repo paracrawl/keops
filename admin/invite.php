@@ -3,16 +3,8 @@
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/user_dao.php");
 
+  $PAGETYPE = "admin";
   require_once(RESOURCES_PATH . "/session.php");
-  
-  if (!$SIGNEDIN) {
-    header("Location: /signin.php");
-    die();
-  }
-  else if (!$ADMIN_VIEW_PERMISSIONS) {
-    header("Location: /index.php");
-    die();
-  }
 ?>
 <!DOCTYPE html>
 <html>
@@ -33,7 +25,7 @@
         <div class="form-group">
           <label for="email" class="col-sm-1 control-label">Email</label>
           <div class="col-sm-4">
-            <input type="email" name="email" class="form-control" aria-describedby="helpEmail" placeholder="Email address" required="" autofocus="">
+            <input type="email" name="email" class="form-control" aria-describedby="helpEmail" placeholder="Email address" maxlength="200" required="" autofocus="">
             <div id="helpEmail" class="help-block with-errors">Enter the email address you want to invite</div>
           </div>
         </div>
