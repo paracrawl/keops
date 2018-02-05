@@ -29,13 +29,13 @@
             <div id="helpEmail" class="help-block with-errors">Enter the email address you want to invite</div>
           </div>
         </div>
-        <div class="form-group">
+<!--        <div class="form-group">
           <label for="projects" class="col-sm-1 control-label">Projects</label>
           <div class="col-sm-4">
             <input type="text" name="projects" class="form-control" aria-describedby="helpProjects" placeholder="Projects">
             <div id="helpProjects" class="help-block with-errors">Select the projects (TODO)</div>
           </div>
-        </div>
+        </div>-->
 <!--        Name: <input type="text" name="name2" id="name"><br>
         E-mail: <input type="text" name="email2" id="email"><br>
         Campaigns: <input type="text" name="campaigns2" id="campaigns" value="NONE"><br>-->

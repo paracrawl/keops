@@ -44,5 +44,42 @@ class invite_dao {
       }
     }
   }
+
   
+  function checkToken($invite_dto) {
+    try {
+      $query = $this->conn->prepare("SELECT * FROM tokens WHERE email = ?;");
+      $query->bindParam(1, $invite_dto->email);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      $this->conn->close_conn();
+      $rows = $query->fetchAll();
+      if (count($rows) == 0) {
+        return "emailnotfound";
+      }
+      if (count($rows) == 1) {
+        if ($rows[0]["token"] == $invite_dto->token) {
+          return "ok";
+        } else {
+          return "tokennotmatching";
+        }
+      }
+      return "error";
+    } catch (Exception $ex) {
+      return error;
+    }
+  }
+  
+  function markAsUsed($invite_dto){
+    try {
+      $query=$this->conn->prepare("UPDATE tokens SET DATE_USED = current_timestamp;");
+      $query->execute();
+      $this->conn->close_conn();
+      return true;
+    } catch (Exception $ex) {
+        $this->conn->close_conn();
+        return false;
+    }
+  }
+
 }

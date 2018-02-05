@@ -1,9 +1,23 @@
-<?php    
-  // load up your config file
-  require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
+<?php
+// load up your config file
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 
-  $PAGETYPE = "public";
-  require_once(RESOURCES_PATH . "/session.php");
+$PAGETYPE = "public";
+require_once(RESOURCES_PATH . "/session.php");
+
+if ($SIGNEDIN) {
+  header("Location: /index.php");
+  die();
+}
+
+$token_id = null;
+$email = null;
+if (isset($_GET["token"]) && $_GET["token"] != null && $_GET["token"] != "") {
+  $token_id = $_GET["token"];
+}
+if (isset($_GET["email"]) && $_GET["email"] != null && $_GET["email"] != "") {
+  $email = $_GET["email"];
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,42 +44,42 @@
           </div>
         </div>
       </div>
-      
-      <form class="form-horizontal" method="post" action="" role="form" data-toggle="validator">
+
+      <form class="form-horizontal" method="post"  action="users/user_signup.php" role="form" data-toggle="validator">
         <div class="form-group">
-          <label for="username" class="col-sm-4 control-label">Username</label>
-          <div class="col-sm-4">
+          <label for="name" class="col-sm-5 control-label">Name</label>
+          <div class="col-sm-5">
             <div class="input-group">
               <div class="input-group-addon">required</div>
-              <input class="form-control" name="username" id="username" type="text" size="30" value="" aria-describedby="helpUsername" maxlength="50" required="" autofocus="">
+              <input class="form-control" name="name" id="name" type="text" size="30" value="" aria-describedby="helpName" maxlength="50" required="" autofocus="">
             </div>
-            <div id="helpUsername" class="help-block with-errors">Please enter your username</div>
+            <div id="helpName" class="help-block with-errors">Please enter your name</div>
           </div>
         </div>
         <div class="form-group">
-          <label for="email" class="col-sm-4 control-label">Email</label>
-          <div class="col-sm-4">
+          <label for="email" class="col-sm-5 control-label">Email</label>
+          <div class="col-sm-5">
             <div class="input-group">
               <div class="input-group-addon">required</div>
-              <input class="form-control" name="email" id="email_address" type="email" size="30" value="" aria-describedby="helpEmail" maxlength="200" required="">
+              <input class="form-control" name="email" id="email_address" type="email" size="30" aria-describedby="helpEmail" maxlength="200" required="" value="<?= $email ?>">
             </div>
             <div id="helpEmail" class="help-block with-errors">Enter your email address</div>
           </div>
           <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
         </div>
         <div class="form-group">
-          <label for="token" class="col-sm-4 control-label">Access token</label>
-          <div class="col-sm-4">
+          <label for="token" class="col-sm-5 control-label">Access token</label>
+          <div class="col-sm-5">
             <div class="input-group">
               <div class="input-group-addon">required</div>
-              <input class="form-control" name="token" id="token" type="text" size="30" value="" aria-describedby="helpToken" maxlength="50" required="" autofocus=""><?= $token_id ?>
+              <input class="form-control" name="token" id="token" type="text" size="30"  aria-describedby="helpToken" maxlength="50" required="" autofocus="" value="<?= $token_id ?>">
             </div>
             <div id="helpToken" class="help-block with-errors">Please enter your access token</div>
           </div>
-          
+        </div>
         <div class="form-group">
-          <label for="inputPassword" class="control-label col-sm-4">Password</label>
-          <div class="col-sm-4">
+          <label for="inputPassword" class="control-label col-sm-5">Password</label>
+          <div class="col-sm-5">
             <div class="input-group">
               <div class="input-group-addon">required</div>
               <input type="password" data-minlength="6" class="form-control" id="inputPassword" required>
@@ -74,8 +88,8 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="inputPasswordConfirm" class="control-label col-sm-4">Confirm password</label>
-          <div class="col-sm-4">
+          <label for="inputPasswordConfirm" class="control-label col-sm-5">Confirm password</label>
+          <div class="col-sm-5">
             <div class="input-group">
               <div class="input-group-addon">required</div>
               <input type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword" data-match-error="Password doesn't match" required>
