@@ -4,7 +4,7 @@ require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.ph
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/user_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/utils/utils.php");
 
-$PAGETYPE = "user";
+$PAGETYPE = "public";
 require_once(RESOURCES_PATH . "/session.php");
 
 $failedparams = checkPostParameters(["email", "password"]);
