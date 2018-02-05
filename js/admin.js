@@ -6,26 +6,11 @@ $(document).ready(function() {
         return '<a href="/admin/user_edit.php?id=' + row[0] + '">' + row[1] + '</a>';
       }
     },
-    /*{
-      targets: 5,
-      data: function ( row, type, val, meta ) {
-        if (row[5]){
-          return '<select class="role-select">\
-                    <option ' + (row[5] === "ADMIN" ? "selected" : "") + '>ADMIN</option>\
-                    <option ' + (row[5] === "STAFF" ? "selected" : "") + '>STAFF</option>\
-                    <option ' + (row[5] === "USER" ? "selected" : "") + '>USER</option>\
-                  </select>';
-        }
-        else {
-          return '<span class="glyphicon glyphicon-remove red" aria-hidden="true"></span>';
-        }
-      }
-    },*/
     {
-      targets: 6,
+      targets: 5,
       className: "text-center",
       data: function ( row, type, val, meta ) {
-        if (row[6]){
+        if (row[5]){
           return '<span class="glyphicon glyphicon-ok green" aria-hidden="true"></span>';
         }
         else {
@@ -46,6 +31,18 @@ $(document).ready(function() {
       data: function( row, type, val, meta ) {
         return '<a href="/admin/projects/project_edit.php?id=' + row[0] + '">' + row[1] + '</a>';
       }
+    },
+    {
+      targets: 7,
+      className: "text-center",
+      data: function ( row, type, val, meta ) {
+        if (row[7]){
+          return '<span class="glyphicon glyphicon-ok green" aria-hidden="true"></span>';
+        }
+        else {
+          return '<span class="glyphicon glyphicon-remove red" aria-hidden="true"></span>';
+        }
+      }
     }],
     order: [[ 6, 'desc' ]],
     processing: true,
@@ -60,6 +57,32 @@ $(document).ready(function() {
     processing: true,
     serverSide: true,
     ajax: "/languages/language_list.php",
+    stateSave: true
+  });
+  
+  var corpora_table = $("#corpora-table").DataTable({
+    columnDefs: [ /*{
+      targets: 1,
+      data: function( row, type, val, meta ) {
+        return '<a href="/admin/projects/project_edit.php?id=' + row[0] + '">' + row[1] + '</a>';
+      }
+    },*/
+    {
+      targets: 6,
+      className: "text-center",
+      data: function ( row, type, val, meta ) {
+        if (row[6]){
+          return '<span class="glyphicon glyphicon-ok green" aria-hidden="true"></span>';
+        }
+        else {
+          return '<span class="glyphicon glyphicon-remove red" aria-hidden="true"></span>';
+        }
+      }
+    }],
+    order: [[ 5, 'desc' ]],
+    processing: true,
+    serverSide: true,
+    ajax: "/corpora/corpus_list.php",
     stateSave: true
   });
   

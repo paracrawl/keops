@@ -23,6 +23,7 @@
         <li><a data-toggle="tab" href="#projects">Projects</a></li>
         <li><a data-toggle="tab" href="#languages">Languages</a></li>
         <li><a data-toggle="tab" href="#invitations">Invitations</a></li>
+        <li><a data-toggle="tab" href="#corpora">Corpora</a></li>
       </ul>
       <div class="tab-content">
         <div id="dashboard" class="tab-pane fade in active">
@@ -39,7 +40,6 @@
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Username</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Creation date</th>
@@ -52,7 +52,6 @@
             <tfoot>
               <tr>
                 <th>ID</th>
-                <th>Username</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Creation date</th>
@@ -76,9 +75,9 @@
                 <th title="Source language">SL</th>
                 <th title="Target language">TL</th>
                 <th>Description</th>
-                <th>Task size</th>
                 <th>Creation date</th>
                 <th>Owner</th>
+                <th>Active?</th>
               </tr>
             </thead>
             <tbody>
@@ -90,9 +89,9 @@
                 <th title="Source language">SL</th>
                 <th title="Target language">TL</th>
                 <th>Description</th>
-                <th>Task size</th>
                 <th>Creation date</th>
                 <th>Owner</th>
+                <th>Active?</th>
               </tr>
             </tfoot>
           </table>
@@ -146,6 +145,37 @@
                 <th>Date Used</th>
                 <th>Token</th>
                 <th>Admin</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <div id="corpora" class="tab-pane fade">
+          <h3>Corpora</h3>
+          <p>Files uploaded to create evaluation tasks</p>
+          <hr>
+          <table id="corpora-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th title="Source language">SL</th>
+                <th title="Target language">TL</th>
+                <th title="Number of lines in the file">Lines</th>
+                <th>Creation date</th>
+                <th>Active?</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th title="Source language">SL</th>
+                <th title="Target language">TL</th>
+                <th title="Number of lines in the file">Lines</th>
+                <th>Creation date</th>
+                <th>Active?</th>
               </tr>
             </tfoot>
           </table>
