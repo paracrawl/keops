@@ -61,6 +61,9 @@
             <div id="helpDesc" class="help-block with-errors"></div>
           </div>
         </div>
+        <div class="page-header">
+          <h3>Adding tasks</h3>
+        </div>
         <div class="form-group">
           <label for="task_size" class="col-sm-1 control-label">Task size</label>
           <div class="col-sm-4">
