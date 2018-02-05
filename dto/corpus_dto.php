@@ -1,12 +1,11 @@
 <?php
 
-class project_dto {
+class corpus_dto {
   public $id;
   public $name;
   public $source_lang;
   public $target_lang;
-  public $description;
+  public $lines;
   public $creation_date;
   public $active;
-  public $owner;
 }

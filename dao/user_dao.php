@@ -22,7 +22,6 @@ class user_dao {
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while($row = $query->fetch()){
         $user->id = $row['id'];
-        $user->username = $row['username'];
         $user->name = $row['name'];
         $user->email = $row['email'];
         $user->creation_date = $row['creation_date'];
@@ -47,7 +46,6 @@ class user_dao {
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while($row = $query->fetch()){
         $user->id = $row['id'];
-        $user->username = $row['username'];
         $user->name = $row['name'];
         $user->email = $row['email'];
         $user->creation_date = $row['creation_date'];
@@ -57,7 +55,7 @@ class user_dao {
       $this->conn->close_conn();
       return $user;
     } catch (Exception $ex) {
-      throw new Exception("Error in user_dao::getUser : " . $ex->getMessage());
+      throw new Exception("Error in user_dao::getUserById : " . $ex->getMessage());
     }
   }
 
@@ -79,13 +77,12 @@ class user_dao {
   function getUsers() {
     try {
       $users = array();
-      $query = $this->conn->prepare("SELECT id, username, name, email, creation_date, role, active FROM USERS");
+      $query = $this->conn->prepare("SELECT id, name, email, creation_date, role, active FROM USERS");
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while($row = $query->fetch()){
         $user = new user_dto();
         $user->id = $row['id'];
-        $user->username = $row['username'];
         $user->name = $row['name'];
         $user->email = $row['email'];
         $user->creation_date = $row['creation_date'];
@@ -104,18 +101,17 @@ class user_dao {
     try {
       $columns = array(
           array( 'db' => 'id', 'dt' => 0 ),
-          array( 'db' => 'username', 'dt' => 1 ),
-          array( 'db' => 'name', 'dt' => 2 ),
-          array( 'db' => 'email', 'dt' => 3 ),
+          array( 'db' => 'name', 'dt' => 1 ),
+          array( 'db' => 'email', 'dt' => 2 ),
           array(
               'db'        => 'creation_date',
-              'dt'        => 4,
+              'dt'        => 3,
               'formatter' => function( $d, $row ) {
-                  return date( 'jS M y', strtotime($d));
+                  return date( 'd/m/Y', strtotime($d));
               }
           ),
-          array( 'db' => 'role', 'dt' => 5 ),
-          array( 'db' => 'active', 'dt' => 6)
+          array( 'db' => 'role', 'dt' => 4 ),
+          array( 'db' => 'active', 'dt' => 5)
       );
 
       return json_encode(DatatablesProcessing::simple( $request, $this->conn, "users", "id", $columns ));

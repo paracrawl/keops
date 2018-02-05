@@ -1,7 +1,6 @@
 <?php
   // load up your config file
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
-  require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/user_dao.php");
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/language_dao.php");
 
   $PAGETYPE = "admin";
@@ -59,16 +58,6 @@
           <div class="col-sm-4">
             <textarea name="description" class="form-control" aria-describedby="helpDesc" placeholder="Description" maxlength="500" required=""></textarea>
             <div id="helpDesc" class="help-block with-errors"></div>
-          </div>
-        </div>
-        <div class="page-header">
-          <h3>Adding tasks</h3>
-        </div>
-        <div class="form-group">
-          <label for="task_size" class="col-sm-1 control-label">Task size</label>
-          <div class="col-sm-4">
-            <input type="number" max="10000" min="0" value="2000" name="task_size" class="form-control" aria-describedby="helpTaskSize" required="">
-            <div id="helpTaskSize" class="help-block with-errors"></div>
           </div>
         </div>
         <div class="form-group">

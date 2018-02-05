@@ -26,25 +26,15 @@ $user = $user_dao->getUserById(filter_input(INPUT_GET, "id"));
       </div>
       <form class="form-horizontal" method="post" action="" role="form" data-toggle="validator">
         <div class="form-group">
-          <label for="username" class="col-sm-1 control-label">Username</label>
+          <label for="name" class="col-sm-1 control-label">Name</label>
           <div class="col-sm-4">
-            <div class="input-group">
-              <div class="input-group-addon">required</div>
-              <input class="form-control" name="username" id="username" type="text" size="30" value="<?= $user->username ?>" aria-describedby="helpUsername" required="" autofocus="">
-            </div>
-            <div id="helpUsername" class="help-block with-errors"></div>
+            <input class="form-control" name="name" id="name" type="text" size="30" value="<?= $user->name ?>" aria-describedby="helpName" autofocus="">
+            <div id="helpName" class="help-block with-errors"></div>
           </div>
         </div>
         <div class="form-group">
           <div class="col-sm-1"></div>
           <a class="col-sm-4" href="">Change password (TODO)</a>
-        </div>
-        <div class="form-group">
-          <label for="username" class="col-sm-1 control-label">Name</label>
-          <div class="col-sm-4">
-            <input class="form-control" name="name" id="name" type="text" size="30" value="<?= $user->name ?>" aria-describedby="helpName" autofocus="">
-            <div id="helpName" class="help-block with-errors"></div>
-          </div>
         </div>
         <div class="form-group">
           <label for="email" class="col-sm-1 control-label">Email</label>
