@@ -47,7 +47,7 @@ $(document).ready(function() {
         return '<a href="/admin/projects/project_edit.php?id=' + row[0] + '">' + row[1] + '</a>';
       }
     }],
-    order: [[ 1, 'asc' ]],
+    order: [[ 6, 'desc' ]],
     processing: true,
     serverSide: true,
     ajax: "/services/project_service.php?service=list_dt",

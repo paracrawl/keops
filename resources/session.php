@@ -48,7 +48,7 @@ if ($SIGNEDIN) {
     error_log("WARNING: We couldn't verify if the user has access to this page. Please check that PAGETYPE is set at the beginning of the page.");
   }
 }
-else {
+else if (!$SIGNEDIN && $PAGETYPE == "user") {
   header("Location: /signin.php");
   die();
 }

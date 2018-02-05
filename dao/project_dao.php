@@ -42,7 +42,7 @@ class project_dao {
           array( 'db' => 'p.task_size', 'alias' => 'task_size', 'dt' => 5 ),
           array( 'db' => 'p.creation_date', 'alias' => 'creation_date', 'dt' => 6,
               'formatter' => function( $d, $row ) {
-                  return date( 'jS M y', strtotime($d));
+                  return date( 'd/m/Y', strtotime($d));
               } ),
           array( 'db' => 'u.username', 'alias' => 'owner', 'dt' => 7 ),
           array( 'db' => 'l1.langname', 'alias' => 'nsource_lang', 'dt' => 8 ),
