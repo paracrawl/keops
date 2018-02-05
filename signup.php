@@ -32,7 +32,6 @@
       </div>
       
       <form class="form-horizontal" method="post" action="" role="form" data-toggle="validator">
-        <input name="token" id="token" value="<?= $token_id ?>">
         <div class="form-group">
           <label for="username" class="col-sm-4 control-label">Username</label>
           <div class="col-sm-4">
@@ -54,6 +53,16 @@
           </div>
           <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
         </div>
+        <div class="form-group">
+          <label for="token" class="col-sm-4 control-label">Access token</label>
+          <div class="col-sm-4">
+            <div class="input-group">
+              <div class="input-group-addon">required</div>
+              <input class="form-control" name="token" id="token" type="text" size="30" value="" aria-describedby="helpToken" maxlength="50" required="" autofocus=""><?= $token_id ?>
+            </div>
+            <div id="helpToken" class="help-block with-errors">Please enter your access token</div>
+          </div>
+          
         <div class="form-group">
           <label for="inputPassword" class="control-label col-sm-4">Password</label>
           <div class="col-sm-4">
