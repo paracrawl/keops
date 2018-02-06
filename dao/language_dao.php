@@ -25,8 +25,10 @@ class language_dao {
         $language->langname = $row['langname'];
         $languages[] = $language;
       }
+      $this->conn->close_conn();
       return $languages;
     } catch (Exception $ex) {
+      $this->conn->close_conn();
       throw new Exception("Error in user_dao::getUsers : " . $ex->getMessage());
     }
   }

@@ -20,13 +20,14 @@ if (count($missing_params) ==0){
   $token = uniqid();
   $invite_dto = new invite_dto($admin, $email, $token);
   $user_dao = new user_dao();
+  
   if ($user_dao->getUser($email)-> id!=null){
     echo "The user is already registered.";
   }
   else {
     switch ($invite_dao->inviteUser($invite_dto)){ 
       case "ok":      
-          echo $invite_dto->getInviteUrl();
+          echo "".$invite_dto->getInviteUrl();
         break;
       case "alreadyexisted":
         if ($invite_dto->date_used!=null){
@@ -36,8 +37,9 @@ if (count($missing_params) ==0){
           echo "User was already invited: ".$invite_dto->getInviteUrl();
         }
         break;
-      case null:
+      case "error":
       default:
+        echo "Sorry, your request could not be processed. Please, try again later.";
         break;
     }
   }

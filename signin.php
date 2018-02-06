@@ -32,14 +32,14 @@
               switch ($_SESSION["error"]) {
                 case "notregistered":     
                 case "wrongpassword":
-                  echo "Email and password do not match. Please try again.";
+                  echo "Email and password do not match. Please, try again.";
                   break;
                 case "missingdata":
-                  echo "You should specify your email and password. Please try again.";
+                  echo "You should specify your email and password. Please, try again.";
                   break;
                 case "unknownerror":
                 default:
-                  echo "An error occurred. Please try again later.";
+                  echo "Sorry, your request could not be processed. Please, try again later.";
                   break;
               }
               $_SESSION["error"] = null;

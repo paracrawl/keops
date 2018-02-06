@@ -6,6 +6,7 @@ $PAGETYPE = "public";
 require_once(RESOURCES_PATH . "/session.php");
 
 if ($SIGNEDIN) {
+  $_SESSION["error"] = "signuploggdein";
   header("Location: /index.php");
   die();
 }
@@ -34,7 +35,47 @@ if (isset($_GET["email"]) && $_GET["email"] != null && $_GET["email"] != "") {
       <div class="page-header">
         <h1>Sign up</h1>
         <p>Please enter the required fields to create your account.</p>
-
+                <?php
+        if (isset($_SESSION["error"])) {
+          ?>
+          <div class="panel panel-danger">
+            <div class="panel-heading">
+              <h3 class="panel-title"><strong>Oops!</strong></h3>
+            </div>
+            <div class="panel-body">
+              <p>
+                  <?php
+                  switch ($_SESSION["error"]) {
+                    case "alreadyregistered":
+                      echo "The email address is already in use by another account.";
+                      $_SESSION["error"] = null;
+                      break;
+                    case "emailnotfound":
+                      echo "The email address you provided hasn't been invited to join Keops.";
+                      $_SESSION["error"] = null;
+                      break;
+                    case "tokennotmatching":
+                      echo "Email and token do not match. Please, try again.";
+                      $_SESSION["error"] = null;
+                      break;
+                    case "missingdata":
+                      echo "All fields are mandatory. Please, try again.";
+                      $_SESSION["error"] = null;
+                      break;
+                    case "signupfailed":
+                    case "error":
+                    default:
+                      echo "Sorry, your request could not be processed. Please, try again later.";
+                      $_SESSION["error"] = null;
+                      break;
+                  }
+                  ?>
+                </p>
+              </div>
+          </div>
+        <?php
+        }
+        ?>
         <div class="panel panel-primary">
           <div class="panel-heading">
             <h3 class="panel-title"><strong>Note</strong></h3>
@@ -82,7 +123,7 @@ if (isset($_GET["email"]) && $_GET["email"] != null && $_GET["email"] != "") {
           <div class="col-sm-5">
             <div class="input-group">
               <div class="input-group-addon">required</div>
-              <input type="password" data-minlength="6" class="form-control" id="inputPassword" required>
+              <input name="password" type="password" data-minlength="6" class="form-control" id="inputPassword" required>
             </div>
             <div class="help-block">Minimum of 6 characters</div>
           </div>

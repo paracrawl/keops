@@ -15,8 +15,7 @@ class user_dao {
   function getUser($email) {
     try {
       $user = new user_dto();
-      
-      $query = $this->conn->prepare("SELECT * FROM USERS WHERE email like ?;");
+      $query = $this->conn->prepare("SELECT * FROM USERS WHERE email = ?;");
       $query->bindParam(1, $email);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -32,6 +31,7 @@ class user_dao {
       $this->conn->close_conn();
       return $user;
     } catch (Exception $ex) {
+      $this->conn->close_conn();
       throw new Exception("Error in user_dao::getUser : " . $ex->getMessage());
     }
   }
@@ -55,6 +55,7 @@ class user_dao {
       $this->conn->close_conn();
       return $user;
     } catch (Exception $ex) {
+      $this->conn->close_conn();
       throw new Exception("Error in user_dao::getUserById : " . $ex->getMessage());
     }
   }
@@ -66,14 +67,14 @@ class user_dao {
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
       $password = $query->fetch();
+      $this->conn->close_conn();
       return $password["password"];
-      
     } catch (Exception $ex) {
+      $this->conn->close_conn();
       throw new Exception("Error in user_dao::getUserPassword : " . $ex->getMessage());
     }
-  
   }
-  
+
   function getUsers() {
     try {
       $users = array();
@@ -93,17 +94,18 @@ class user_dao {
       $this->conn->close_conn();
       return $users;
     } catch (Exception $ex) {
+      $this->conn->close_conn();
       throw new Exception("Error in user_dao::getUsers : " . $ex->getMessage());
     }
   }
 
   function newUser($user_dto){
     try {
-      $query = $this->conn->prepare("INSERT INTO users (name, email, role, password) VALUES (?, ?, ?, ?);");
+      $query = $this->conn->prepare("INSERT INTO users (name, email, password, active) VALUES (?, ?, ?, ?);");
       $query->bindParam(1, $user_dto->name);
       $query->bindParam(2, $user_dto->email);
-      $query->bindParam(3, $user_dto->role);
-      $query->bindParam(4, $user_dto->password);
+      $query->bindParam(3, $user_dto->password);
+      $query->bindValue(4, true);
       $query->execute();
       //$query->setFetchMode(PDO::FETCH_ASSOC);
       $user_dto->id = $this->conn->lastInsertId();
@@ -111,7 +113,8 @@ class user_dao {
       return true;
     } catch (Exception $ex) {
       $user_dto->id = -1;
-      return false;
+      $this->conn->close_conn();
+      throw new Exception("Error in user_dao::newUser : " . $ex->getMessage());
     }
   }
  

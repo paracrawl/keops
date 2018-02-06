@@ -26,7 +26,8 @@ class invite_dao {
     } catch (Exception $ex) {
       //throw new Exception("Error in user_dao::inviteUser : " . $ex->getMessage());
       try {
-        $query = $this->conn->prepare("SELECT * FROM tokens;");
+        $query = $this->conn->prepare("SELECT * FROM tokens WHERE email = ?;");
+        $query->bindParam(1, $invite_dto->email);
         $query->execute();
         $query->setFetchMode(PDO::FETCH_ASSOC);
         while ($row = $query->fetch()) {
@@ -40,7 +41,8 @@ class invite_dao {
         $this->conn->close_conn();
         return "alreadyexisted";
       } catch (Exception $ex) {
-        return "error";
+        $this->conn->close_conn();
+        throw new Exception("Error invite_dao::inviteUser : " . $ex->getMessage());
       }
     }
   }
@@ -54,7 +56,7 @@ class invite_dao {
       $query->setFetchMode(PDO::FETCH_ASSOC);
       $this->conn->close_conn();
       $rows = $query->fetchAll();
-      if (count($rows) == 0) {
+      if (count($rows) == 0) {        
         return "emailnotfound";
       }
       if (count($rows) == 1) {
@@ -66,19 +68,21 @@ class invite_dao {
       }
       return "error";
     } catch (Exception $ex) {
-      return error;
+      $this->conn->close_conn();
+      throw new Exception("Error in invite_dao::checkToken : " . $ex->getMessage());
     }
   }
   
   function markAsUsed($invite_dto){
     try {
-      $query=$this->conn->prepare("UPDATE tokens SET DATE_USED = current_timestamp;");
+      $query=$this->conn->prepare("UPDATE tokens SET DATE_USED = current_timestamp WHERE email = ?;");
+      $query->bindParam(1, $invite_dto->email);
       $query->execute();
       $this->conn->close_conn();
       return true;
     } catch (Exception $ex) {
-        $this->conn->close_conn();
-        return false;
+        $this->conn->close_conn();       
+        throw new Exception("Error in invite_dao::markAsUsed : " . $ex->getMessage());
     }
   }
 
