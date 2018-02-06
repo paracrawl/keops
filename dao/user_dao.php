@@ -98,16 +98,14 @@ class user_dao {
 
   function newUser($user_dto){
     try {
-      error_log("HOLA");
-      $query = $this->conn->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?);");
+      $query = $this->conn->prepare("INSERT INTO users (name, email, password, active) VALUES (?, ?, ?, ?);");
       $query->bindParam(1, $user_dto->name);
       $query->bindParam(2, $user_dto->email);
       $query->bindParam(3, $user_dto->password);
+      $query->bindValue(4, true);
       $query->execute();
-      error_log("HOLA 2");
       //$query->setFetchMode(PDO::FETCH_ASSOC);
       $user_dto->id = $this->conn->lastInsertId();
-      error_log("HOLA 3");
       $this->conn->close_conn();
       return true;
     } catch (Exception $ex) {

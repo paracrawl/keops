@@ -114,4 +114,30 @@ $(document).ready(function() {
     var anchor = location.hash || $('a[data-toggle=\'tab\']').first().attr('href');
     $('a[href=\'' + anchor + '\']').tab('show');
   });
+  
+  $(document).on('click', '#invite_button', function(event){
+    event.preventDefault();
+    event.stopPropagation();
+    getInviteToken($('#email').val());
+  });
 });
+
+
+function getInviteToken(email){
+ 
+  $.ajax({
+    data: {"email": email},
+    url: 'get_token.php', 
+    type: 'post',
+    success: function (response) { 
+      $("#token").show();
+      $("#token").html(response);
+    },
+    error: function(response){
+      $("#token").show();
+      $("#token").html("Sorry, your request could not be processed. Please, try again later. ");
+    }
+            
+  });
+  
+}

@@ -43,11 +43,11 @@ if (count($failedparams) == 0) {
         $user_dao->newUser($user_dto);
         if ($user_dto->id > 0) {
           $invite_dao->markAsUsed($invite_dto);
-          $SESSION["userinfo"] = $user_dto;
+          $_SESSION["userinfo"] = $user_dto;
           header("Location: /index.php");
           die();
         } else {
-          $SESSION["error"] = "signupfailed";
+          $_SESSION["error"] = "signupfailed";
           $_SESSION["userinfo"] = null;
           header("Location: /signup.php");
           die();

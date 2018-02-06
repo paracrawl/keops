@@ -21,14 +21,17 @@
       <div class="page-header">
         <h1>Invite new user</h1>
       </div>
-      <form class="form-horizontal" action="get_token.php" role="form" method="post" data-toggle="validator">
+      <form class="form-horizontal"  role="form" data-toggle="validator">
         <div class="form-group">
           <label for="email" class="col-sm-1 control-label">Email</label>
           <div class="col-sm-4">
-            <input type="email" name="email" class="form-control" aria-describedby="helpEmail" placeholder="Email address" maxlength="200" required="" autofocus="">
+            <input id="email" type="email" name="email" class="form-control" aria-describedby="helpEmail" placeholder="Email address" maxlength="200" required="" autofocus="">
             <div id="helpEmail" class="help-block with-errors">Enter the email address you want to invite</div>
           </div>
+          <div style="display: none;" id="token">
+          </div>
         </div>
+        
 <!--        <div class="form-group">
           <label for="projects" class="col-sm-1 control-label">Projects</label>
           <div class="col-sm-4">
@@ -42,7 +45,7 @@
         <div class="form-group">
           <div class="col-sm-4 text-right">
             <a href="/admin/#invitations" class="col-sm-offset-1 btn btn-danger">Cancel</a>
-            <button type="submit" class="col-sm-offset-1 btn btn-success">Invite</button>
+            <button id = "invite_button" class="col-sm-offset-1 btn btn-success" >Invite</button>
           </div>
         </div>
       </form>
