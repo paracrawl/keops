@@ -35,6 +35,15 @@ body{
     opacity: 0.5;
 }
 
+/* DataTables */
+.actions .glyphicon {
+  font-size: 1.3em;
+}
+
+.actions .glyphicon:before {
+  margin-right: 5px;
+}
+
 /* Footer */
 footer {
     position: absolute;

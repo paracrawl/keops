@@ -59,7 +59,7 @@ $(document).ready(function() {
     columnDefs: [ {
       targets: 1,
       data: function( row, type, val, meta ) {
-        return '<a href="/projects/project_edit.php?id=' + row[0] + '">' + row[1] + '</a>';
+        return '<a href="/projects/project_manage.php?id=' + row[0] + '">' + row[1] + '</a>';
       }
     },
     {
@@ -76,10 +76,10 @@ $(document).ready(function() {
     },
     {
       targets: 8,
-      className: "text-center",
+      className: "actions",
       data: function ( row, type, val, meta ) {
-        return '<a href="/projects/project_edit.php?id=' + row[0] + '" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>' +
-                '<a href="/projects/project_manage.php?id=' + row[0] + '" title="Manage project\'s tasks"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span></a>' +
+        return '<a href="/projects/project_manage.php?id=' + row[0] + '" title="Manage project\'s tasks"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span></a>' +
+                '<a href="/projects/project_edit.php?id=' + row[0] + '" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>' +
                 '<a href="/projects/project_stats.php?id=' + row[0] + '" title="View stats"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>'
       }
     }],
