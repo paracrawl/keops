@@ -37,9 +37,9 @@ if (count($missing_params) ==0){
           echo "User was already invited: ".$invite_dto->getInviteUrl();
         }
         break;
-      case null:
+      case "error":
       default:
-        error_log("WtF");
+        echo "Sorry, your request could not be processed. Please, try again later.";
         break;
     }
   }

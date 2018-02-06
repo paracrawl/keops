@@ -33,6 +33,7 @@ class project_dao {
       $this->conn->close_conn();
       return $project;
     } catch (Exception $ex) {
+      $this->conn->close_conn();
       throw new Exception("Error in project_dao::getProjectById : " . $ex->getMessage());
     }
   }
@@ -50,6 +51,7 @@ class project_dao {
       $this->conn->close_conn();
       return true;
     } catch (Exception $ex) {
+      $this->conn->close_conn();
       throw new Exception("Error in user_dao::insertProject : " . $ex->getMessage());
     }
     return false;

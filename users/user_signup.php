@@ -42,8 +42,12 @@ if (count($failedparams) == 0) {
         $user_dto->password = $password;
         $user_dao->newUser($user_dto);
         if ($user_dto->id > 0) {
-          $invite_dao->markAsUsed($invite_dto);
-          $_SESSION["userinfo"] = $user_dto;
+          if ($invite_dao->markAsUsed($invite_dto)){
+            $_SESSION["userinfo"] = $user_dto;
+          }
+          else {
+            $_SESSION["error"]="error";
+          }
           header("Location: /index.php");
           die();
         } else {
@@ -54,11 +58,20 @@ if (count($failedparams) == 0) {
         }
         break;
       case "emailnotfound":
+        $_SESSION["error"] = "emailnotfound";
+        $_SESSION["userinfo"] = null;
+        header("Location: /signup.php");
+        die();
+        break;
       case "tokennotmatching":
+        $_SESSION["error"] = "tokennotmatching";
+        $_SESSION["userinfo"] = null;
+        header("Location: /signup.php");
+        die();
+        break;
       case "error":
       default:
-        //TO DO
-        $_SESSION["error"] = "tokennotmatching";
+        $_SESSION["error"] = "error";
         $_SESSION["userinfo"] = null;
         header("Location: /signup.php");
         die();

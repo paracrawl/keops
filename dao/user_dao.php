@@ -31,6 +31,7 @@ class user_dao {
       $this->conn->close_conn();
       return $user;
     } catch (Exception $ex) {
+      $this->conn->close_conn();
       throw new Exception("Error in user_dao::getUser : " . $ex->getMessage());
     }
   }
@@ -54,6 +55,7 @@ class user_dao {
       $this->conn->close_conn();
       return $user;
     } catch (Exception $ex) {
+      $this->conn->close_conn();
       throw new Exception("Error in user_dao::getUserById : " . $ex->getMessage());
     }
   }
@@ -65,14 +67,14 @@ class user_dao {
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
       $password = $query->fetch();
+      $this->conn->close_conn();
       return $password["password"];
-      
     } catch (Exception $ex) {
+      $this->conn->close_conn();
       throw new Exception("Error in user_dao::getUserPassword : " . $ex->getMessage());
     }
-  
   }
-  
+
   function getUsers() {
     try {
       $users = array();
@@ -92,6 +94,7 @@ class user_dao {
       $this->conn->close_conn();
       return $users;
     } catch (Exception $ex) {
+      $this->conn->close_conn();
       throw new Exception("Error in user_dao::getUsers : " . $ex->getMessage());
     }
   }
@@ -110,8 +113,8 @@ class user_dao {
       return true;
     } catch (Exception $ex) {
       $user_dto->id = -1;
-      error_log($ex->getMessage());
-      return false;
+      $this->conn->close_conn();
+      throw new Exception("Error in user_dao::newUser : " . $ex->getMessage());
     }
   }
  

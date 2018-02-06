@@ -20,7 +20,34 @@ require_once(RESOURCES_PATH . "/session.php");
       <div id="header">
         <h1>Welcome to KEOPS</h1>
       </div>
-
+        <?php
+      if (isset($_SESSION["error"])) {
+        ?>
+        <div class="panel panel-danger">
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong>Oops!</strong></h3>
+          </div>
+          <div class="panel-body">
+            <p>
+            <?php
+              switch ($_SESSION["error"]) {
+                case "signuploggdein":     
+                  echo "Please, logout before signing up a different user.";
+                  break;
+                case "error":     
+                default:
+                  echo "Sorry, your request could not be processed. Please, try again later.";
+                  break;
+              }
+              $_SESSION["error"] = null;
+            ?>
+            </p>
+          </div>
+        </div>
+        <?php
+        }
+        ?>
+      
       <?php
       //This should be in the header
       if (isset($_SESSION["userinfo"])) {
@@ -33,7 +60,7 @@ require_once(RESOURCES_PATH . "/session.php");
         echo "Project 2<br>";
         if ($user->isAdmin() || $user->isStaff()) {
 
-          echo("<a href=\"admin/index.php\">Manage projects</a>");
+          echo("<a href=\"admin/index.php\">Manage projects</a><br>");
         }
         echo "<a href=\"/users/user_logout.php\">Logout</a>";
       } else {

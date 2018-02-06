@@ -41,7 +41,8 @@ class invite_dao {
         $this->conn->close_conn();
         return "alreadyexisted";
       } catch (Exception $ex) {
-        return "error";
+        $this->conn->close_conn();
+        throw new Exception("Error invite_dao::inviteUser : " . $ex->getMessage());
       }
     }
   }
@@ -55,8 +56,7 @@ class invite_dao {
       $query->setFetchMode(PDO::FETCH_ASSOC);
       $this->conn->close_conn();
       $rows = $query->fetchAll();
-      if (count($rows) == 0) {
-        
+      if (count($rows) == 0) {        
         return "emailnotfound";
       }
       if (count($rows) == 1) {
@@ -68,7 +68,8 @@ class invite_dao {
       }
       return "error";
     } catch (Exception $ex) {
-      return "error";
+      $this->conn->close_conn();
+      throw new Exception("Error in invite_dao::checkToken : " . $ex->getMessage());
     }
   }
   
@@ -80,8 +81,8 @@ class invite_dao {
       $this->conn->close_conn();
       return true;
     } catch (Exception $ex) {
-        $this->conn->close_conn();
-        return false;
+        $this->conn->close_conn();       
+        throw new Exception("Error in invite_dao::markAsUsed : " . $ex->getMessage());
     }
   }
 
