@@ -20,7 +20,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>KEOPS | New project</title>
+    <title>KEOPS | Edit project</title>
     <?php
     require_once(TEMPLATES_PATH . "/admin_head.php");
     ?>
@@ -29,13 +29,20 @@
     <div class="container">
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
       <div class="page-header">
-        <h1>New project</h1>
+        <h1>Edit project</h1>
       </div>
-      <form class="form-horizontal" action="/services/project_service.php?service=new" role="form" method="post" data-toggle="validator">
+      <form class="form-horizontal" action="/project_edit.php" role="form" method="post" data-toggle="validator">
+        <div class="form-group">
+          <label for="id" class="col-sm-1 control-label">ID</label>
+          <div class="col-sm-4">
+            <input type="text" disabled class="form-control" aria-describedby="helpName" placeholder="ID" maxlength="100" required="" autofocus="" value="<?= $project->id ?>">
+            <div id="helpName" class="help-block with-errors"></div>
+          </div>
+        </div>
         <div class="form-group">
           <label for="name" class="col-sm-1 control-label">Name</label>
           <div class="col-sm-4">
-            <input type="text" name="name" class="form-control" aria-describedby="helpName" placeholder="Name" maxlength="100" required="" autofocus="">
+            <input type="text" name="name" class="form-control" aria-describedby="helpName" placeholder="Name" maxlength="100" required="" autofocus="" tabindex="1" value="<?= $project->name ?>">
             <div id="helpName" class="help-block with-errors"></div>
           </div>
         </div>
@@ -46,9 +53,9 @@
         <div class="form-group">
           <label for="source_lang" class="control-label col-sm-1">Source language</label>
           <div class="col-sm-4">
-            <select class="form-control" name="source_lang" id="source_lang">
+            <select class="form-control" name="source_lang" id="source_lang" tabindex="2">
               <?php foreach ($languages as $lang) { ?>
-                <option value="<?= $lang->id?>"><?= $lang->langcode . " - " . $lang->langname ?></option>
+                <option value="<?= $lang->id?>"<?= $project->source_lang == $lang->id ? " selected" : "" ?>><?= $lang->langcode . " - " . $lang->langname ?></option>
               <?php } ?>
             </select>
           </div>
@@ -56,9 +63,9 @@
         <div class="form-group">
           <label for="target_lang" class="control-label col-sm-1">Target language</label>
           <div class="col-sm-4">
-            <select class="form-control" name="target_lang" id="target_lang">
+            <select class="form-control" name="target_lang" id="target_lang" tabindex="3">
               <?php foreach ($languages as $lang) { ?>
-                <option value="<?= $lang->id?>"><?= $lang->langcode . " - " . $lang->langname ?></option>
+                <option value="<?= $lang->id?>"<?= $project->target_lang == $lang->id ? " selected" : "" ?>><?= $lang->langcode . " - " . $lang->langname ?></option>
               <?php } ?>
             </select>
           </div>
@@ -66,21 +73,28 @@
         <div class="form-group">
           <label for="description" class="col-sm-1 control-label">Description</label>
           <div class="col-sm-4">
-            <textarea name="description" class="form-control" aria-describedby="helpDesc" placeholder="Description" maxlength="500" required=""></textarea>
+            <textarea name="description" class="form-control" aria-describedby="helpDesc" placeholder="Description" maxlength="500" required="" tabindex="4"><?= $project->description ?></textarea>
             <div id="helpDesc" class="help-block with-errors"></div>
           </div>
         </div>
         <div class="form-group">
-          <label for="task_size" class="col-sm-1 control-label">Task size</label>
+          <label for="creation_date" class="col-sm-1 control-label">Creation date</label>
           <div class="col-sm-4">
-            <input type="number" max="10000" min="0" value="2000" name="task_size" class="form-control" aria-describedby="helpTaskSize" required="">
-            <div id="helpTaskSize" class="help-block with-errors"></div>
+            <input id="creation_date" type="text" disabled class="form-control" aria-describedby="helpName" placeholder="Creation date" maxlength="100" required="" autofocus="" value="<?= $project->creation_date ?>">
+            <div id="helpName" class="help-block with-errors"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="active" class="col-sm-1 control-label">Active?</label>
+          <div class="col-sm-4">
+            <input type="checkbox" name="active"<?= $project->active ? " checked" : "" ?>>
+            <div id="helpName" class="help-block with-errors">If you uncheck this project, it will not be available for creating new tasks. It requires confirmation.</div>
           </div>
         </div>
         <div class="form-group">
           <div class="col-sm-4 text-right">
-            <a href="/admin/#projects" class="col-sm-offset-1 btn btn-danger">Cancel</a>
-            <button type="submit" class="col-sm-offset-1 btn btn-success">Save</button>
+            <a href="/admin/#projects" class="col-sm-offset-1 btn btn-danger" tabindex="6">Cancel</a>
+            <button type="submit" class="col-sm-offset-1 btn btn-success" tabindex="5">Save</button>
           </div>
         </div>
       </form>

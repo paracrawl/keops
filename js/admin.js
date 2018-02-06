@@ -1,3 +1,33 @@
+// Variable for corpora table used in dropzone
+var corpora_table = null;
+
+// Dropzone
+Dropzone.options.dropzone = { // camelized id
+  paramName: "file",
+  maxFilesize: 10, // 10 MB
+  filesizeBase: 1000,
+  //maxFiles: 40, // needed?
+  init: function() {
+    this.on("complete", function(file) {
+      obj = this;
+      setTimeout(function() {
+        obj.removeFile(file);
+        corpora_table.ajax.reload();
+      }, 10000);
+      corpora_table.ajax.reload();
+    });
+
+    this.on("canceled", function(file) {
+      this.removeFile(file);
+    });
+  },
+  sending: function(file, xhr, formData) {
+    formData.append("source_lang", $("#source_lang"));
+    formData.append("target_lang", $("#target_lang"));
+  },
+  autoProcessQueue: true
+};
+
 $(document).ready(function() {
   var users_table = $("#users-table").DataTable({
     columnDefs: [ {
@@ -29,7 +59,7 @@ $(document).ready(function() {
     columnDefs: [ {
       targets: 1,
       data: function( row, type, val, meta ) {
-        return '<a href="/admin/projects/project_edit.php?id=' + row[0] + '">' + row[1] + '</a>';
+        return '<a href="/projects/project_edit.php?id=' + row[0] + '">' + row[1] + '</a>';
       }
     },
     {
@@ -42,6 +72,15 @@ $(document).ready(function() {
         else {
           return '<span class="glyphicon glyphicon-remove red" aria-hidden="true"></span>';
         }
+      }
+    },
+    {
+      targets: 8,
+      className: "text-center",
+      data: function ( row, type, val, meta ) {
+        return '<a href="/projects/project_edit.php?id=' + row[0] + '" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>' +
+                '<a href="/projects/project_manage.php?id=' + row[0] + '" title="Manage project\'s tasks"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span></a>' +
+                '<a href="/projects/project_stats.php?id=' + row[0] + '" title="View stats"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>'
       }
     }],
     order: [[ 6, 'desc' ]],
@@ -60,11 +99,11 @@ $(document).ready(function() {
     stateSave: true
   });
   
-  var corpora_table = $("#corpora-table").DataTable({
+  corpora_table = $("#corpora-table").DataTable({
     columnDefs: [ /*{
       targets: 1,
       data: function( row, type, val, meta ) {
-        return '<a href="/admin/projects/project_edit.php?id=' + row[0] + '">' + row[1] + '</a>';
+        return '<a href="/projects/project_edit.php?id=' + row[0] + '">' + row[1] + '</a>';
       }
     },*/
     {
@@ -85,7 +124,6 @@ $(document).ready(function() {
     ajax: "/corpora/corpus_list.php",
     stateSave: true
   });
-  
   
   // Activate Bootstrap tab on loading or user click.
   if (location.hash) {

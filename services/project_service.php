@@ -21,7 +21,6 @@ if ($service == "new") {
     $project_dto->source_lang = filter_input(INPUT_POST, "source_lang", FILTER_SANITIZE_STRING);
     $project_dto->target_lang = filter_input(INPUT_POST, "target_lang", FILTER_SANITIZE_STRING);
     $project_dto->description = filter_input(INPUT_POST, "description", FILTER_SANITIZE_STRING);
-    $project_dto->task_size = filter_input(INPUT_POST, "task_size", FILTER_SANITIZE_STRING);
     $project_dto->owner = $USER->id;
     
     $project_dao = new project_dao();

@@ -42,6 +42,37 @@ class corpus_dao {
       throw new Exception("Error in user_dao::getDatatablesLanguages : " . $ex->getMessage());
     }
   }
+  
+  function insertCorpus($corpus_dto) {
+    try {
+      $query = $this->conn->prepare("INSERT INTO corpora (name, source_lang, target_lang) VALUES (?, ?, ?);");
+      $query->bindParam(1, $corpus_dto->name);
+      $query->bindParam(2, $corpus_dto->source_lang);
+      $query->bindParam(3, $corpus_dto->target_lang);
+      $query->execute();
+      $corpus_dto->id = $this->conn->lastInsertId();
+      $this->conn->close_conn();
+      return true;
+    } catch (Exception $ex) {
+      $corpus_dto->id = -1;
+      throw new Exception("Error in user_dao::insertCorpus : " . $ex->getMessage());
+    }
+    return false;
+  }
+  
+  function updateLinesInCorpus($corpus_id) {
+    try {
+      $query = $this->conn->prepare("with counted as (select count(corpus_id) as count from sentences where corpus_id = ? group by corpus_id) update corpora as c set lines = s.count from counted as s where c.id = ?;");
+      $query->bindParam(1, $corpus_id);
+      $query->bindParam(2, $corpus_id);
+      $query->execute();
+      $this->conn->close_conn();
+      return true;
+    } catch (Exception $ex) {
+      throw new Exception("Error in user_dao::insertCorpus : " . $ex->getMessage());
+    }
+    return false;
+  }
 }
 corpus_dao::$columns = array(
     array( 'db' => 'c.id', 'alias' => 'id', 'dt' => 0 ),

@@ -46,7 +46,6 @@ class project_dao {
       $query->bindParam(4, $project_dto->description);
       $query->bindParam(5, $project_dto->owner);
       $query->execute();
-      $query->setFetchMode(PDO::FETCH_ASSOC);
       $this->conn->close_conn();
       return true;
     } catch (Exception $ex) {

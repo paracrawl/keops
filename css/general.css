@@ -24,6 +24,17 @@ body{
   color: #398439;
 }
 
+/* Dropzone */
+.dropzone-looks {
+  background: #f9f9f9;
+  border: 2px dashed #ddd;
+  margin: 10px bottom;
+}
+
+.dropzone-looks .glyphicon-upload {
+    opacity: 0.5;
+}
+
 /* Footer */
 footer {
     position: absolute;

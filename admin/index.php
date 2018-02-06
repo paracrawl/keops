@@ -2,6 +2,7 @@
   // load up your config file
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/user_dao.php");
+  require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/language_dao.php");
   $PAGETYPE = "admin";
   require_once(RESOURCES_PATH . "/session.php");
 ?>
@@ -9,7 +10,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>KEOPS | Home</title>
+    <title>KEOPS | Management</title>
     <?php
     require_once(TEMPLATES_PATH . "/admin_head.php");
     ?>
@@ -64,7 +65,7 @@
         <div id="projects" class="tab-pane fade">
           <h3>Projects</h3>
           <p class="text-right">
-            <a href="projects/project_new.php" class="btn btn-primary">New project</a>
+            <a href="/projects/project_new.php" class="btn btn-primary">New project</a>
           </p>
           <hr>
           <table id="projects-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -78,6 +79,7 @@
                 <th>Creation date</th>
                 <th>Owner</th>
                 <th>Active?</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -92,6 +94,7 @@
                 <th>Creation date</th>
                 <th>Owner</th>
                 <th>Active?</th>
+                <th>Actions</th>
               </tr>
             </tfoot>
           </table>
@@ -179,6 +182,43 @@
               </tr>
             </tfoot>
           </table>
+          <hr>
+          <h3>Upload new corpora</h3>
+          <div class="col-xd-10 col-xd-offset-2 text-center">
+            <form action="/corpora/corpus_upload.php" class="form-horizontal dropzone dropzone-looks dz-clickable" id="dropzone" method="post" enctype="multipart/form-data">
+              <div class="text-left help-block with-errors">1. Select your languages</div>
+              <?php
+              $language_dao = new language_dao();
+              $languages = $language_dao->getLanguages();
+              ?>
+              <div class="form-group">
+                <label for="source_lang" class="control-label col-sm-2">Source language</label>
+                <div class="col-sm-4">
+                  <select class="form-control" name="source_lang" id="source_lang">
+                    <?php foreach ($languages as $lang) { ?>
+                      <option value="<?= $lang->id?>"><?= $lang->langcode . " - " . $lang->langname ?></option>
+                    <?php } ?>
+                  </select>
+                </div>
+                <label for="target_lang" class="control-label col-sm-2">Target language</label>
+                <div class="col-sm-4">
+                  <select class="form-control" name="target_lang" id="target_lang">
+                    <?php foreach ($languages as $lang) { ?>
+                      <option value="<?= $lang->id?>"><?= $lang->langcode . " - " . $lang->langname ?></option>
+                    <?php } ?>
+                  </select>
+                </div>
+              </div>
+              <div class="text-left help-block with-errors">2. Select your TSV files* for this pair of languages</div>
+              <div class="form-group dz-message">
+                <h2><span class="glyphicon glyphicon-upload" aria-hidden="true"></span></h2>
+                Click here or drag and drop files*<br>
+                <small>(you can upload more than one file at once)</small>
+              </div>
+              <div class="text-left help-block with-errors">3. Repeat steps 1 and 2 for new language pairs as many as you want</div>
+            </form>
+          </div>
+          <p>* Currently, only tab-separated-value files with one pair of sentences per line are supported.</p>
         </div>
       </div>
     </div>
