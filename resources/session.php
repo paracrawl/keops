@@ -49,6 +49,7 @@ if ($SIGNEDIN) {
   }
 }
 else if (!$SIGNEDIN && $PAGETYPE != "public") {
+
   header("Location: /signin.php");
   die();
 }

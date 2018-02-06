@@ -15,8 +15,7 @@ class user_dao {
   function getUser($email) {
     try {
       $user = new user_dto();
-      
-      $query = $this->conn->prepare("SELECT * FROM USERS WHERE email like ?;");
+      $query = $this->conn->prepare("SELECT * FROM USERS WHERE email = ?;");
       $query->bindParam(1, $email);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -99,18 +98,21 @@ class user_dao {
 
   function newUser($user_dto){
     try {
-      $query = $this->conn->prepare("INSERT INTO users (name, email, role, password) VALUES (?, ?, ?, ?);");
+      error_log("HOLA");
+      $query = $this->conn->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?);");
       $query->bindParam(1, $user_dto->name);
       $query->bindParam(2, $user_dto->email);
-      $query->bindParam(3, $user_dto->role);
-      $query->bindParam(4, $user_dto->password);
+      $query->bindParam(3, $user_dto->password);
       $query->execute();
+      error_log("HOLA 2");
       //$query->setFetchMode(PDO::FETCH_ASSOC);
       $user_dto->id = $this->conn->lastInsertId();
+      error_log("HOLA 3");
       $this->conn->close_conn();
       return true;
     } catch (Exception $ex) {
       $user_dto->id = -1;
+      error_log($ex->getMessage());
       return false;
     }
   }

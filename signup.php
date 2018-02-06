@@ -82,7 +82,7 @@ if (isset($_GET["email"]) && $_GET["email"] != null && $_GET["email"] != "") {
           <div class="col-sm-5">
             <div class="input-group">
               <div class="input-group-addon">required</div>
-              <input type="password" data-minlength="6" class="form-control" id="inputPassword" required>
+              <input name="password" type="password" data-minlength="6" class="form-control" id="inputPassword" required>
             </div>
             <div class="help-block">Minimum of 6 characters</div>
           </div>
