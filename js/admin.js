@@ -99,6 +99,27 @@ $(document).ready(function() {
     stateSave: true
   });
   
+  var invitations_table = $("#invitations-table").DataTable({
+      columnDefs: [{
+        targets: 6,
+        className: "text-center",
+        data: function (row, type, val, meta) {
+          if (row[3] == "") {
+            return '<a href="/admin/revoke_invite.php?id=' + row[0] + '"><span class="glyphicon glyphicon-remove red" aria-hidden="true"></span></a>';
+            //return "HOLA";
+          }
+          else {
+            return ""; 
+         }
+        }
+      }],
+    order: [[2, 'desc']],
+    processing: true,
+    serverSide: true,
+    ajax: "/admin/invite_list.php",
+    stateSave: true
+  });
+  
   corpora_table = $("#corpora-table").DataTable({
     columnDefs: [ /*{
       targets: 1,

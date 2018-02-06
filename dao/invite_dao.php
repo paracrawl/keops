@@ -85,5 +85,51 @@ class invite_dao {
         throw new Exception("Error in invite_dao::markAsUsed : " . $ex->getMessage());
     }
   }
+  
+  function revokeInvite($id){
+    try {
+      $query=$this->conn->prepare("DELETE FROM tokens  WHERE id = ?;");
+      $query->bindParam(1, $id);
+      $query->execute();
+      $this->conn->close_conn();
+      return true;
+    } catch (Exception $ex) {
+        $this->conn->close_conn();       
+        throw new Exception("Error in invite_dao::revokeInvite : " . $ex->getMessage());
+    }
+  }
 
+    function getDatatablesInvited($request) {
+    try {
+      $columns = array(
+          array( 'db' => 'id', 'dt' => 0 ),
+          array( 'db' => 'email', 'dt' => 1 ),
+          array(
+              'db'        => 'date_sent',
+              'dt'        => 2,
+              'formatter' => function( $d, $row ) {
+                  return date( 'd/m/Y', strtotime($d));
+              }
+          ),
+          array(
+              'db' => 'date_used',
+              'dt' => 3,
+              'formatter' => function( $d, $row ) {
+                if ($d != null && $d != "") {
+                  return date('d/m/Y', strtotime($d));
+                } else {
+                  return "";
+                }
+              }
+          ),
+          array( 'db' => 'token', 'dt' => 4 ),
+          array( 'db' => 'admin', 'dt' => 5)
+      );
+
+      return json_encode(DatatablesProcessing::simple( $request, $this->conn, "tokens", "id", $columns ));
+    } catch (Exception $ex) {
+      throw new Exception("Error in invite_dao::getDatatablesInvited : " . $ex->getMessage());
+    }
+  }
+  
 }

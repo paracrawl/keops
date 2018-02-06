@@ -127,7 +127,7 @@
         <div id="invitations" class="tab-pane fade">
           <h3>Invitations</h3>
           <hr>
-          <table id="users-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+          <table id="invitations-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
               <tr>
                 <th>ID</th>
@@ -136,6 +136,7 @@
                 <th>Date Used</th>
                 <th>Token</th>
                 <th>Admin</th>
+                <th>Revoke</th>
               </tr>
             </thead>
             <tbody>
@@ -148,6 +149,7 @@
                 <th>Date Used</th>
                 <th>Token</th>
                 <th>Admin</th>
+                <th>Revoke</th>
               </tr>
             </tfoot>
           </table>
