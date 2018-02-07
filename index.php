@@ -54,13 +54,28 @@ require_once(RESOURCES_PATH . "/session.php");
         //$user = new user_dto();
         //$user = $user_dao->getUser("mbanon");
         $user = $_SESSION["userinfo"];
-        echo "<h3>" . $user->name."</h3>";
-        echo "<h2>Projects</h2>";
-        echo "Project 1<br>";
-        echo "Project 2<br>";
-        if ($user->isAdmin() || $user->isStaff()) {
+        echo "<h3>" . $user->name . "</h3>";
+        if (!$user->active == true) {
+          ?>        
+            <div class="panel panel-danger">
+              <div class="panel-heading">
+                <h3 class="panel-title"><strong>Oops!</strong></h3>
+              </div>
+              <div class="panel-body">
+              <p>
+                Your account has been disabled. Please, contact an administrator if you think this is an error.
+              </p>
+            </div>
+          </div>
+    <?php
+  } else {
+    echo "<h2>Projects</h2>";
+          echo "Project 1<br>";
+          echo "Project 2<br>";
+          if ($user->isAdmin() || $user->isStaff()) {
 
-          echo("<a href=\"admin/index.php\">Manage projects</a><br>");
+            echo("<a href=\"admin/index.php\">Manage projects</a><br>");
+          }
         }
         echo "<a href=\"/users/user_logout.php\">Logout</a>";
       } else {

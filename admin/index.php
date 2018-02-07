@@ -36,7 +36,33 @@
           <p class="text-right">
             <a href="invite.php" class="btn btn-primary">Send invitation</a>
           </p>
-          <hr>
+                 <?php
+          if (isset($_SESSION["error"])) {
+            ?>
+            <div class="panel panel-danger">
+              <div class="panel-heading">
+                <h3 class="panel-title"><strong>Oops!</strong></h3>
+              </div>
+              <div class="panel-body">
+                <p>
+                  <?php
+                  switch ($_SESSION["error"]) {
+                    case "missingparams":
+                    case "userediterror":
+                    case "error":
+                    default:
+                      echo "Sorry, your request could not be processed. Please, try again later.";
+                      break;
+                  }
+                  $_SESSION["error"] = null;
+                  ?>
+                </p>
+              </div>
+            </div>
+            <?php
+          }
+          ?>
+          <hr>          
           <table id="users-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
               <tr>
@@ -126,6 +152,9 @@
         </div>
         <div id="invitations" class="tab-pane fade">
           <h3>Invitations</h3>
+          <p class="text-right">
+            <a href="invite.php" class="btn btn-primary">Send invitation</a>
+          </p>
           <hr>
           <table id="invitations-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
