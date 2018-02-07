@@ -6,6 +6,7 @@ Dropzone.options.dropzone = { // camelized id
   paramName: "file",
   maxFilesize: 10, // 10 MB
   filesizeBase: 1000,
+  //acceptedFiles: "text/*,application/*",
   //maxFiles: 40, // needed?
   init: function() {
     this.on("complete", function(file) {
@@ -148,6 +149,26 @@ $(document).ready(function() {
     processing: true,
     serverSide: true,
     ajax: "/corpora/corpus_list.php",
+    stateSave: true
+  });
+  
+  var tasks_table = $("#tasks-table").DataTable({
+    /*columnDefs: [{
+      targets: 6,
+      className: "text-center",
+      data: function ( row, type, val, meta ) {
+        if (row[6]){
+          return '<span class="glyphicon glyphicon-ok green" aria-hidden="true"></span>';
+        }
+        else {
+          return '<span class="glyphicon glyphicon-remove red" aria-hidden="true"></span>';
+        }
+      }
+    }],*/
+    order: [[ 4, 'desc' ]],
+    processing: true,
+    serverSide: true,
+    ajax: "/tasks/task_list.php",
     stateSave: true
   });
   

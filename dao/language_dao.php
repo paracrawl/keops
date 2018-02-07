@@ -6,6 +6,7 @@ require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/utils/datatables_he
 
 class language_dao {
   private $conn;
+  public static $columns;
   
   public function __construct(){
       $this->conn = new keopsdb();
@@ -35,15 +36,14 @@ class language_dao {
   
   function getDatatablesLanguages($request) {
     try {
-      $columns = array(
-          array( 'db' => 'id', 'dt' => 0 ),
-          array( 'db' => 'langcode', 'dt' => 1 ),
-          array( 'db' => 'langname', 'dt' => 2 )
-      );
-
-      return json_encode(DatatablesProcessing::simple( $request, $this->conn, "langs", "id", $columns ));
+      return json_encode(DatatablesProcessing::simple( $request, $this->conn, "langs", "id", self::$columns ));
     } catch (Exception $ex) {
       throw new Exception("Error in user_dao::getDatatablesLanguages : " . $ex->getMessage());
     }
   }
 }
+language_dao::$columns = array(
+  array( 'db' => 'id', 'dt' => 0 ),
+  array( 'db' => 'langcode', 'dt' => 1 ),
+  array( 'db' => 'langname', 'dt' => 2 )
+);

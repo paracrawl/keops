@@ -6,6 +6,7 @@ require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/utils/datatables_he
 
 class invite_dao {
   private $conn;
+  public static $columns;
   
   public function __construct(){
       $this->conn = new keopsdb();
@@ -101,35 +102,34 @@ class invite_dao {
 
     function getDatatablesInvited($request) {
     try {
-      $columns = array(
-          array( 'db' => 'id', 'dt' => 0 ),
-          array( 'db' => 'email', 'dt' => 1 ),
-          array(
-              'db'        => 'date_sent',
-              'dt'        => 2,
-              'formatter' => function( $d, $row ) {
-                  return date( 'd/m/Y', strtotime($d));
-              }
-          ),
-          array(
-              'db' => 'date_used',
-              'dt' => 3,
-              'formatter' => function( $d, $row ) {
-                if ($d != null && $d != "") {
-                  return date('d/m/Y', strtotime($d));
-                } else {
-                  return "";
-                }
-              }
-          ),
-          array( 'db' => 'token', 'dt' => 4 ),
-          array( 'db' => 'admin', 'dt' => 5)
-      );
-
-      return json_encode(DatatablesProcessing::simple( $request, $this->conn, "tokens", "id", $columns ));
+      return json_encode(DatatablesProcessing::simple( $request, $this->conn, "tokens", "id", self::$columns ));
     } catch (Exception $ex) {
       throw new Exception("Error in invite_dao::getDatatablesInvited : " . $ex->getMessage());
     }
   }
   
 }
+invite_dao::$columns = array(
+  array( 'db' => 'id', 'dt' => 0 ),
+  array( 'db' => 'email', 'dt' => 1 ),
+  array(
+      'db'        => 'date_sent',
+      'dt'        => 2,
+      'formatter' => function( $d, $row ) {
+          return date( 'd/m/Y', strtotime($d));
+      }
+  ),
+  array(
+      'db' => 'date_used',
+      'dt' => 3,
+      'formatter' => function( $d, $row ) {
+        if ($d != null && $d != "") {
+          return date('d/m/Y', strtotime($d));
+        } else {
+          return "";
+        }
+      }
+  ),
+  array( 'db' => 'token', 'dt' => 4 ),
+  array( 'db' => 'admin', 'dt' => 5)
+);
