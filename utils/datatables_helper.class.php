@@ -172,7 +172,7 @@ class DatatablesProcessing {
 
 				if ( $requestColumn['searchable'] == 'true' ) {
 					$binding = self::bind( $bindings, '%'.$str.'%', PDO::PARAM_STR );
-					$globalSearch[] = "".$column['db']." LIKE ".$binding;
+					$globalSearch[] = "".$column['db']."::text ILIKE ".$binding;
 				}
 			}
 		}
@@ -189,7 +189,7 @@ class DatatablesProcessing {
 				if ( $requestColumn['searchable'] == 'true' &&
 				 $str != '' ) {
 					$binding = self::bind( $bindings, '%'.$str.'%', PDO::PARAM_STR );
-					$columnSearch[] = "".$column['db']." LIKE ".$binding;
+					$columnSearch[] = "".$column['db']."::text ILIKE ".$binding;
 				}
 			}
 		}
@@ -244,7 +244,8 @@ class DatatablesProcessing {
 			"SELECT ".implode(", ", self::pluck_select($columns, 'db', 'alias'))."
 			 FROM $table $where $order $limit"
 		);
-
+        error_log("SELECT ".implode(", ", self::pluck_select($columns, 'db', 'alias'))."
+			 FROM $table $where $order $limit");
 		// Data set length after filtering
 		$resFilterLength = self::sql_exec( $db, $bindings,
 			"SELECT COUNT({$primaryKey})
@@ -504,6 +505,16 @@ class DatatablesProcessing {
 		return $out;
 	}
     
+	/**
+	 * Pull a particular property from each assoc. array in a numeric array, 
+	 * returning and array of the property values from each item and joinin the alias if present.
+	 *
+	 *  @param  array  $a      Array to get data from
+	 *  @param  string $prop   Property to read
+     *  @param  string $alias  Alias property if present in array
+     *  @param  string $join   String which joins $prop and $alias in a string
+	 *  @return array          Array of strings with values: [$prop $join $alias, ...]
+	 */
     static function pluck_select($a, $prop, $alias = 'alias', $join = ' as ')
     {
       $out = array();

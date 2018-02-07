@@ -211,7 +211,7 @@
                   </select>
                 </div>
               </div>
-              <div class="text-left help-block with-errors">2. Select your TSV files* for this pair of languages</div>
+              <div class="text-left help-block with-errors">2. Select your TSV files* for this language pair</div>
               <div class="form-group dz-message">
                 <h2><span class="glyphicon glyphicon-upload" aria-hidden="true"></span></h2>
                 Click here or drag and drop files*<br>

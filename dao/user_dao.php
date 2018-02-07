@@ -6,6 +6,7 @@ require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/utils/datatables_he
 
 class user_dao {
   private $conn;
+  public static $columns;
   
   public function __construct(){
       $this->conn = new keopsdb();
@@ -120,24 +121,24 @@ class user_dao {
  
   function getDatatablesUsers($request) {
     try {
-      $columns = array(
-          array( 'db' => 'id', 'dt' => 0 ),
-          array( 'db' => 'name', 'dt' => 1 ),
-          array( 'db' => 'email', 'dt' => 2 ),
-          array(
-              'db'        => 'creation_date',
-              'dt'        => 3,
-              'formatter' => function( $d, $row ) {
-                  return date( 'd/m/Y', strtotime($d));
-              }
-          ),
-          array( 'db' => 'role', 'dt' => 4 ),
-          array( 'db' => 'active', 'dt' => 5)
-      );
 
-      return json_encode(DatatablesProcessing::simple( $request, $this->conn, "users", "id", $columns ));
+      return json_encode(DatatablesProcessing::simple( $request, $this->conn, "users", "id", self::$columns ));
     } catch (Exception $ex) {
       throw new Exception("Error in user_dao::getDatatablesUsers : " . $ex->getMessage());
     }
   }
 }
+user_dao::$columns = array(
+    array( 'db' => 'id', 'dt' => 0 ),
+    array( 'db' => 'name', 'dt' => 1 ),
+    array( 'db' => 'email', 'dt' => 2 ),
+    array(
+        'db'        => 'creation_date',
+        'dt'        => 3,
+        'formatter' => function( $d, $row ) {
+            return date( 'd/m/Y', strtotime($d));
+        }
+    ),
+    array( 'db' => 'role', 'dt' => 4 ),
+    array( 'db' => 'active', 'dt' => 5)
+);
