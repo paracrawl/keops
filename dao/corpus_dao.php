@@ -15,24 +15,59 @@ class corpus_dao {
   
   function getCorpora() {
     try {
-      $languages = array();
-      $query = $this->conn->prepare("SELECT id, langcode, langname FROM langs order by langname");
+      $corpora = array();
+      $query = $this->conn->prepare("SELECT id, name, source_lang, target_lang FROM corpora");
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while($row = $query->fetch()){
-        $language = new language_dto();
-        $language->id = $row['id'];
-        $language->langcode = $row['langcode'];
-        $language->langname = $row['langname'];
-        $languages[] = $language;
+        $corpus = new corpus_dto();
+        $corpus->id = $row['id'];
+        $corpus->name = $row['name'];
+        $corpus->source_lang = $row['source_lang'];
+        $corpus->target_lang = $row['target_lang'];
+        $corpora[] = $corpus;
       }
-      return $languages;
+      return $corpora;
     } catch (Exception $ex) {
       $this->conn->close_conn();
-      throw new Exception("Error in user_dao::getUsers : " . $ex->getMessage());
+      throw new Exception("Error in corpus_dao::getCorpora : " . $ex->getMessage());
     }
   }
   
+  /** 
+   * 
+   * @param array $filters Expected map with keys (name of rows) and values to filter.
+   */
+  function getFilteredCorpora($filters) {
+    try {
+      $sql = "SELECT id, name, source_lang, target_lang FROM corpora";
+      if (count($filters) > 0) {
+        $where = array();
+        foreach ($filters as $key => $value) {
+          $where[] = $key . "=" . $value . " ";
+        }
+        $sql .= " where " . implode(" AND ", $where);
+      }
+      
+      $corpora = array();
+      $query = $this->conn->prepare($sql);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while($row = $query->fetch()){
+        $corpus = new corpus_dto();
+        $corpus->id = $row['id'];
+        $corpus->name = $row['name'];
+        $corpus->source_lang = $row['source_lang'];
+        $corpus->target_lang = $row['target_lang'];
+        $corpora[] = $corpus;
+      }
+      return $corpora;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in corpus_dao::getCorpora : " . $ex->getMessage());
+    }
+  }
+          
   function getDatatablesCorpora($request) {
     try {
       return json_encode(DatatablesProcessing::simple( $request, $this->conn,
@@ -40,7 +75,7 @@ class corpus_dao {
               "c.id",
               self::$columns ));
     } catch (Exception $ex) {
-      throw new Exception("Error in user_dao::getDatatablesLanguages : " . $ex->getMessage());
+      throw new Exception("Error in corpus_dao::getDatatablesCorpora : " . $ex->getMessage());
     }
   }
   
@@ -56,7 +91,7 @@ class corpus_dao {
       return true;
     } catch (Exception $ex) {
       $corpus_dto->id = -1;
-      throw new Exception("Error in user_dao::insertCorpus : " . $ex->getMessage());
+      throw new Exception("Error in corpus_dao::insertCorpus : " . $ex->getMessage());
     }
     return false;
   }
@@ -70,7 +105,7 @@ class corpus_dao {
       $this->conn->close_conn();
       return true;
     } catch (Exception $ex) {
-      throw new Exception("Error in user_dao::insertCorpus : " . $ex->getMessage());
+      throw new Exception("Error in corpus_dao::updateLinesInCorpus : " . $ex->getMessage());
     }
     return false;
   }

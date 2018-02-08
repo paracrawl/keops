@@ -56,7 +56,7 @@
         <a href="/tasks/task_new.php?p_id=<?= $project->id ?>" class="btn btn-primary">New task</a>
       </p>
       
-      <table id="tasks-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+      <table id="tasks-table" class="table table-striped table-bordered" data-projectid="<?= $project->id ?>" cellspacing="0" width="100%">
         <thead>
           <tr>
             <th>ID</th>

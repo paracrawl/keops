@@ -16,7 +16,7 @@ class language_dao {
   function getLanguages() {
     try {
       $languages = array();
-      $query = $this->conn->prepare("SELECT id, langcode, langname FROM langs order by langname");
+      $query = $this->conn->prepare("SELECT id, langcode, langname FROM langs order by langcode");
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while($row = $query->fetch()){

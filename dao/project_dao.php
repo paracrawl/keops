@@ -67,7 +67,7 @@ class project_dao {
       return $projects;
     } catch (Exception $ex) {
       $this->conn->close_conn();
-      throw new Exception("Error in user_dao::getUsers : " . $ex->getMessage());
+      throw new Exception("Error in project_dao::getProjects : " . $ex->getMessage());
     }
   }
   
@@ -84,7 +84,7 @@ class project_dao {
       return true;
     } catch (Exception $ex) {
       $this->conn->close_conn();
-      throw new Exception("Error in user_dao::insertProject : " . $ex->getMessage());
+      throw new Exception("Error in project_dao::insertProject : " . $ex->getMessage());
     }
     return false;
   }
@@ -96,7 +96,7 @@ class project_dao {
               "p.id",
               self::$columns ));
     } catch (Exception $ex) {
-      throw new Exception("Error in user_dao::getDatatablesLanguages : " . $ex->getMessage());
+      throw new Exception("Error in project_dao::getDatatablesProjects : " . $ex->getMessage());
     }
   }
 }

@@ -168,7 +168,12 @@ $(document).ready(function() {
     order: [[ 4, 'desc' ]],
     processing: true,
     serverSide: true,
-    ajax: "/tasks/task_list.php",
+    ajax: {
+        url: "/tasks/task_list.php",
+        data: function (d) {
+          d.p_id = $("#tasks-table").data("projectid");
+        }
+    },
     stateSave: true
   });
   
@@ -268,7 +273,6 @@ function getInviteToken(email){
     }
             
   });
-  
 };
 
 function clipboard(text) {

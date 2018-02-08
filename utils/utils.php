@@ -12,5 +12,5 @@ function checkPostParameters($names){
 }
 
 function getFormattedDate($date, $format="d/m/Y") {
-  return date( $format, strtotime($date));
+  return isset($date) && $date !== '' ? date( $format, strtotime($date)) : "";
 }
