@@ -26,7 +26,7 @@
           <label for="name" class="col-sm-1 control-label">Name</label>
           <div class="col-sm-4">
             <input type="text" name="name" class="form-control" aria-describedby="helpName" placeholder="Name" maxlength="100" required="" autofocus="" tabindex="1">
-            <div id="helpName" class="help-block with-errors"></div>
+            <div id="helpName" class="help-block with-errors">Write the public name of the project</div>
           </div>
         </div>
         <?php
