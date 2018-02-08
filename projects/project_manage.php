@@ -35,7 +35,7 @@
           <p><strong>Language pair:</strong> <?= $project->source_lang_object->langcode ?>-<?= $project->target_lang_object->langcode ?></p>
         </div>
         <div class="col-md-3">
-          <p><strong>Owner:</strong> <a href="/admin/user_edit.php?id="<?= $project->owner ?>><?= $project->owner_object->name ?></a></p>
+          <p><strong>Owner:</strong> <a href="/admin/user_edit.php?id=<?= $project->owner ?>"><?= $project->owner_object->name ?></a></p>
         </div>
         <div class="col-md-3">
           <p><strong>Creation date:</strong> <?= getFormattedDate($project->creation_date) ?></p>
@@ -53,7 +53,7 @@
       
       <h3>Project Tasks</h3>
       <p>
-        <a href="/tasks/task_new.php" class="btn btn-primary">New task</a>
+        <a href="/tasks/task_new.php?p_id=<?= $project->id ?>" class="btn btn-primary">New task</a>
       </p>
       
       <table id="tasks-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
