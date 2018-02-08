@@ -2,6 +2,7 @@
 
 require_once(DB_CONNECTION);
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/invite_dto.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/utils/utils.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/utils/datatables_helper.class.php' );
 
 class invite_dao {
@@ -115,21 +116,11 @@ invite_dao::$columns = array(
   array(
       'db'        => 'date_sent',
       'dt'        => 2,
-      'formatter' => function( $d, $row ) {
-          return date( 'd/m/Y', strtotime($d));
-      }
-  ),
+      'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
   array(
       'db' => 'date_used',
       'dt' => 3,
-      'formatter' => function( $d, $row ) {
-        if ($d != null && $d != "") {
-          return date('d/m/Y', strtotime($d));
-        } else {
-          return "";
-        }
-      }
-  ),
+      'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
   array( 'db' => 'token', 'dt' => 4 ),
   array( 'db' => 'admin', 'dt' => 5)
 );

@@ -13,13 +13,46 @@ class task_dao {
     $this->conn = new keopsdb();
     $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   }
-   
+  
+  function insertTask($task_dto) {
+    try {
+      $query = $this->conn->prepare("INSERT INTO tasks (project_id, assigned_user, corpus_id) VALUES (?, ?, ?);");
+      $query->bindParam(1, $task_dto->project_id);
+      $query->bindParam(2, $task_dto->assigned_user);
+      $query->bindParam(3, $task_dto->corpus_id);
+      $query->execute();
+      $task_dto->id = $this->conn->lastInsertId();
+      $this->conn->close_conn();
+      return true;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in task_dao::insertTask : " . $ex->getMessage());
+    }
+    return false;
+  }
+  
+  function updateTaskSize($task_id) {
+    try {
+      $query = $this->conn->prepare("with counted as (select count(task_id) as count from sentences_tasks where task_id = ? group by task_id) update tasks as t set size=s.count from counted as s where t.id = ?;");
+      $query->bindParam(1, $task_id);
+      $query->bindParam(2, $task_id);
+      $query->execute();
+      $this->conn->close_conn();
+      return true;
+    } catch (Exception $ex) {
+      throw new Exception("Error in sentence_dao::updateTaskSize : " . $ex->getMessage());
+    }
+    return false;
+  }
+  
   function getDatatablesTasks($request) {
     try {
-      return json_encode(DatatablesProcessing::simple( $request, $this->conn,
-              "tasks as t left join projects as p on p.id=1 and p.id = t.project_id left join users as u on u.id = t.assigned_user left join (select task_id, count(*) as size from sentences_tasks where task_id = 1 group by id) as st on st.task_id = t.id",
+      return json_encode(DatatablesProcessing::complex( $request, $this->conn,
+              "tasks as t left join projects as p on p.id=" . $request['p_id'] . " and p.id = t.project_id left join users as u on u.id = t.assigned_user",
               "t.id",
-              self::$columns ));
+              self::$columns,
+              null,
+              "project_id=" . $request['p_id'] ));
     } catch (Exception $ex) {
       throw new Exception("Error in user_dao::getDatatablesTasks : " . $ex->getMessage());
     }

@@ -244,8 +244,6 @@ class DatatablesProcessing {
 			"SELECT ".implode(", ", self::pluck_select($columns, 'db', 'alias'))."
 			 FROM $table $where $order $limit"
 		);
-       // error_log("SELECT ".implode(", ", self::pluck_select($columns, 'db', 'alias'))."
-			 //FROM $table $where $order $limit");
 		// Data set length after filtering
 		$resFilterLength = self::sql_exec( $db, $bindings,
 			"SELECT COUNT({$primaryKey})
@@ -330,29 +328,25 @@ class DatatablesProcessing {
 
 		// Main query to actually get the data
 		$data = self::sql_exec( $db, $bindings,
-			"SELECT ".implode(", ", self::pluck($columns, 'db'))."
-			 FROM $table
-			 $where
-			 $order
-			 $limit"
+			"SELECT ".implode(", ", self::pluck_select($columns, 'db', 'alias'))."
+			 FROM $table $where	$order $limit"
 		);
 
 		// Data set length after filtering
 		$resFilterLength = self::sql_exec( $db, $bindings,
 			"SELECT COUNT({$primaryKey})
-			 FROM   $table
-			 $where"
+			 FROM   $table $where"
 		);
 		$recordsFiltered = $resFilterLength[0][0];
 
 		// Total data set length
-		$resTotalLength = self::sql_exec( $db, $bindings,
+		$resTotalLength = self::sql_exec( $db,
 			"SELECT COUNT({$primaryKey})
 			 FROM   $table ".
 			$whereAllSql
 		);
 		$recordsTotal = $resTotalLength[0][0];
-
+        
 		/*
 		 * Output
 		 */

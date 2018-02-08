@@ -28,7 +28,7 @@ class sentence_dao {
       $this->conn->close_conn();
       return true;
     } catch (Exception $ex) {
-      throw new Exception("Error in user_dao::insertBatchSentences : " . $ex->getMessage());
+      throw new Exception("Error in sentence_dao::insertBatchSentences : " . $ex->getMessage());
     }
     return false;
   }

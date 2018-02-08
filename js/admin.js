@@ -168,19 +168,28 @@ $(document).ready(function() {
     order: [[ 4, 'desc' ]],
     processing: true,
     serverSide: true,
-    ajax: "/tasks/task_list.php",
+    ajax: {
+        url: "/tasks/task_list.php",
+        data: function (d) {
+          d.p_id = $("#tasks-table").data("projectid");
+        }
+    },
     stateSave: true
   });
   
   // Activate Bootstrap tab on loading or user click.
+  
   if (location.hash) {
     $('a[href=\'' + location.hash + '\']').tab('show');
   }
-  var activeTab = localStorage.getItem('activeTab');
-  if (activeTab) {
-    $('a[href="' + activeTab + '"]').tab('show');
+  else {
+    var activeTab = localStorage.getItem('activeTab');
+    if (activeTab) {
+      $('a[href="' + activeTab + '"]').tab('show');
+    }
   }
 
+  // Clicking on tab event
   $('body').on('click', 'a[data-toggle=\'tab\']', function (e) {
     e.preventDefault();
     var tab_name = this.getAttribute('href');
@@ -195,6 +204,8 @@ $(document).ready(function() {
     $(this).tab('show');
     return false;
   });
+  
+  // Browser History pop state
   $(window).on('popstate', function () {
     var anchor = location.hash || $('a[data-toggle=\'tab\']').first().attr('href');
     $('a[href=\'' + anchor + '\']').tab('show');
@@ -262,7 +273,6 @@ function getInviteToken(email){
     }
             
   });
-  
 };
 
 function clipboard(text) {
