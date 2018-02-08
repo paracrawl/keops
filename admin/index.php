@@ -27,16 +27,7 @@
         <li><a data-toggle="tab" href="#corpora">Corpora</a></li>
       </ul>
       <div class="tab-content">
-        <div id="dashboard" class="tab-pane fade in active">
-          <h3>Dashboard</h3>
-          <p>Number of users / projects / languages / tasks / tasks in progress / ...</p>
-        </div>
-        <div id="users" class="tab-pane fade">
-          <h3>Users</h3>
-          <p class="text-right">
-            <a href="invite.php" class="btn btn-primary">Send invitation</a>
-          </p>
-                 <?php
+                         <?php
           if (isset($_SESSION["error"])) {
             ?>
             <div class="panel panel-danger">
@@ -49,12 +40,13 @@
                   switch ($_SESSION["error"]) {
                     case "missingparams":
                     case "userediterror":
+                    case "pojectediterror":
                     case "error":
                     default:
-                      echo "Sorry, your request could not be processed. Please, try again later.";
+                      echo "Sorry, your request could not be processed. Please, try again later.";                     
+                      $_SESSION["error"] = null;
                       break;
                   }
-                  $_SESSION["error"] = null;
                   ?>
                 </p>
               </div>
@@ -62,6 +54,16 @@
             <?php
           }
           ?>
+        <div id="dashboard" class="tab-pane fade in active">
+          <h3>Dashboard</h3>
+          <p>Number of users / projects / languages / tasks / tasks in progress / ...</p>
+        </div>
+        <div id="users" class="tab-pane fade">
+          <h3>Users</h3>
+          <p class="text-right">
+            <a href="invite.php" class="btn btn-primary">Send invitation</a>
+          </p>
+
           <hr>          
           <table id="users-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
@@ -93,6 +95,7 @@
           <p class="text-right">
             <a href="/projects/project_new.php" class="btn btn-primary">New project</a>
           </p>
+          
           <hr>
           <table id="projects-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>

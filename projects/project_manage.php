@@ -35,7 +35,7 @@
           <p><strong>Language pair:</strong> <?= $project->source_lang_object->langcode ?>-<?= $project->target_lang_object->langcode ?></p>
         </div>
         <div class="col-md-3">
-          <p><strong>Owner:</strong> <a href="/admin/user_edit.php?id="<?= $project->owner ?>><?= $project->owner_object->name ?></a></p>
+          <p><strong>Owner:</strong> <a href="/admin/user_edit.php?id=<?= $project->owner ?>"><?= $project->owner_object->name ?></a></p>
         </div>
         <div class="col-md-3">
           <p><strong>Creation date:</strong> <?= getFormattedDate($project->creation_date) ?></p>

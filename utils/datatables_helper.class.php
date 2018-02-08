@@ -244,8 +244,8 @@ class DatatablesProcessing {
 			"SELECT ".implode(", ", self::pluck_select($columns, 'db', 'alias'))."
 			 FROM $table $where $order $limit"
 		);
-        error_log("SELECT ".implode(", ", self::pluck_select($columns, 'db', 'alias'))."
-			 FROM $table $where $order $limit");
+       // error_log("SELECT ".implode(", ", self::pluck_select($columns, 'db', 'alias'))."
+			 //FROM $table $where $order $limit");
 		// Data set length after filtering
 		$resFilterLength = self::sql_exec( $db, $bindings,
 			"SELECT COUNT({$primaryKey})
