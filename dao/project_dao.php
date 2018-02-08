@@ -2,6 +2,7 @@
 
 require_once(DB_CONNECTION);
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/project_dto.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/utils/utils.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/utils/datatables_helper.class.php' );
 
 class project_dao {
@@ -125,9 +126,7 @@ project_dao::$columns = array(
     array( 'db' => 'l2.langcode', 'alias' => 'target_lang', 'dt' => 3 ),
     array( 'db' => 'p.description', 'alias' => 'description', 'dt' => 4 ),
     array( 'db' => 'p.creation_date', 'alias' => 'creation_date', 'dt' => 5,
-        'formatter' => function( $d, $row ) {
-            return date( 'd/m/Y', strtotime($d));
-        } ),
+        'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
     array( 'db' => 'u.name', 'alias' => 'owner', 'dt' => 6 ),
     array( 'db' => 'p.active', 'alias' => 'active', 'dt' => 7 ),
     array( 'db' => 'l1.langname', 'alias' => 'nsource_lang', 'dt' => 8 ),

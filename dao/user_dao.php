@@ -2,6 +2,7 @@
 
 require_once(DB_CONNECTION);
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/user_dto.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/utils/utils.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/utils/datatables_helper.class.php' );
 
 class user_dao {
@@ -152,10 +153,7 @@ user_dao::$columns = array(
     array(
         'db'        => 'creation_date',
         'dt'        => 3,
-        'formatter' => function( $d, $row ) {
-            return date( 'd/m/Y', strtotime($d));
-        }
-    ),
+        'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
     array( 'db' => 'role', 'dt' => 4 ),
     array( 'db' => 'active', 'dt' => 5)
 );

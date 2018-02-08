@@ -54,7 +54,6 @@ require_once(RESOURCES_PATH . "/session.php");
         //$user = new user_dto();
         //$user = $user_dao->getUser("mbanon");
         $user = $_SESSION["userinfo"];
-        echo "<h3>" . $user->name . "</h3>";
         if (!$user->active == true) {
           ?>        
             <div class="panel panel-danger">
@@ -67,19 +66,39 @@ require_once(RESOURCES_PATH . "/session.php");
               </p>
             </div>
           </div>
-    <?php
-  } else {
-    echo "<h2>Projects</h2>";
-          echo "Project 1<br>";
-          echo "Project 2<br>";
-          if ($user->isAdmin() || $user->isStaff()) {
-
-            echo("<a href=\"admin/index.php\">Manage projects</a><br>");
-          }
+        <?php } else { ?>
+        <div class="page-header">
+          <h3>Your tasks</h3>
+          <p>Check the status of your current tasks</p>
+        </div>
+        <table id="tasks-table" class="table table-striped table-bordered" data-projectid="" cellspacing="0" width="100%">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Assigned user</th>
+              <th>Size</th>
+              <th>Status</th>
+              <th>Creation date</th>
+              <th>Assigned date</th>
+              <th>Completed date</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th>ID</th>
+              <th>Assigned user</th>
+              <th>Size</th>
+              <th>Status</th>
+              <th>Creation date</th>
+              <th>Assigned date</th>
+              <th>Completed date</th>
+            </tr>
+          </tfoot>
+        </table>
+          <?php
         }
-        echo "<a href=\"/users/user_logout.php\">Logout</a>";
-      } else {
-        echo "Not logged in.";
       }
       ?>
     </div>
