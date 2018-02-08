@@ -27,15 +27,30 @@ function getUserId(){
   return $id;
 }
 
+function isActive(){
+  $active = null;
+  if (isset($_SESSION["userinfo"])) {
+    $user = $_SESSION["userinfo"];
+    $active = $user->active;
+  }
+  return $active;
+}
+
 function canSeeAdminView() {
   $role = getUserRole();
-  if ($role != null && ($role == user_dto::ADMIN || $role == user_dto::STAFF)) {
+  if ($role != null && ($role == user_dto::ADMIN || $role == user_dto::STAFF) && isActive()) {
     return true;
   }
 }
 
 $SIGNEDIN = isSignedIn();
 $ADMIN_VIEW_PERMISSIONS = canSeeAdminView();
+
+if (!isActive() && $PAGETYPE!="public"){  
+  header("Location: /index.php");
+  die();
+}
+
 
 if ($SIGNEDIN) {
   $USER = $SIGNEDIN ? $_SESSION["userinfo"] : null;

@@ -24,7 +24,7 @@ $user = $user_dao->getUserById(filter_input(INPUT_GET, "id"));
       <div class="page-header">
         <h1>Edit user</h1>
       </div>
-      <form class="form-horizontal" method="post" action="" role="form" data-toggle="validator">
+      <form class="form-horizontal" method="post" action="../users/user_edit.php" role="form" data-toggle="validator">
         <div class="form-group">
           <label for="name" class="col-sm-1 control-label">Name</label>
           <div class="col-sm-4">
@@ -63,17 +63,17 @@ $user = $user_dao->getUserById(filter_input(INPUT_GET, "id"));
             <input type="checkbox" class="checkbox" name="active" id="active" <?= $user->active ? "checked" : "" ?>>
           </div>
         </div>
+        <input type="hidden" name="id" id="id" value="<?= $user->id ?>">
         <div class="form-group">
           <div class="col-sm-4 text-right">
             <a href="/admin/#users" class="col-sm-offset-1 btn btn-danger">Cancel</a>
             <button type="submit" class="col-sm-offset-1 btn btn-success">Save</button>
           </div>
         </div>
-
       </form>
-    </div>
-    <?php
-    require_once(TEMPLATES_PATH . "/footer.php");
+      </div>
+      <?php
+      require_once(TEMPLATES_PATH . "/footer.php");
     ?>
     <?php
     require_once(TEMPLATES_PATH . "/admin_resources.php");

@@ -118,7 +118,24 @@ class user_dao {
       throw new Exception("Error in user_dao::newUser : " . $ex->getMessage());
     }
   }
- 
+
+  function updateUser($user_dto) {
+    try {
+      $query = $this->conn->prepare("UPDATE USERS SET name = ?, email = ?,  role = ?, active = ? WHERE id = ?;");
+      $query->bindParam(1, $user_dto->name);
+      $query->bindParam(2, $user_dto->email);
+      $query->bindParam(3, $user_dto->role);
+      $query->bindParam(4, $user_dto->active);
+      $query->bindParam(5, $user_dto->id);   
+      $query->execute();
+      $this->conn->close_conn();
+      return true;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in user_dao::updateUser : " . $ex->getMessage());
+    }
+  }
+
   function getDatatablesUsers($request) {
     try {
 

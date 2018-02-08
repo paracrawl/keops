@@ -12,7 +12,19 @@ class user_dto{
   const ADMIN = "ADMIN";
   const STAFF = "STAFF";
   const EVALUATOR = "USER";
-
+   
+       
+  public function newUser($id, $name, $email, $role, $active){
+    $instance = new self();
+    $instance->id = $id;
+    $instance->name = $name;
+    $instance->email = $email;
+    $instance->role = $role;
+    $instance->active = $active;  
+    return $instance;
+  }
+  
+  
   function isAdmin() {
     return $this->role == user_dto::ADMIN;
   }
