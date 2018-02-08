@@ -63,7 +63,7 @@ footer .container p{
   margin: 0;
 }
 
-/* Sigin Form */
+/* Signin Form */
 .form-signin {
   max-width: 330px;
   padding: 15px;
@@ -83,4 +83,9 @@ footer .container p{
 }
 .form-signin .form-control:focus {
   z-index: 2;
+}
+
+/* Invitations */
+.invitation_token .input-group-addon, .invitation_token input {
+  cursor: pointer;
 }

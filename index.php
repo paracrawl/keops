@@ -31,7 +31,7 @@ require_once(RESOURCES_PATH . "/session.php");
             <p>
             <?php
               switch ($_SESSION["error"]) {
-                case "signuploggdein":     
+                case "signuploggedin":     
                   echo "Please, logout before signing up a different user.";
                   break;
                 case "error":     

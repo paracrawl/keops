@@ -209,13 +209,11 @@ function getInviteToken(email){
     data: {"email": email},
     url: 'get_token.php', 
     type: 'post',
-    success: function (response) { 
-      $("#token").show();
-      $("#token").html(response);
+    success: function (response) {
+      $("#token").val(response);
     },
     error: function(response){
-      $("#token").show();
-      $("#token").html("Sorry, your request could not be processed. Please, try again later. ");
+      $("#token").val("Sorry, your request could not be processed. Please, try again later. ");
     }
             
   });

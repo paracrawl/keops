@@ -6,7 +6,7 @@ $PAGETYPE = "public";
 require_once(RESOURCES_PATH . "/session.php");
 
 if ($SIGNEDIN) {
-  $_SESSION["error"] = "signuploggdein";
+  $_SESSION["error"] = "signuploggedin";
   header("Location: /index.php");
   die();
 }
