@@ -21,29 +21,36 @@ if (count($missing_params) ==0){
   $invite_dto = new invite_dto($admin, $email, $token);
   $user_dao = new user_dao();
   
-  if ($user_dao->getUser($email)-> id!=null){
-    echo "The user is already registered.";
+  $user_dto = $user_dao->getUser($email);
+  if ($user_dto->id!=null){
+    $response = array('error' => 1, 'message' => 'The user is already registered.', 'user_id' => $user_dto->id);
+    echo json_encode($response);
   }
   else {
     switch ($invite_dao->inviteUser($invite_dto)){ 
-      case "ok":      
-          echo "".$invite_dto->getInviteUrl();
+      case "ok":
+        $response = array('error' => 0, 'message' => '', 'token_url' => $invite_dto->getInviteUrl());
+        echo json_encode($response);
         break;
-      case "alreadyexisted":
+      case "alreadyexisted": // TODO is this case impossible?
         if ($invite_dto->date_used!=null){
-          echo "The user is already registered.";
+          $response = array('error' => 1, 'message' => 'The user is already registered.');
+          echo json_encode($response);
         }
         else {
-          echo "User was already invited: ".$invite_dto->getInviteUrl();
+          $response = array('error' => 0, 'message' => 'User was already invited.', 'token_url' => $invite_dto->getInviteUrl());
+          echo json_encode($response);
         }
         break;
       case "error":
       default:
-        echo "Sorry, your request could not be processed. Please, try again later.";
+        $response = array('error' => 1, 'message' => 'Sorry, your request could not be processed. Please, try again later.');
+        echo json_encode($response);
         break;
     }
   }
 }
 else {
-  echo "Missing parameters";
+  $response = array('error' => 1, 'message' => 'Missing parameters');
+  echo json_encode($response);
 }

@@ -203,24 +203,86 @@ $(document).ready(function() {
   $(document).on('click', '#invite_button', function(event){
     event.preventDefault();
     event.stopPropagation();
-    getInviteToken($('#email').val());
+    if (!$(".form-group").hasClass("has-error")) {
+      getInviteToken($('#email').val());
+    }
+  });
+  
+  $(document).on('click', '#token', function(event) {
+    if ($(this).val() === '') return;
+    var message_color = $("#helpInvitation").parents(".form-group");
+    message_color.removeClass("has-error");
+    message_color.removeClass("has-success");
+    if (clipboard($(this).val())) {
+      message_color.addClass("has-success");
+      $("#helpInvitation").html("Copied!");
+    }
+    else {
+      message_color.addClass("has-error");
+      $("#helpInvitation").html("Sorry, we cannot copy the text automatically. Please, copy with Ctrl+C.");
+    }
+    $(this).focus();
   });
 });
 
 
 function getInviteToken(email){
- 
+  var message_color = $("#helpEmail").parents(".form-group");
+  message_color.removeClass("has-error");
+  message_color.removeClass("has-warning");
+  $("#token").val("");
+  $("#helpEmail").html();
   $.ajax({
     data: {"email": email},
     url: 'get_token.php', 
     type: 'post',
+    dataType: 'json',
     success: function (response) {
-      $("#token").val(response);
+      if (response.error === 0) {
+        $("#token").val(response.token_url);
+        
+        if (response.message !== '') {
+          $("#helpEmail").html(response.message);
+          message_color.addClass("has-warning");
+        }
+      }
+      else {
+        if ("user_id" in response) {
+          $("#helpEmail").html(response.message + " <a href='/admin/user_edit?id=" + response.user_id +  "'>Click here to see the profile.</a>");
+        }
+        else {
+          $("#helpEmail").html(response.message);
+        }
+        message_color.addClass("has-error");
+      }
     },
     error: function(response){
-      $("#token").val("Sorry, your request could not be processed. Please, try again later. ");
+      $("#helpEmail").html("Sorry, your request could not be processed. Please, try again later. ");
+      message_color.addClass("has-error");
     }
             
   });
   
-}
+};
+
+function clipboard(text) {
+  var result = false;
+  if (window.clipboardData && window.clipboardData.setData) {
+    // IE specific code path to prevent textarea being shown while dialog is visible.
+    result = window.clipboardData.setData("Text", text);
+  } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+    var textarea = document.createElement("textarea");
+    textarea.textContent = text;
+    textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in MS Edge.
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      var result = document.execCommand("copy");  // Security exception may be thrown by some browsers.
+    } catch (ex) {
+      result = false;
+    } finally {
+      document.body.removeChild(textarea);
+    }
+  }
+  return result;
+};

@@ -17,7 +17,7 @@ class project_dao {
     try {
       $project = new project_dto();
       
-      $query = $this->conn->prepare("SELECT * FROM PROJECTS WHERE id = ?;");
+      $query = $this->conn->prepare("select p.id, p.name, p.source_lang, p.target_lang, p.owner, p.description, p.creation_date, p.active, l1.langcode as source_langcode, l2.langcode as target_langcode, u.name as username from projects as p, users as u, langs as l1, langs as l2 where p.active and p.source_lang = l1.id and p.target_lang = l2.id and p.owner = u.id and p.id = ?");
       $query->bindParam(1, $id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -30,6 +30,12 @@ class project_dao {
         $project->creation_date = $row['creation_date'];
         $project->active = $row['active'];
         $project->owner = $row['owner'];
+        $project->source_lang_object->id = $row['source_lang'];
+        $project->target_lang_object->id = $row['target_lang'];
+        $project->source_lang_object->langcode = $row['source_langcode'];
+        $project->target_lang_object->langcode = $row['target_langcode'];
+        $project->owner_object->id = $row['owner'];
+        $project->owner_object->name = $row['username'];
       }
       $this->conn->close_conn();
       return $project;
@@ -42,13 +48,19 @@ class project_dao {
   function getProjects() {
     try {
       $projects = array();
-      $query = $this->conn->prepare("SELECT id, name FROM projects order by name");
+      $query = $this->conn->prepare("select p.id, p.name, p.source_lang, l1.langcode as source_langcode, p.target_lang, l2.langcode as target_langcode, p.owner, u.name as username from projects as p, users as u, langs as l1, langs as l2 where p.active and p.source_lang = l1.id and p.target_lang = l2.id and p.owner = u.id");
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while($row = $query->fetch()){
         $project = new project_dto();
         $project->id = $row['id'];
         $project->name = $row['name'];
+        $project->source_lang = $row['source_lang'];
+        $project->target_lang = $row['target_lang'];
+        $project->source_lang_object->id = $row['source_lang'];
+        $project->target_lang_object->id = $row['target_lang'];
+        $project->source_lang_object->langcode = $row['source_langcode'];
+        $project->target_lang_object->langcode = $row['target_langcode'];
         $projects[] = $project;
       }
       $this->conn->close_conn();
