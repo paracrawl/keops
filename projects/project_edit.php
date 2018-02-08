@@ -4,6 +4,7 @@
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/project_dao.php");
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/user_dao.php");
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/language_dao.php");
+  require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/utils/utils.php");
 
   $PAGETYPE = "admin";
   require_once(RESOURCES_PATH . "/session.php");
@@ -31,7 +32,7 @@
       <div class="page-header">
         <h1>Edit project</h1>
       </div>
-      <form class="form-horizontal" action="/project_edit.php" role="form" method="post" data-toggle="validator">
+      <form class="form-horizontal" action="/projects/project_update.php" role="form" method="post" data-toggle="validator">
         <div class="form-group">
           <label for="id" class="col-sm-1 control-label">ID</label>
           <div class="col-sm-4">
@@ -80,7 +81,7 @@
         <div class="form-group">
           <label for="creation_date" class="col-sm-1 control-label">Creation date</label>
           <div class="col-sm-4">
-            <input id="creation_date" type="text" disabled class="form-control" aria-describedby="helpName" placeholder="Creation date" maxlength="100" required="" autofocus="" value="<?= $project->creation_date ?>">
+            <input id="creation_date" type="text" disabled class="form-control" aria-describedby="helpName" placeholder="Creation date" maxlength="100" required="" autofocus="" value="<?= getFormattedDate($project->creation_date) ?>">
             <div id="helpName" class="help-block with-errors"></div>
           </div>
         </div>
@@ -91,6 +92,7 @@
             <div id="helpName" class="help-block with-errors">If you uncheck this project, it will not be available for creating new tasks. It requires confirmation.</div>
           </div>
         </div>
+        <input type="hidden" name="id" id="id" value="<?= $project->id ?>">
         <div class="form-group">
           <div class="col-sm-4 text-right">
             <a href="/admin/#projects" class="col-sm-offset-1 btn btn-danger" tabindex="6">Cancel</a>

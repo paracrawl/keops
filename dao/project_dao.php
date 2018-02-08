@@ -17,7 +17,7 @@ class project_dao {
     try {
       $project = new project_dto();
       
-      $query = $this->conn->prepare("select p.id, p.name, p.source_lang, p.target_lang, p.owner, p.description, p.creation_date, p.active, l1.langcode as source_langcode, l2.langcode as target_langcode, u.name as username from projects as p, users as u, langs as l1, langs as l2 where p.active and p.source_lang = l1.id and p.target_lang = l2.id and p.owner = u.id and p.id = ?");
+      $query = $this->conn->prepare("select p.id, p.name, p.source_lang, p.target_lang, p.owner, p.description, p.creation_date, p.active, l1.langcode as source_langcode, l2.langcode as target_langcode, u.name as username from projects as p, users as u, langs as l1, langs as l2 where p.source_lang = l1.id and p.target_lang = l2.id and p.owner = u.id and p.id = ?");
       $query->bindParam(1, $id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -89,6 +89,24 @@ class project_dao {
     return false;
   }
   
+  function updateProject($project_dto) {
+    try {
+      $query = $this->conn->prepare("UPDATE PROJECTS SET name = ?, source_lang = ?, target_lang = ?, description = ?, active =?  WHERE id = ?;");
+      $query->bindParam(1, $project_dto->name);
+      $query->bindParam(2, $project_dto->source_lang);
+      $query->bindParam(3, $project_dto->target_lang);
+      $query->bindParam(4, $project_dto->description);
+      $query->bindParam(5, $project_dto->active);
+      $query->bindParam(6, $project_dto->id);
+      $query->execute();
+      $this->conn->close_conn();
+      return true;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in project_dao::updateProject : " . $ex->getMessage());
+    }
+  }
+
   function getDatatablesProjects($request) {
     try {
       return json_encode(DatatablesProcessing::simple( $request, $this->conn,

@@ -22,4 +22,15 @@ class project_dto {
     $this->target_lang_object = new language_dto();
     $this->owner_object = new user_dto();
   }
+  
+  public function newProject($id, $name, $source_lang, $target_lang, $description, $active){
+      $instance = new self();
+      $instance->id = $id;
+      $instance->name = $name;
+      $instance->source_lang = $source_lang;
+      $instance->target_lang = $target_lang;
+      $instance->description = $description;
+      $instance->active = $active;
+      return  $instance;
+  }
 }
