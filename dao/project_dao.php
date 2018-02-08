@@ -67,7 +67,7 @@ class project_dao {
       return $projects;
     } catch (Exception $ex) {
       $this->conn->close_conn();
-      throw new Exception("Error in user_dao::getUsers : " . $ex->getMessage());
+      throw new Exception("Error in project_dao::getProjects : " . $ex->getMessage());
     }
   }
   

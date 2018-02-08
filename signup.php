@@ -1,6 +1,7 @@
 <?php
 // load up your config file
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/language_dao.php");
 
 $PAGETYPE = "public";
 require_once(RESOURCES_PATH . "/session.php");
@@ -19,6 +20,10 @@ if (isset($_GET["token"]) && $_GET["token"] != null && $_GET["token"] != "") {
 if (isset($_GET["email"]) && $_GET["email"] != null && $_GET["email"] != "") {
   $email = $_GET["email"];
 }
+
+$language_dao = new language_dao();
+$languages = $language_dao->getLanguages();
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -116,6 +121,20 @@ if (isset($_GET["email"]) && $_GET["email"] != null && $_GET["email"] != "") {
               <input class="form-control" name="token" id="token" type="text" size="30"  aria-describedby="helpToken" maxlength="50" required="" autofocus="" value="<?= $token_id ?>">
             </div>
             <div id="helpToken" class="help-block with-errors">Please enter your access token</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="langs" class="control-label col-sm-5">Languages</label>
+          <div class="col-sm-5">
+            <div class="input-group">
+              <div class="input-group-addon">required</div>
+              <select multiple class="form-control" name="langs" id="langs">
+                <?php foreach ($languages as $lang) { ?>
+                  <option value="<?= $lang->id ?>"><?= $lang->langcode . " - " . $lang->langname ?></option>
+                <?php } ?>
+              </select>
+            </div>
+            <div class="help-block">Hold the CTRL key to select several languages.</div>
           </div>
         </div>
         <div class="form-group">

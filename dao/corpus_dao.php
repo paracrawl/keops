@@ -29,7 +29,7 @@ class corpus_dao {
       return $languages;
     } catch (Exception $ex) {
       $this->conn->close_conn();
-      throw new Exception("Error in user_dao::getUsers : " . $ex->getMessage());
+      throw new Exception("Error in corpus_dao::getCorpora : " . $ex->getMessage());
     }
   }
   

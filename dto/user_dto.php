@@ -14,6 +14,9 @@ class user_dto{
   const EVALUATOR = "USER";
    
        
+  public function __construct() {
+
+    }
   public function newUser($id, $name, $email, $role, $active){
     $instance = new self();
     $instance->id = $id;
@@ -21,6 +24,7 @@ class user_dto{
     $instance->email = $email;
     $instance->role = $role;
     $instance->active = $active;  
+
     return $instance;
   }
   
