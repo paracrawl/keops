@@ -34,6 +34,68 @@ class language_dao {
     }
   }
   
+  
+  function addLanguage($language){
+    try {
+      $query = $this->conn->prepare("INSERT INTO langs (langcode, langname) VALUES (?, ?);");
+      $query->bindParam(1, $language->langcode);
+      $query->bindParam(2, $language->langname);
+
+      $query->execute();
+      //$query->setFetchMode(PDO::FETCH_ASSOC);
+      $this->conn->close_conn();
+      return true;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in language_dao::addLanguage : " . $ex->getMessage());
+    }
+  }
+  
+  function existsLangCode($langcode){
+    try {
+      $query = $this->conn->prepare("SELECT COUNT(*) as count FROM langs WHERE langcode = ?;");
+      $query->bindParam(1, $langcode);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while($row = $query->fetch()){
+        $count= $row['count'];
+      }
+      $this->conn->close_conn();
+      if ($count == 0) {
+        return false;
+      }
+      else {
+        return true;
+      }
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in language_dao::existsLangCode : " . $ex->getMessage());
+    }
+  }
+  
+  
+  function existsLangName($langname){
+    try {
+      $query = $this->conn->prepare("SELECT COUNT(*) as count FROM langs WHERE langname = ?;");
+      $query->bindParam(1, $langname);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while($row = $query->fetch()){
+        $count= $row['count'];
+      }
+      $this->conn->close_conn();
+      if ($count == 0) {
+        return false;
+      }
+      else {
+        return true;
+      }
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in language_dao::existsLangName : " . $ex->getMessage());
+    }
+  }
+  
   function getDatatablesLanguages($request) {
     try {
       return json_encode(DatatablesProcessing::simple( $request, $this->conn, "langs", "id", self::$columns ));

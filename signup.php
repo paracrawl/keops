@@ -124,11 +124,11 @@ $languages = $language_dao->getLanguages();
           </div>
         </div>
         <div class="form-group">
-          <label for="langs" class="control-label col-sm-5">Languages</label>
+          <label for="langs[]" class="control-label col-sm-5">Languages</label>
           <div class="col-sm-5">
             <div class="input-group">
               <div class="input-group-addon">required</div>
-              <select multiple class="form-control" name="langs" id="langs">
+              <select multiple class="form-control" name="langs[]" id="langs" required="">
                 <?php foreach ($languages as $lang) { ?>
                   <option value="<?= $lang->id ?>"><?= $lang->langcode . " - " . $lang->langname ?></option>
                 <?php } ?>

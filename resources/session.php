@@ -6,6 +6,11 @@ if(!isset($_SESSION)) {
 }
 
 function isSignedIn(){
+//if(isset($_SESSION["userinfo"])) {
+//  echo "<pre>";
+//  print_r($_SESSION["userinfo"]);
+//  echo "</pre>";
+//}
   return isset($_SESSION["userinfo"]);
 }
 

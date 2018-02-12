@@ -2,6 +2,7 @@
 
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/user_dao.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/user_langs_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/utils/utils.php");
 
 $PAGETYPE = "public";
@@ -31,6 +32,8 @@ if (count($failedparams) == 0){
   else {
     if (password_verify($password, $password_hash)) {
       //Valid password
+      $user_langs_dao = new user_langs_dao();
+      $userinfo->langs = $user_langs_dao->getUserLangs($userinfo->id);
       $_SESSION['userinfo'] = $userinfo;
       header("Location: /index.php");
     die();

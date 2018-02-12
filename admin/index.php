@@ -131,8 +131,9 @@
         <div id="languages" class="tab-pane fade">
           <h3>Languages</h3>
           <p>Existing languages available for projects and users</p>
-          <hr>
-          TODO: add new languages
+          <p class="text-right">
+            <a href="new_language.php" class="btn btn-primary">Add language</a>
+          </p>
           <hr>
           <table id="languages-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>

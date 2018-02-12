@@ -2,12 +2,23 @@
 
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/user_dao.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/language_dao.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/user_langs_dao.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/utils/utils.php");
+
 $PAGETYPE = "admin";
 require_once(RESOURCES_PATH . "/session.php");
 
 
 $user_dao = new user_dao();
 $user = $user_dao->getUserById(filter_input(INPUT_GET, "id"));
+
+$user_langs_dao = new user_langs_dao();
+$user_langs = $user_langs_dao->getUserLangs(filter_input(INPUT_GET, "id"));
+
+$language_dao = new language_dao();
+$languages = $language_dao->getLanguages();
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -47,6 +58,21 @@ $user = $user_dao->getUserById(filter_input(INPUT_GET, "id"));
           </div>
           <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
         </div>
+        <div class="form-group">
+        <label for="langs[]" class="control-label col-sm-1">Languages</label>
+          <div class="col-sm-4">
+            <div class="input-group">
+              <div class="input-group-addon">required</div>
+              <select multiple class="form-control" name="langs[]" id="langs" required="">
+                <?php foreach ($languages as $lang) { ?>
+                <option value="<?= $lang->id ?>" <?php if (in_array_field($lang->id, "lang_id", $user_langs)) {echo (" selected = 'true' ");} ?>><?= $lang->langcode . " - " . $lang->langname ?></option>
+                <?php } ?>
+              </select>
+            </div>
+            <div class="help-block">Hold the CTRL key to select several languages.</div>
+          </div>
+        </div>
+               
         <div class="form-group">
           <label for="role" class="control-label col-sm-1">Role</label>
           <div class="col-sm-4">

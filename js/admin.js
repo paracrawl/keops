@@ -259,7 +259,7 @@ function getInviteToken(email){
       }
       else {
         if ("user_id" in response) {
-          $("#helpEmail").html(response.message + " <a href='/admin/user_edit?id=" + response.user_id +  "'>Click here to see the profile.</a>");
+          $("#helpEmail").html(response.message + " <a href='/admin/user_edit.php?id=" + response.user_id +  "'>Click here to see the profile.</a>");
         }
         else {
           $("#helpEmail").html(response.message);
@@ -296,3 +296,22 @@ function clipboard(text) {
   }
   return result;
 };
+
+
+//function getUserLangs(user_id){
+//    $.ajax({
+//    data: {"id": user_id},
+//    url: 'get_user_langs.php', 
+//    type: 'post',
+//    dataType: 'json',
+//    success: function (response) {
+//      response.forEach(function(element){
+//        console.log(element);
+//      }); 
+//    },
+//    error: function(response){
+//
+//    }
+//            
+//  });
+//}

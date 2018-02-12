@@ -90,6 +90,7 @@ class user_dao {
         $user->email = $row['email'];
         $user->creation_date = $row['creation_date'];
         $user->role = $row['role'];
+        
         $user->active = $row['active'];
         $users[] = $user;
       }
@@ -111,6 +112,7 @@ class user_dao {
       $query->execute();
       //$query->setFetchMode(PDO::FETCH_ASSOC);
       $user_dto->id = $this->conn->lastInsertId();
+      $user_dto->active= true;
       $this->conn->close_conn();
       return true;
     } catch (Exception $ex) {

@@ -12,5 +12,15 @@ function checkPostParameters($names){
 }
 
 function getFormattedDate($date, $format="Y-m-d") {
-  return isset($date) && $date !== '' ? date( $format, strtotime($date)) : "";
+  return isset($date) && $date !== '' ? date($format, strtotime($date)) : "";
+}
+
+function in_array_field($needle, $needle_field, $haystack) {
+  foreach ($haystack as $item) {
+    if (isset($item->$needle_field) && $item->$needle_field === $needle) {
+      return true;
+    }
+  }
+
+  return false;
 }

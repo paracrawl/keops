@@ -8,6 +8,7 @@ class user_dto{
   public $role;
   public $password;
   public $active;
+  public $langs;
   
   const ADMIN = "ADMIN";
   const STAFF = "STAFF";

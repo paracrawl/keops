@@ -9,9 +9,8 @@ class language_dto {
     
   }
   
-  public function newLangDTO($id, $langcode, $langname) {
+  public function newLanguage($langcode, $langname) {
     $instance = new self();
-    $instance->id = $id;
     $instance->langcode = $langcode;
     $instance->langname = $langname;
     return $instance;
