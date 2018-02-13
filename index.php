@@ -69,18 +69,19 @@ require_once(RESOURCES_PATH . "/session.php");
         <?php } else { ?>
         <div class="page-header">
           <h3>Your tasks</h3>
-          <p>Check the status of your current tasks</p>
+          <p>Check the status of the tasks you have assigned</p>
         </div>
-        <table id="tasks-table" class="table table-striped table-bordered" data-projectid="" cellspacing="0" width="100%">
+        <table id="user-tasks-table" class="table table-striped table-bordered" data-projectid="" cellspacing="0" width="100%">
           <thead>
             <tr>
               <th>ID</th>
-              <th>Assigned user</th>
+              <th>Project</th>
+              <th title="Source language">SL</th>
+              <th title="Target language">TL</th>
               <th>Size</th>
               <th>Status</th>
               <th>Creation date</th>
-              <th>Assigned date</th>
-              <th>Completed date</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -88,12 +89,13 @@ require_once(RESOURCES_PATH . "/session.php");
           <tfoot>
             <tr>
               <th>ID</th>
-              <th>Assigned user</th>
+              <th>Project</th>
+              <th title="Source language">SL</th>
+              <th title="Target language">TL</th>
               <th>Size</th>
               <th>Status</th>
               <th>Creation date</th>
-              <th>Assigned date</th>
-              <th>Completed date</th>
+              <th>Actions</th>
             </tr>
           </tfoot>
         </table>

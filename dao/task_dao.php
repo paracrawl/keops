@@ -7,11 +7,39 @@ require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/utils/datatables_he
 
 class task_dao {
   private $conn;
-  public static $columns;
+  public static $columns_project_tasks;
+  public static $columns_user_tasks;
   
   public function __construct(){
     $this->conn = new keopsdb();
     $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  }
+  
+  function getTaskById($id) {
+    try {
+      $task = new task_dto();
+      
+      $query = $this->conn->prepare("SELECT * FROM tasks WHERE id = ?;");
+      $query->bindParam(1, $id);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while($row = $query->fetch()){
+        $task->id = $row['id'];
+        $task->project_id = $row['project_id'];
+        $task->assigned_user = $row['assigned_user'];
+        $task->corpus_id = $row['corpus_id'];
+        $task->size = $row['size'];
+        $task->status = $row['status'];
+        $task->creation_date = $row['creation_date'];
+        $task->assigned_date = $row['assigned_date'];
+        $task->completed_date = $row['completed_date'];
+      }
+      $this->conn->close_conn();
+      return $task;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in task_dao::getTaskById : " . $ex->getMessage());
+    }
   }
   
   function insertTask($task_dto) {
@@ -40,7 +68,7 @@ class task_dao {
       $this->conn->close_conn();
       return true;
     } catch (Exception $ex) {
-      throw new Exception("Error in sentence_dao::updateTaskSize : " . $ex->getMessage());
+      throw new Exception("Error in task_dao::updateTaskSize : " . $ex->getMessage());
     }
     return false;
   }
@@ -48,17 +76,30 @@ class task_dao {
   function getDatatablesTasks($request) {
     try {
       return json_encode(DatatablesProcessing::complex( $request, $this->conn,
-              "tasks as t left join projects as p on p.id=" . $request['p_id'] . " and p.id = t.project_id left join users as u on u.id = t.assigned_user",
+              "tasks as t left join projects as p on p.id = t.project_id left join users as u on u.id = t.assigned_user",
               "t.id",
-              self::$columns,
+              self::$columns_project_tasks,
               null,
               "project_id=" . $request['p_id'] ));
     } catch (Exception $ex) {
-      throw new Exception("Error in user_dao::getDatatablesTasks : " . $ex->getMessage());
+      throw new Exception("Error in task_dao::getDatatablesTasks : " . $ex->getMessage());
+    }
+  }
+  
+  function getDatatablesUserTasks($request, $user_id) {
+    try {
+      return json_encode(DatatablesProcessing::complex( $request, $this->conn,
+              "tasks as t left join projects as p on p.id = t.project_id left join users as u on u.id = t.assigned_user left join langs as l1 on l1.id = p.source_lang left join langs as l2 on l2.id = p.target_lang",
+              "t.id",
+              self::$columns_user_tasks,
+              null,
+              "t.assigned_user=" . $user_id ));
+    } catch (Exception $ex) {
+      throw new Exception("Error in task_dao::getDatatablesUserTasks : " . $ex->getMessage());
     }
   }
 }
-task_dao::$columns = array(
+task_dao::$columns_project_tasks = array(
     array( 'db' => 't.id', 'alias' => 'id', 'dt' => 0 ),
     array( 'db' => 'u.name', 'alias' => 'name', 'dt' => 1 ),
     array( 'db' => 'size', 'dt' => 2 ),
@@ -73,4 +114,13 @@ task_dao::$columns = array(
     array( 'db' => 'u.id', 'alias' => 'u_id', 'dt' => 8 )
 );
 
-  
+task_dao::$columns_user_tasks = array(
+    array( 'db' => 't.id', 'alias' => 'id', 'dt' => 0 ),
+    array( 'db' => 'p.name', 'alias' => 'name', 'dt' => 1 ),
+    array( 'db' => 'l1.langcode', 'alias' => 'source_lang', 'dt' => 2 ),
+    array( 'db' => 'l2.langcode', 'alias' => 'target_lang', 'dt' => 3 ),
+    array( 'db' => 'size', 'dt' => 4 ),
+    array( 'db' => 't.status', 'alias' => 'status', 'dt' => 5 ),
+    array( 'db' => 't.creation_date', 'alias' => 'creation_date', 'dt' => 6,
+        'formatter' => function ($d, $row) { return getFormattedDate($d); } )
+);

@@ -21,7 +21,7 @@ if (count($failedparams) == 0) {
   foreach ($_POST['langs'] as $lang ){
     array_push($langs, $lang);
   } 
-  $active = "false";  
+  $active = "false";
   
   if (isset($_POST["active"]) && $_POST["active"]=="on") {
     $active = "true";

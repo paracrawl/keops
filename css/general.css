@@ -24,6 +24,10 @@ body{
   color: #398439;
 }
 
+.text-increase {
+  font-size: 1.3em;
+}
+
 /* Dropzone */
 .dropzone-looks {
   background: #f9f9f9;
@@ -83,6 +87,15 @@ footer .container p{
 }
 .form-signin .form-control:focus {
   z-index: 2;
+}
+
+/* Evaluate */
+.evaluation .text-box {
+  margin: 5px;
+  border: 1px #dedede solid;
+  padding: 5px 10px;
+  line-height: 1.5;
+  border-radius: 3px;
 }
 
 /* Invitations */
