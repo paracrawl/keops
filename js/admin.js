@@ -97,7 +97,15 @@ $(document).ready(function() {
     processing: true,
     serverSide: true,
     ajax: "/languages/language_list.php",
-    stateSave: true
+    stateSave: true,
+    columnDefs: [{
+      targets: 3,
+      className: "actions",
+      data: function ( row, type, val, meta ) {
+        return  '<a href="/languages/language_edit.php?id=' + row[0] + '" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>';
+      }
+    }
+    ]
   });
   
   var invitations_table = $("#invitations-table").DataTable({

@@ -9,42 +9,46 @@ $PAGETYPE = "admin";
 require_once(RESOURCES_PATH . "/session.php");
 
 
-$failedparams = checkPostParameters(["langcode", "langname"]);
+$failedparams = checkPostParameters(["id","langcode", "langname"]);
 
 if (count($failedparams) == 0) {
-  
+  $id = $_POST["id"];
   $langcode = $_POST["langcode"];
   $langname = $_POST["langname"];
   
   $language_dao = new language_dao();
   
   
-  $language_dto = language_dto::newLanguage("",$langcode, $langname);
+  $language_dto = language_dto::newLanguage($id, $langcode, $langname);
 
-  if ($language_dao->existsLangCode($language_dto->langcode)) {
+  $langIdByLangCode =  $language_dao->getLangByLangCode($language_dto->langcode);
+  $langIdByLangName =  $language_dao->getLangByLangName($language_dto->langname);
+   
+  
+  if (is_numeric($langIdByLangCode->id) && $langIdByLangCode->id!=$language_dto->id ) {
     $_SESSION["error"] = "existinglangcode";
-    header("Location: /admin/new_language.php");
+    header("Location: /languages/language_edit.php?id=".$language_dto->id);
     die();
   }
-  if ($language_dao->existsLangName($language_dto->langname)) {
+  if (is_numeric($langIdByLangName->id) && $langIdByLangName->id!=$language_dto->id ) {
     $_SESSION["error"] = "existinglangname";
-    header("Location: /admin/new_language.php");
+    header("Location: /languages/language_edit.php?id=".$language_dto->id);
     die();
   }
- if ($language_dao->addLanguage($language_dto)) {
+ if ($language_dao->updateLanguage($language_dto)) {
     header("Location: /admin/#languages");
       die();      
  }
  else {
       $_SESSION["error"] = "unknownerror";
-    header("Location: /admin/new_language.php");
+    header("Location: /languages/language_edit.php?id=".$language_dto->id);
       die();
   }
 }
 
 else {
   $_SESSION["error"] = "missingparams";
-    header("Location: /admin/new_language.php");
+    header("Location: /languages/language_edit.php?id=".$language_dto->id);
       die();
 }
 

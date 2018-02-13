@@ -51,6 +51,26 @@ class language_dao {
     }
   }
   
+  function getLanguageById($lang_id){
+    try {
+      $language= new language_dto();
+      $query = $this->conn->prepare("SELECT id, langcode, langname FROM langs WHERE id = ?;");
+      $query->bindParam(1, $lang_id);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while($row = $query->fetch()){        
+        $language->id = $row['id'];
+        $language->langcode = $row['langcode'];
+        $language->langname = $row['langname'];        
+      }
+      $this->conn->close_conn();
+      return $language;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in language_dao::getLanguageById : " . $ex->getMessage());
+    } 
+  }
+  
   function existsLangCode($langcode){
     try {
       $query = $this->conn->prepare("SELECT COUNT(*) as count FROM langs WHERE langcode = ?;");
@@ -70,6 +90,33 @@ class language_dao {
     } catch (Exception $ex) {
       $this->conn->close_conn();
       throw new Exception("Error in language_dao::existsLangCode : " . $ex->getMessage());
+    }
+  }
+  
+  function getLangByLangCode($langcode){
+    try {
+      $query = $this->conn->prepare("SELECT * FROM langs WHERE langcode = ?;");
+      $query->bindParam(1, $langcode);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while($row = $query->fetch()){
+        $id= $row['id'];
+        $lc= $row['langcode'];
+        $ln= $row['langname'];  
+      }
+      $this->conn->close_conn();
+      if (isset($id)) {
+      $lang = language_dto::newLanguage($id, $lc, $ln);
+      }
+      else {
+        $lang = new language_dto;
+      }
+      
+      return $lang;
+      
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in language_dao::getLangByLangCode : " . $ex->getMessage());
     }
   }
   
@@ -96,11 +143,53 @@ class language_dao {
     }
   }
   
+    function getLangByLangName($langname){
+    try {
+      $query = $this->conn->prepare("SELECT * FROM langs WHERE langname = ?;");
+      $query->bindParam(1, $langname);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while($row = $query->fetch()){
+        $id= $row['id'];
+        $lc= $row['langcode'];
+        $ln= $row['langname'];  
+      }
+      $this->conn->close_conn();
+      if (isset($id)) {
+      $lang = language_dto::newLanguage($id, $lc, $ln);
+      }
+      else {
+        $lang = new language_dto;
+      }
+      
+      return $lang;
+      
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in language_dao::getLangByLangName : " . $ex->getMessage());
+    }
+  }
+  
+  function updateLanguage($language){
+    try {
+      $query = $this->conn->prepare("UPDATE langs SET langcode=?, langname =? WHERE id = ?;");
+      $query->bindParam(1, $language->langcode);
+      $query->bindParam(2, $language->langname);
+      $query->bindParam(3, $language->id);   
+      $query->execute();
+      $this->conn->close_conn();
+      return true;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in language_dao::updateLanguage : " . $ex->getMessage());
+    }
+  }
+  
   function getDatatablesLanguages($request) {
     try {
       return json_encode(DatatablesProcessing::simple( $request, $this->conn, "langs", "id", self::$columns ));
     } catch (Exception $ex) {
-      throw new Exception("Error in user_dao::getDatatablesLanguages : " . $ex->getMessage());
+      throw new Exception("Error in language_dao::getDatatablesLanguages : " . $ex->getMessage());
     }
   }
 }

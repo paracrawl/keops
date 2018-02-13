@@ -141,6 +141,7 @@
                 <th>ID</th>
                 <th>Code</th>
                 <th>Language name</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -150,6 +151,7 @@
                 <th>ID</th>
                 <th>Code</th>
                 <th>Language name</th>
+                <th>Actions</th>
               </tr>
             </tfoot>
           </table>
