@@ -6,6 +6,8 @@ require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/sentence_dao.php
 $PAGETYPE = "admin";
 require_once(RESOURCES_PATH . "/session.php");
 
+class CorpusException extends Exception{ }
+
 try {
   if (!empty($_FILES)) {
       $tempFile = $_FILES['file']['tmp_name'];
@@ -19,12 +21,12 @@ try {
       $corpus_dto->target_lang = filter_input(INPUT_POST, "target_lang");
 
       $corpus_dao = new corpus_dao();
-      $corpus_dao->insertCorpus($corpus_dto);
+
       $handle = @fopen($tempFile, "r"); //read line one by one
       $values = array();
 
       $sentence_dao = new sentence_dao();
-
+      $first_batch = true;
       while (!feof($handle)) // Loop 'til end of file.
       {
           $buffer = fgets($handle); // Read a line.
@@ -39,6 +41,10 @@ try {
 
           // Save 1000 rows at the same time at most
           if (count($values) == 1000) {
+            if ($first_batch){
+              $first_batch = false;
+              $corpus_dao->insertCorpus($corpus_dto);
+            }
             $result = $sentence_dao->insertBatchSentences($corpus_dto->id, $values);
             if ($result) {
               $values = array();
@@ -46,15 +52,29 @@ try {
           }
       }
       if (count($values) > 0) {
-        $result = $sentence_dao->insertBatchSentences($corpus_dto->id, $values);
+        if ($first_batch) {
+          $first_batch = false;
+          $corpus_dao->insertCorpus($corpus_dto);
+        }
+      $result = $sentence_dao->insertBatchSentences($corpus_dto->id, $values);
       }
-      $corpus_dao->updateLinesInCorpus($corpus_dto->id);
+      if ($first_batch==false) {
+        $corpus_dao->updateLinesInCorpus($corpus_dto->id);
+      }
+      else {
+        throw new CorpusException("Invalid format of corpus uploaded.");
+      }
 
       fclose($handle);
       //header("HTTP/1.1 400 Bad Request");
       //echo "Ups error message";
   }
-} catch (Exception $ex) {
+} 
+catch (CorpusException $ex){
+  error_log($ex->getMessage());
+  header("HTTP/1.1 500 Server error");
+  echo "Oops! The corpus you tried to upload is invalid.";  
+}catch (Exception $ex) {
   error_log($ex->getMessage());
   header("HTTP/1.1 500 Server error");
   echo "Oops! An error ocurred on server side, please contact with administrators.";

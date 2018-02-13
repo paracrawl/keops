@@ -73,4 +73,25 @@ class user_langs_dao {
       throw new Exception("Error in user_langs_dao::getUserLangs : " . $ex->getMessage());
     }
   }
+  
+  public function getUserIdsByLangPair($lang1, $lang2){   
+
+    try {
+      $user_ids = array();
+      $query = $this->conn->prepare("select  ul1.user_id from  user_langs ul1 inner join user_langs ul2 on ul1.user_id = ul2.user_id where ul1.lang_id=? and ul2.lang_id=?;");
+      $query->bindParam(1, $lang1);
+      $query->bindParam(2, $lang2);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while($row = $query->fetch()){
+        $user_id = $row['user_id'];
+        array_push($user_ids, $user_id);
+      }
+      $this->conn->close_conn();
+      return $user_ids;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in user_langs_dao::getUserIdsByLangPair : " . $ex->getMessage());
+    }
+  }
 }
