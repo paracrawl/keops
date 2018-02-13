@@ -61,6 +61,37 @@ class user_dao {
       throw new Exception("Error in user_dao::getUserById : " . $ex->getMessage());
     }
   }
+  
+    function getUsersByIds($ids) {
+
+    try {
+      $users = array();
+      $inQuery = implode(',', array_fill(0, count($ids), '?'));
+      
+      $query = $this->conn->prepare("SELECT * FROM USERS WHERE id IN(". $inQuery. ") AND active=true;");
+      foreach($ids as $key => $id){
+        $query->bindValue(($key+1), $id);
+      }
+      
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while ($row = $query->fetch()) {
+        $user = new user_dto();
+        $user->id = $row['id'];
+        $user->name = $row['name'];
+        $user->email = $row['email'];
+        $user->creation_date = $row['creation_date'];
+        $user->role = $row['role'];
+        $user->active = $row['active'];
+        array_push($users, $user);
+      }
+      $this->conn->close_conn();
+      return $users;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in user_dao::getUserByIds : " . $ex->getMessage());
+    }
+  }
 
   function getUserPassword($email){
     try {

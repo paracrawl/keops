@@ -16,10 +16,11 @@ class task_dao {
   
   function insertTask($task_dto) {
     try {
-      $query = $this->conn->prepare("INSERT INTO tasks (project_id, assigned_user, corpus_id) VALUES (?, ?, ?);");
+      $query = $this->conn->prepare("INSERT INTO tasks (project_id, assigned_user, corpus_id, assigned_date) VALUES (?, ?, ?, ?);");
       $query->bindParam(1, $task_dto->project_id);
       $query->bindParam(2, $task_dto->assigned_user);
-      $query->bindParam(3, $task_dto->corpus_id);
+      $query->bindParam(3, $task_dto->corpus_id);      
+      $query->bindParam(4, $task_dto->assigned_date);
       $query->execute();
       $task_dto->id = $this->conn->lastInsertId();
       $this->conn->close_conn();

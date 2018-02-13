@@ -4,8 +4,9 @@
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/project_dao.php");
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/user_dao.php");
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/corpus_dao.php");
-
-  $PAGETYPE = "admin";
+  require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/user_langs_dao.php");
+ 
+ $PAGETYPE = "admin";
   require_once(RESOURCES_PATH . "/session.php");
   
   $project_id = filter_input(INPUT_GET, "p_id");
@@ -34,9 +35,16 @@
       </div>
       <form class="form-horizontal" action="/tasks/task_save.php" role="form" method="post" data-toggle="validator">
         <input type="hidden" name="project" value="<?= $project->id ?>">
-        <?php
-        $user_dao = new user_dao();
-        $users = $user_dao->getUsers();
+        <?php   
+        $user_langs_dao = new user_langs_dao();
+        $user_ids= $user_langs_dao->getUserIdsByLangPair($project->source_lang, $project->target_lang);
+        if (!empty($user_ids)) {
+          $user_dao = new user_dao();
+          $users = $user_dao->getUsersByIds($user_ids);
+        }
+        else {
+          $users = array();
+        }
         ?>
         <div class="form-group">
           <label for="assigned_user" class="control-label col-sm-1">Evaluator</label>

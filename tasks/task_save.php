@@ -18,6 +18,8 @@ if (count($failedparams) == 0){
   $task_dto->project_id = filter_input(INPUT_POST, "project", FILTER_SANITIZE_STRING);
   $task_dto->assigned_user = filter_input(INPUT_POST, "assigned_user", FILTER_SANITIZE_STRING);
   $task_dto->corpus_id = filter_input(INPUT_POST, "corpus", FILTER_SANITIZE_STRING);
+  $datetime= date('Y-m-d H:i:s');
+  $task_dto->assigned_date = $datetime;
 
   $result = false;
   $task_dao = new task_dao();
