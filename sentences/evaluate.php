@@ -4,6 +4,7 @@ require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.ph
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/sentence_task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/project_dao.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dto/sentence_task_dto.php");
 
 $PAGETYPE = "admin";
 require_once(RESOURCES_PATH . "/session.php");
@@ -18,12 +19,12 @@ if (isset($task_id)) {
     
     $sentence_task_dao = new sentence_task_dao();
     if (isset($sentence_id)) {
-      $sentence = $sentence_task_dao->getSentenceByTask($task_id);
+      $sentence = $sentence_task_dao->getSentenceByIdAndTask($sentence_id, $task_id);
     }
     else {
       $sentence = $sentence_task_dao->getNextPendingSentenceByTask($task_id);
     }
-    
+    //TODO if the user reached the end of the task -> they should have an option to mark the task as DONE
     if($sentence->task_id == null) { // Check that sentence exists in db
       // ERROR: Sentence doesn't exist
       // Message: We couldn't find this task for you
@@ -56,9 +57,11 @@ if (isset($task_id)) {
   <body>
     <div class="container evaluation">
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
-      <div class="page-header">
-        <h3>Evaluation of task #<?= $task->id ?> - <?= $project->name ?></h3>
-      </div>
+      <ul class="breadcrumb">
+        <li><a href="/index.php">Tasks</a></li>
+        <li><a href="/evaluate.php?task_id=<?= $task->id ?>">Evaluation of <?= $project->name ?></a></li>
+        <li class="active">Task #<?= $task->id ?></li>
+      </ul>
       <div class="col-md-6">
         <div class="text-center text-increase"><?= $project->source_lang_object->langname ?></div>
       </div>
@@ -71,23 +74,87 @@ if (isset($task_id)) {
       <div class="col-md-6">
         <div class="text-box text-increase"><?= $sentence->target_text ?></div>
       </div>
-      <div class="col-md-12 text-center">
-        <h4 class="">Annotation</h4>
-        <p>Select a reason</p>
-        <form class="form-horizontal" action="/tasks/task_save.php" role="form" method="post" data-toggle="validator">
+      <div class="col-md-12">
+        <h4 class="text-center">Annotation</h4>
+        <p class="text-center">Select one of the following labels to tag these parallel sentences</p>
+        <form class="form-horizontal" action="/sentences/sentence_save.php" role="form" method="post" data-toggle="validator">
+          <input type="hidden" name="task_id" value="<?= $task->id ?>">
+          <input type="hidden" name="sentence_id" value="<?= $sentence->id ?>">
           <div class="form-group">
-            <div class="col-md-12 text-center">
-              <a href="/admin/#projects" class="btn btn-danger" tabindex="6">Cancel</a>
-              <button type="submit" class="btn btn-success" tabindex="5">Save</button>
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-6">
+            <?php foreach (sentence_task_dto::$labels as $label) { ?>
+              <div class="radio" title="<?= $label['title'] ?>">
+                <label><input required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" name="evaluation" value="<?= $label['value'] ?>"><?= $label['label'] ?> [<?= $label['value'] ?>]</label>
+              </div>
+            <?php } ?>
+            </div>
+            <div class="col-md-3">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-6">
+              <label for="comments" class="col-sm-1 control-label">Comment</label>
+            </div>
+            <div class="col-md-3">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-6">
+              <textarea name="comments" id="comments" class="form-control" aria-describedby="helpComment" placeholder="Write about something you want to remark for these parallel sentences" maxlength="1000" tabindex="4"><?= $sentence->comments ?></textarea>
+            </div>
+            <div class="col-md-3">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-3 text-center">
+            </div>
+            <div class="col-md-6 text-center">
+              <button type="submit" class="btn btn-primary" tabindex="5">Save</button>
+            </div>
+            <div class="col-md-3 text-center">
             </div>
           </div>
         </form>
       </div>
       <div class="col-md-12">
-        <div class="text-center text-increase"><?= $task_progress->current ?> / <?= $task_progress->total ?></div>
+        <div class="text-center text-increase">
+          <ul class="pagination pagination-sm">
+            <?php // TODO We are assuming that sentence ids are consecutive
+            if ($task_progress->current > 1) { ?>
+            <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>&id=<?= $sentence->id-1 ?>">Prev</a></li>
+            <?php } else { ?>
+            <li class="disabled"><a href="#">Prev</a></li>
+            <?php } ?>
+            <li class="active"><a href="#"><?= $task_progress->current ?> / <?= $task_progress->total ?></a></li>
+            <?php // TODO We are assuming that sentence ids are consecutive
+            if ($task_progress->current < $task_progress->total) { ?>
+            <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>&id=<?= $sentence->id+1 ?>">Next</a></li>
+            <?php } else { ?>
+            <li class="disabled"><a href="#">Next</a></li>
+            <?php } ?>
+          </ul>
+        </div>
       </div>
-      4. To ensure consistency from one validator to another, the following system has been adopted for
-grading translations. Validators should use the following types/labels to tag problematic cases:
+      <div class="col-md-3">
+      </div>
+      <div class="col-md-6">
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" aria-valuenow="<?= ($task_progress->current / $task_progress->total)*100 ?>"
+          aria-valuemin="0" aria-valuemax="100" style="width:<?= ($task_progress->current / $task_progress->total)*100 ?>%">
+            <?= ($task_progress->current / $task_progress->total)*100 ?>%
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+      </div>
+      <p style="display:none">4. To ensure consistency from one validator to another, the following system has been adopted for
+      grading translations. Validators should use the following types/labels to tag problematic cases:
 Label Shortcut
 Wrong language identification L
 Incorrect alignment A
@@ -130,7 +197,7 @@ discarded). Then major translation errors must be noted. If none of the errors d
 are detected and the translation contains minor differences in formulation it must be noted as
 free translation.
 6. It is essential that the given translation receives the benefit of the doubt. Only clear errors should be
-indicated.
+indicated.</p>
     </div>
     <?php
     require_once(TEMPLATES_PATH . "/footer.php");

@@ -96,6 +96,7 @@ footer .container p{
   padding: 5px 10px;
   line-height: 1.5;
   border-radius: 3px;
+  min-height: 100px;
 }
 
 /* Invitations */

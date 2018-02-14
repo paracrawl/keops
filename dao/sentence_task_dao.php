@@ -14,12 +14,13 @@ class sentence_task_dao {
     $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   }
   
-  function getSentenceByTask($sentence_id) {
+  function getSentenceByIdAndTask($sentence_id, $task_id) {
     try {
       $sentence_task_dto = new sentence_task_dto();
-      
-      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date, st.comments from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.id = ?;");
+      // TODO We are assuming that sentence ids are consecutive
+      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date, st.comments from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.id = ? and st.task_id = ? limit 1;");
       $query->bindParam(1, $sentence_id);
+      $query->bindParam(2, $task_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while($row = $query->fetch()){
@@ -37,7 +38,7 @@ class sentence_task_dao {
       return $sentence_task_dto;
     } catch (Exception $ex) {
       $this->conn->close_conn();
-      throw new Exception("Error in sentence_task_dao::getSentenceByTask : " . $ex->getMessage());
+      throw new Exception("Error in sentence_task_dao::getSentenceById : " . $ex->getMessage());
     }
   }
   
@@ -82,10 +83,26 @@ class sentence_task_dao {
     return false;
   }
   
+  function updateSentence($sentence_task_dto) {
+    try {
+      $query = $this->conn->prepare("UPDATE sentences_tasks SET evaluation = ?, comments = ?, completed_date = ? WHERE id = ?;");
+      $query->bindParam(1, $sentence_task_dto->evaluation);
+      $query->bindParam(2, $sentence_task_dto->comments);
+      $query->bindParam(3, $sentence_task_dto->completed_date);
+      $query->bindParam(4, $sentence_task_dto->id);
+      $query->execute();
+      $this->conn->close_conn();
+      return true;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in project_dao::updateProject : " . $ex->getMessage());
+    }
+    return false;
+  }
+  
   function getTaskCurrentProgress($sentence_id, $task_id) {
     try {
       $task_progress_dto = new task_progress_dto();
-      error_log($sentence_id);
       $query = $this->conn->prepare("select count(case when id <= ? then 1 end) as current, count(*) as total from sentences_tasks where task_id = ?;");
       $query->bindParam(1, $sentence_id);
       $query->bindParam(2, $task_id);
