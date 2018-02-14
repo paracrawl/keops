@@ -3,6 +3,7 @@
 require_once(DB_CONNECTION);
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/sentence_task_dto.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/task_progress_dto.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/task_stats_dto.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/utils/datatables_helper.class.php' );
 
 class sentence_task_dao {
@@ -100,7 +101,7 @@ class sentence_task_dao {
     return false;
   }
   
-  function getTaskCurrentProgress($sentence_id, $task_id) {
+  function getCurrentProgressByIdAndTask($sentence_id, $task_id) {
     try {
       $task_progress_dto = new task_progress_dto();
       $query = $this->conn->prepare("select count(case when id <= ? then 1 end) as current, count(*) as total from sentences_tasks where task_id = ?;");
@@ -114,6 +115,38 @@ class sentence_task_dao {
       }
       $this->conn->close_conn();
       return $task_progress_dto;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in sentence_task_dao::getNextPendingSentenceByTask : " . $ex->getMessage());
+    }
+  }
+  
+  function getStatsByTask($task_id) {
+    try {
+      $task_stats_dto = new task_stats_dto();
+      $query = $this->conn->prepare("select count(*) as total,
+count(case when evaluation = 'L'::label then 1 end) as L,
+count(case when evaluation = 'A'::label then 1 end) as A,
+count(case when evaluation = 'T'::label then 1 end) as T,
+count(case when evaluation = 'MT'::label then 1 end) as MT,
+count(case when evaluation = 'E'::label then 1 end) as E,
+count(case when evaluation = 'F'::label then 1 end) as F,
+count(case when evaluation = 'P'::label then 1 end) as P,
+count(case when evaluation = 'V'::label then 1 end) as V
+from sentences_tasks where task_id = ?;");
+      $query->bindParam(1, $task_id);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while($row = $query->fetch()){
+        foreach (sentence_task_dto::$labels as $label) {
+          error_log($row);
+          $aux = array('aaa' => $row['L']);
+          //$task_stats_dto->array_type[ $label['value'] ] = $row[$label['value']];
+        }
+        $task_stats_dto->total = $row['total'];
+      }
+      $this->conn->close_conn();
+      return $task_stats_dto;
     } catch (Exception $ex) {
       $this->conn->close_conn();
       throw new Exception("Error in sentence_task_dao::getNextPendingSentenceByTask : " . $ex->getMessage());
