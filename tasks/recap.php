@@ -53,7 +53,7 @@ else {
         <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>">Evaluation of <?= $project->name ?></a></li>
         <li class="active">Recap Task #<?= $task->id ?></li>
       </ul>
-      <div class="col-md-12">
+      <!--<div class="col-md-12">
         <div class="table-responsive">
           <table class="table table-striped table-bordered table-hover table-condensed">
             <thead>
@@ -74,6 +74,69 @@ else {
             </tbody>
           </table>
         </div>
+      </div>-->
+      <div class="col-md-4">
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered table-hover table-condensed">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th># of sentences</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Total</td>
+                <td><?= $task_stats_dto->total ?></td>
+              </tr>
+              <?php
+              $labels_chart_js = array();
+              $data_chart_js = array();
+              foreach (sentence_task_dto::$labels as $label) {
+                $labels_chart_js[] = '"' . $label['value'] . '"';
+                $data_chart_js[] = $task_stats_dto->array_type[$label['value']];
+                ?>
+              <tr>
+                <td><?= $label['label'] ?> [<?= $label['value'] ?>]</td>
+                <td><?= $task_stats_dto->array_type[$label['value']] ?></td>
+              </tr>
+              <?php } ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <canvas id="pie-chart" width="800" height="350"></canvas>
+        <script type="text/javascript">
+          var labels_pie_chart = [<?= implode(",", $labels_chart_js) ?>];
+          var data_pie_chart = [<?= implode(",", $data_chart_js) ?>];
+        </script>
+      </div>
+      <div class="col-md-12">
+      <?php if ($task_stats_dto->array_type["P"] == 0) { ?>
+        <div class="panel panel-success">
+          <div class="panel-heading">
+            <h3 class="panel-title">Congrats! You've arrived to the end of the evaluation task</h3>
+          </div>
+          <div class="panel-body">
+            <p>If you are sure that you finished the task and you don't have more doubts, please mark the task as DONE using the following button.</p>
+            <p class="text-center"><a href="" class="btn btn-lg btn-success">Mark as DONE</a></p>
+            <p>If you mark the task as DONE, you will not have access to the task afterwards and the administrator will receive a notice.</p>
+            <p>Thank you!</p>
+          </div>
+        </div>
+      <?php }
+      else { ?>
+        <div class="panel panel-warning">
+          <div class="panel-heading">
+            <h3 class="panel-title">Oops! You didn't finish the task</h3>
+          </div>
+          <div class="panel-body">
+            <p>It seems that there are sentences that are not evaluated yet. Please come back when you finish and you will be able to mark the task as DONE.</p>
+            <p>Thank you!</p>
+          </div>
+        </div>
+      <?php } ?>
       </div>
     </div>
     <?php

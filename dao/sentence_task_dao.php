@@ -139,9 +139,7 @@ from sentences_tasks where task_id = ?;");
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while($row = $query->fetch()){
         foreach (sentence_task_dto::$labels as $label) {
-          error_log($row);
-          $aux = array('aaa' => $row['L']);
-          //$task_stats_dto->array_type[ $label['value'] ] = $row[$label['value']];
+          $task_stats_dto->array_type[ $label['value'] ] = $row[strtolower($label['value'])];
         }
         $task_stats_dto->total = $row['total'];
       }
