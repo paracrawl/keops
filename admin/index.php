@@ -27,9 +27,7 @@
         <li><a data-toggle="tab" href="#corpora">Corpora</a></li>
       </ul>
       <div class="tab-content">
-                         <?php
-          if (isset($_SESSION["error"])) {
-            ?>
+        <?php if (isset($_SESSION["error"])) { ?>
             <div class="panel panel-danger">
               <div class="panel-heading">
                 <h3 class="panel-title"><strong>Oops!</strong></h3>
@@ -51,9 +49,7 @@
                 </p>
               </div>
             </div>
-            <?php
-          }
-          ?>
+        <?php } ?>
         <div id="dashboard" class="tab-pane fade in active">
           <h3>Dashboard</h3>
           <p>Number of users / projects / languages / tasks / tasks in progress / ...</p>
@@ -171,7 +167,7 @@
                 <th>Date Used</th>
                 <th>Token</th>
                 <th>Admin</th>
-                <th>Revoke</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -184,7 +180,7 @@
                 <th>Date Used</th>
                 <th>Token</th>
                 <th>Admin</th>
-                <th>Revoke</th>
+                <th>Actions</th>
               </tr>
             </tfoot>
           </table>

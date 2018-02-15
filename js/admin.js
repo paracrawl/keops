@@ -109,14 +109,14 @@ $(document).ready(function() {
   });
   
   var invitations_table = $("#invitations-table").DataTable({
-      columnDefs: [
-//         { "searchable": false, "targets": 0 },
-//         { "searchable": false, "targets": 2 },
-//         { "searchable": false, "targets": 3 },
-//         { "searchable": false, "targets": 5 },
-         {
+      columnDefs: [{
+        targets: 5,
+        data: function (row, type, val, meta) {
+          return '<a href="/admin/user_edit.php?id=' + row[6] + '">' + row[5] + '</a>';
+        }
+      },
+      {
         targets: 6,
-        //"searchable": false,
         className: "text-center",
         data: function (row, type, val, meta) {
           if (row[3] == "") {

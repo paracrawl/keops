@@ -28,6 +28,12 @@ body{
   font-size: 1.3em;
 }
 
+.vcenter {
+   display: inline-block;
+   vertical-align: middle;
+   float: none;
+}
+
 /* Dropzone */
 .dropzone-looks {
   background: #f9f9f9;
@@ -98,25 +104,36 @@ footer .container p{
   border-radius: 3px;
   min-height: 100px;
   overflow-wrap: break-word;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.18), 0 4px 15px 0 rgba(0,0,0,.15);
 }
 
 .evaluation .p1 {
   color: grey;
 }
 
-.evaluation .glyphicon-question-sign {
+.evaluation .guidelines {
   cursor: pointer;
+  color: grey;
 }
 
 .evaluation .form-horizontal {
+  margin-top: 10px;
   background-color: #f5f5f5;
   border-radius: 4px;
   padding: 15px;
-  
+  box-shadow: 0 5px 11px 0 rgba(0,0,0,.18), 0 4px 15px 0 rgba(0,0,0,.15);
 }
 
 .evaluation .form-horizontal textarea {
   resize: none;
+}
+
+.evaluation .go-to-page {
+  display: inline-block;
+  margin: 20px 0;
+  width: 50%;
+  height: 30px;
+  font-size: 12px;
 }
 
 /* Invitations */

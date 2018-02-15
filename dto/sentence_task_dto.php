@@ -20,6 +20,6 @@ sentence_task_dto::$labels = array(
     array( 'value' => 'MT', 'label' => 'MT translation', 'title' => '' ),
     array( 'value' => 'E', 'label' => 'Translation error', 'title' => '' ),
     array( 'value' => 'F', 'label' => 'Free translation', 'title' => '' ),
-    array( 'value' => 'V', 'label' => 'Valid', 'title' => 'No issues found on parallel sentences' ),
+    array( 'value' => 'V', 'label' => 'Valid translation', 'title' => 'No issues found on parallel sentences' ),
     array( 'value' => 'P', 'label' => 'Pending', 'title' => 'Don\'t take the decision now' )
 );

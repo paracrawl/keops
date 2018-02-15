@@ -18,7 +18,11 @@ if (isset($task_id)) {
   if ($task->id == $task_id && $task->status != "DONE" && $task->assigned_user == $USER->id) {
     
     $sentence_task_dao = new sentence_task_dao();
-    if (isset($sentence_id)) {
+    $paginate = filter_input(INPUT_GET, "p");
+    if (isset($paginate) && $paginate == "1") {
+      $sentence = $sentence_task_dao->gotoSentenceByTask($sentence_id, $task_id);
+    }
+    else if (isset($sentence_id)) {
       $sentence = $sentence_task_dao->getSentenceByIdAndTask($sentence_id, $task_id);
     }
     else {
@@ -68,33 +72,46 @@ else {
         <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>">Evaluation of <?= $project->name ?></a></li>
         <li class="active">Task #<?= $task->id ?></li>
       </ul>
-      <div class="col-md-6">
-        <div class="text-center text-increase"><?= $project->source_lang_object->langname ?></div>
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-1 vcenter">
+            <div class="text-increase"><?= $project->source_lang_object->langname ?></div>
+          </div><div class="col-md-11 vcenter">
+            <div class="text-box text-increase"><?= $sentence->source_text ?></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-1 vcenter">
+            <div class="text-increase"><?= $project->target_lang_object->langname ?></div>
+          </div><div class="col-md-11 vcenter">
+            <div class="text-box text-increase"><?= $sentence->target_text ?></div>
+          </div>
+        </div>
       </div>
-      <div class="col-md-6">
-        <div class="text-center text-increase"><?= $project->target_lang_object->langname ?></div>
-      </div>
-      <div class="col-md-6">
-        <div class="text-box text-increase"><?= $sentence->source_text ?></div>
-      </div>
-      <div class="col-md-6">
-        <div class="text-box text-increase"><?= $sentence->target_text ?></div>
-      </div>
-      <div class="col-md-2"></div>
-      <div class="col-md-8">
-        <h4 class="text-center">Annotation</h4>
-        <p class="p1 text-center">Select one of the following labels to tag these parallel sentences - <span data-toggle="modal" data-target="#evaluation-help" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></p>
-      </div>
-      <div class="col-md-2"></div>
       <div class="col-md-12">
         <form class="form-horizontal" action="/sentences/sentence_save.php" role="form" method="post" data-toggle="validator">
           <input type="hidden" name="task_id" value="<?= $task->id ?>">
           <input type="hidden" name="sentence_id" value="<?= $sentence->id ?>">
+          <div class="col-md-2"></div>
+          <div class="col-md-8">
+            <h4 class="text-center">Annotation</h4>
+            <p class="p1 text-center">Select one of the following labels to tag these parallel sentences</p>
+          </div>
+          <div data-toggle="modal" data-target="#evaluation-help" class="col-md-2 guidelines">
+            Validation guidelines <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+          </div>
           <div class="form-group">
             <div class="col-md-3">
             </div>
-            <div class="col-md-6">
-            <?php foreach (sentence_task_dto::$labels as $label) { ?>
+            <div class="col-md-3">
+            <?php foreach (array_slice(sentence_task_dto::$labels, 0, count(sentence_task_dto::$labels) - 2) as $label) { ?>
+              <div class="radio" title="<?= $label['title'] ?>">
+                <label><input required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" name="evaluation" value="<?= $label['value'] ?>"><?= $label['label'] ?> [<?= $label['value'] ?>]</label>
+              </div>
+            <?php } ?>
+            </div>
+            <div class="col-md-3">
+            <?php foreach (array_slice(sentence_task_dto::$labels, -2) as $label) { ?>
               <div class="radio" title="<?= $label['title'] ?>">
                 <label><input required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" name="evaluation" value="<?= $label['value'] ?>"><?= $label['label'] ?> [<?= $label['value'] ?>]</label>
               </div>
@@ -133,22 +150,34 @@ else {
         </form>
       </div>
       <div class="col-md-12">
-        <div class="text-center text-increase">
-          <ul class="pagination pagination-sm">
-            <?php // TODO We are assuming that sentence ids are consecutive
-            if ($task_progress->current > 1) { ?>
-            <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>&id=<?= $sentence->id-1 ?>">Prev</a></li>
-            <?php } else { ?>
-            <li class="disabled"><a href="#">Prev</a></li>
-            <?php } ?>
-            <li class="active"><a href="#"><?= $task_progress->current ?> / <?= $task_progress->total ?></a></li>
-            <?php // TODO We are assuming that sentence ids are consecutive
-            if ($task_progress->current < $task_progress->total) { ?>
-            <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>&id=<?= $sentence->id+1 ?>">Next</a></li>
-            <?php } else { ?>
-            <li class="disabled"><a href="#">Next</a></li>
-            <?php } ?>
-          </ul>
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+          <div class="text-center text-increase">
+            <ul class="pagination pagination-sm">
+              <?php // TODO We are assuming that sentence ids are consecutive
+              if ($task_progress->current > 1) { ?>
+              <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>&id=<?= $sentence->id-1 ?>">Prev</a></li>
+              <?php } else { ?>
+              <li class="disabled"><a href="#">Prev</a></li>
+              <?php } ?>
+              <li class="active"><a href="#"><?= $task_progress->current ?> / <?= $task_progress->total ?></a></li>
+              <?php // TODO We are assuming that sentence ids are consecutive
+              if ($task_progress->current < $task_progress->total) { ?>
+              <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>&id=<?= $sentence->id+1 ?>">Next</a></li>
+              <?php } else { ?>
+              <li class="disabled"><a href="#">Next</a></li>
+              <?php } ?>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <form method="get" action="/sentences/evaluate.php">
+            <input type="hidden" name="p" value="1">
+            <input type="hidden" name="task_id" value="<?= $task->id ?>">
+            <input class="form-control go-to-page" name="id" type="number" min="1" max="<?= $task_progress->total ?>" value="<?= $task_progress->current ?>">
+            <button type="submit" class="btn btn-xs btn-link">Go!</button>
+          </form>
         </div>
       </div>
       <div class="col-md-3">
@@ -174,6 +203,7 @@ else {
               <h4 class="modal-title">How to annotate</h4>
             </div>
             <div class="modal-body">
+              <h3>Taking the right decision</h3>
               <p><b>Only one type of error should be attributed to each TU.</b> The hierarchy presented below should be followed in the identification of errors:</p>
               <ul>
                 <li>The <b>wrong language identification</b> is the most important error to tag, followed by <b>incorrect
@@ -188,9 +218,12 @@ else {
                   <b>free translation</b>.
                 </li>
               </ul>
+              <p>It is essential that the given <b>translation receives the benefit of the doubt</b>. Only clear errors should be indicated.</p>
+              <p>
+                In case you don't want to take a decision at the moment, you can go to next sentence and the current one will be kept as <b>pending</b>.
+                Otherwise, you can mark the parallel sentence as <b>valid translation</b>.
               </p>
-              <p>It is essential that the given <b>translation receives the benefit of the doubt</b>. Only clear errors should be indicated.
-              </p>
+              <h3>Type explanation</h3>
               <p>Validators should use the following types/labels to tag problematic cases:</p>
               <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover table-condensed">
