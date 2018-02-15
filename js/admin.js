@@ -173,6 +173,21 @@ $(document).ready(function() {
         }
       }
     }],*/
+    columnDefs:[
+      {
+      targets: 3,
+      data: function(row, type, val, meta){
+        if (row[2]==null  || row[3] == "DONE") return row[3];
+        var completed = (parseInt(row[9])/parseInt(row[2])) * 100;
+        
+        return '<div class="progress">' +
+          '<div class="progress-bar" role="progressbar" aria-valuenow="' + completed +'"' +
+          'aria-valuemin="0" aria-valuemax="100" style="width:' + completed +'%"></div>' +
+          '<span>'+row[7] +' of '+ row[4]+'</span></div>' +
+          '</div>';
+      }
+    }
+    ],
     order: [[ 4, 'desc' ]],
     processing: true,
     serverSide: true,

@@ -28,6 +28,7 @@ class corpus_dao {
         $corpus->target_lang = $row['target_lang'];
         $corpora[] = $corpus;
       }
+      $this->conn->close_conn();
       return $corpora;
     } catch (Exception $ex) {
       $this->conn->close_conn();
@@ -62,6 +63,7 @@ class corpus_dao {
         $corpus->target_lang = $row['target_lang'];
         $corpora[] = $corpus;
       }
+      $this->conn->close_conn();
       return $corpora;
     } catch (Exception $ex) {
       $this->conn->close_conn();
@@ -92,6 +94,7 @@ class corpus_dao {
       return true;
     } catch (Exception $ex) {
       $corpus_dto->id = -1;
+      $this->conn->close_conn();   
       throw new Exception("Error in corpus_dao::insertCorpus : " . $ex->getMessage());
     }
     return false;
@@ -106,6 +109,7 @@ class corpus_dao {
       $this->conn->close_conn();
       return true;
     } catch (Exception $ex) {
+      $this->conn->close_conn();
       throw new Exception("Error in corpus_dao::updateLinesInCorpus : " . $ex->getMessage());
     }
     return false;

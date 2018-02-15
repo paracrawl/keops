@@ -124,3 +124,18 @@ footer .container p{
   cursor: pointer;
 }
 
+table .progress{
+  position: relative;
+  margin-bottom: 0px;
+}
+
+table .progress span {
+    position: absolute;
+    display: block;
+    width: 100%;
+    color: black;
+}
+
+.disabled{
+    color: lightgrey;
+}

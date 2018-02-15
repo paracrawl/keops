@@ -27,6 +27,7 @@ class user_langs_dao {
       $this->conn->close_conn();
       return true;
     } catch (Exception $ex) {
+      $this->conn->close_conn();
       throw new Exception("Error in user_langs_dao::addLanguages : " . $ex->getMessage());
     }
     return false;

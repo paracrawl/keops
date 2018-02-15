@@ -30,6 +30,9 @@ if (count($failedparams) == 0){
 
     $sentence_task_dao = new sentence_task_dao();
     if ($sentence_task_dao->updateSentence($sentence_task_dto)) {
+      if ($task->status == "PENDING"){
+        $task_dao->startTask($task_id);                
+      }
       header("Location: /sentences/evaluate.php?task_id=" . $sentence_task_dto->task_id . "&id=" . ($sentence_task_dto->id+1));
       die();
     }

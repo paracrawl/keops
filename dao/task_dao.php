@@ -69,7 +69,37 @@ class task_dao {
       $this->conn->close_conn();
       return true;
     } catch (Exception $ex) {
+      $this->conn->close_conn();
       throw new Exception("Error in task_dao::updateTaskSize : " . $ex->getMessage());
+    }
+    return false;
+  }
+  
+  function closeTask($task_dto){
+    try {
+      $query = $this->conn->prepare("UPDATE TASKS set status='DONE', completed_date = ? where id = ?;");
+      $query->bindParam(1, $task_dto->completed_date);
+      $query->bindParam(2, $task_dto->id);
+      $query->execute();
+      $this->conn->close_conn();
+      return true;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in task_dao::closeTask : " . $ex->getMessage());
+    }
+    return false;
+  }
+  
+  function startTask($task_id){
+    try {
+      $query = $this->conn->prepare("UPDATE TASKS set status='STARTED' where id = ?;");
+      $query->bindParam(1, $task_id);
+      $query->execute();
+      $this->conn->close_conn();
+      return true;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in task_dao::startTask : " . $ex->getMessage());
     }
     return false;
   }
@@ -77,11 +107,13 @@ class task_dao {
   function getDatatablesTasks($request) {
     try {
       return json_encode(DatatablesProcessing::complex( $request, $this->conn,
-              "tasks as t left join projects as p on p.id = t.project_id left join users as u on u.id = t.assigned_user",
+              "tasks as t left join projects as p on p.id = t.project_id left join users as u on u.id = t.assigned_user "
+              . "left join sentences_tasks as st on t.id = st.task_id",
               "t.id",
               self::$columns_project_tasks,
               null,
-              "project_id=" . $request['p_id'] ));
+              "project_id=" . $request['p_id'],
+              ["t.id", "u.name", "p.id", "u.id"]));
     } catch (Exception $ex) {
       throw new Exception("Error in task_dao::getDatatablesTasks : " . $ex->getMessage());
     }
@@ -90,11 +122,17 @@ class task_dao {
   function getDatatablesUserTasks($request, $user_id) {
     try {
       return json_encode(DatatablesProcessing::complex( $request, $this->conn,
-              "tasks as t left join projects as p on p.id = t.project_id left join users as u on u.id = t.assigned_user left join langs as l1 on l1.id = p.source_lang left join langs as l2 on l2.id = p.target_lang",
+              "tasks as t "
+              . "left join projects as p on p.id = t.project_id "
+              . "left join users as u on u.id = t.assigned_user "
+              . "left join langs as l1 on l1.id = p.source_lang "
+              . "left join langs as l2 on l2.id = p.target_lang "
+              . "left join sentences_tasks as st on t.id = st.task_id",
               "t.id",
               self::$columns_user_tasks,
               null,
-              "t.assigned_user=" . $user_id ));
+              "t.assigned_user=" . $user_id ,
+              ["t.id", "p.name", "l1.langcode", "l2.langcode"]));
     } catch (Exception $ex) {
       throw new Exception("Error in task_dao::getDatatablesUserTasks : " . $ex->getMessage());
     }
@@ -112,7 +150,8 @@ task_dao::$columns_project_tasks = array(
     array( 'db' => 't.completed_date', 'alias' => 'completed_date', 'dt' => 6,
         'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
     array( 'db' => 'p.id', 'alias' => 'p_id', 'dt' => 7 ),
-    array( 'db' => 'u.id', 'alias' => 'u_id', 'dt' => 8 )
+    array( 'db' => 'u.id', 'alias' => 'u_id', 'dt' => 8),
+    array( 'db' => "count(case when st.evaluation!='P' then 1 end)", 'alias' => 'completedsentences', 'dt' => 9)
 );
 
 task_dao::$columns_user_tasks = array(
@@ -123,5 +162,6 @@ task_dao::$columns_user_tasks = array(
     array( 'db' => 'size', 'dt' => 4 ),
     array( 'db' => 't.status', 'alias' => 'status', 'dt' => 5 ),
     array( 'db' => 't.creation_date', 'alias' => 'creation_date', 'dt' => 6,
-        'formatter' => function ($d, $row) { return getFormattedDate($d); } )
+        'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
+    array( 'db' => "count(case when st.evaluation!='P' then 1 end)", 'alias' => 'sentencescompleted', 'dt' => 7)
 );

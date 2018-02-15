@@ -296,22 +296,24 @@ class DatatablesProcessing {
 	 *  @param  string $whereAll WHERE condition to apply to all queries
 	 *  @return array          Server-side processing response array
 	 */
-	static function complex ( $request, $conn, $table, $primaryKey, $columns, $whereResult=null, $whereAll=null )
+	static function complex ( $request, $conn, $table, $primaryKey, $columns, $whereResult=null, $whereAll=null, $groupBy=null )
 	{
 		$bindings = array();
 		$db = self::db( $conn );
 		$localWhereResult = array();
 		$localWhereAll = array();
 		$whereAllSql = '';
+   
 
 		// Build the SQL query string from the request
 		$limit = self::limit( $request, $columns );
 		$order = self::order( $request, $columns );
 		$where = self::filter( $request, $columns, $bindings );
-
+    
 		$whereResult = self::_flatten( $whereResult );
 		$whereAll = self::_flatten( $whereAll );
-
+    $groupBy = self::_flatten( $groupBy, ", " );
+    
 		if ( $whereResult ) {
 			$where = $where ?
 				$where .' AND '.$whereResult :
@@ -325,23 +327,29 @@ class DatatablesProcessing {
 
 			$whereAllSql = 'WHERE '.$whereAll;
 		}
+    
+		if ( $groupBy ) {
 
+			$groupBySql = 'GROUP BY '.$groupBy;
+		}
+
+    
 		// Main query to actually get the data
 		$data = self::sql_exec( $db, $bindings,
 			"SELECT ".implode(", ", self::pluck_select($columns, 'db', 'alias'))."
-			 FROM $table $where	$order $limit"
+			 FROM $table $where $groupBySql	$order $limit"
 		);
-
-		// Data set length after filtering
+    
+// Data set length after filtering
 		$resFilterLength = self::sql_exec( $db, $bindings,
-			"SELECT COUNT({$primaryKey})
+      "SELECT COUNT(DISTINCT {$primaryKey}) 
 			 FROM   $table $where"
 		);
 		$recordsFiltered = $resFilterLength[0][0];
-
-		// Total data set length
+    
+  // Total data set length
 		$resTotalLength = self::sql_exec( $db,
-			"SELECT COUNT({$primaryKey})
+			"SELECT COUNT(DISTINCT {$primaryKey})
 			 FROM   $table ".
 			$whereAllSql
 		);
