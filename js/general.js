@@ -1,9 +1,21 @@
 $(document).ready(function() {
-  
+
+//$.fn.dataTable.enum( [ 'STARTED', 'PENDING', 'DONE' ] );
+$.fn.dataTable.ext.type.order['customenum-pre'] = function ( d ) {
+  alert("HOLI");
+    switch ( d ) {
+        case 'DONE':    return 1;
+        case 'PENDING': return 2;
+        case 'STARTED':   return 3;
+    }
+    return 0;
+};
+
   var user_tasks_table = $("#user-tasks-table").DataTable({
     columnDefs: [{
-      targets: 7,
+        targets: 7,
         className: "actions",
+        sortable: false,
         searchable: false,
         data: function (row, type, val, meta) {
           if (row[5] == "DONE") {
@@ -16,19 +28,23 @@ $(document).ready(function() {
           }
         }
       },
-    {
-      targets: 5,
-      data: function(row, type, val, meta){
-        if (row[4]==null || row[5] == "DONE") return row[5];
-        var completed = (parseInt(row[7])/parseInt(row[4])) * 100;
-        
-        return '<div class="progress">' +
-          '<div class="progress-bar" role="progressbar" aria-valuenow="' + completed +'"' +
-          'aria-valuemin="0" aria-valuemax="100" style="width:' + completed +'%">'+
-          '<span>'+row[7] +' of '+ row[4]+'</span></div>' +
-          '</div>';
-      }
-    }],
+      {
+        targets: 5,
+        type: 'customenum',
+        data: function (row, type, val, meta) {
+          if (row[4] == null || row[5] == "PENDING")
+            return row[5];
+          if (row[4] == null || row[5] == "DONE")
+            return row[5];
+          var completed = (parseInt(row[7]) / parseInt(row[4])) * 100;
+
+          return '<div class="progress">' +
+                  '<div class="progress-bar" role="progressbar" aria-valuenow="' + completed + '"' +
+                  'aria-valuemin="0" aria-valuemax="100" style="width:' + completed + '%">' +
+                  '<span>' + row[7] + ' of ' + row[4] + '</span></div>' +
+                  '</div>';
+        }
+      }],
     order: [[ 6, 'desc' ]],
     processing: true,
     serverSide: true,

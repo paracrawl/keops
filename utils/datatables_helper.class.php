@@ -133,8 +133,9 @@ class DatatablesProcessing {
 					$orderBy[] = ''.$column['db'].' '.$dir;
 				}
 			}
-
-			$order = 'ORDER BY '.implode(', ', $orderBy);
+      if  (!empty($orderBy)){
+        $order = 'ORDER BY '.implode(', ', $orderBy);
+      }
 		}
 
 		return $order;
@@ -237,8 +238,8 @@ class DatatablesProcessing {
 		// Build the SQL query string from the request
 		$limit = self::limit( $request, $columns );
 		$order = self::order( $request, $columns );
-		$where = self::filter( $request, $columns, $bindings );
-
+    $where = self::filter( $request, $columns, $bindings );
+    
 		// Main query to actually get the data
 		$data = self::sql_exec( $db, $bindings,
 			"SELECT ".implode(", ", self::pluck_select($columns, 'db', 'alias'))."

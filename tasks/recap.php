@@ -113,30 +113,50 @@ else {
         </script>
       </div>
       <div class="col-md-12">
-      <?php if ($task_stats_dto->array_type["P"] == 0) { ?>
-        <div class="panel panel-success">
-          <div class="panel-heading">
-            <h3 class="panel-title">Congrats! You've arrived to the end of the evaluation task</h3>
+        <?php
+        if ($task->status == "DONE") {
+          ?>
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title">Finished task</h3>
+            </div>
+            <div class="panel-body">
+              <p>This task has been marked as <b>DONE</b> and cannot be modified.</p>
+              <p>Thank you!</p>
+            </div>
           </div>
-          <div class="panel-body">
-            <p>If you are sure that you finished the task and you don't have more doubts, please mark the task as DONE using the following button.</p>
-            <p class="text-center"><a href="/tasks/task_close.php?task_id=<?= $task_id ?>" class="btn btn-lg btn-success">Mark as DONE</a></p>
-            <p>If you mark the task as DONE, you will not have access to the task afterwards and the administrator will receive a notice.</p>
-            <p>Thank you!</p>
-          </div>
-        </div>
-      <?php }
-      else { ?>
-        <div class="panel panel-warning">
-          <div class="panel-heading">
-            <h3 class="panel-title">Oops! You didn't finish the task</h3>
-          </div>
-          <div class="panel-body">
-            <p>It seems that there are sentences that are not evaluated yet. Please come back when you finish and you will be able to mark the task as DONE.</p>
-            <p>Thank you!</p>
-          </div>
-        </div>
-      <?php } ?>
+          <?php
+        }
+      else {
+        if ($task_stats_dto->array_type["P"] == 0) {
+          ?>
+            <div class="panel panel-success">
+              <div class="panel-heading">
+                <h3 class="panel-title">Congrats! You've arrived to the end of the evaluation task</h3>
+              </div>
+              <div class="panel-body">
+                <p>If you are sure that you finished the task and you don't have more doubts, please mark the task as DONE using the following button.</p>
+                <p class="text-center"><a href="/tasks/task_close.php?task_id=<?= $task_id ?>" class="btn btn-lg btn-success">Mark as DONE</a></p>
+                <p>If you mark the task as DONE, you will not have access to the task afterwards and the administrator will receive a notice.</p>
+                <p>Thank you!</p>
+              </div>
+            </div>
+        <?php } else {
+          ?>
+            <div class="panel panel-warning">
+              <div class="panel-heading">
+                <h3 class="panel-title">Oops! You didn't finish the task</h3>
+              </div>
+              <div class="panel-body">
+                <p>It seems that there are sentences that are not evaluated yet. Please come back when you finish and you will be able to mark the task as DONE.</p>
+                <p>Thank you!</p>
+                <p class="text-center"><a href="/sentences/evaluate.php?task_id=<?= $task_id ?>" class="btn btn-lg btn-warning">Continue task</a></p>
+               
+              </div>
+            </div>
+        <?php }
+      }
+      ?>
       </div>
     </div>
     <?php

@@ -78,6 +78,8 @@ $(document).ready(function() {
     {
       targets: 8,
       className: "actions",
+      sortable: false,
+      orderable:false,
       data: function ( row, type, val, meta ) {
         return '<a href="/projects/project_manage.php?id=' + row[0] + '" title="Manage project\'s tasks"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span></a>' +
                 '<a href="/projects/project_edit.php?id=' + row[0] + '" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>' +
@@ -101,10 +103,12 @@ $(document).ready(function() {
     columnDefs: [{
       targets: 3,
       className: "actions",
-      data: function ( row, type, val, meta ) {
-        return  '<a href="/languages/language_edit.php?id=' + row[0] + '" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>';
+        data: function (row, type, val, meta) {
+          return  '<a href="/languages/language_edit.php?id=' + row[0] + '" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>';
+        },
+        sortable: false,
+      orderable:false
       }
-    }
     ]
   });
   
@@ -118,6 +122,8 @@ $(document).ready(function() {
       {
         targets: 6,
         className: "text-center",
+        sortable: false,
+        orderable: false,
         data: function (row, type, val, meta) {
           if (row[3] == "") {
             return '<a href="/admin/revoke_invite.php?id=' + row[0] + '"><span class="glyphicon glyphicon-remove red" aria-hidden="true"></span></a>';
@@ -178,12 +184,13 @@ $(document).ready(function() {
       targets: 3,
       data: function(row, type, val, meta){
         if (row[2]==null  || row[3] == "DONE") return row[3];
+        if (row[2]==null  || row[3] == "PENDING") return row[3];
         var completed = (parseInt(row[9])/parseInt(row[2])) * 100;
         
         return '<div class="progress">' +
           '<div class="progress-bar" role="progressbar" aria-valuenow="' + completed +'"' +
           'aria-valuemin="0" aria-valuemax="100" style="width:' + completed +'%"></div>' +
-          '<span>'+row[7] +' of '+ row[4]+'</span></div>' +
+          '<span>'+row[9] +' of '+ row[2]+'</span></div>' +
           '</div>';
       }
     }
