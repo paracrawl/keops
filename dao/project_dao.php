@@ -18,7 +18,7 @@ class project_dao {
     try {
       $project = new project_dto();
       
-      $query = $this->conn->prepare("select p.id, p.name, p.source_lang, p.target_lang, p.owner, p.description, p.creation_date, p.active, l1.langcode as source_langcode, l2.langcode as target_langcode, l1.langname as source_langname, l2.langname as target_langname, u.name as username from projects as p, users as u, langs as l1, langs as l2 where p.source_lang = l1.id and p.target_lang = l2.id and p.owner = u.id and p.id = ?");
+      $query = $this->conn->prepare("select p.id, p.name, p.source_lang, p.target_lang, p.owner, p.description, p.creation_date, p.active, l1.langcode as source_langcode, l2.langcode as target_langcode, l1.langname as source_langname, l2.langname as target_langname, u.name as username, u.email as email from projects as p, users as u, langs as l1, langs as l2 where p.source_lang = l1.id and p.target_lang = l2.id and p.owner = u.id and p.id = ?");
       $query->bindParam(1, $id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -39,6 +39,7 @@ class project_dao {
         $project->target_lang_object->langname = $row['target_langname'];
         $project->owner_object->id = $row['owner'];
         $project->owner_object->name = $row['username'];
+        $project->owner_object->email = $row['email'];
       }
       $this->conn->close_conn();
       return $project;

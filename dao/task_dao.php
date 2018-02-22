@@ -127,12 +127,13 @@ class task_dao {
               . "left join users as u on u.id = t.assigned_user "
               . "left join langs as l1 on l1.id = p.source_lang "
               . "left join langs as l2 on l2.id = p.target_lang "
+              . "left join users as us on us.id = p.owner "
               . "left join sentences_tasks as st on t.id = st.task_id",
               "t.id",
               self::$columns_user_tasks,
               null,
               "t.assigned_user=" . $user_id ,
-              ["t.id", "p.name", "l1.langcode", "l2.langcode"]));
+              ["t.id", "p.name", "l1.langcode", "l2.langcode", "us.email"]));
     } catch (Exception $ex) {
       throw new Exception("Error in task_dao::getDatatablesUserTasks : " . $ex->getMessage());
     }
@@ -163,5 +164,6 @@ task_dao::$columns_user_tasks = array(
     array( 'db' => 't.status', 'alias' => 'status', 'dt' => 5 ),
     array( 'db' => 't.creation_date', 'alias' => 'creation_date', 'dt' => 6,
         'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
-    array( 'db' => "count(case when st.evaluation!='P' then 1 end)", 'alias' => 'sentencescompleted', 'dt' => 7)
+    array( 'db' => "count(case when st.evaluation!='P' then 1 end)", 'alias' => 'sentencescompleted', 'dt' => 7),
+    array( 'db' => 'us.email', 'alias' => 'email', 'dt' => 8 )
 );

@@ -141,12 +141,12 @@ $(document).ready(function() {
   });
   
    corpora_table = $("#corpora-table").DataTable({
-    columnDefs: [ /*{
+    columnDefs: [ {
       targets: 1,
       data: function( row, type, val, meta ) {
-        return '<a href="/projects/project_edit.php?id=' + row[0] + '">' + row[1] + '</a>';
+        return '<a href="/corpora/corpus_edit.php?id=' + row[0] + '">' + row[1] + '</a>';
       }
-    },*/
+    },
     {
       targets: 6,
       className: "text-center",

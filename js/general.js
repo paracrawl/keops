@@ -1,15 +1,15 @@
 $(document).ready(function() {
 
 //$.fn.dataTable.enum( [ 'STARTED', 'PENDING', 'DONE' ] );
-$.fn.dataTable.ext.type.order['customenum-pre'] = function ( d ) {
-  alert("HOLI");
-    switch ( d ) {
-        case 'DONE':    return 1;
-        case 'PENDING': return 2;
-        case 'STARTED':   return 3;
-    }
-    return 0;
-};
+//$.fn.dataTable.ext.type.order['customenum-pre'] = function ( d ) {
+//  alert("HOLI");
+//    switch ( d ) {
+//        case 'DONE':    return 1;
+//        case 'PENDING': return 2;
+//        case 'STARTED':   return 3;
+//    }
+//    return 0;
+//};
 
   var user_tasks_table = $("#user-tasks-table").DataTable({
     columnDefs: [{
@@ -18,19 +18,20 @@ $.fn.dataTable.ext.type.order['customenum-pre'] = function ( d ) {
         sortable: false,
         searchable: false,
         data: function (row, type, val, meta) {
+          var actions_str = "";
           if (row[5] == "DONE") {
-            return '<span class="glyphicon glyphicon-play-circle disabled" aria-hidden="true"  title="This task is finished"></span>' +
-                    '<a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>';
+            actions_str += '<span class="glyphicon glyphicon-play-circle disabled" aria-hidden="true"  title="This task is finished"></span>';
           } else {
-            return '<a href="/sentences/evaluate.php?task_id=' + row[0] + '" title="Start / continue the task"><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span></a>' +
-                    '<a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>';
-
+            actions_str += '<a href="/sentences/evaluate.php?task_id=' + row[0] + '" title="Start / continue the task"><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span></a>';
           }
+          actions_str += '<a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>';
+          actions_str += '<a href="mailto:' + row[8] + '" title="Contact project administrator"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>';
+          return actions_str;
         }
       },
       {
         targets: 5,
-        type: 'customenum',
+//        type: 'customenum',
         data: function (row, type, val, meta) {
           if (row[4] == null || row[5] == "PENDING")
             return row[5];

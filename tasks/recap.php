@@ -52,6 +52,8 @@ else {
         <li><a href="/index.php">Tasks</a></li>
         <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>">Evaluation of <?= $project->name ?></a></li>
         <li class="active">Recap Task #<?= $task->id ?></li>
+                <a style="float: right"  href="mailto:<?= $project->owner_object->email  ?>"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
+
       </ul>
       <!--<div class="col-md-12">
         <div class="table-responsive">

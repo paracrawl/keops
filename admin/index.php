@@ -39,6 +39,7 @@
                     case "missingparams":
                     case "userediterror":
                     case "pojectediterror":
+                    case "corpusediterror":
                     case "error":
                     default:
                       echo "Sorry, your request could not be processed. Please, try again later.";                     

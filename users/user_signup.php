@@ -57,6 +57,7 @@ if (count($failedparams) == 0) {
           $user_dto->langs = $user_langs;
           if ($invite_dao->markAsUsed($invite_dto)){
             $_SESSION["userinfo"] = $user_dto;
+
           }
           else {
             $_SESSION["error"]="error";

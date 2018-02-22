@@ -36,6 +36,32 @@ class corpus_dao {
     }
   }
   
+  
+  function getCorpusById($id){
+      try {
+      $corpus = new corpus_dto();
+      
+      $query = $this->conn->prepare("select * from corpora where id=?;");
+      $query->bindParam(1, $id);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while($row = $query->fetch()){
+        $corpus->id = $row["id"];
+        $corpus->name = $row["name"];
+        $corpus->source_lang = $row["source_lang"];
+        $corpus->target_lang = $row["target_lang"];
+        $corpus->lines = $row["lines"];
+        $corpus->creation_date = $row["creation_date"];
+        $corpus->active = $row["active"];
+      }
+      $this->conn->close_conn();
+      return $corpus;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in corpus_dao::getCorpusById : " . $ex->getMessage());
+    }
+  }
+  
   /** 
    * 
    * @param array $filters Expected map with keys (name of rows) and values to filter.
@@ -113,6 +139,23 @@ class corpus_dao {
       throw new Exception("Error in corpus_dao::updateLinesInCorpus : " . $ex->getMessage());
     }
     return false;
+  }
+  
+  function updateCorpus($corpus_dto){
+     try {
+      $query = $this->conn->prepare("UPDATE CORPORA SET name = ?, source_lang = ?, target_lang = ?, active =?  WHERE id = ?;");
+      $query->bindParam(1, $corpus_dto->name);
+      $query->bindParam(2, $corpus_dto->source_lang);
+      $query->bindParam(3, $corpus_dto->target_lang);
+      $query->bindParam(4, $corpus_dto->active);
+      $query->bindParam(5, $corpus_dto->id);
+      $query->execute();
+      $this->conn->close_conn();
+      return true;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in corpus_dao::updateCorpus : " . $ex->getMessage());
+    }
   }
 }
 corpus_dao::$columns = array(
