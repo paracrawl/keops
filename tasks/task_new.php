@@ -10,7 +10,7 @@
   require_once(RESOURCES_PATH . "/session.php");
   
   $project_id = filter_input(INPUT_GET, "p_id");
-  if (!isset($project_id)) {
+  if (!isset($project_id) || $project_id==null) {
     header("Location: /admin/#projects");
     die();
   }
@@ -69,12 +69,12 @@
         <div class="form-group">
           <label for="corpus" class="control-label col-sm-1">Corpus</label>
           <div class="col-sm-4">
-            <select class="form-control" name="corpus" id="corpus" tabindex="2">
+            <select class="form-control" required=""  name="corpus" id="corpus" tabindex="2">
               <?php foreach ($corpora as $corpus) { ?>
                 <option value="<?= $corpus->id ?>"><?= $corpus->name ?></option>
               <?php } ?>
             </select>
-            <div id="helpCorpus" class="help-block with-errors">
+            <div id="helpCorpus" required=""  class="help-block with-errors">
               <?php if (count($corpora) == 0) { ?>
               No corpora available for language pair <?= $project->source_lang_object->langcode . "-" . $project->target_lang_object->langcode ?>. Please <a href="/admin/index.php#corpora">click here</a> upload a corpus first.
               <?php } ?>
@@ -83,7 +83,7 @@
         </div>
         <div class="form-group">
           <div class="col-sm-4 text-right">
-            <a href="/admin/#projects" class="col-sm-offset-1 btn btn-danger" tabindex="6">Cancel</a>
+            <a href="/projects/project_manage.php?id=<?php echo $project->id; ?>" class="col-sm-offset-1 btn btn-danger" tabindex="6">Cancel</a>
             <button type="submit" class="col-sm-offset-1 btn btn-success" tabindex="5">Save</button>
           </div>
         </div>

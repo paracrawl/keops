@@ -157,3 +157,7 @@ table .progress span {
 .disabled{
     color: lightgrey;
 }
+
+.card .glyphicon{
+     font-size: 60px;
+}

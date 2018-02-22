@@ -34,9 +34,11 @@ if (count($failedparams) == 0){
   }
   else {
     // TODO Better to have an array with error => 0 and message => "..."
-    $_SESSION['error'] = ERROR_CREATE_TASK;
-    $_SESSION['project'] = $project_dto;
-    header("Location: " . filter_input(INPUT_SERVER, 'HTTP_REFERER'));
+//    $_SESSION['error'] = ERROR_CREATE_TASK;
+//    $_SESSION['project'] = $project_dto;
+//    header("Location: " . filter_input(INPUT_SERVER, 'HTTP_REFERER'));
+      $_SESSION["error"] = "errorcreatingtask";
+      header("Location: /projects/project_manage.php?id=" . $task_dto->project_id);
   }
 }
 else {

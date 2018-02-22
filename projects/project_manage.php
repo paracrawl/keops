@@ -30,6 +30,30 @@
       <div class="page-header">
         <h1><?= $project->name ?></h1>
       </div>
+                <?php
+        if (isset($_SESSION["error"])) {
+        ?>
+        <div class="panel panel-danger">
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong>Oops!</strong></h3>
+          </div>
+          <div class="panel-body">
+            <p>
+            <?php
+              switch ($_SESSION["error"]) {         
+                case "errorcreatingtask":
+                default:
+                  echo "Sorry, your request could not be processed. Please, try again later.";
+                  break;
+              }
+              $_SESSION["error"] = null;
+            ?>
+            </p>
+          </div>
+        </div>
+        <?php
+        }
+        ?>
       <div class="row">
         <div class="col-md-3">
           <p><strong>Language pair:</strong> <?= $project->source_lang_object->langcode ?>-<?= $project->target_lang_object->langcode ?></p>

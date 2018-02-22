@@ -4,7 +4,9 @@
 
   $PAGETYPE = "public";
   require_once(RESOURCES_PATH . "/session.php");
-?><!DOCTYPE html>
+?>
+
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8">

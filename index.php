@@ -16,7 +16,74 @@ require_once(RESOURCES_PATH . "/session.php");
   </head>
   <body>
     <div class="container">
-      <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
+      <?php require_once(TEMPLATES_PATH . "/header.php"); 
+      if  (!isSignedIn()) { ?>
+        <header class="masthead     text-white text-center">
+          <div class="container">
+              <img class="img-fluid mb-5 d-block mx-auto" src="pyramids-icon.png" alt="">
+            <h1 class=" mb-0">Welcome to KEOPS</h1>
+            <hr class="star-light">
+            <h2 class="font-weight-light mb-0">Keen Evaluation of Parallel Sentences</h2>
+          </div>
+        </header>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card text-center  ">
+<!--            <img class="card-img-top" src="http://placehold.it/500x325" alt="">-->
+            <span class="glyphicon glyphicon-upload"></span>
+            <div class="card-body">
+              <h4 class="card-title">Card title</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+            </div>
+<!--            <div class="card-footer">
+              <a href="#" class="btn btn-primary">Find Out More!</a>
+            </div>-->
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card text-center  ">
+<!--            <img class="card-img-top" src="http://placehold.it/500x325" alt="">-->
+              <span class="glyphicon glyphicon-user"></span>
+            <div class="card-body">
+              <h4 class="card-title">Card title</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo magni sapiente, tempore debitis beatae culpa natus architecto.</p>
+            </div>
+<!--            <div class="card-footer">
+              <a href="#" class="btn btn-primary">Find Out More!</a>
+            </div>-->
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card text-center  ">
+<!--            <img class="card-img-top" src="http://placehold.it/500x325" alt="">-->
+            <span class="glyphicon glyphicon-pencil"></span>
+            <div class="card-body">
+              <h4 class="card-title">Card title</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+            </div>
+<!--            <div class="card-footer">
+              <a href="#" class="btn btn-primary">Find Out More!</a>
+            </div>-->
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card text-center  ">
+<!--            <img class="card-img-top" src="http://placehold.it/500x325" alt="">-->
+            <span class="glyphicon glyphicon-ok"></span>
+            <div class="card-body">
+              <h4 class="card-title">Card title</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+            </div>
+<!--            <div class="card-footer">
+              <a href="#" class="btn btn-primary">Find Out More!</a>
+            </div>-->
+          </div>
+        </div>
+            
+        <?php
+      }else{
+            ?>
       <div id="header">
         <h1>Welcome to KEOPS</h1>
       </div>
@@ -102,13 +169,17 @@ require_once(RESOURCES_PATH . "/session.php");
           <?php
         }
       }
-      ?>
+        }
+      
+          ?>
+
+
     </div>
-    <?php
-    require_once(TEMPLATES_PATH . "/footer.php");
-    ?>
-    <?php
-    require_once(TEMPLATES_PATH . "/resources.php");
+<?php
+require_once(TEMPLATES_PATH . "/footer.php");
+?>
+<?php
+require_once(TEMPLATES_PATH . "/resources.php");
     ?>
   </body>
 </html>
