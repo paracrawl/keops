@@ -114,9 +114,13 @@ class project_dao {
   function getDatatablesProjects($request) {
     try {
       return json_encode(DatatablesProcessing::simple( $request, $this->conn,
-              "projects as p left join langs as l1 on p.source_lang = l1.id left join langs as l2 on p.target_lang = l2.id left join users as u on p.owner = u.id",
+              "projects as p left join langs as l1 on p.source_lang = l1.id "
+              . "left join langs as l2 on p.target_lang = l2.id "
+              . "left join users as u on p.owner = u.id "
+              . "left join tasks as t on t.project_id = p.id ",
               "p.id",
-              self::$columns ));
+              self::$columns,
+              array("p.id", "l1.langcode", "l1.langname", "l2.langcode", "l2.langname", "u.name",  "u.id")));
     } catch (Exception $ex) {
       throw new Exception("Error in project_dao::getDatatablesProjects : " . $ex->getMessage());
     }
@@ -134,5 +138,7 @@ project_dao::$columns = array(
     array( 'db' => 'p.active', 'alias' => 'active', 'dt' => 7 ),
     array( 'db' => 'l1.langname', 'alias' => 'nsource_lang', 'dt' => 8 ),
     array( 'db' => 'l2.langname', 'alias' => 'ntarget_lang', 'dt' => 9 ),
-    array( 'db' => 'u.id', 'alias' => 'user_id', 'dt' => 10 )
+    array( 'db' => 'u.id', 'alias' => 'user_id', 'dt' => 10 ),
+    array( 'db' => 'count(case when t.project_id > 0 then 1 end)', 'alias' => 'taskcount', 'dt' => 11 ),
+    array( 'db' => "count(case when t.status = 'DONE' then 1 end)", 'alias' => 'taskdone', 'dt' => 12)            
 );

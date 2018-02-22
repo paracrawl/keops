@@ -64,7 +64,31 @@ $(document).ready(function() {
       }
     },
     {
-      targets: 7,
+      targets:5,
+       data: function ( row, type, val, meta ) {
+        var completed = (parseInt(row[12])/parseInt(row[11])) * 100;
+        
+        return '<div title="'+row[12]+' of '+row[11]+' tasks completed"'+'class="progress">' +
+          '<div class="progress-bar" role="progressbar" aria-valuenow="' + completed +'"' +
+          'aria-valuemin="0" aria-valuemax="100" style="width:' + completed +'%">' +
+          '<span>'+row[12] +' of '+ row[11]+'</span></div>' +
+          '</div>';
+       }  
+    },
+    {
+      targets:6,
+       data: function ( row, type, val, meta ) {
+         return row[5];
+       }
+    },
+    {
+      targets:7,
+       data: function ( row, type, val, meta ) {
+         return row [6];
+       }
+    },
+   {
+      targets: 8,
       className: "text-center",
       data: function ( row, type, val, meta ) {
         if (row[7]){
@@ -76,7 +100,7 @@ $(document).ready(function() {
       }
     },
     {
-      targets: 8,
+      targets: 9,
       className: "actions",
       sortable: false,
       orderable:false,
@@ -187,9 +211,9 @@ $(document).ready(function() {
         if (row[2]==null  || row[3] == "PENDING") return row[3];
         var completed = (parseInt(row[9])/parseInt(row[2])) * 100;
         
-        return '<div class="progress">' +
-          '<div class="progress-bar" role="progressbar" aria-valuenow="' + completed +'"' +
-          'aria-valuemin="0" aria-valuemax="100" style="width:' + completed +'%"></div>' +
+        return '<div title="'+row[9]+' of '+row[2]+' sentences evaluated" class="progress">' +
+          '<div   class="progress-bar" role="progressbar" aria-valuenow="' + completed +'"' +
+          'aria-valuemin="0" aria-valuemax="100" style="width:' + completed +'%">' +
           '<span>'+row[9] +' of '+ row[2]+'</span></div>' +
           '</div>';
       }

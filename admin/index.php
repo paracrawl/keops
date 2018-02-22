@@ -102,6 +102,7 @@
                 <th title="Source language">SL</th>
                 <th title="Target language">TL</th>
                 <th>Description</th>
+                <th>Status</th>
                 <th>Creation date</th>
                 <th>Owner</th>
                 <th>Active?</th>
@@ -117,6 +118,7 @@
                 <th title="Source language">SL</th>
                 <th title="Target language">TL</th>
                 <th>Description</th>
+                <th>Status</th>
                 <th>Creation date</th>
                 <th>Owner</th>
                 <th>Active?</th>

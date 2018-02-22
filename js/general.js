@@ -39,7 +39,7 @@ $(document).ready(function() {
             return row[5];
           var completed = (parseInt(row[7]) / parseInt(row[4])) * 100;
 
-          return '<div class="progress">' +
+          return '<div  title="'+row[7]+' of '+row[4]+' sentences evaluated" class="progress">' +
                   '<div class="progress-bar" role="progressbar" aria-valuenow="' + completed + '"' +
                   'aria-valuemin="0" aria-valuemax="100" style="width:' + completed + '%">' +
                   '<span>' + row[7] + ' of ' + row[4] + '</span></div>' +

@@ -151,6 +151,7 @@ table .progress span {
     display: block;
     width: 100%;
     color: black;
+    text-align: center;
 }
 
 .disabled{

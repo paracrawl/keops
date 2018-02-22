@@ -69,7 +69,7 @@ require_once(RESOURCES_PATH . "/session.php");
         <?php } else { ?>
         <div class="page-header">
           <h3>Your tasks</h3>
-          <p>Check the status of the tasks you have assigned</p>
+          <p>Check the status of the tasks assigned to you</p>
         </div>
         <table id="user-tasks-table" class="table table-striped table-bordered" data-projectid="" cellspacing="0" width="100%">
           <thead>
