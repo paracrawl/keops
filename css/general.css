@@ -137,7 +137,7 @@ footer .container p{
 }
 
 /* Invitations */
-.invitation_token .input-group-addon, .invitation_token input {
+.invitation_token .input-group-addon, .invitation_token input, .invitation-link  {
   cursor: pointer;
 }
 
@@ -158,6 +158,59 @@ table .progress span {
     color: lightgrey;
 }
 
+/* Homepage */
+/*.browser_width {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+}*/
+.home-container{
+  width:100%;
+}
+
+.full-width{
+  position: relative;
+  right: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  /*background-color: #0071BC;*/
+  background: #FFFFFF url(../paracrawl-background.jpg) no-repeat right center;
+  background-size: cover;
+/*  color: white;
+  background-size: cover;*/
+}
+.home-banner{
+  color: white;
+  margin: 0 auto;
+  padding-bottom: 30px;
+}
+/*
+.home-banner .container{
+  width: 100%;
+}*/
 .card .glyphicon{
      font-size: 60px;
+}
+
+.card{
+  background: white;
+  min-height: 250px;
+  padding: 30px;
+}
+
+.card-container{
+/*  clear: both;*/
+  position: relative;
+  padding-top: 30px;
+  
+}
+
+.grey-background{
+  width: 100%;
+  background: #E0E0E0 url(../background-paracrawl.png) no-repeat left bottom;
+  background-size: cover;
+  min-height: 300px;
+  position: relative;
 }

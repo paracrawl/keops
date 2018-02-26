@@ -137,7 +137,11 @@ $(document).ready(function() {
   });
   
   var invitations_table = $("#invitations-table").DataTable({
-      columnDefs: [{
+      columnDefs: [{          
+        targets: 1,
+        className: "email"
+      },
+      {
         targets: 5,
         data: function (row, type, val, meta) {
           return '<a href="/admin/user_edit.php?id=' + row[6] + '">' + row[5] + '</a>';
@@ -145,16 +149,21 @@ $(document).ready(function() {
       },
       {
         targets: 6,
-        className: "text-center",
+        className: "actions",
         sortable: false,
         orderable: false,
         data: function (row, type, val, meta) {
+          str = "";
           if (row[3] == "") {
-            return '<a href="/admin/revoke_invite.php?id=' + row[0] + '"><span class="glyphicon glyphicon-remove red" aria-hidden="true"></span></a>';
+            str = '<a href="/admin/revoke_invite.php?id=' + row[0] + '"><span class="glyphicon glyphicon-remove red" aria-hidden="true" title=\"Revoke invitation\"></span></a>';
+            str += '<a class="invitation-link"><span class="glyphicon glyphicon-link" aria-hidden="true" title=\"Get invitation link\"></span></a>';
           }
           else {
-            return ""; 
+            str = "<span class=\"glyphicon glyphicon-remove disabled\" aria-hidden=\"true\" title=\"This user has already accepted the invitation\"></span>"; 
+            str += '<span class="glyphicon glyphicon-link disabled" aria-hidden="true" title=\"This user has already accepted the invitation\"></span>';
+
          }
+        return str;
         }
       }],
     order: [[2, 'desc']],
@@ -288,7 +297,17 @@ $(document).ready(function() {
     }
     $(this).focus();
   });
+  
+  $(document).on('click', '.invitation-link', function (event) {
+
+    var email = ($(this).parent().siblings(".email").text());
+    var str = '<div class="invitation_token"> <label for="token" class="col-sm-1 control-label">Invitation</label> <div class="col-sm-7"><div class="input-group">                <div class="input-group-addon"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></div>                <input id="token" class="form-control" readonly aria-describedby="helpInvitation" placeholder="The invitation URL will appear here" maxlength="200" tabindex="2">              </div>              <div id="helpInvitation" class="help-block with-errors">2. Please copy this URL when generated and send to the new user. They will be able to sign up with the token ID.</div>            </div>          </div>';
+    alert(str);
+  });
+
+
 });
+
 
 
 function getInviteToken(email){
@@ -351,6 +370,7 @@ function clipboard(text) {
   return result;
 };
 
+        
 
 //function getUserLangs(user_id){
 //    $.ajax({

@@ -15,75 +15,81 @@ require_once(RESOURCES_PATH . "/session.php");
     ?>
   </head>
   <body>
-    <div class="container">
       <?php require_once(TEMPLATES_PATH . "/header.php"); 
-      if  (!isSignedIn()) { ?>
-        <header class="masthead     text-white text-center">
-          <div class="container">
-              <img class="img-fluid mb-5 d-block mx-auto" src="pyramids-icon.png" alt="">
+      if  (!isSignedIn()) {
+        ?>
+    <div class="home-container">
+
+        <div class="full-width">
+          <div class="home-banner text-center">
+            <img class="img-fluid mb-5 d-block mx-auto" src="pyramids-icon-white.png" alt="">
             <h1 class=" mb-0">Welcome to KEOPS</h1>
-            <hr class="star-light">
             <h2 class="font-weight-light mb-0">Keen Evaluation of Parallel Sentences</h2>
           </div>
-        </header>
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card text-center  ">
-<!--            <img class="card-img-top" src="http://placehold.it/500x325" alt="">-->
-            <span class="glyphicon glyphicon-upload"></span>
-            <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+        </div>
+        <div class="grey-background">
+          <div class="card-container">         
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card text-center  ">
+    <!--            <img class="card-img-top" src="http://placehold.it/500x325" alt="">-->
+                <span class="glyphicon glyphicon-eye-open"></span>
+                <div class="card-body">
+                  <h4 class="card-title">See your tasks</h4>
+                  <p class="card-text">Your personal dashboard will tell you which tasks you've been assigned and practical details about them.</p>
+                </div>
+                <!--            <div class="card-footer">
+                              <a href="#" class="btn btn-primary">Find Out More!</a>
+                            </div>-->
+              </div>
             </div>
-<!--            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Find Out More!</a>
-            </div>-->
+
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card text-center  ">
+    <!--            <img class="card-img-top" src="http://placehold.it/500x325" alt="">-->
+                <span class="glyphicon glyphicon-pencil"></span>
+                <div class="card-body">
+                  <h4 class="card-title">Action!</h4>
+                  <p class="card-text">Start or resume an evaluation task, read the guidelines, annotate sentences, send comments and contact your PM in case of doubt.</p>
+                </div>
+                <!--            <div class="card-footer">
+                              <a href="#" class="btn btn-primary">Find Out More!</a>
+                            </div>-->
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card text-center  ">
+    <!--            <img class="card-img-top" src="http://placehold.it/500x325" alt="">-->
+                <span class="glyphicon glyphicon-stats"></span>
+                <div class="card-body">
+                  <h4 class="card-title">Project stats</h4>
+                  <p class="card-text">At any point of completion of a task, see its status and a recap of the work done. Download your own results.</p>
+                </div>
+                <!--            <div class="card-footer">
+                              <a href="#" class="btn btn-primary">Find Out More!</a>
+                            </div>-->
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card text-center  ">
+    <!--            <img class="card-img-top" src="http://placehold.it/500x325" alt="">-->
+                <span class="glyphicon glyphicon-ok"></span>
+                <div class="card-body">
+                  <h4 class="card-title">Done!</h4>
+                  <p class="card-text">Communicate your PM whenever you need it. Easily send your finished task.</p>
+                </div>
+                <!--            <div class="card-footer">
+                              <a href="#" class="btn btn-primary">Find Out More!</a>
+                            </div>-->
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card text-center  ">
-<!--            <img class="card-img-top" src="http://placehold.it/500x325" alt="">-->
-              <span class="glyphicon glyphicon-user"></span>
-            <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo magni sapiente, tempore debitis beatae culpa natus architecto.</p>
-            </div>
-<!--            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Find Out More!</a>
-            </div>-->
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card text-center  ">
-<!--            <img class="card-img-top" src="http://placehold.it/500x325" alt="">-->
-            <span class="glyphicon glyphicon-pencil"></span>
-            <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
-            </div>
-<!--            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Find Out More!</a>
-            </div>-->
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card text-center  ">
-<!--            <img class="card-img-top" src="http://placehold.it/500x325" alt="">-->
-            <span class="glyphicon glyphicon-ok"></span>
-            <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
-            </div>
-<!--            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Find Out More!</a>
-            </div>-->
-          </div>
-        </div>
-            
         <?php
       }else{
             ?>
+      <div class="container">
       <div id="header">
         <h1>Welcome to KEOPS</h1>
       </div>
