@@ -14,22 +14,36 @@ require_once(RESOURCES_PATH . "/session.php");
     require_once(TEMPLATES_PATH . "/head.php");
     ?>
   </head>
-  <body>
-      <?php require_once(TEMPLATES_PATH . "/header.php"); 
+  <body>    
+
+      <?php
       if  (!isSignedIn()) {
         ?>
+    <?php require_once(TEMPLATES_PATH . "/home-header.php"); ?>
     <div class="home-container">
-
         <div class="full-width">
           <div class="home-banner text-center">
-            <img class="img-fluid mb-5 d-block mx-auto" src="pyramids-icon-white.png" alt="">
-            <h1 class=" mb-0">Welcome to KEOPS</h1>
-            <h2 class="font-weight-light mb-0">Keen Evaluation of Parallel Sentences</h2>
+            <h1>Welcome to KEOPS</h1>
+            <h2>Keen Evaluation Of Parallel Sentences</h2>
+
+  <!--            <img class="img-fluid mb-5 d-block mx-auto" src="pyramids-icon-white.png" alt="">-->
           </div>
+<!--          <div class="paracrawl">
+            <div class="paracrawl-text"> powered by paracrawl</div>
+            <div class="paracrawl-logo"><img src="paracraw-logo135x62.png"></div>
+          </div>-->
         </div>
-        <div class="grey-background">
-          <div class="card-container">         
-            <div class="col-lg-3 col-md-6 mb-4">
+          <div class="container text-center" id="paracrawl-logos-container">
+            <div class="inline-img"><!-- image -->
+              <img src="../img/paracrawl-logo135x62.png" alt="">
+            </div> 
+            <div class="inline-img">
+              <a href="https://ec.europa.eu/inea/en/connecting-europe-facility" target="_blank"><!-- image --><img class="block"  src="../img/eu-logo.png" alt=""></a>          
+          </div>
+          </div>
+        <div class="grey-background container">
+          <div class="card-container row">         
+            <div class="col-md-3">
               <div class="card text-center  ">
     <!--            <img class="card-img-top" src="http://placehold.it/500x325" alt="">-->
                 <span class="glyphicon glyphicon-eye-open"></span>
@@ -43,7 +57,7 @@ require_once(RESOURCES_PATH . "/session.php");
               </div>
             </div>
 
-            <div class="col-lg-3 col-md-6 mb-4">
+            <div class="col-md-3">
               <div class="card text-center  ">
     <!--            <img class="card-img-top" src="http://placehold.it/500x325" alt="">-->
                 <span class="glyphicon glyphicon-pencil"></span>
@@ -57,7 +71,7 @@ require_once(RESOURCES_PATH . "/session.php");
               </div>
             </div>
 
-            <div class="col-lg-3 col-md-6 mb-4">
+            <div class="col-md-3">
               <div class="card text-center  ">
     <!--            <img class="card-img-top" src="http://placehold.it/500x325" alt="">-->
                 <span class="glyphicon glyphicon-stats"></span>
@@ -70,13 +84,13 @@ require_once(RESOURCES_PATH . "/session.php");
                             </div>-->
               </div>
             </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-              <div class="card text-center  ">
+            <div class="col-md-3">
+              <div class="card text-center">
     <!--            <img class="card-img-top" src="http://placehold.it/500x325" alt="">-->
                 <span class="glyphicon glyphicon-ok"></span>
                 <div class="card-body">
                   <h4 class="card-title">Done!</h4>
-                  <p class="card-text">Communicate your PM whenever you need it. Easily send your finished task.</p>
+                  <p class="card-text">Communicate with your PM whenever you need it. Easily send your finished task.</p>
                 </div>
                 <!--            <div class="card-footer">
                               <a href="#" class="btn btn-primary">Find Out More!</a>
@@ -88,7 +102,9 @@ require_once(RESOURCES_PATH . "/session.php");
 
         <?php
       }else{
+        
             ?>
+      <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
       <div class="container">
       <div id="header">
         <h1>Welcome to KEOPS</h1>
@@ -181,11 +197,17 @@ require_once(RESOURCES_PATH . "/session.php");
 
 
     </div>
+              </div>
+
 <?php
-require_once(TEMPLATES_PATH . "/footer.php");
+if (isSignedIn()) {
+  require_once(TEMPLATES_PATH . "/footer.php");
+} else {
+  require_once(TEMPLATES_PATH . "/home-footer.php");
+}
 ?>
 <?php
 require_once(TEMPLATES_PATH . "/resources.php");
-    ?>
+?>
   </body>
 </html>

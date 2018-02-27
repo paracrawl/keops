@@ -2,7 +2,7 @@
   require_once(RESOURCES_PATH . "/session.php");
 ?>
     <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
+      <div class="home-container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
@@ -10,45 +10,16 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-           <div navbar-brand>
+          <div navbar-brand>
             <a href="/"><img class="navbar-logo" src="../img/tiny-pyramids-white.png" alt="KEOPS logo"></a>
             <a href="/" class="navbar-logo-brand">KEOPS</a>
           </div>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <?php
-            if ($SIGNEDIN) {
-              ?>
-              <li><a href="/index.php">Tasks</a></li>
-              <?php
-            }
-            if ($ADMIN_VIEW_PERMISSIONS) {
-            ?>
-            <li><a href="/admin">Management</a></li>
-            <?php
-            }
-            ?>
-          </ul>
-          <?php
-          if ($SIGNEDIN) {
-          ?>
-          <ul class="nav navbar-nav navbar-right">
 
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $USER->name ?><span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li class="dropdown-header">Support</li>
-                <li><a href="mailto:help@prompsit.com">Contact support</a></li>
-                <li class="dropdown-header">Account</li>
-                <li><a href="/users/user_logout.php">Sign out</a></li>
-              </ul>
-            </li>
           </ul>
-          <?php
-          }
-          else {
-          ?>
+
           <form class="navbar-form navbar-right" action="users/user_login.php"  method="post" >
             <div class="form-group">
               <input type="text" id="email" name="email" placeholder="Email address" class="form-control">
@@ -59,9 +30,7 @@
             <button type="submit" class="btn btn-success">Sign in</button>
             <a href="/signup.php" type="button" class="btn btn-primary" method="post">Sign up</a>
           </form>
-          <?php
-          }
-          ?>
+
         </div><!--/.nav-collapse -->
       </div>
     </nav>
