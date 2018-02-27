@@ -257,13 +257,35 @@
           <p>* Currently, only tab-separated-value files with one pair of sentences per line are supported.</p>
         </div>
       </div>
-        <div id="invite_token_modal" class="modal fade" role="dialog">
+      <div id="invite_token_modal" class="modal fade" role="dialog" >
         <div class="modal-dialog modal-lg">
-           <div class="modal-content">
-            <div class="modal-header">
-                </div>
+          <div class="modal-content">
+            <div class="modal-header" id="invitation-link-modal">
+<!--              <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+              <h4 class="modal-title">Invitation link</h4>
+            </div>
             <div class="modal-body">
-                          </div>
+              <form class="form-horizontal" role="form" >
+                <div class="form-group">
+                  <label for="email" class="col-sm-1 control-label">Email</label>
+                  <div class="col-sm-9">
+                    <input id="modal-email" type="email" readonly name="email" class="form-control" aria-describedby="helpEmail" placeholder="Email address" maxlength="200" required="" autofocus="" tabindex="1">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="invitation_token">
+                    <label for="token" class="col-sm-1 control-label">Invitation</label>
+                    <div class="col-sm-9">
+                      <div class="input-group">
+                        <div class="input-group-addon"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></div>
+                        <input id="token" class="form-control" readonly aria-describedby="helpInvitation" placeholder="The invitation URL will appear here" maxlength="200" tabindex="2">
+                      </div>
+                      <div id="helpInvitation" class="help-block with-errors">Please copy this URL when generated and send to the new user. They will be able to sign up with the token ID.</div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
