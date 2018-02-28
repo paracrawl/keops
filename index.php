@@ -35,7 +35,7 @@ require_once(RESOURCES_PATH . "/session.php");
         </div>
           <div class="container text-center" id="paracrawl-logos-container">
             <div class="inline-img"><!-- image -->
-              <img src="../img/paracrawl-logo135x62.png" alt="">
+              <a href="http://paracrawl.eu/"  target="_blank"> <img src="../img/paracrawl-logo135x62.png" alt=""></a>
             </div> 
             <div class="inline-img">
               <a href="https://ec.europa.eu/inea/en/connecting-europe-facility" target="_blank"><!-- image --><img class="block"  src="../img/eu-logo.png" alt=""></a>          

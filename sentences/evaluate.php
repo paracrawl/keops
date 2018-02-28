@@ -5,7 +5,9 @@ require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/sentence_task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/project_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dto/sentence_task_dto.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/utils/utils.php");
 
+  
 $PAGETYPE = "user";
 require_once(RESOURCES_PATH . "/session.php");
 
@@ -65,13 +67,13 @@ else {
     ?>
   </head>
   <body>
-    <div class="container evaluation">
+    <div id="evaluation-container" class="container evaluation">
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
       <ul class="breadcrumb">
         <li><a href="/index.php">Tasks</a></li>
         <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>">Evaluation of <?= $project->name ?></a></li>
         <li class="active">Task #<?= $task->id ?></li> 
-        <a style="float: right"  href="mailto:<?= $project->owner_object->email  ?>"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
+        <a style="float: right"  href="mailto:<?= $project->owner_object->email  ?>" title="Contact Project Manager">Contact PM <span id="contact-mail-logo" class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
 
       </ul>
       <div class="col-md-12">
@@ -91,7 +93,7 @@ else {
         </div>
       </div>
       <div class="col-md-12">
-        <form class="form-horizontal" action="/sentences/sentence_save.php" role="form" method="post" data-toggle="validator">
+        <form id="evaluation-form" class="form-horizontal" action="/sentences/sentence_save.php" role="form" method="post" data-toggle="validator">
           <input type="hidden" name="task_id" value="<?= $task->id ?>">
           <input type="hidden" name="sentence_id" value="<?= $sentence->id ?>">
           <div class="col-md-2"></div>
@@ -108,14 +110,14 @@ else {
             <div class="col-md-3">
             <?php foreach (array_slice(sentence_task_dto::$labels, 0, count(sentence_task_dto::$labels) - 2) as $label) { ?>
               <div class="radio" title="<?= $label['title'] ?>">
-                <label><input required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" name="evaluation" value="<?= $label['value'] ?>"><?= $label['label'] ?> [<?= $label['value'] ?>]</label>
+                <label><input required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" name="evaluation" value="<?= $label['value'] ?>"><?= underline($label['label'], $label['value']); ?></label>
               </div>
             <?php } ?>
             </div>
             <div class="col-md-3">
             <?php foreach (array_slice(sentence_task_dto::$labels, -2) as $label) { ?>
               <div class="radio" title="<?= $label['title'] ?>">
-                <label><input required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" name="evaluation" value="<?= $label['value'] ?>"><?= $label['label'] ?> [<?= $label['value'] ?>]</label>
+                <label><input required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" name="evaluation" value="<?= $label['value'] ?>"><?= underline($label['label'], $label['value']) ?></label>
               </div>
             <?php } ?>
             </div>
@@ -144,7 +146,7 @@ else {
             <div class="col-md-3 text-center">
             </div>
             <div class="col-md-6 text-center">
-              <button type="submit" class="btn btn-primary btn-lg" tabindex="5">Save</button>
+              <button id="evalution-save-button" type="submit" class="btn btn-primary btn-lg" tabindex="5">Save</button>
             </div>
             <div class="col-md-3 text-center">
             </div>
@@ -318,5 +320,6 @@ else {
     <?php
     require_once(TEMPLATES_PATH . "/resources.php");
     ?>
+    <script type="text/javascript" src="/js/evaluation.js"></script>
   </body>
 </html>

@@ -255,6 +255,19 @@
             </form>
           </div>
           <p>* Currently, only tab-separated-value files with one pair of sentences per line are supported.</p>
+<!--          <div id="custom-dz-template">
+            <div class="dz-preview dz-file-preview">
+              <div class="dz-details">
+                <div class="dz-filename"><span data-dz-name></span></div>
+                <div class="dz-size" data-dz-size></div>
+                <img data-dz-thumbnail />
+              </div>
+              <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
+              <div class="dz-success-mark"><span class="glyphicon glyphicon-ok-sign green big-icon"></span></div>
+              <div class="dz-error-mark"><span class="glyphicon glyphicon-remove-sign red big-icon"></span></div>
+              <div class="dz-error-message"><span data-dz-errormessage></span></div>
+            </div>
+          </div>-->
         </div>
       </div>
       <div id="invite_token_modal" class="modal fade" role="dialog" >
@@ -280,7 +293,7 @@
                         <div class="input-group-addon"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></div>
                         <input id="token" class="form-control" readonly aria-describedby="helpInvitation" placeholder="The invitation URL will appear here" maxlength="200" tabindex="2">
                       </div>
-                      <div id="helpInvitation" class="help-block with-errors">Please copy this URL when generated and send to the new user. They will be able to sign up with the token ID.</div>
+                      <div id="helpInvitation" class="help-block with-errors">Please copy this URL and send to the new user. They will be able to sign up with the token ID.</div>
                     </div>
                   </div>
                 </div>

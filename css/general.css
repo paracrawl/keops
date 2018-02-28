@@ -136,6 +136,11 @@ footer .container p{
   font-size: 12px;
 }
 
+
+.container.evaluation{
+  padding-top: 10px;
+}
+
 /* Invitations */
 .invitation_token .input-group-addon, .invitation_token input, .invitation-link  {
   cursor: pointer;
@@ -430,3 +435,24 @@ display: table;
   background: #004A7A !important;
 }
 
+#contact-mail-logo{
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+/*.big-icon{
+    font-size: 20px;
+}*/
+
+.dz-error-mark{
+  background: red;
+}
+
+
+.dz-success-mark{
+  background: green;
+}
+
+label>u{
+  font-weight: bold;
+}

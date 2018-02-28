@@ -139,7 +139,7 @@ else {
               <div class="panel-body">
                 <p>If you are sure that you finished the task and you don't have more doubts, please mark the task as DONE using the following button.</p>
                 <p class="text-center"><a href="/tasks/task_close.php?task_id=<?= $task_id ?>" class="btn btn-lg btn-success">Mark as DONE</a></p>
-                <p>If you mark the task as DONE, you will not have access to the task afterwards and the administrator will receive a notice.</p>
+                <p>If you mark the task as DONE, you will not have access to the task afterwards and the Project Manager  will receive a notice.</p>
                 <p>Thank you!</p>
               </div>
             </div>

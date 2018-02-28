@@ -2,6 +2,8 @@
 var corpora_table = null;
 
 // Dropzone
+//Dropzone.autoDiscover = false;
+
 Dropzone.options.dropzone = { // camelized id
   paramName: "file",
   maxFilesize: 10, // 10 MB
@@ -26,6 +28,7 @@ Dropzone.options.dropzone = { // camelized id
     formData.append("source_lang", $("#source_lang"));
     formData.append("target_lang", $("#target_lang"));
   },
+//  previewTemplate: document.querySelector('#custom-dz-template').innerHTML,
   autoProcessQueue: true
 };
 
@@ -312,7 +315,7 @@ $(document).ready(function() {
     message_color.removeClass("has-error");
     message_color.removeClass("has-warning");
     message_color.removeClass("has-success");
-    $("#helpInvitation").html("Please copy this URL when generated and send to the new user. They will be able to sign up with the token ID.");
+    $("#helpInvitation").html("Please copy this URL and send it to the new user. They will be able to sign up with the token ID.");
     
   });
 

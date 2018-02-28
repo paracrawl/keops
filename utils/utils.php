@@ -24,3 +24,11 @@ function in_array_field($needle, $needle_field, $haystack) {
 
   return false;
 }
+
+function underline($label, $value){
+  $char = substr($value, 0, 1);
+  $regex="/(^".$char."|\b".strtolower($char).")/";    
+  preg_match("/(^".$char."|\b".strtolower($char).")/", $label, $matching_char);
+  $formatted_string = preg_replace($regex, "<u>".$matching_char[0]."</u>", $label, 1);
+  return $formatted_string;
+}
