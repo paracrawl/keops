@@ -52,8 +52,7 @@ else {
         <li><a href="/index.php">Tasks</a></li>
         <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>"  title="Go to the first pending sentence">Evaluation of <?= $project->name ?></a></li>
         <li class="active">Recap Task #<?= $task->id ?></li>
-                <a style="float: right"  href="mailto:<?= $project->owner_object->email  ?>"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
-
+          <a style="float: right"  href="mailto:<?= $project->owner_object->email  ?>" title="Contact Project Manager">Contact PM <span id="contact-mail-logo" class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
       </ul>
       <!--<div class="col-md-12">
         <div class="table-responsive">
@@ -87,10 +86,7 @@ else {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Total</td>
-                <td><?= $task_stats_dto->total ?></td>
-              </tr>
+
               <?php
               $labels_chart_js = array();
               $data_chart_js = array();
@@ -98,12 +94,19 @@ else {
                 $labels_chart_js[] = '"' . $label['value'] . '"';
                 $data_chart_js[] = $task_stats_dto->array_type[$label['value']];
                 ?>
-              <tr>
-                <td><?= $label['label'] ?> [<?= $label['value'] ?>]</td>
-                <td><?= $task_stats_dto->array_type[$label['value']] ?></td>
-              </tr>
+                <tr>
+                  <td><?= $label['label'] ?> [<?= $label['value'] ?>]</td>
+                  <td class="num-cell"><?= $task_stats_dto->array_type[$label['value']] ?></td>
+                </tr>
               <?php } ?>
             </tbody>
+
+            <tfoot>
+              <tr>
+                <th>Total</th>
+                <th class="num-cell"><?= $task_stats_dto->total ?></th>
+              </tr>
+            </tfoot>
           </table>
         </div>
       </div>
@@ -114,6 +117,7 @@ else {
           var data_pie_chart = [<?= implode(",", $data_chart_js) ?>];
         </script>
       </div>
+
       <div class="col-md-12">
         <?php
         if ($task->status == "DONE") {
@@ -125,10 +129,26 @@ else {
             <div class="panel-body">
               <p>This task has been marked as <b>DONE</b> and cannot be modified.</p>
               <p>Thank you!</p>
+                <?php
+                if ($USER->id == $project->owner) {
+                  ?>
+              <div>
+                <a href="/tasks/download_summary.php?task_id=<?php echo $task_id?>">
+                  <span class="glyphicon glyphicon-download-alt"></span>
+                  <span>Download summary (CSV)</span>
+                </a>
+              </div>
+              <div>
+                  <span class="glyphicon glyphicon-download-alt"></span>
+                  <span>Download annotated sentences (TSV)</span>
+              </div>
+                  <?php
+                }
+                ?>
+              </div>
             </div>
-          </div>
-          <?php
-        }
+            <?php
+          }
       else {
         if ($task_stats_dto->array_type["P"] == 0) {
           ?>
