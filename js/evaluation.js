@@ -2,8 +2,8 @@
 $(document).keypress(function (e) {
 //  console.log(e.which);
 //  console.log(e.keyCode);
-  console.log("HOLI");
-  if (document.activeElement.id != "comments") {
+  if (document.activeElement.id != "comments" && document.activeElement.id != "gotopage" && document.activeElement.id != "search-term") {
+    
     if (e.which == 13) {//INTRO
       $("#evalution-save-button").click();
     } else {
@@ -36,11 +36,40 @@ $(document).keypress(function (e) {
 
       if (e.which == 86 || e.which == 118) {//V
         $("#evaluation-form :radio[value=V]").attr("checked", "true");
-      }
+      };
+      
 
       if (e.which == 80 || e.which == 112) {//P
         $("#evaluation-form :radio[value=P]").attr("checked", "true");
       }
     }
+  }
+});
+
+$('body').on('click', "#search-term-button", function (e) {
+  e.preventDefault();
+  var search_term = $("#search-term").val();
+  var task_id = $("#task_id").val();
+  if (search_term.length > 0 && task_id>0) {
+    $.ajax({
+      data: {"search_term": search_term, "task_id": task_id},
+      url: 'search_sentence.php',
+      type: 'post',
+      dataType: 'json',
+      success: function (response) {
+        if (response  == 0) {
+          alert ("Search term not found");
+        }
+        else {
+          $("#gotopage").val(response);
+          $("#gotoform").submit();
+        }
+      },
+      error: function (response) {
+        alert("Sorry, your request could not be processed. Please, try again later. ");
+      }
+
+
+    });
   }
 });

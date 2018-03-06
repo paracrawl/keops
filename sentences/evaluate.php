@@ -1,6 +1,6 @@
 <?php
 
-require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/resources/config.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/sentence_task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/project_dao.php");
@@ -71,7 +71,7 @@ else {
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
       <ul class="breadcrumb">
         <li><a href="/index.php">Tasks</a></li>
-        <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>">Evaluation of <?= $project->name ?></a></li>
+        <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>" title="Go to the first pending sentence">Evaluation of <?= $project->name ?> </a></li>
         <li class="active">Task #<?= $task->id ?></li> 
         <a style="float: right"  href="mailto:<?= $project->owner_object->email  ?>" title="Contact Project Manager">Contact PM <span id="contact-mail-logo" class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
 
@@ -109,15 +109,20 @@ else {
             </div>
             <div class="col-md-3">
             <?php foreach (array_slice(sentence_task_dto::$labels, 0, count(sentence_task_dto::$labels) - 2) as $label) { ?>
-              <div class="radio" title="<?= $label['title'] ?>">
+              <div class="radio wrong-eval" title="<?= $label['title'] ?>">
                 <label><input required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" name="evaluation" value="<?= $label['value'] ?>"><?= underline($label['label'], $label['value']); ?></label>
               </div>
             <?php } ?>
             </div>
             <div class="col-md-3">
-            <?php foreach (array_slice(sentence_task_dto::$labels, -2) as $label) { ?>
-              <div class="radio" title="<?= $label['title'] ?>">
-                <label><input required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" name="evaluation" value="<?= $label['value'] ?>"><?= underline($label['label'], $label['value']) ?></label>
+            <?php foreach (array_slice(sentence_task_dto::$labels, -2, 1) as $label) { ?>
+              <div class="radio valid-eval" title="<?= $label['title'] ?>">
+                <label><input  required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" name="evaluation" value="<?= $label['value'] ?>"><?= underline($label['label'], $label['value']) ?></label>
+              </div>
+            <?php } ?>
+            <?php foreach (array_slice(sentence_task_dto::$labels, -1, 1) as $label) { ?>
+              <div class="radio pending-eval" title="<?= $label['title'] ?>">
+                <label><input  required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" name="evaluation" value="<?= $label['value'] ?>"><?= underline($label['label'], $label['value']) ?></label>
               </div>
             <?php } ?>
             </div>
@@ -137,7 +142,7 @@ else {
             <div class="col-md-3">
             </div>
             <div class="col-md-6">
-              <textarea rows="3" name="comments" id="comments" class="form-control" aria-describedby="helpComment" placeholder="Write about something you want to remark for these parallel sentences" maxlength="1000" tabindex="4"><?= $sentence->comments ?></textarea>
+              <textarea rows="3" name="comments" id="comments" class="form-control" aria-describedby="helpComment" placeholder="Write something you want to remark for these parallel sentences [optional]" maxlength="1000" tabindex="4"><?= $sentence->comments ?></textarea>
             </div>
             <div class="col-md-3">
             </div>
@@ -154,8 +159,14 @@ else {
         </form>
       </div>
       <div class="col-md-12">
-        <div class="col-md-4">
+          <div class="col-md-4">             
+          <form>
+            <input type="hidden" id="task_id" name="task_id" value="<?= $task->id ?>">
+            <input class="form-control search-term" id="search-term" name="search">
+             <button class="btn btn-xs btn-link" id="search-term-button" >Search</button>          
+          </form>
         </div>
+
         <div class="col-md-4">
           <div class="text-center text-increase">
             <ul class="pagination pagination-sm">
@@ -176,26 +187,33 @@ else {
           </div>
         </div>
         <div class="col-md-2">
-          <form method="get" action="/sentences/evaluate.php">
+        </div>
+        <div class="col-md-2">
+          <form id="gotoform" method="get" action="/sentences/evaluate.php">
             <input type="hidden" name="p" value="1">
             <input type="hidden" name="task_id" value="<?= $task->id ?>">
-            <input class="form-control go-to-page" name="id" type="number" min="1" max="<?= $task_progress->total ?>" value="<?= $task_progress->current ?>">
+            <input class="form-control go-to-page" id="gotopage" name="id" type="number" min="1" max="<?= $task_progress->total ?>" value="<?= $task_progress->current ?>">
             <button type="submit" class="btn btn-xs btn-link">Go!</button>
           </form>
         </div>
+        
       </div>
-      <div class="col-md-3">
-      </div>
-      <div class="col-md-6">
-        <div class="progress">
-          <div class="progress-bar" role="progressbar" aria-valuenow="<?= ($task_progress->current / $task_progress->total)*100 ?>"
-          aria-valuemin="0" aria-valuemax="100" style="width:<?= ($task_progress->current / $task_progress->total)*100 ?>%">
-            <?= ($task_progress->current / $task_progress->total)*100 ?>%
-          </div>
+      <div class="col-md-12">
+        <div class="col-md-3">
         </div>
+        <div class="col-md-6">
+          <div class="progress" title="<?= $task_progress->completed . " of " . $task_progress->total . " senteces evaluated"; ?>" >
+            <div  class="progress-bar" role="progressbar" aria-valuenow="<?= ($task_progress->completed / $task_progress->total) * 100 ?>"
+                  aria-valuemin="0" aria-valuemax="100" style="width:<?= ($task_progress->completed / $task_progress->total) * 100 ?>%">  
+              <span id="evaluate-percent"><?= ($task_progress->completed / $task_progress->total) * 100 ?>%</span>
+            </div>
+          </div>
       </div>
-      <div class="col-md-3">
+        
+          <div class="col-md-3">
+          </div>
       </div>
+      
       <!-- Modal -->
       <div id="evaluation-help" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -314,6 +332,8 @@ else {
         </div>
       </div>
     </div>
+    </div>
+  
     <?php
     require_once(TEMPLATES_PATH . "/footer.php");
     ?>
@@ -323,3 +343,4 @@ else {
     <script type="text/javascript" src="/js/evaluation.js"></script>
   </body>
 </html>
+

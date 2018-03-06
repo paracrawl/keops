@@ -7,14 +7,16 @@ require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/task_stats_dto.
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/utils/datatables_helper.class.php' );
 
 class sentence_task_dao {
+
   private $conn;
+
   //public static $columns;
-  
-  public function __construct(){
+
+  public function __construct() {
     $this->conn = new keopsdb();
     $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   }
-  
+
   function getSentenceByIdAndTask($sentence_id, $task_id) {
     try {
       $sentence_task_dto = new sentence_task_dto();
@@ -24,7 +26,7 @@ class sentence_task_dao {
       $query->bindParam(2, $task_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
-      while($row = $query->fetch()){
+      while ($row = $query->fetch()) {
         $sentence_task_dto->id = $row['id'];
         $sentence_task_dto->task_id = $row['task_id'];
         $sentence_task_dto->sentence_id = $row['sentence_id'];
@@ -42,16 +44,16 @@ class sentence_task_dao {
       throw new Exception("Error in sentence_task_dao::getSentenceById : " . $ex->getMessage());
     }
   }
-  
+
   function getNextPendingSentenceByTask($task_id) {
     try {
       $sentence_task_dto = new sentence_task_dto();
-      
+
       $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date, st.comments from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? and st.evaluation = 'P'::label order by st.id asc limit 1;");
       $query->bindParam(1, $task_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
-      while($row = $query->fetch()){
+      while ($row = $query->fetch()) {
         $sentence_task_dto->id = $row['id'];
         $sentence_task_dto->task_id = $row['task_id'];
         $sentence_task_dto->sentence_id = $row['sentence_id'];
@@ -69,17 +71,42 @@ class sentence_task_dao {
       throw new Exception("Error in sentence_task_dao::getNextPendingSentenceByTask : " . $ex->getMessage());
     }
   }
-  
+
+    function getSentenceIdByTermAndTask($task_id, $search_term) {
+    $sentence_id = 0;
+    $search_term_placeholder = "%".$search_term."%";
+    try {
+      $query = $this->conn->prepare("select  st.sentence_id as sentence_id from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where (s.source_text ILIKE ? or s.target_text ILIKE ?) and st.task_id = ? limit 1;");
+      $query->bindParam(1, $search_term_placeholder);
+      $query->bindParam(2, $search_term_placeholder);
+      $query->bindParam(3, $task_id);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+
+      while ($row = $query->fetch()) {        
+       $sentence_id = $row['sentence_id'];
+      }
+      $this->conn->close_conn();
+      return $sentence_id;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in sentence_task_dao::getSentenceById : " . $ex->getMessage());
+    }
+  }
+
   function gotoSentenceByTask($sentence_id, $task_id) {
     try {
+      if ($sentence_id == null || $sentence_id=="") {
+        $sentence_id = 1;
+      }
       $sentence_task_dto = new sentence_task_dto();
-      $offset = $sentence_id-1;
-      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date, st.comments from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? and st.evaluation = 'P'::label order by st.id asc limit 1 offset ?;");
+      $offset = $sentence_id - 1;
+      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date, st.comments from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? order by st.id asc limit 1 offset ?;");
       $query->bindParam(1, $task_id);
       $query->bindParam(2, $offset);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
-      while($row = $query->fetch()){
+      while ($row = $query->fetch()) {
         $sentence_task_dto->id = $row['id'];
         $sentence_task_dto->task_id = $row['task_id'];
         $sentence_task_dto->sentence_id = $row['sentence_id'];
@@ -97,7 +124,7 @@ class sentence_task_dao {
       throw new Exception("Error in sentence_task_dao::getNextPendingSentenceByTask : " . $ex->getMessage());
     }
   }
-  
+
   function insertBatchSentencesFromCorpusToTask($corpus_id, $task_id) {
     try {
       $query = $this->conn->prepare("insert into sentences_tasks (task_id, sentence_id) select ?, id from sentences where corpus_id = ?");
@@ -112,6 +139,8 @@ class sentence_task_dao {
     }
     return false;
   }
+
+
   
   function updateSentence($sentence_task_dto) {
     try {
@@ -129,18 +158,19 @@ class sentence_task_dao {
     }
     return false;
   }
-  
+
   function getCurrentProgressByIdAndTask($sentence_id, $task_id) {
     try {
       $task_progress_dto = new task_progress_dto();
-      $query = $this->conn->prepare("select count(case when id <= ? then 1 end) as current, count(*) as total from sentences_tasks where task_id = ?;");
+      $query = $this->conn->prepare("select count(case when id <= ? then 1 end) as current, count(*) as total, count(case when evaluation<>'P' then 1 end) as completed from sentences_tasks where task_id = ?;");
       $query->bindParam(1, $sentence_id);
-      $query->bindParam(2, $task_id);
+      $query->bindParam(2, $task_id);     
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
-      while($row = $query->fetch()){
+      while ($row = $query->fetch()) {
         $task_progress_dto->current = $row['current'];
         $task_progress_dto->total = $row['total'];
+        $task_progress_dto->completed = $row['completed'];
       }
       $this->conn->close_conn();
       return $task_progress_dto;
@@ -149,7 +179,7 @@ class sentence_task_dao {
       throw new Exception("Error in sentence_task_dao::getNextPendingSentenceByTask : " . $ex->getMessage());
     }
   }
-  
+
   function getStatsByTask($task_id) {
     try {
       $task_stats_dto = new task_stats_dto();
@@ -166,9 +196,9 @@ from sentences_tasks where task_id = ?;");
       $query->bindParam(1, $task_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
-      while($row = $query->fetch()){
+      while ($row = $query->fetch()) {
         foreach (sentence_task_dto::$labels as $label) {
-          $task_stats_dto->array_type[ $label['value'] ] = $row[strtolower($label['value'])];
+          $task_stats_dto->array_type[$label['value']] = $row[strtolower($label['value'])];
         }
         $task_stats_dto->total = $row['total'];
       }
@@ -179,4 +209,5 @@ from sentences_tasks where task_id = ?;");
       throw new Exception("Error in sentence_task_dao::getNextPendingSentenceByTask : " . $ex->getMessage());
     }
   }
+
 }
