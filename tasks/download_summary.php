@@ -17,7 +17,7 @@ if (isset($task_id)) {
   $project_dao = new project_dao();
   $project = $project_dao->getProjectById($task->project_id);
 
-  if ($project->owner == $USER->id) {
+  if (($project->owner == $USER->id) && ($task->status == "DONE")) {
     $sentence_task_dao = new sentence_task_dao();
     $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id);
 
@@ -36,10 +36,8 @@ if (isset($task_id)) {
        $array = array($label["value"], $label["label"], $task_stats_dto->array_type[$label['value']]);
        fputcsv($output, $array);
      }
-     
-
-
-      
+     $total_row = array("Total", "Total", $task_stats_dto->total);
+     fputcsv($output, $total_row);     
     
   }
   else{

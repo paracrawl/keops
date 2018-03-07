@@ -210,4 +210,27 @@ from sentences_tasks where task_id = ?;");
     }
   }
 
+  
+  function getAnnotatedSentecesByTask($task_id){ 
+     try {
+      $st_array = array();
+      $query = $this->conn->prepare("select st.evaluation, st.comments, s.source_text, s.target_text from sentences_tasks st left join sentences s  on s.id = st.sentence_id where st.task_id = ? order by evaluation;");
+      $query->bindParam(1, $task_id);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while ($row = $query->fetch()) {
+        $sentence_task_dto = new sentence_task_dto();
+        $sentence_task_dto->source_text = $row['source_text'];
+        $sentence_task_dto->target_text = $row['target_text'];
+        $sentence_task_dto->evaluation = $row['evaluation'];
+        $sentence_task_dto->comments = $row['comments'];
+        array_push($st_array, $sentence_task_dto);        
+      }
+      $this->conn->close_conn();
+      return $st_array;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in sentence_task_dao::getAnnotatedSentecesByTask: " . $ex->getMessage());
+    }
+  }
 }

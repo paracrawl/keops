@@ -132,17 +132,19 @@ else {
                 <?php
                 if ($USER->id == $project->owner) {
                   ?>
-              <div>
-                <a href="/tasks/download_summary.php?task_id=<?php echo $task_id?>">
-                  <span class="glyphicon glyphicon-download-alt"></span>
-                  <span>Download summary (CSV)</span>
-                </a>
-              </div>
-              <div>
-                  <span class="glyphicon glyphicon-download-alt"></span>
-                  <span>Download annotated sentences (TSV)</span>
-              </div>
-                  <?php
+                  <div>
+                    <a href="/tasks/download_summary.php?task_id=<?php echo $task_id ?>">
+                      <span class="glyphicon glyphicon-download-alt"></span>
+                      <span>Download summary (CSV)</span>
+                    </a>
+                  </div>
+                  <div>
+                     <a href="/tasks/download_sentences.php?task_id=<?php echo $task_id ?>">
+                      <span class="glyphicon glyphicon-download-alt"></span>
+                      <span>Download annotated sentences (TSV)</span>
+                     </a>
+                  </div>
+                <?php
                 }
                 ?>
               </div>
