@@ -18,6 +18,11 @@
   <body>
     <div class="container">
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
+            <ul class="breadcrumb">
+        <li><a href="/admin">Management</a></li>
+        <li><a href="/admin/#languages">Languages</a></li>
+        <li class="active">New language</li> 
+      </ul>
       <div class="page-header">
         <h1>Add new language</h1>
       </div>

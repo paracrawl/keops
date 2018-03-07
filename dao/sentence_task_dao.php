@@ -74,12 +74,34 @@ class sentence_task_dao {
 
     function getSentenceIdByTermAndTask($task_id, $search_term) {
     $sentence_id = 0;
-    $search_term_placeholder = "%".$search_term."%";
+    $endinginspace = "%".$search_term." %";
+    $endingincomma = "%".$search_term.",%";
+    $endingincolon = "%".$search_term.":%";
+    $enginginfullstop =  "%".$search_term.";%";
+    $enginginsemicolon =  "%".$search_term.".%";
+    $startingwithspace = "% ".$search_term."%";
     try {
-      $query = $this->conn->prepare("select  st.sentence_id as sentence_id from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where (s.source_text ILIKE ? or s.target_text ILIKE ?) and st.task_id = ? limit 1;");
-      $query->bindParam(1, $search_term_placeholder);
-      $query->bindParam(2, $search_term_placeholder);
-      $query->bindParam(3, $task_id);
+      $query = $this->conn->prepare("select  st.sentence_id as sentence_id from sentences_tasks as st left join sentences as s on st.sentence_id = s.id "
+              . "where (s.source_text ILIKE ? or s.target_text ILIKE ? "
+               . "or s.source_text ILIKE ? or s.target_text ILIKE ? "
+               . "or s.source_text ILIKE ? or s.target_text ILIKE ? "
+               . "or s.source_text ILIKE ? or s.target_text ILIKE ? "
+               . "or s.source_text ILIKE ? or s.target_text ILIKE ? "
+               . "or s.source_text ILIKE ? or s.target_text ILIKE ? ) "
+              . " and st.task_id = ? limit 1;");
+      $query->bindParam(1, $endinginspace);
+      $query->bindParam(2, $endinginspace);
+      $query->bindParam(3, $endingincomma);
+      $query->bindParam(4, $endingincomma);
+      $query->bindParam(5, $endingincolon);
+      $query->bindParam(6, $endingincolon);
+      $query->bindParam(7, $enginginfullstop);
+      $query->bindParam(8, $enginginfullstop);
+      $query->bindParam(9, $enginginsemicolon);
+      $query->bindParam(10, $enginginsemicolon);
+      $query->bindParam(11, $startingwithspace);
+      $query->bindParam(12, $startingwithspace);
+      $query->bindParam(13, $task_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
 
@@ -214,7 +236,7 @@ from sentences_tasks where task_id = ?;");
   function getAnnotatedSentecesByTask($task_id){ 
      try {
       $st_array = array();
-      $query = $this->conn->prepare("select st.evaluation, st.comments, s.source_text, s.target_text from sentences_tasks st left join sentences s  on s.id = st.sentence_id where st.task_id = ? order by evaluation;");
+      $query = $this->conn->prepare("select s.source_text, s.target_text, st.evaluation, st.comments from sentences_tasks st left join sentences s  on s.id = st.sentence_id left join tasks t on t.id = st.task_id where st.task_id = ? order by evaluation;");
       $query->bindParam(1, $task_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);

@@ -29,6 +29,12 @@
   <body>
     <div class="container">
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
+      <ul class="breadcrumb">
+        <li><a href="/admin">Management</a></li>
+        <li><a href="/admin/#projects">Projects</a></li>
+        <li><a href="/projects/project_manage.php?id=<?php echo $project->id; ?>"><?= $project->name?></a></li>
+        <li class="active">New task</li> 
+      </ul>
       <div class="page-header">
         <h1>New task for "<?= $project->name . " [" . $project->source_lang_object->langcode . "-" . $project->target_lang_object->langcode . "]" ?>" project</h1>
         <p>The task will be created for this project. To create a task for another project, create it using the "New task" button existing on that page.</p>

@@ -18,6 +18,11 @@
   <body>
     <div class="container">
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
+              <ul class="breadcrumb">
+        <li><a href="/admin">Management</a></li>
+        <li><a href="/admin/#invitations">Invitations</a></li>
+        <li class="active">Invite user</li> 
+      </ul>
       <div class="page-header">
         <h1>Invite new user</h1>
       </div>

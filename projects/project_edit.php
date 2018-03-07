@@ -29,6 +29,11 @@
   <body>
     <div class="container">
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
+      <ul class="breadcrumb">
+        <li><a href="/admin">Management</a></li>
+        <li><a href="/admin/#projects">Projects</a></li>
+        <li class="active">Edit project</li> 
+      </ul>
       <div class="page-header">
         <h1>Edit project</h1>
       </div>

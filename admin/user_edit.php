@@ -32,6 +32,11 @@ $languages = $language_dao->getLanguages();
   <body>
     <div class="container">
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
+      <ul class="breadcrumb">
+        <li><a href="/admin">Management</a></li>
+        <li><a href="/admin/#users">Users</a></li>
+        <li class="active">Edit user</li> 
+      </ul>
       <div class="page-header">
         <h1>Edit user</h1>
       </div>
@@ -45,7 +50,7 @@ $languages = $language_dao->getLanguages();
         </div>
         <div class="form-group">
           <div class="col-sm-1"></div>
-          <a class="col-sm-4" href="">Change password (TODO)</a>
+<!--          <a class="col-sm-4" href="">Change password (TODO)</a>-->
         </div>
         <div class="form-group">
           <label for="email" class="col-sm-1 control-label">Email</label>

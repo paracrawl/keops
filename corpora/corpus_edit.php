@@ -31,8 +31,13 @@
   <body>
     <div class="container">
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
+      <ul class="breadcrumb">
+        <li><a href="/admin">Management</a></li>
+        <li><a href="/admin/#corpora">Corpora</a></li>
+        <li class="active">Edit corpus</li> 
+      </ul>
       <div class="page-header">
-        <h1>Edit project</h1>
+        <h1>Edit corpus</h1>
       </div>
       <form class="form-horizontal" action="/corpora/corpus_update.php" role="form" method="post" data-toggle="validator">
         <div class="form-group">

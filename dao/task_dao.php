@@ -152,7 +152,9 @@ task_dao::$columns_project_tasks = array(
         'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
     array( 'db' => 'p.id', 'alias' => 'p_id', 'dt' => 7 ),
     array( 'db' => 'u.id', 'alias' => 'u_id', 'dt' => 8),
-    array( 'db' => "count(case when st.evaluation!='P' then 1 end)", 'alias' => 'completedsentences', 'dt' => 9)
+    array( 'db' => "count(case when st.evaluation!='P' then 1 end)", 'alias' => 'completedsentences', 'dt' => 9),
+    array( 'db' => 'u.email', 'alias' => 'email', 'dt' => 10)
+              
 );
 
 task_dao::$columns_user_tasks = array(

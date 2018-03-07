@@ -25,22 +25,22 @@ if (isset($task_id)) {
     header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment; filename=task_' . $task->id . '-summary.csv');
 
+    $csv_header = array("Label", "Description", "Count");
 // create a file pointer connected to the output stream
     $output = fopen('php://output', 'w');
-
+    //excel header
+    fputs($output, $bom = ( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
 // output the column headings
     //fputcsv($output, $labels);
 // loop over the rows, outputting them
-    
-     foreach (sentence_task_dto::$labels as $label) {
-       $array = array($label["value"], $label["label"], $task_stats_dto->array_type[$label['value']]);
-       fputcsv($output, $array);
-     }
-     $total_row = array("Total", "Total", $task_stats_dto->total);
-     fputcsv($output, $total_row);     
-    
-  }
-  else{
+    fputs($output, implode($csv_header, ",") . "\n");
+    foreach (sentence_task_dto::$labels as $label) {
+      $array = array($label["value"], $label["label"], $task_stats_dto->array_type[$label['value']]);
+      fputs($output, implode($array, ",") . "\n");
+    }
+    $total_row = array("Total", "Total", $task_stats_dto->total);
+    fputs($output, implode($total_row, ",") . "\n");
+  } else {
     //The user is not the owner
   }
 }

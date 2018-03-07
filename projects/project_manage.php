@@ -27,6 +27,11 @@
   <body>
     <div class="container">
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
+      <ul class="breadcrumb">
+        <li><a href="/admin">Management</a></li>
+        <li><a href="/admin/#projects">Projects</a></li>
+        <li class="active">Manage project</li> 
+      </ul>
       <div class="page-header">
         <h1><?= $project->name ?></h1>
       </div>
@@ -74,12 +79,13 @@
           <p><strong>Description:</strong> <?= $project->description ?></p>
         </div>
       </div>
-      
-      <h3>Project Tasks</h3>
-      <p>
-        <a href="/tasks/task_new.php?p_id=<?= $project->id ?>" class="btn btn-primary">New task</a>
-      </p>
-      
+      <div class="title-container">
+        <h3 class="inline">Project Tasks</h3>
+        <p class="float-right inline">
+          <a href="/tasks/task_new.php?p_id=<?= $project->id ?>" class="btn btn-primary">New task</a>
+        </p>
+      </div>
+      <hr>
       <table id="tasks-table" class="table table-striped table-bordered" data-projectid="<?= $project->id ?>" cellspacing="0" width="100%">
         <thead>
           <tr>
@@ -90,6 +96,7 @@
             <th>Creation date</th>
             <th>Assigned date</th>
             <th>Completed date</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -103,6 +110,7 @@
             <th>Creation date</th>
             <th>Assigned date</th>
             <th>Completed date</th>
+            <th>Actions</th>
           </tr>
         </tfoot>
       </table>

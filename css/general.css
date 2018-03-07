@@ -475,3 +475,15 @@ label>u{
 .num-cell {
   text-align:  right;
 }
+
+.title-container{
+  padding-top: 20px;
+}
+
+.inline{
+  display: inline;
+}
+
+.float-right{
+  float: right;  
+}

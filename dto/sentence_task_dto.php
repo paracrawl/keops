@@ -12,7 +12,17 @@ class sentence_task_dto {
   public $creation_date;
   public $completed_date;
   public $comments;
+  
+  public static function  getLabel($value){
+    foreach (sentence_task_dto::$labels as $label) {
+      if ($label['value'] == $value){
+        return $label['label'];
+      }
+    }
+    return "";
 }
+}
+
 sentence_task_dto::$labels = array(
     array( 'value' => 'L', 'label' => 'Wrong language identification', 'title' => '' ),
     array( 'value' => 'A', 'label' => 'Incorrect alignment', 'title' => '' ),
@@ -23,3 +33,4 @@ sentence_task_dto::$labels = array(
     array( 'value' => 'V', 'label' => 'Valid translation', 'title' => 'No issues found on parallel sentences' ),
     array( 'value' => 'P', 'label' => 'Pending', 'title' => 'Don\'t take the decision now' )
 );
+
