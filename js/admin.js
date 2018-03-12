@@ -36,14 +36,17 @@ $(document).ready(function() {
   var users_table = $("#users-table").DataTable({
     columnDefs: [ {
       targets: 1,
-      data: function( row, type, val, meta ) {
+      //data: function( row, type, val, meta ) {
+      render: function (data, type, row) {
         return '<a href="/admin/user_edit.php?id=' + row[0] + '">' + row[1] + '</a>';
-      }
+        //return row[1]
+      },
+      searchable: true
     },
     {
       targets: 5,
       className: "text-center",
-      data: function ( row, type, val, meta ) {
+           render: function (data, type, row) {
         if (row[5]){
           return '<span class="glyphicon glyphicon-ok green" aria-hidden="true"></span>';
         }
@@ -62,38 +65,39 @@ $(document).ready(function() {
   var projects_table = $("#projects-table").DataTable({
     columnDefs: [ {
       targets: 1,
-      data: function( row, type, val, meta ) {
+     render: function (data, type, row) {
         return '<a href="/projects/project_manage.php?id=' + row[0] + '">' + row[1] + '</a>';
       }
     },
     {
       targets:5,
-       data: function ( row, type, val, meta ) {
-        var completed = (parseInt(row[12])/parseInt(row[11])) * 100;
+     render: function (data, type, row) {
+       var completed = (parseInt(row[12])/parseInt(row[11])) * 100;
         
-        return '<div title="'+row[12]+' of '+row[11]+' tasks completed"'+'class="progress">' +
+        return '<a href="/projects/project_stats.php?id=' + row[0] + '" title="View stats">'+
+          '<div title="'+row[12]+' of '+row[11]+' tasks completed"'+'class="progress">' +
           '<div class="progress-bar" role="progressbar" aria-valuenow="' + completed +'"' +
           'aria-valuemin="0" aria-valuemax="100" style="width:' + completed +'%">' +
           '<span>'+row[12] +' of '+ row[11]+'</span></div>' +
-          '</div>';
+          '</div></a>';
        }  
     },
     {
       targets:6,
-       data: function ( row, type, val, meta ) {
-         return row[5];
+     render: function (data, type, row) {
+       return row[5];
        }
     },
     {
       targets:7,
-       data: function ( row, type, val, meta ) {
-         return row [6];
+     render: function (data, type, row) {
+       return row [6];
        }
     },
    {
       targets: 8,
       className: "text-center",
-      data: function ( row, type, val, meta ) {
+      render: function (data, type, row) {
         if (row[7]){
           return '<span class="glyphicon glyphicon-ok green" aria-hidden="true"></span>';
         }
@@ -107,7 +111,7 @@ $(document).ready(function() {
       className: "actions",
       sortable: false,
       orderable:false,
-      data: function ( row, type, val, meta ) {
+     render: function (data, type, row) {
         return '<a href="/projects/project_manage.php?id=' + row[0] + '" title="Manage project\'s tasks"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span></a>' +
                 '<a href="/projects/project_edit.php?id=' + row[0] + '" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>' +
                 '<a href="/projects/project_stats.php?id=' + row[0] + '" title="View stats"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>'
@@ -130,7 +134,7 @@ $(document).ready(function() {
     columnDefs: [{
       targets: 3,
       className: "actions",
-        data: function (row, type, val, meta) {
+             render: function (data, type, row) {
           return  '<a href="/languages/language_edit.php?id=' + row[0] + '" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>';
         },
         sortable: false,
@@ -155,7 +159,7 @@ $(document).ready(function() {
         className: "actions",
         sortable: false,
         orderable: false,
-        data: function (row, type, val, meta) {
+      render: function (data, type, row) {
           str = "";
           if (row[3] == "") {
             str = '<a href="/admin/revoke_invite.php?id=' + row[0] + '"><span class="glyphicon glyphicon-remove red" aria-hidden="true" title=\"Revoke invitation\"></span></a>';
@@ -179,14 +183,14 @@ $(document).ready(function() {
    corpora_table = $("#corpora-table").DataTable({
     columnDefs: [ {
       targets: 1,
-      data: function( row, type, val, meta ) {
+      render: function (data, type, row) {
         return '<a href="/corpora/corpus_edit.php?id=' + row[0] + '">' + row[1] + '</a>';
       }
     },
     {
       targets: 6,
       className: "text-center",
-      data: function ( row, type, val, meta ) {
+      render: function (data, type, row) {
         if (row[6]){
           return '<span class="glyphicon glyphicon-ok green" aria-hidden="true"></span>';
         }
@@ -217,8 +221,7 @@ $(document).ready(function() {
     }],*/
     columnDefs:[
       {
-      targets: 3,
-      data: function(row, type, val, meta){
+      render: function (data, type, row) {
         if (row[2]==null  || row[3] == "DONE") return  '<a href="/tasks/recap.php?id=' + row[0] + '">'+row[3]+'</a>';
         if (row[2]==null  || row[3] == "PENDING")  return  '<a href="/tasks/recap.php?id=' + row[0] + '">'+row[3]+'</a>';
         
@@ -236,7 +239,7 @@ $(document).ready(function() {
         className: "actions",
         sortable: false,
         searchable: false,
-        data: function (row, type, val, meta) {
+     render: function (data, type, row) {
           var actions_str = "";
 
           actions_str += '<a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>';
@@ -333,10 +336,46 @@ $(document).ready(function() {
     
   });
 
+  $('.collapse')
+      .on('shown.bs.collapse', function() {
+          $(this).parent()
+              .find(".glyphicon-collapse-down")
+              .removeClass("glyphicon-collapse-down")
+              .addClass("glyphicon-collapse-up");
+      })
+      .on('hidden.bs.collapse', function() {
+          $(this).parent()
+              .find(".glyphicon-collapse-up")
+              .removeClass("glyphicon-collapse-up")
+              .addClass("glyphicon-collapse-down");
+      });
+
+  for (i in charts) {
+    drawPieChart(charts[i]["id"], charts[i]["labels"], charts[i]["data"]);
+  }
 
 });
 
 
+function drawPieChart(id, labels, data) {
+  var recapChart = new Chart(document.getElementById(id), {
+    type: 'pie',
+    data: {
+      labels: labels,
+      datasets: [{
+        backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#3e95cd", "#8e5ea2","#3cba9f","#e2782c", "#4D5360","#20a96a"],
+        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#50aeea", "#c184da", "#46d6b7", "#f38f48", "#616774", "#4bcc91"],
+        data: data
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: '# of sentences by type'
+      }
+    }
+  });
+}
 
 function getInviteToken(email){
   var message_color = $("#helpEmail").parents(".form-group");

@@ -35,6 +35,7 @@ $languages = $language_dao->getLanguages();
       <ul class="breadcrumb">
         <li><a href="/admin">Management</a></li>
         <li><a href="/admin/#users">Users</a></li>
+        <li><a href="/admin/user_edit.php?id=<?php echo $user->id; ?>"><?= $user->name?></a></li>
         <li class="active">Edit user</li> 
       </ul>
       <div class="page-header">

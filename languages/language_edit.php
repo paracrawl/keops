@@ -29,6 +29,7 @@
       <ul class="breadcrumb">
         <li><a href="/admin">Management</a></li>
         <li><a href="/admin/#languages">Languages</a></li>
+        <li><a href="/languages/language_edit.php?id=<?php echo $lang->id; ?>"><?= $lang->langname?></a></li>
         <li class="active">Edit language</li> 
       </ul>
       <div class="page-header">

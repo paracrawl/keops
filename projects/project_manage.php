@@ -30,6 +30,7 @@
       <ul class="breadcrumb">
         <li><a href="/admin">Management</a></li>
         <li><a href="/admin/#projects">Projects</a></li>
+        <li><a href="/projects/project_manage.php?id=<?php echo $project->id; ?>"><?= $project->name?></a></li>
         <li class="active">Manage project</li> 
       </ul>
       <div class="page-header">

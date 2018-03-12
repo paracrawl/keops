@@ -427,7 +427,7 @@ class DatatablesProcessing {
 		}
 
 		$stmt = $db->prepare( $sql );
-		//echo $sql;
+		error_log($sql);
 
 		// Bind parameters
 		if ( is_array( $bindings ) ) {
@@ -436,10 +436,10 @@ class DatatablesProcessing {
 				$stmt->bindValue( $binding['key'], $binding['val'], $binding['type'] );
 			}
 		}
-
 		// Execute
 		try {
 			$stmt->execute();
+
 		}
 		catch (PDOException $e) {
 			self::fatal( "An SQL error occurred: ".$e->getMessage() );

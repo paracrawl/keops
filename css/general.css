@@ -237,12 +237,12 @@ display: table;
 .home-banner .container{
   width: 100%;
 }*/
-.card .glyphicon{
+.home-container .card .glyphicon{
     font-size: 60px;
     color: #4D4D4D
 }
 
-.card{
+.home-container .card{
   background: rgba(255,255,255,0.7);
   min-height: 250px;
   padding: 20px;
@@ -478,6 +478,7 @@ label>u{
 
 .title-container{
   padding-top: 20px;
+  padding-bottom: 40px;
 }
 
 .inline{
@@ -486,4 +487,64 @@ label>u{
 
 .float-right{
   float: right;  
+}
+
+.container-evaluation{
+  border-bottom: 1px solid #eee;
+  margin-bottom: 20px;
+}
+
+#stats-accordion .card{
+  
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 4px;
+}
+
+#stats-accordion .card-header{
+    padding: .75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: rgba(0,0,0,.03);
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+#stats-accordion .card-header button{
+  width: 100%;
+  text-align: left;
+  color: grey;
+  font-weight: bold;
+}
+
+
+#stats-accordion .card-header button:hover{
+  color: darkgrey;
+}
+#stats-accordion .card-header button:focus{
+  outline:0;
+}
+
+#stats-accordion .btn-link:focus, #stats-accordion  .btn-link:hover {
+/*  color: transparent;*/
+  text-decoration: none;
+}
+
+#stats-accordion .card-body{
+  padding-top: 20px;
+}
+
+.card-header .glyphicon{
+  color: grey;
+  font-size: 20px;
+  float: right;
 }

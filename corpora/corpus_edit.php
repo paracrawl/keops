@@ -34,6 +34,7 @@
       <ul class="breadcrumb">
         <li><a href="/admin">Management</a></li>
         <li><a href="/admin/#corpora">Corpora</a></li>
+        <li><a href="/corpora/corpus_edit.php?id=<?php echo $corpus->id; ?>"><?= $corpus->name?></a></li>
         <li class="active">Edit corpus</li> 
       </ul>
       <div class="page-header">

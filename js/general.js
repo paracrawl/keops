@@ -17,7 +17,7 @@ $(document).ready(function() {
         className: "actions",
         sortable: false,
         searchable: false,
-        data: function (row, type, val, meta) {
+        render: function (data, type, row) {
           var actions_str = "";
           if (row[5] == "DONE") {
             actions_str += '<span class="glyphicon glyphicon-play-circle disabled" aria-hidden="true"  title="This task is finished"></span>';
@@ -32,8 +32,8 @@ $(document).ready(function() {
       {
         targets: 5,
 //        type: 'customenum',
-        data: function (row, type, val, meta) {
-          if (row[4] == null || row[5] == "PENDING")
+     render: function (data, type, row) {
+       if (row[4] == null || row[5] == "PENDING")
             return row[5];
           if (row[4] == null || row[5] == "DONE")
             return row[5];

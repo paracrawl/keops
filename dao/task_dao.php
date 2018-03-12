@@ -119,6 +119,38 @@ class task_dao {
     }
   }
   
+  function getTasksByProject($project_id){
+    try {
+      $tasks_array = array();
+
+      $query = $this->conn->prepare("select t.*, u.name, u.email FROM tasks as t left join users as u on u.id = t.assigned_user WHERE project_id = ? order by completed_date desc NULLS last, creation_date DESC;");
+      $query->bindParam(1, $project_id);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while ($row = $query->fetch()) {
+        $task = new task_dto();
+
+        $task->id = $row['id'];
+        $task->project_id = $row['project_id'];
+        $task->assigned_user = $row['assigned_user'];
+        $task->corpus_id = $row['corpus_id'];
+        $task->size = $row['size'];
+        $task->status = $row['status'];
+        $task->creation_date = $row['creation_date'];
+        $task->assigned_date = $row['assigned_date'];
+        $task->completed_date = $row['completed_date'];
+        $task->username = $row['name'];
+        $task->email = $row['email'];
+        array_push($tasks_array, $task);
+      }
+      $this->conn->close_conn();
+      return $tasks_array;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in task_dao::getTaskById : " . $ex->getMessage());
+    }
+  }
+
   function getDatatablesUserTasks($request, $user_id) {
     try {
       return json_encode(DatatablesProcessing::complex( $request, $this->conn,

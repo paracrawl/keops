@@ -111,6 +111,7 @@ class project_dao {
     }
   }
 
+  
   function getDatatablesProjects($request) {
     try {
       return json_encode(DatatablesProcessing::simple( $request, $this->conn,

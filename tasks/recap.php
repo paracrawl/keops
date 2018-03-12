@@ -141,8 +141,11 @@ if (isset($task_id)) {
               if ($USER->id == $project->owner) {                
                 ?>
                 <div>
-                  Evaluator: <?php echo $assigned_user->name;?>
-                  <a href="mailto:<?php echo $assigned_user->email;?>">
+                  <p>Evaluator: <?php echo $assigned_user->name;?> </p>
+                <p>Creation date: <?php echo getFormattedDate($task->creation_date); ?> <br>
+                Assigned on: <?php echo getFormattedDate($task->assigned_date); ?>  <br>
+                Completion date: <?php echo getFormattedDate($task->completed_date); ?></p>
+                  <a href="mailto: <?php echo $assigned_user->email;?>">
                     <br><span class="glyphicon glyphicon-envelope"></span> Contact evaluator</a>
                 </div>
               <br>
@@ -173,9 +176,12 @@ if (isset($task_id)) {
               </div>
               <div class="panel-body">
                 <p>This task is still in progress.
-                <p>Evaluator: <?php echo $assigned_user->name;?></p>
-                <p><a href="mailto:<?php echo $assigned_user->email;?>"><span class="glyphicon glyphicon-envelope"></span> Contact evaluator</a></p>
-                
+                <p>Evaluator: <?php echo $assigned_user->name; ?></p>
+                <p>Creation date: <?php echo getFormattedDate($task->creation_date); ?> <br>
+                Assigned on: <?php echo getFormattedDate($task->assigned_date); ?>  <br>
+<!--                Completion date: <?php echo getFormattedDate($task->completed_date); ?></p>-->
+                <p><a href="mailto:<?php echo $assigned_user->email; ?>"><span class="glyphicon glyphicon-envelope"></span> Contact evaluator</a></p>
+
               </div>
             </div>
             <?php
@@ -193,9 +199,9 @@ if (isset($task_id)) {
                   <p>Thank you!</p>
                 </div>
               </div>
-      <?php
-    } else {
-      ?>
+              <?php
+            } else {
+              ?>
               <div class="panel panel-warning">
                 <div class="panel-heading">
                   <h3 class="panel-title">Oops! You didn't finish the task</h3>
@@ -207,8 +213,8 @@ if (isset($task_id)) {
 
                 </div>
               </div>
-      <?php
-    }
+              <?php
+            }
   }
 }
 ?>
