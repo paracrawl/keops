@@ -427,7 +427,6 @@ class DatatablesProcessing {
 		}
 
 		$stmt = $db->prepare( $sql );
-		error_log($sql);
 
 		// Bind parameters
 		if ( is_array( $bindings ) ) {
