@@ -64,11 +64,12 @@ $tasks = $task_dao->getTasksByProject($project_id);
           <p><strong>Description:</strong> <?= $project->description ?></p>
         </div>
       </div>
-      <div id class="title-container">
-        <h3 class="inline">Project Tasks</h3>
-        <p class="float-right inline">
-          <a href="/tasks/task_new.php?p_id=<?= $project->id ?>" class="btn btn-primary">New task</a>
-        </p>
+      <div id class="title-container row">
+        <div class="col-md-10 vcenter">
+        <h3>Project Tasks</h3>
+        </div><div class="col-md-2 vcenter">
+          <a href="/tasks/task_new.php?p_id=<?= $project->id ?>" class="btn btn-primary pull-right">New task</a>
+        </div>
       </div>
       <div id="stats-accordion" >
         <?php
@@ -107,7 +108,7 @@ $tasks = $task_dao->getTasksByProject($project_id);
                             ?>
                             <tr>
                               <td><?= $label['label'] ?> [<?= $label['value'] ?>]</td>
-                              <td class="num-cell"><?= $task_stats_dto->array_type[$label['value']] ?></td>
+                              <td class="text-right"><?= $task_stats_dto->array_type[$label['value']] ?></td>
                             </tr>
                           <?php } ?>
                         </tbody>
@@ -115,7 +116,7 @@ $tasks = $task_dao->getTasksByProject($project_id);
                         <tfoot>
                           <tr>
                             <th>Total</th>
-                            <th class="num-cell"><?= $task_stats_dto->total ?></th>
+                            <th class="text-right"><?= $task_stats_dto->total ?></th>
                           </tr>
                         </tfoot>
                       </table>

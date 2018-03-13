@@ -56,11 +56,12 @@
           <p>Number of users / projects / languages / tasks / tasks in progress / ...</p>
         </div>-->
     <div id="projects" class="tab-pane fade in active">
-      <div class="title-container">
-        <h3 class="inline">Projects</h3>
-        <p class="float-right inline">
-          <a href="/projects/project_new.php" class="btn btn-primary">New project</a>
-        </p>
+      <div class="title-container row ">
+        <div class="col-md-10 vcenter">
+          <h3>Projects</h3>
+        </div><div class="col-md-2 vcenter" >
+          <a href="/projects/project_new.php" class="btn btn-primary pull-right">New project</a>
+        </div>
       </div>   
           <hr>
           <table id="projects-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -98,12 +99,13 @@
         </div>
 
       <div id="users" class="tab-pane fade">
-        <div class="title-container">
-          <h3 class="inline">Users</h3>
-          <p class="float-right inline">
-            <a href="invite.php" class="btn btn-primary">Send invitation</a>
-          </p>
+        <div class="title-container row">
+          <div class="col-md-10 vcenter">
+          <h3>Users</h3>
+          </div><div class="col-md-2 vcenter">
+            <a href="invite.php" class="btn btn-primary pull-right">Send invitation</a>          
           </div>
+        </div>
           <hr>          
           <table id="users-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
@@ -132,12 +134,10 @@
         </div>
         
         <div id="languages" class="tab-pane fade">
-          <div class="title-container">
-              <h3 class="inline">Languages</h3>
-              <p class="float-right inline">
-              <a href="new_language.php" class="btn btn-primary">Add language</a>
-              </p>
-              <p>Existing languages available for projects and users</p>
+          <div class="title-container row">
+            <div class="col-md-10 vcenter">
+              <h3>Languages</h3>Existing languages available for projects and users</div><div class="col-md-2 vcenter"><a href="new_language.php" class="btn btn-primary pull-right">Add language</a>             
+            </div>
           </div>
           <hr>
           <table id="languages-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -162,11 +162,12 @@
           </table>
         </div>
         <div id="invitations" class="tab-pane fade">
-          <div class="title-container">
-            <h3 class="inline">Invitations</h3>
-            <p class="float-right inline">
-              <a href="invite.php" class="btn btn-primary">Send invitation</a>
-            </p>
+          <div class="title-container row">
+            <div class="col-md-10 vcenter">
+            <h3>Invitations</h3>
+            </div><div class="col-md-2 vcenter">
+              <a href="invite.php" class="btn btn-primary pull-right">Send invitation</a>
+            </div>
           </div>
           <hr>
           <table id="invitations-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -197,12 +198,14 @@
           </table>
         </div>
         <div id="corpora" class="tab-pane fade">
-           <div class="title-container">
-          <h3 class="inline">Corpora</h3>
-          <p>Files uploaded to create evaluation tasks</p>
-           </div>
-          <hr>
-          <table id="corpora-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+          <div class="title-container row">
+            <div class="col-md-10 vcenter">
+              <h3>Corpora</h3>
+              Files uploaded to create evaluation tasks
+            </div>
+          </div>
+            <hr>
+            <table id="corpora-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
               <tr>
                 <th>ID</th>

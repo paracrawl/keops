@@ -80,11 +80,12 @@
           <p><strong>Description:</strong> <?= $project->description ?></p>
         </div>
       </div>
-      <div class="title-container">
-        <h3 class="inline">Project Tasks</h3>
-        <p class="float-right inline">
-          <a href="/tasks/task_new.php?p_id=<?= $project->id ?>" class="btn btn-primary">New task</a>
-        </p>
+      <div class="title-container row">
+        <div class="col-md-10 vcenter">
+        <h3>Project Tasks</h3>
+        </div><div class="col-md-2 vcenter">
+          <a href="/tasks/task_new.php?p_id=<?= $project->id ?>" class="btn btn-primary pull-right">New task</a>
+      </div>
       </div>
       <hr>
       <table id="tasks-table" class="table table-striped table-bordered" data-projectid="<?= $project->id ?>" cellspacing="0" width="100%">

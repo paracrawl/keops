@@ -60,7 +60,7 @@ if (isset($task_id)) {
         <li><a href="/index.php">Tasks</a></li>
         <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>"  title="Go to the first pending sentence">Evaluation of <?= $project->name ?></a></li>
         <li class="active">Recap Task #<?= $task->id ?></li>
-        <a style="float: right"  href="mailto:<?= $project->owner_object->email ?>" title="Contact Project Manager">Contact PM <span id="contact-mail-logo" class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
+        <a class="pull-right" href="mailto:<?= $project->owner_object->email ?>" title="Contact Project Manager">Contact PM <span id="contact-mail-logo" class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
       </ul>
       <!--<div class="col-md-12">
         <div class="table-responsive">
@@ -104,7 +104,7 @@ if (isset($task_id)) {
                 ?>
                 <tr>
                   <td><?= $label['label'] ?> [<?= $label['value'] ?>]</td>
-                  <td class="num-cell"><?= $task_stats_dto->array_type[$label['value']] ?></td>
+                  <td class="text-right"><?= $task_stats_dto->array_type[$label['value']] ?></td>
                 </tr>
               <?php } ?>
             </tbody>
@@ -112,7 +112,7 @@ if (isset($task_id)) {
             <tfoot>
               <tr>
                 <th>Total</th>
-                <th class="num-cell"><?= $task_stats_dto->total ?></th>
+                <th class="text-right"><?= $task_stats_dto->total ?></th>
               </tr>
             </tfoot>
           </table>

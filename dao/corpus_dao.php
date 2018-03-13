@@ -126,14 +126,38 @@ class corpus_dao {
     return false;
   }
   
-  function updateLinesInCorpus($corpus_id) {
+  function deleteCorpus($corpus_id){
     try {
-      $query = $this->conn->prepare("with counted as (select count(corpus_id) as count from sentences where corpus_id = ? group by corpus_id) update corpora as c set lines = s.count from counted as s where c.id = ?;");
+      $query = $this->conn->prepare("DELETE FROM corpora WHERE id = ?;");
       $query->bindParam(1, $corpus_id);
-      $query->bindParam(2, $corpus_id);
       $query->execute();
       $this->conn->close_conn();
       return true;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();   
+      throw new Exception("Error in corpus_dao::deleteCorpus : " . $ex->getMessage());
+    }
+    return false;
+  }
+  
+  function updateLinesInCorpus($corpus_id) {
+    try {
+      $query = $this->conn->prepare("with counted as (select count(corpus_id) as count from sentences where corpus_id = ? group by corpus_id) update corpora as c set lines = s.count from counted as s where c.id = ? returning lines;");
+      $query->bindParam(1, $corpus_id);
+      $query->bindParam(2, $corpus_id);
+      $query->execute();
+      while($row = $query->fetch()){        
+        $lines = $row['lines'];        
+      }
+      $this->conn->close_conn();      
+      if ($lines == 0 || $lines=="" || $lines==null){
+        //no inserted lines
+        $this->deleteCorpus($this->id);
+        return false;
+      }
+      else {
+        return true;
+      }
     } catch (Exception $ex) {
       $this->conn->close_conn();
       throw new Exception("Error in corpus_dao::updateLinesInCorpus : " . $ex->getMessage());

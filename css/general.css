@@ -5,11 +5,15 @@ html {
 }
 
 body{
-  margin-top: 50px;
+  margin-top: 60px;
   /* Margin bottom by footer height + 20px for space */
   margin-bottom: 80px;
 }
 
+.home-body{
+  margin-top: 50px;
+  margin-bottom: 80px;
+}
 .form-horizontal .checkbox {
   margin-top: 4px;
   width: 20px;
@@ -139,6 +143,10 @@ footer .container p{
   font-size: 12px;
 }
 
+.evaluation .breadcrumb{
+  margin-bottom: 20px;
+}
+
 
 .container.evaluation{
   padding-top: 10px;
@@ -233,10 +241,7 @@ display: table;
   font-style: italic;
 }
 
-/*
-.home-banner .container{
-  width: 100%;
-}*/
+
 .home-container .card .glyphicon{
     font-size: 60px;
     color: #4D4D4D
@@ -353,18 +358,6 @@ display: table;
   text-decoration: none;
 }
 
-/*.navbar-brand a img{
-  display: inline;
-  width: 30px;
-  margin-right: 10px;
-  vertical-align: middle;
-}
-
-.navbar-brand a{
-  color: white;  
-}*/
-
-
 #navbar{
   background-color: #004A7A;
   border-color: #004A7A;
@@ -422,18 +415,10 @@ display: table;
   text-decoration: none;
 }
 
-/*.nav .navbar-nav .navbar-right{
-  background: red;
-}*/
-
-
 .dropdown:active, .open .dropdown-toggle {
   background: #004A7A !important; 
 }
 
-/*.navbar-toggle:active, .open .navbar-toggle {
-  background: #004A7A !important; 
-}*/
  .navbar-toggle{
   background: #004A7A !important;
 }
@@ -442,10 +427,6 @@ display: table;
   padding-left: 5px;
   padding-right: 5px;
 }
-
-/*.big-icon{
-    font-size: 20px;
-}*/
 
 .dz-error-mark{
   background: red;
@@ -472,22 +453,22 @@ label>u{
   color: darkorange;
 }
 
-.num-cell {
+/*.num-cell {
   text-align:  right;
-}
+}*/
 
-.title-container{
+/*.title-container{
   padding-top: 20px;
   padding-bottom: 40px;
-}
-
+}*/
+/*
 .inline{
   display: inline;
 }
 
 .float-right{
   float: right;  
-}
+}*/
 
 .container-evaluation{
   border-bottom: 1px solid #eee;
@@ -548,3 +529,4 @@ label>u{
   font-size: 20px;
   float: right;
 }
+

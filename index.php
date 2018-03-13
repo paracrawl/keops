@@ -14,11 +14,11 @@ require_once(RESOURCES_PATH . "/session.php");
     require_once(TEMPLATES_PATH . "/head.php");
     ?>
   </head>
-  <body>    
 
       <?php
       if  (!isSignedIn()) {
         ?>
+    <body class="home-body">    
     <?php require_once(TEMPLATES_PATH . "/home-header.php"); ?>
     <div class="home-container">
         <div class="full-width">
@@ -104,6 +104,7 @@ require_once(RESOURCES_PATH . "/session.php");
       }else{
         
             ?>
+      <body>
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
       <div class="container">
       <div id="header">

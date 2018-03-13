@@ -22,13 +22,13 @@ class sentence_dao {
           $insert_values[] = $corpus_id;
           $insert_values = array_merge($insert_values, array_values($d));
       }
-      
+
       $query = $this->conn->prepare("INSERT INTO sentences (corpus_id, source_text, target_text) VALUES " . implode(',', $question_marks));
       $query->execute($insert_values);
       $this->conn->close_conn();
       return true;
     } catch (Exception $ex) {
-      $this->conn->close_conn();
+      $this->conn->close_conn();      
       throw new Exception("Error in sentence_dao::insertBatchSentences : " . $ex->getMessage());
     }
     return false;
