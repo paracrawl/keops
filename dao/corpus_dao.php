@@ -2,6 +2,7 @@
 
 require_once(DB_CONNECTION);
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/corpus_dto.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/sentence_dto.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/utils/utils.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/utils/datatables_helper.class.php' );
 
@@ -163,6 +164,31 @@ class corpus_dao {
       throw new Exception("Error in corpus_dao::updateLinesInCorpus : " . $ex->getMessage());
     }
     return false;
+  }
+  
+    
+  function getSentencesFromCorpus($corpus_id, $amount){
+    $sentences = array();
+    try {       
+      $query = $this->conn->prepare("select * from sentences where corpus_id = ? limit ?;");
+      $query->bindParam(1, $corpus_id);
+      $query->bindParam(2, $amount);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while ($row = $query->fetch()) {
+        $sentence = new sentence_dto();
+        $sentence->id = $row['id'];
+        $sentence->corpus_id = $row["corpus_id"];
+        $sentence->source_text = $row["source_text"];
+        $sentence->target_text = $row["target_text"];
+        array_push($sentences, $sentence);
+      }
+      $this->conn->close_conn();
+      return $sentences;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in sentence_dao::getSentencesFromCorpus : " . $ex->getMessage());
+    }
   }
   
   function updateCorpus($corpus_dto){

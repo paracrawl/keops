@@ -182,7 +182,7 @@ require_once(RESOURCES_PATH . "/session.php");
               <th>Project</th>
               <th title="Source language">SL</th>
               <th title="Target language">TL</th>
-              <th>Size</th>
+              <th>Size</th>              
               <th>Status</th>
               <th>Creation date</th>
               <th>Actions</th>

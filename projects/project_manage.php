@@ -94,6 +94,7 @@
             <th>ID</th>
             <th>Assigned user</th>
             <th>Size</th>
+            <th>Corpus</th>  
             <th>Status</th>
             <th>Creation date</th>
             <th>Assigned date</th>
@@ -108,6 +109,7 @@
             <th>ID</th>
             <th>Assigned user</th>
             <th>Size</th>
+            <th>Corpus</th>  
             <th>Status</th>
             <th>Creation date</th>
             <th>Assigned date</th>

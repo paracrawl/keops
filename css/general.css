@@ -530,3 +530,10 @@ label>u{
   float: right;
 }
 
+.sentence-source{
+  margin-left: 20px;
+}
+.sentence-target{
+  color: #004a7a;
+  margin-left: 20px;
+}

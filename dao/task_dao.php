@@ -108,12 +108,13 @@ class task_dao {
     try {
       return json_encode(DatatablesProcessing::complex( $request, $this->conn,
               "tasks as t left join projects as p on p.id = t.project_id left join users as u on u.id = t.assigned_user "
-              . "left join sentences_tasks as st on t.id = st.task_id",
+              . "left join sentences_tasks as st on t.id = st.task_id " 
+              . "left join corpora as c on c.id = t.corpus_id " ,
               "t.id",
               self::$columns_project_tasks,
               null,
               "project_id=" . $request['p_id'],
-              ["t.id", "u.name", "p.id", "u.id"]));
+              ["t.id", "u.name", "p.id", "u.id", "c.name"]));
     } catch (Exception $ex) {
       throw new Exception("Error in task_dao::getDatatablesTasks : " . $ex->getMessage());
     }
@@ -175,17 +176,20 @@ task_dao::$columns_project_tasks = array(
     array( 'db' => 't.id', 'alias' => 'id', 'dt' => 0 ),
     array( 'db' => 'u.name', 'alias' => 'name', 'dt' => 1 ),
     array( 'db' => 'size', 'dt' => 2 ),
-    array( 'db' => 't.status', 'alias' => 'status', 'dt' => 3 ),
-    array( 'db' => 't.creation_date', 'alias' => 'creation_date', 'dt' => 4,
+    array( 'db' => 'c.name', 'alias' => 'corpusname', 'dt' => 3 ),
+    array( 'db' => 't.status', 'alias' => 'status', 'dt' => 4 ),
+    array( 'db' => 't.creation_date', 'alias' => 'creation_date', 'dt' => 5,
         'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
-    array( 'db' => 't.assigned_date', 'alias' => 'assigned_date', 'dt' => 5,
+    array( 'db' => 't.assigned_date', 'alias' => 'assigned_date', 'dt' => 6,
         'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
-    array( 'db' => 't.completed_date', 'alias' => 'completed_date', 'dt' => 6,
+    array( 'db' => 't.completed_date', 'alias' => 'completed_date', 'dt' => 7,
         'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
-    array( 'db' => 'p.id', 'alias' => 'p_id', 'dt' => 7 ),
-    array( 'db' => 'u.id', 'alias' => 'u_id', 'dt' => 8),
-    array( 'db' => "count(case when st.evaluation!='P' then 1 end)", 'alias' => 'completedsentences', 'dt' => 9),
-    array( 'db' => 'u.email', 'alias' => 'email', 'dt' => 10)
+    array( 'db' => 'p.id', 'alias' => 'p_id', 'dt' => 8 ),
+    array( 'db' => 'u.id', 'alias' => 'u_id', 'dt' => 9),
+    array( 'db' => "count(case when st.evaluation!='P' then 1 end)", 'alias' => 'completedsentences', 'dt' => 10),
+    array( 'db' => 'u.email', 'alias' => 'email', 'dt' => 11),
+    array( 'db' => 't.corpus_id', 'alias' => 'corpus_id', 'dt' => 12 )
+
               
 );
 

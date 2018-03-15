@@ -34,7 +34,7 @@
       <ul class="breadcrumb">
         <li><a href="/admin">Management</a></li>
         <li><a href="/admin/#corpora">Corpora</a></li>
-        <li><a href="/corpora/corpus_edit.php?id=<?php echo $corpus->id; ?>"><?= $corpus->name?></a></li>
+        <li><a href="/corpora/corpus_preview.php?id=<?php echo $corpus->id; ?>"><?= $corpus->name?></a></li>
         <li class="active">Edit corpus</li> 
       </ul>
       <div class="page-header">
@@ -99,7 +99,7 @@
         <input type="hidden" name="id" id="id" value="<?= $corpus->id ?>">
         <div class="form-group">
           <div class="col-sm-4 text-right">
-            <a href="/admin/#corpora" class="col-sm-offset-1 btn btn-danger" tabindex="6">Cancel</a>
+            <a href="/corpora/corpus_preview.php?id=<?php echo $corpus->id;?>" class="col-sm-offset-1 btn btn-danger" tabindex="6">Cancel</a>
             <button type="submit" class="col-sm-offset-1 btn btn-success" tabindex="5">Save</button>
           </div>
         </div>

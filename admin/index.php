@@ -215,6 +215,7 @@
                 <th title="Number of lines in the file">Lines</th>
                 <th>Creation date</th>
                 <th>Active?</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -228,6 +229,7 @@
                 <th title="Number of lines in the file">Lines</th>
                 <th>Creation date</th>
                 <th>Active?</th>
+                <th>Actions</th>
               </tr>
             </tfoot>
           </table>

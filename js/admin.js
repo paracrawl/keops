@@ -181,24 +181,31 @@ $(document).ready(function() {
   });
   
    corpora_table = $("#corpora-table").DataTable({
-    columnDefs: [ {
-      targets: 1,
-      render: function (data, type, row) {
-        return '<a href="/corpora/corpus_edit.php?id=' + row[0] + '">' + row[1] + '</a>';
-      }
-    },
-    {
-      targets: 6,
-      className: "text-center",
-      render: function (data, type, row) {
-        if (row[6]){
-          return '<span class="glyphicon glyphicon-ok green" aria-hidden="true"></span>';
+    columnDefs: [{
+        targets: 1,
+        render: function (data, type, row) {
+          return '<a href="/corpora/corpus_preview.php?id=' + row[0] + '">' + row[1] + '</a>';
         }
-        else {
-          return '<span class="glyphicon glyphicon-remove red" aria-hidden="true"></span>';
+      },
+      {
+        targets: 6,
+        className: "text-center",
+        render: function (data, type, row) {
+          if (row[6]) {
+            return '<span class="glyphicon glyphicon-ok green" aria-hidden="true"></span>';
+          } else {
+            return '<span class="glyphicon glyphicon-remove red" aria-hidden="true"></span>';
+          }
         }
+      },
+      {
+      targets: 7,
+      className: "actions",
+      render: function (data, type, row) {
+        return '<a href="/corpora/corpus_edit.php?id=' + row[0] + '">' + '<span class="glyphicon glyphicon-edit " aria-hidden=\"true\"></a>';
       }
-    }],
+    }
+    ],
     order: [[ 5, 'desc' ]],
     processing: true,
     serverSide: true,
@@ -221,34 +228,38 @@ $(document).ready(function() {
     }],*/
     columnDefs:[
       {
+        targets: 3,
+        render: function(data, type, row) {
+          return '<a href="/corpora/corpus_preview.php?id='+row[12]+'">'+row[3]+'</a>';
+        }
+      },
+      {
+        targets:4,
       render: function (data, type, row) {
-        if (row[2]==null  || row[3] == "DONE") return  '<a href="/tasks/recap.php?id=' + row[0] + '">'+row[3]+'</a>';
-        if (row[2]==null  || row[3] == "PENDING")  return  '<a href="/tasks/recap.php?id=' + row[0] + '">'+row[3]+'</a>';
-        
-        var completed = (parseInt(row[9])/parseInt(row[2])) * 100;
-        
-        return '<a href="/tasks/recap.php?id=' + row[0] + '"><div title="'+row[9]+' of '+row[2]+' sentences evaluated" class="progress">' +
+//        if (row[2]==null  || row[3] == "DONE") return  '<a href="/tasks/recap.php?id=' + row[0] + '">'+row[3]+'</a>';
+//        if (row[2]==null  || row[3] == "PENDING")  return  '<a href="/tasks/recap.php?id=' + row[0] + '">'+row[3]+'</a>';        
+        var completed = (parseInt(row[10])/parseInt(row[2])) * 100;        
+        return '<a href="/tasks/recap.php?id=' + row[0] + '"><div title="'+row[10]+' of '+row[2]+' sentences evaluated" class="progress">' +
           '<div   class="progress-bar" role="progressbar" aria-valuenow="' + completed +'"' +
           'aria-valuemin="0" aria-valuemax="100" style="width:' + completed +'%">' +
-          '<span>'+row[9] +' of '+ row[2]+'</span></div>' +
+          '<span>'+row[10] +' of '+ row[2]+'</span></div>' +
           '</div></a>';
       }
     },
       {
-        targets: 7,
+        targets: 8,
         className: "actions",
         sortable: false,
         searchable: false,
      render: function (data, type, row) {
           var actions_str = "";
-
           actions_str += '<a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>';
-          actions_str += '<a href="mailto:' + row[10] + '" title="Contact assigned user"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>';
+          actions_str += '<a href="mailto:' + row[11] + '" title="Contact assigned user"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>';
           return actions_str;
         }
       }
     ],
-    order: [[ 4, 'desc' ]],
+    order: [[ 6, 'desc' ]],
     processing: true,
     serverSide: true,
     ajax: {
@@ -353,6 +364,7 @@ $(document).ready(function() {
   for (i in charts) {
     drawPieChart(charts[i]["id"], charts[i]["labels"], charts[i]["data"]);
   }
+  
 
 });
 
