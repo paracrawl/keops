@@ -165,6 +165,7 @@ $tasks = $task_dao->getTasksByProject($project_id);
                                </a>
                              </div>
                            </div>
+                      </div>
                       <?php
                     } else {
                       ?>
@@ -185,7 +186,6 @@ $tasks = $task_dao->getTasksByProject($project_id);
                       </div>
                       <?php
                     }?>
-                  </div>
                 </div>
               </div>
             </div>
