@@ -205,7 +205,7 @@ else {
           <div class="progress" title="<?= $task_progress->completed . " of " . $task_progress->total . " senteces evaluated"; ?>" >
             <div  class="progress-bar" role="progressbar" aria-valuenow="<?= ($task_progress->completed / $task_progress->total) * 100 ?>"
                   aria-valuemin="0" aria-valuemax="100" style="width:<?= ($task_progress->completed / $task_progress->total) * 100 ?>%">  
-              <span id="evaluate-percent"><?= ($task_progress->completed / $task_progress->total) * 100 ?>%</span>
+              <span id="evaluate-percent"><?= round(($task_progress->completed / $task_progress->total) * 100, 2)?>%</span>
             </div>
           </div>
       </div>
