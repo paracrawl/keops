@@ -72,10 +72,11 @@ Access and error logs are located in ```/var/log/nginx/ ```
 
 ### Install and configure PostgreSQL ### 
 
-After installing with ```sudo apt-get install postgresql```,  connect with the ```postgres`` ` user to create a new DB and then access into it:
+After installing with ```sudo apt-get install postgresql```,  start the PostgreSQL service and connect with the ```postgres`` ` user to create a new DB and then access into it:
 
 ```bash
  sudo -i -u postgres
+ service postgresql start
  createdb keopsdb
  psql keopsdb
  ```
@@ -89,7 +90,7 @@ After installing with ```sudo apt-get install postgresql```,  connect with the `
  Create types, tables, relations... for Keops:
  
  ```sql
- CREATE TYPE keopsdb.role AS ENUM ('ADMIN', 'STAFF', 'USER');
+CREATE TYPE keopsdb.role AS ENUM ('ADMIN', 'STAFF', 'USER');
 CREATE TYPE keopsdb.taskstatus AS ENUM ('PENDING', 'STARTED', 'DONE');
 CREATE TYPE keopsdb.label AS ENUM ('P','V','L','A','T','MT','E','F');
 
@@ -200,6 +201,8 @@ insert into keopsdb.users (name, email, role, password) values ('admin', 'admin@
 ```
 
 Please note that a default user "admin" with password "admin" and ADMIN privileges is created.
+
 Is adviced to log as this user the first time to create a new administrator user, and then remove the default "admin" user for security.
 
+Is also recommended to change the PostgreSQL user's password from "PASSWORD_FOR_USER_KEOPS" to a secure one.
  
