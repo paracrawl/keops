@@ -90,6 +90,8 @@ After installing with ```sudo apt-get install postgresql```,  start the PostgreS
  Create types, tables, relations... for Keops:
  
  ```sql
+CREATE SCHEMA keopsdb;
+
 CREATE TYPE keopsdb.role AS ENUM ('ADMIN', 'STAFF', 'USER');
 CREATE TYPE keopsdb.taskstatus AS ENUM ('PENDING', 'STARTED', 'DONE');
 CREATE TYPE keopsdb.label AS ENUM ('P','V','L','A','T','MT','E','F');
