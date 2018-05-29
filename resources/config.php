@@ -10,12 +10,3 @@ defined("TEMPLATES_PATH")
 defined("DB_CONNECTION")
   or define("DB_CONNECTION", RESOURCES_PATH . '/db/keopsdb.class.php');
 
-/*$to      = 'jferrandez@prompsit.com';
-$subject = 'the subject';
-$message = 'hello1';
-$headers = 'From: jferrandez@prompsit.com' . "\r\n" .
-    'Reply-To: jferrandez@prompsit.com' . "\r\n" .
-    'X-Mailer: PHP/' . phpversion();
-
-mail($to, $subject, $message, $headers);
-*/

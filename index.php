@@ -141,8 +141,6 @@ require_once(RESOURCES_PATH . "/session.php");
       <?php
       //This should be in the header
       if (isset($_SESSION["userinfo"])) {
-        //$user = new user_dto();
-        //$user = $user_dao->getUser("mbanon");
         $user = $_SESSION["userinfo"];
         if (!$user->active == true) {
           ?>        
