@@ -18,7 +18,7 @@ The following packages are needed.  They can be installed with ```sudo apt-get i
 
 Create a config file for Keops:
 
-```
+```bash
 joe /etc/nginx/sites-available/keops.conf
 ```
 
@@ -52,7 +52,7 @@ server {
  
  Then, make available the site for nginx and restart the server:
 
-```
+```bash
 cd /etc/nginx/sites-enabled
 rm default
 sudo ln -s /etc/nginx/sites-available/keops.conf
@@ -74,7 +74,7 @@ Access and error logs are located in ```/var/log/nginx/ ```
 
 After installing with ```sudo apt-get install postgresql```,  connect with the ```postgres`` ` user to create a new DB and then access into it:
 
-```
+```bash
  sudo -i -u postgres
  createdb keopsdb
  psql keopsdb
@@ -82,13 +82,13 @@ After installing with ```sudo apt-get install postgresql```,  connect with the `
  
  Create a user for Keops:
  
- ```
+ ```sql
  CREATE USER keopsdb PASSWORD 'PASSWORD_FOR_USER_KEOPS';
  ```
  
  Create types, tables, relations... for Keops:
  
- ```
+ ```sql
  CREATE TYPE keopsdb.role AS ENUM ('ADMIN', 'STAFF', 'USER');
 CREATE TYPE keopsdb.taskstatus AS ENUM ('PENDING', 'STARTED', 'DONE');
 CREATE TYPE keopsdb.label AS ENUM ('P','V','L','A','T','MT','E','F');
