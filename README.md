@@ -204,5 +204,5 @@ Please note that a default user "admin" with password "admin" and ADMIN privileg
 
 Is adviced to log as this user the first time to create a new administrator user, and then remove the default "admin" user for security.
 
-Is also recommended to change the PostgreSQL user's password from "PASSWORD_FOR_USER_KEOPS" to a secure one.
+Is also recommended to change the PostgreSQL user's password from "PASSWORD_FOR_USER_KEOPS" to a secure one, both in your DB and in ```WORKDIR/keops/resources/db/keopsdb.class.php```
  
