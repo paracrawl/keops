@@ -1,20 +1,24 @@
 FROM ubuntu:18.04
 
-MKDIR /opt/keops
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN mkdir /opt/keops
 
 COPY . /opt/keops
 
 RUN apt-get update -q --fix-missing && \
     apt-get -y upgrade && \
-    apt-get -y install  postgresql \
+    apt-get -y install  apt-utils \			
+			postgresql \
 			php7.2 \
 			php7.2-pgsql \
 			php7.2-fpm \
-			nginx \
-			git	 && \
+			nginx && \
     apt-get autoremove -y && \
     apt-get autoclean
 
-EXPOSE 8080
+RUN /opt/keops/configure-keops.sh
+
+EXPOSE 80
 
 CMD /opt/keops/docker-entrypoint.sh
