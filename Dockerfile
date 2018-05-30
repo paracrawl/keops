@@ -6,9 +6,11 @@ RUN mkdir /opt/keops
 
 COPY . /opt/keops
 
+RUN echo "Europe/Madrid" > /etc/timezone
+
 RUN apt-get update -q --fix-missing && \
     apt-get -y upgrade && \
-    apt-get -y install  apt-utils \			
+    apt-get -y install  tzdata \			
 			postgresql \
 			php7.2 \
 			php7.2-pgsql \
@@ -22,4 +24,4 @@ RUN /opt/keops/configure-keops.sh
 
 EXPOSE 80
 
-CMD /opt/keops/docker-entrypoint.sh
+
