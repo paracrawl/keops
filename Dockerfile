@@ -25,3 +25,4 @@ RUN /opt/keops/configure-keops.sh
 EXPOSE 80
 
 
+CMD /opt/keops/docker-entrypoint.sh

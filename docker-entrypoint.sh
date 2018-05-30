@@ -13,7 +13,9 @@ echo "STARTING SERVICES..."
 
 
 echo "STARTING POSTGRESQL..."
-service postgresql restart
+#service postgresql restart
+
+sudo -u postgres /usr/lib/postgresql/10/bin/postgres -D /var/lib/postgresql/10/main -c "config_file=/etc/postgresql/10/main/postgresql.conf" &
 
 echo "STARTING PHP..."
 service php7.2-fpm stop && service php7.2-fpm start
@@ -24,4 +26,3 @@ service nginx stop && service nginx start
 echo "SERVICES STARTED!"
 
 tail -f /var/log/nginx/error.log /var/log/nginx/access.log
-/bin/bash
