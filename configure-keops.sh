@@ -7,11 +7,7 @@ cp /opt/keops/keops.conf /etc/nginx/sites-available/keops.conf && cd /etc/nginx/
 echo "extension=pdo_pgsql.so" >> /etc/php/7.2/fpm/php.ini
 echo "extension=pgsql.so" >> /etc/php/7.2/fpm/php.ini
 
-sudo -i -u postgres
-
-service postgresql start && createdb keopsdb && psql keopsdb < keopsdb_init.sql 
-
-exit
+sudo -u postgres service postgresql start && sudo -u postgres createdb keopsdb && sudo -u postgres psql keopsdb < keopsdb_init.sql 
 
 service postgresql restart && service php7.2-fpm restart && service nginx restart
 
