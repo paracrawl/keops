@@ -19,8 +19,8 @@
     <div class="container">
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
         <ul class="breadcrumb">
-        <li><a href="/admin">Management</a></li>
-        <li><a href="/admin/#projects">Projects</a></li>
+        <li><a href="/admin/index.php">Management</a></li>
+        <li><a href="/admin/index.php#projects">Projects</a></li>
         <li class="active">New project</li> 
       </ul>
       <div class="page-header">
@@ -67,7 +67,7 @@
         </div>
         <div class="form-group">
           <div class="col-sm-4 text-right">
-            <a href="/admin/#projects" class="col-sm-offset-1 btn btn-danger" tabindex="6">Cancel</a>
+            <a href="/admin/index.php#projects" class="col-sm-offset-1 btn btn-danger" tabindex="6">Cancel</a>
             <button type="submit" class="col-sm-offset-1 btn btn-success" tabindex="5">Save</button>
           </div>
         </div>

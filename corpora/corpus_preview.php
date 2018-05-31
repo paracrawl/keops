@@ -11,7 +11,7 @@
   
   $corpus_id = filter_input(INPUT_GET, "id");
   if (!isset($corpus_id)) {
-    header("Location: /admin/#corpora");
+    header("Location: /admin/index.php#corpora");
     die();
   }
   $corpus_dao = new corpus_dao();
@@ -45,8 +45,8 @@
     <div class="container">
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
       <ul class="breadcrumb">
-        <li><a href="/admin">Management</a></li>
-        <li><a href="/admin/#corpora">Corpora</a></li>
+        <li><a href="/admin/index.php">Management</a></li>
+        <li><a href="/admin/index.php#corpora">Corpora</a></li>
         <li class="active"><?= $corpus->name?></a></li>
       </ul>
       <div class="page-header">

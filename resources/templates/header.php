@@ -25,7 +25,7 @@
             }
             if ($ADMIN_VIEW_PERMISSIONS) {
             ?>
-            <li><a href="/admin">Management</a></li>
+            <li><a href="/admin/index.php">Management</a></li>
             <?php
             }
             ?>

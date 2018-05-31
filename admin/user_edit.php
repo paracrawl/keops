@@ -33,8 +33,8 @@ $languages = $language_dao->getLanguages();
     <div class="container">
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
       <ul class="breadcrumb">
-        <li><a href="/admin">Management</a></li>
-        <li><a href="/admin/#users">Users</a></li>
+        <li><a href="/admin/index.php">Management</a></li>
+        <li><a href="/admin/index.php#users">Users</a></li>
         <li><a href="/admin/user_edit.php?id=<?php echo $user->id; ?>"><?= $user->name?></a></li>
         <li class="active">Edit user</li> 
       </ul>
@@ -98,7 +98,7 @@ $languages = $language_dao->getLanguages();
         <input type="hidden" name="id" id="id" value="<?= $user->id ?>">
         <div class="form-group">
           <div class="col-sm-4 text-right">
-            <a href="/admin/#users" class="col-sm-offset-1 btn btn-danger">Cancel</a>
+            <a href="/admin/index.php#users" class="col-sm-offset-1 btn btn-danger">Cancel</a>
             <button type="submit" class="col-sm-offset-1 btn btn-success">Save</button>
           </div>
         </div>

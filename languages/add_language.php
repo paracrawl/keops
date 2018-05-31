@@ -32,7 +32,7 @@ if (count($failedparams) == 0) {
     die();
   }
  if ($language_dao->addLanguage($language_dto)) {
-    header("Location: /admin/#languages");
+    header("Location: /admin/index.php#languages");
       die();      
  }
  else {

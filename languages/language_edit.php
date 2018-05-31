@@ -8,7 +8,7 @@
   
   $lang_id = filter_input(INPUT_GET, "id");
   if (!isset($lang_id)) {
-    header("Location: /admin/#languages");
+    header("Location: /admin/index.php#languages");
     die();
   }
   $language_dao = new language_dao();
@@ -27,8 +27,8 @@
     <div class="container">
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
       <ul class="breadcrumb">
-        <li><a href="/admin">Management</a></li>
-        <li><a href="/admin/#languages">Languages</a></li>
+        <li><a href="/admin/index.php">Management</a></li>
+        <li><a href="/admin/index.php#languages">Languages</a></li>
         <li><a href="/languages/language_edit.php?id=<?php echo $lang->id; ?>"><?= $lang->langname?></a></li>
         <li class="active">Edit language</li> 
       </ul>
@@ -85,7 +85,7 @@
         </div>
         <div class="form-group">
           <div class="col-sm-5 text-right">
-            <a href="/admin/#languages" class="col-sm-offset-1 btn btn-danger" tabindex="4">Cancel</a>
+            <a href="/admin/index.php#languages" class="col-sm-offset-1 btn btn-danger" tabindex="4">Cancel</a>
             <button type="submit" id="add_lang_button" class="col-sm-offset-1 btn btn-success" tabindex="3">Save</button>
           </div>
         </div>

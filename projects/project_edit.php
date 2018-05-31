@@ -11,7 +11,7 @@
   
   $project_id = filter_input(INPUT_GET, "id");
   if (!isset($project_id)) {
-    header("Location: /admin/#projects");
+    header("Location: /admin/index.php#projects");
     die();
   }
   $project_dao = new project_dao();
@@ -30,8 +30,8 @@
     <div class="container">
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
       <ul class="breadcrumb">
-        <li><a href="/admin">Management</a></li>
-        <li><a href="/admin/#projects">Projects</a></li>
+        <li><a href="/admin/index.php">Management</a></li>
+        <li><a href="/admin/index.php#projects">Projects</a></li>
         <li><a href="/projects/project_manage.php?id=<?php echo $project->id; ?>"><?= $project->name?></a></li>
         
         <li class="active">Edit project</li> 
@@ -102,7 +102,7 @@
         <input type="hidden" name="id" id="id" value="<?= $project->id ?>">
         <div class="form-group">
           <div class="col-sm-4 text-right">
-            <a href="/admin/#projects" class="col-sm-offset-1 btn btn-danger" tabindex="6">Cancel</a>
+            <a href="/admin/index.php#projects" class="col-sm-offset-1 btn btn-danger" tabindex="6">Cancel</a>
             <button type="submit" class="col-sm-offset-1 btn btn-success" tabindex="5">Save</button>
           </div>
         </div>

@@ -26,7 +26,7 @@ if ($service == "new") {
     $project_dao = new project_dao();
     $result = $project_dao->insertProject($project_dto);
     if ($result) {
-      header("Location: /admin/#projects");
+      header("Location: /admin/index.php#projects");
     }
     else {
       $_SESSION['error'] = ERROR_CREATE_PROJECT;

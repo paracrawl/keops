@@ -11,7 +11,7 @@
   
   $project_id = filter_input(INPUT_GET, "p_id");
   if (!isset($project_id) || $project_id==null) {
-    header("Location: /admin/#projects");
+    header("Location: /admin/index.php#projects");
     die();
   }
   $project_dao = new project_dao();
@@ -30,8 +30,8 @@
     <div class="container">
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
       <ul class="breadcrumb">
-        <li><a href="/admin">Management</a></li>
-        <li><a href="/admin/#projects">Projects</a></li>
+        <li><a href="/admin/index.php">Management</a></li>
+        <li><a href="/admin/index.php#projects">Projects</a></li>
         <li><a href="/projects/project_manage.php?id=<?php echo $project->id; ?>"><?= $project->name?></a></li>
         <li class="active">New task</li> 
       </ul>
