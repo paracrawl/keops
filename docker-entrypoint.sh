@@ -15,7 +15,7 @@ echo "STARTING SERVICES..."
 echo "STARTING POSTGRESQL..."
 #service postgresql restart
 
-sudo -u postgres bash -c  nohup /usr/lib/postgresql/10/bin/postgres -D /var/lib/postgresql/10/main -c "config_file=/etc/postgresql/10/main/postgresql.conf" & 1 &
+nohup bash -c 'sudo -u postgres /usr/lib/postgresql/10/bin/postgres -D /var/lib/postgresql/10/main -c "config_file=/etc/postgresql/10/main/postgresql.conf' &
 
 echo "STARTING PHP..."
 service php7.2-fpm stop && service php7.2-fpm start
