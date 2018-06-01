@@ -207,7 +207,6 @@ insert into keopsdb.users (name, email, role, password) values ('admin', 'admin@
 
 All the needed files to dockerize Keops are provided. To build the dockerized version of Keops:
 
-
 ```
 docker build -t keopsdocker .
 ```
@@ -215,30 +214,10 @@ docker build -t keopsdocker .
 Once built, run it:
 
 ```
-docker run --name keops keopsdocker:latest
-```
-and copy the postgresql directory from Docker to your local filesystem:
-
-```
-docker cp keops:/var/lib/postgresql /PATH_TO_LOCAL_POSTGRESQL_DIR/
-```
-
-Now, you can stop the Keops Docker:
-
-
-```
-docker stop keops
-```
-
-And run it again, using the copied
-
-```
-docker run -p OUT_PORT:80 -d --name keops -v /PATH_TO_LOCAL_POSTGRESQL_DIR/postgresql:/var/lib/postgresql keopsdocker:latest
+docker run -d -pOUT_PORT:80 --name keops keopsdocker:latest
 ```
 
 With "OUT_PORT" being the port where Keops is going to be reachable
-
-This way, you get persistent postgresql data.
 
 ## Notes ##
 
