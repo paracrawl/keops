@@ -24,4 +24,4 @@ service nginx stop && service nginx start
 
 echo "SERVICES STARTED!"
 
-tail -f /var/log/nginx/error.log /var/log/nginx/access.log
+tail -f /var/log/nginx/error.log /var/log/nginx/access.log 
