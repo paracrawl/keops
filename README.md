@@ -240,7 +240,7 @@ With "OUT_PORT" being the port where Keops is going to be reachable
 
 This way, you get persistent postgresql data.
 
-## Notes ## 
+## Notes ##
 
 Please note that a default user "admin" with password "admin" and ADMIN privileges is created.
 
