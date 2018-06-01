@@ -2,6 +2,8 @@
 
 KEOPS (Keen Evaluation Of Parallel Sentences) project provides a complete tool for manual evaluation of parallel sentences.
 
+It can be installed
+
 ## Requirements ##
 
 The following packages are needed.  They can be installed with ```sudo apt-get install```:
@@ -12,7 +14,6 @@ The following packages are needed.  They can be installed with ```sudo apt-get i
 * php7.0-fpm
 * nginx
 
-##  Preparing environment ##
 
 ### Install and configure PHP on nginx ###
 
@@ -70,7 +71,7 @@ extension=pgsql.so
 
 Access and error logs are located in ```/var/log/nginx/ ```
 
-### Install and configure PostgreSQL ### 
+### Install and configure PostgreSQL ###
 
 After installing with ```sudo apt-get install postgresql```,  start the PostgreSQL service and connect with the ```postgres`` ` user to create a new DB and then access into it:
 
@@ -201,6 +202,45 @@ GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA keopsdb TO keopsdb;
 insert into keopsdb.users (name, email, role, password) values ('admin', 'admin@admin.com', 'ADMIN', '$2y$10$dbba8ArdKTe9Uxt7rkGwKOrfX5EpI8SO2VheEnnfoYu4kmVFtQjW2');
 
 ```
+
+## Dockerized version ##
+
+All the needed files to dockerize Keops are provided. To build the dockerized version of Keops:
+
+
+```
+docker build -t keopsdocker .
+```
+
+Once built, run it:
+
+```
+docker run --name keops keopsdocker:latest
+```
+and copy the postgresql directory from Docker to your local filesystem:
+
+```
+docker cp keops:/var/lib/postgresql /PATH_TO_LOCAL_POSTGRESQL_DIR/
+```
+
+Now, you can stop the Keops Docker:
+
+
+```
+docker stop keops
+```
+
+And run it again, using the copied
+
+```
+docker run -p OUT_PORT:80 -d --name keops -v /PATH_TO_LOCAL_POSTGRESQL_DIR/postgresql:/var/lib/postgresql keopsdocker:latest
+```
+
+With "OUT_PORT" being the port where Keops is going to be reachable
+
+This way, you get persistent postgresql data.
+
+## Notes ##
 
 Please note that a default user "admin" with password "admin" and ADMIN privileges is created.
 
