@@ -537,3 +537,8 @@ label>u{
   color: #004a7a;
   margin-left: 20px;
 }
+
+.link-row{
+    float: right;
+    margin-right: 20px;
+}

@@ -76,22 +76,20 @@ else {
         <a class="pull-right"  href="mailto:<?= $project->owner_object->email  ?>" title="Contact Project Manager">Contact PM <span id="contact-mail-logo" class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
 
       </ul>
-      <div class="col-md-12">
-        <div class="row">
-          <div class="col-md-1 vcenter">
-            <div class="text-increase"><?= $project->source_lang_object->langname ?></div>
-          </div><div class="col-md-11 vcenter">
-            <div class="text-box text-increase"><?= $sentence->source_text ?></div>
-          </div>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-1 vcenter"><div class="text-increase"><?= $project->source_lang_object->langname ?></div></div><div class="col-md-11 vcenter"><div class="text-box text-increase"><?= $sentence->source_text ?></div></div>                
+            </div>
+            <div class="row">
+                <a class="link-row" href="https://translate.google.com/?op=translate&sl=<?= $project->source_lang_object->langcode?>&tl=<?=$project->target_lang_object->langcode?>&text=<?=$sentence->source_text ?>"  title="Translate source sentence with Google" target="_blank"><span class="glyphicon glyphicon-new-window"></span></a>
+            </div>
+            <div class="row">
+                <div class="col-md-1 vcenter"><div class="text-increase"><?= $project->target_lang_object->langname ?></div></div><div class="col-md-11 vcenter"><div class="text-box text-increase"><?= $sentence->target_text ?></div></div>
+            </div>
+            <div class="row">
+                <a class="link-row" href="https://translate.google.com/?op=translate&sl=<?= $project->target_lang_object->langcode?>&tl=<?=$project->source_lang_object->langcode?>&text=<?=$sentence->target_text ?>"  title="Translate target sentence with Google" target="_blank"><span class="glyphicon glyphicon-new-window"></span></a>
+            </div>
         </div>
-        <div class="row">
-          <div class="col-md-1 vcenter">
-            <div class="text-increase"><?= $project->target_lang_object->langname ?></div>
-          </div><div class="col-md-11 vcenter">
-            <div class="text-box text-increase"><?= $sentence->target_text ?></div>
-          </div>
-        </div>
-      </div>
       <div class="col-md-12">
         <form id="evaluation-form" class="form-horizontal" action="/sentences/sentence_save.php" role="form" method="post" data-toggle="validator">
           <input type="hidden" name="task_id" value="<?= $task->id ?>">

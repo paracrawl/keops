@@ -96,7 +96,7 @@ CREATE TABLE keopsdb.SENTENCES_TASKS(
 );
 
 insert INTO keopsdb.langs (langcode, langname) values
-('de', 'German'), ('fr', 'French'), ('es', 'Spanish'), ('en', 'English'), ('it', 'Italian'), ('pt', 'Portuguese'), ('nl', 'Dutch'), ('pl', 'Polish'), ('cs', 'Czech'), ('ro', 'Romanian'), ('fi', 'Finnish'), ('lv', 'Latvian');
+('bg','Bulgarian'), ('cs', 'Czech'),  ('da', 'Danish'), ('de', 'German'),  ('el', 'Greek'), ('en', 'English'), ('es', 'Spanish'), ('et', 'Estonian'), ('fi', 'Finnish'), ('fr', 'French'), ('ga', 'Irish'), ('hr', 'Croatian'), ('hu', 'Hungarian'), ('it', 'Italian'),  ('lt', 'Lithuanian'), ('lv', 'Latvian'), ('mt', 'Maltese'), ('nl', 'Dutch'), ('pl', 'Polish'), ('pt', 'Portuguese'),  ('ro', 'Romanian'), ('sk', 'Slovak'), ('sl', 'Slovenian'), ('sv', 'Swedish');
 
 REVOKE CONNECT ON DATABASE keopsdb FROM PUBLIC;
 GRANT CONNECT ON DATABASE keopsdb TO keopsdb;
