@@ -85,7 +85,7 @@
         </div>
         <div class="form-group">
           <div class="col-sm-5 text-right">
-            <a href="/admin/index.php#languages" class="col-sm-offset-1 btn btn-danger" tabindex="4">Cancel</a>
+            <a href="/admin/index.php#languages" class="col-sm-offset-1 btn btn-info" tabindex="4">Cancel</a>
             <button type="submit" id="add_lang_button" class="col-sm-offset-1 btn btn-success" tabindex="3">Save</button>
           </div>
         </div>

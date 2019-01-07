@@ -202,7 +202,8 @@ $(document).ready(function() {
       targets: 7,
       className: "actions",
       render: function (data, type, row) {
-        return '<a href="/corpora/corpus_edit.php?id=' + row[0] + '">' + '<span class="glyphicon glyphicon-edit " aria-hidden=\"true\"></a>';
+        return '<a href="/corpora/corpus_edit.php?id=' + row[0] + '">' + '<span class="glyphicon glyphicon-edit " aria-hidden=\"true\"></a>'+
+               '<a href="/corpora/corpus_remove.php?id=' + row[0] + '">' +  '<span class="glyphicon glyphicon-trash " aria-hidden=\"true\"></a>';
       }
     }
     ],

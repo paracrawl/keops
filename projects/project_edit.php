@@ -102,7 +102,7 @@
         <input type="hidden" name="id" id="id" value="<?= $project->id ?>">
         <div class="form-group">
           <div class="col-sm-4 text-right">
-            <a href="/admin/index.php#projects" class="col-sm-offset-1 btn btn-danger" tabindex="6">Cancel</a>
+            <a href="/admin/index.php#projects" class="col-sm-offset-1 btn btn-info" tabindex="6">Cancel</a>
             <button type="submit" class="col-sm-offset-1 btn btn-success" tabindex="5">Save</button>
           </div>
         </div>

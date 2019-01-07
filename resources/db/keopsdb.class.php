@@ -4,7 +4,7 @@ class keopsdb extends PDO{
  private $dbname = "keopsdb";
  private $host = "localhost";
  private $user = "keopsdb";
- private $pass = "PASSWORD_FOR_USER_KEOPS";
+ private $pass = ".keopsdb.";
  private $port = 5432;
  private $dbh;
  

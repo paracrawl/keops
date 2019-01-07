@@ -98,7 +98,7 @@ $languages = $language_dao->getLanguages();
         <input type="hidden" name="id" id="id" value="<?= $user->id ?>">
         <div class="form-group">
           <div class="col-sm-4 text-right">
-            <a href="/admin/index.php#users" class="col-sm-offset-1 btn btn-danger">Cancel</a>
+            <a href="/admin/index.php#users" class="col-sm-offset-1 btn btn-info">Cancel</a>
             <button type="submit" class="col-sm-offset-1 btn btn-success">Save</button>
           </div>
         </div>

@@ -77,7 +77,8 @@
            <p><strong>Active?: </strong>  <input disabled type="checkbox" name="active"<?= $corpus->active ? " checked" : "" ?>></p>
         </div>
           <div class="col-md-3">
-            <a href="/corpora/corpus_edit.php?id=<?php echo $corpus->id;?>" type="submit" class="col-sm-offset-1 btn btn-primary" tabindex="5">Edit</a>
+            <a href="/corpora/corpus_remove.php?id=<?php echo $corpus->id;?>" type="submit" class="col-sm-offset-1 btn btn-danger" tabindex="5">Remove</a>
+            <a href="/corpora/corpus_edit.php?id=<?php echo $corpus->id;?>" role="button" class="col-sm-offset-1 btn btn-primary" tabindex="5">Edit</a>
           </div>
       </div>
       <div class="title-container row">
