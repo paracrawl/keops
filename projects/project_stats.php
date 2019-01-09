@@ -60,8 +60,12 @@ $tasks = $task_dao->getTasksByProject($project_id);
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-10">
           <p><strong>Description:</strong> <?= $project->description ?></p>
+        </div>
+        <div class="col-md-2">
+          <a href="/projects/project_edit.php?id=<?php echo $project->id;?>" type="submit" class="col-sm-offset-1 btn btn-primary pull-right" tabindex="5">Edit</a>
+          <a href="/projects/project_remove.php?id=<?php echo $project->id;?>" type="submit" class="col-sm-offset-1 btn btn-danger pull-right" tabindex="5">Remove</a>
         </div>
       </div>
       <div id class="title-container row">

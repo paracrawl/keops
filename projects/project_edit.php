@@ -96,13 +96,13 @@
           <label for="active" class="col-sm-1 control-label">Active?</label>
           <div class="col-sm-4">
             <input type="checkbox" name="active"<?= $project->active ? " checked" : "" ?>>
-            <div id="helpName" class="help-block with-errors">If you uncheck this project, it will not be available for creating new tasks. It requires confirmation.</div>
+            <div id="helpName" class="help-block with-errors">If you uncheck this project, it will not be available for creating new tasks. </div>
           </div>
         </div>
         <input type="hidden" name="id" id="id" value="<?= $project->id ?>">
         <div class="form-group">
           <div class="col-sm-4 text-right">
-            <a href="/admin/index.php#projects" class="col-sm-offset-1 btn btn-info" tabindex="6">Cancel</a>
+            <a href="/projects/project_manage.php?id=<?=$project->id?>" class="col-sm-offset-1 btn btn-info" tabindex="6">Cancel</a>
             <button type="submit" class="col-sm-offset-1 btn btn-success" tabindex="5">Save</button>
           </div>
         </div>

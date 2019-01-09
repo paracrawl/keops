@@ -75,9 +75,14 @@
           <p><strong>Active?</strong> <span class="glyphicon glyphicon-<?= $icon_class ?>" aria-hidden="true"></span></p>
         </div>
       </div>
+
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-10">
           <p><strong>Description:</strong> <?= $project->description ?></p>
+        </div>
+        <div class="col-md-2">
+          <a href="/projects/project_edit.php?id=<?php echo $project->id;?>" type="submit" class="col-sm-offset-1 btn btn-primary pull-right" tabindex="5">Edit</a>
+          <a href="#popup_remove" type="submit" class="col-sm-offset-1 btn btn-danger pull-right" tabindex="5">Remove</a>
         </div>
       </div>
       <div class="title-container row">
@@ -85,6 +90,8 @@
         <h3>Project Tasks</h3>
         </div><div class="col-md-2 vcenter">
           <a href="/tasks/task_new.php?p_id=<?= $project->id ?>" class="btn btn-primary pull-right">New task</a>
+
+          
       </div>
       </div>
       <hr>

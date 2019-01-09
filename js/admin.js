@@ -33,12 +33,13 @@ Dropzone.options.dropzone = { // camelized id
 };
 
 $(document).ready(function() {
+  
   var users_table = $("#users-table").DataTable({
     columnDefs: [ {
       targets: 1,
       //data: function( row, type, val, meta ) {
       render: function (data, type, row) {
-        return '<a href="/admin/user_edit.php?id=' + row[0] + '">' + row[1] + '</a>';
+        return '<a href="/admin/user_edit.php?id=' + row[0] + '" title="Edit user">' + row[1] + '</a>';
         //return row[1]
       },
       searchable: true
@@ -66,7 +67,7 @@ $(document).ready(function() {
     columnDefs: [ {
       targets: 1,
      render: function (data, type, row) {
-        return '<a href="/projects/project_manage.php?id=' + row[0] + '">' + row[1] + '</a>';
+        return '<a href="/projects/project_manage.php?id=' + row[0] + '" title="Manage project">' + row[1] + '</a>';
       }
     },
     {
@@ -114,7 +115,9 @@ $(document).ready(function() {
      render: function (data, type, row) {
         return '<a href="/projects/project_manage.php?id=' + row[0] + '" title="Manage project\'s tasks"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span></a>' +
                 '<a href="/projects/project_edit.php?id=' + row[0] + '" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>' +
-                '<a href="/projects/project_stats.php?id=' + row[0] + '" title="View stats"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>'
+                '<a href="/projects/project_stats.php?id=' + row[0] + '" title="View stats"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>' +
+                '<a href="/projects/project_remove.php?id=' + row[0] + '" title="Remove project"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a>';
+
       }
     }],
     order: [[ 6, 'desc' ]],
@@ -135,7 +138,7 @@ $(document).ready(function() {
       targets: 3,
       className: "actions",
              render: function (data, type, row) {
-          return  '<a href="/languages/language_edit.php?id=' + row[0] + '" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>';
+          return  '<a href="/languages/language_edit.php?id=' + row[0] + '" title="Edit language"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>';
         },
         sortable: false,
       orderable:false
@@ -151,7 +154,7 @@ $(document).ready(function() {
       {
         targets: 5,
         data: function (row, type, val, meta) {
-          return '<a href="/admin/user_edit.php?id=' + row[6] + '">' + row[5] + '</a>';
+          return '<a href="/admin/user_edit.php?id=' + row[6] + '" title="Edit user">' + row[5] + '</a>';
         }
       },
       {
@@ -184,7 +187,7 @@ $(document).ready(function() {
     columnDefs: [{
         targets: 1,
         render: function (data, type, row) {
-          return '<a href="/corpora/corpus_preview.php?id=' + row[0] + '">' + row[1] + '</a>';
+          return '<a href="/corpora/corpus_preview.php?id=' + row[0] + '" title="Preview corpus">' + row[1] + '</a>';
         }
       },
       {
@@ -202,8 +205,8 @@ $(document).ready(function() {
       targets: 7,
       className: "actions",
       render: function (data, type, row) {
-        return '<a href="/corpora/corpus_edit.php?id=' + row[0] + '">' + '<span class="glyphicon glyphicon-edit " aria-hidden=\"true\"></a>'+
-               '<a href="/corpora/corpus_remove.php?id=' + row[0] + '">' +  '<span class="glyphicon glyphicon-trash " aria-hidden=\"true\"></a>';
+        return '<a href="/corpora/corpus_edit.php?id=' + row[0] + '" title="Edit corpus">' + '<span class="glyphicon glyphicon-edit "  aria-hidden=\"true\"></a>'+
+               '<a href="/corpora/corpus_remove.php?id=' + row[0] + '" title="Remove corpus">' +  '<span class="glyphicon glyphicon-trash " aria-hidden=\"true\"></a>';
       }
     }
     ],
@@ -231,7 +234,7 @@ $(document).ready(function() {
       {
         targets: 3,
         render: function(data, type, row) {
-          return '<a href="/corpora/corpus_preview.php?id='+row[12]+'">'+row[3]+'</a>';
+          return '<a href="/corpora/corpus_preview.php?id='+row[12]+'" title="Preview corpus">'+row[3]+'</a>';
         }
       },
       {
@@ -256,7 +259,10 @@ $(document).ready(function() {
           var actions_str = "";
           actions_str += '<a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>';
           actions_str += '<a href="mailto:' + row[11] + '" title="Contact assigned user"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>';
+          actions_str += '<a href="#popup_remove_task" title="Remove task"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>';
+          
           return actions_str;
+          
         }
       }
     ],
@@ -279,7 +285,7 @@ $(document).ready(function() {
       {
         targets: 4,
         render: function(data, type, row) {
-          return '<a href="/corpora/corpus_preview.php?id='+row[0]+'">'+row[4]+'</a>';
+          return '<a href="/corpora/corpus_preview.php?id='+row[0]+'" title="Preview corpus">'+row[4]+'</a>';
         }
       },
 

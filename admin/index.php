@@ -200,9 +200,12 @@
         </div>
         <div id="corpora" class="tab-pane fade">
           <div class="title-container row">
-            <div class="col-md-10 vcenter">
+            <div class="col-md-9 vcenter">
               <h3>Corpora</h3>
-              Files uploaded to create evaluation tasks
+              Files uploaded to create evaluation tasks.
+            </div>
+            <div class="col-md-2 vcenter">
+              <a href="#upload" type="submit" class="col-sm-offset-1 btn btn-primary pull-right" tabindex="5">Upload</a>
             </div>
           </div>
             <hr>
@@ -235,7 +238,7 @@
             </tfoot>
           </table>
           <hr>
-          <h3>Upload new corpora</h3>
+          <h3 id="upload">Upload new corpora</h3>
           <div class="col-xd-10 col-xd-offset-2 text-center">
             <form action="/corpora/corpus_upload.php" class="form-horizontal dropzone dropzone-looks dz-clickable" id="dropzone" method="post" enctype="multipart/form-data">
               <div class="text-left help-block with-errors">1. Select your languages</div>
