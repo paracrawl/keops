@@ -9,6 +9,7 @@ class task_dao {
   private $conn;
   public static $columns_project_tasks;
   public static $columns_user_tasks;
+  public static $columns_corpus_tasks;
   
   public function __construct(){
     $this->conn = new keopsdb();
@@ -120,6 +121,53 @@ class task_dao {
     }
   }
   
+    function getDatatablesTasksByCorpus($request) {
+    try {
+      return json_encode(DatatablesProcessing::complex( $request, $this->conn,
+              "tasks as t left join projects as p on p.id = t.project_id left join users as u on u.id = t.assigned_user "
+              . "left join corpora as c on c.id = t.corpus_id ",
+              "t.id",
+              self::$columns_corpus_tasks,
+              null,
+              "corpus_id=" . $request['corpus_id'],
+              null));
+    } catch (Exception $ex) {
+      throw new Exception("Error in task_dao::getDatatablesTasksByCorpus : " . $ex->getMessage());
+    }
+  }
+  
+  function getTasksByCorpus($corpus_id){
+    try {
+      $tasks_array = array();
+
+      $query = $this->conn->prepare("SELECT * FROM tasks WHERE corpus_id = ?;");
+      $query->bindParam(1, $corpus_id);
+      $query->execute();      
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while ($row = $query->fetch()) {
+        $task = new task_dto();
+
+        $task->id = $row['id'];
+        $task->project_id = $row['project_id'];
+        $task->assigned_user = $row['assigned_user'];
+        $task->corpus_id = $row['corpus_id'];
+        $task->size = $row['size'];
+        $task->status = $row['status'];
+        $task->creation_date = $row['creation_date'];
+        $task->assigned_date = $row['assigned_date'];
+        $task->completed_date = $row['completed_date'];
+        $task->username = $row['name'];
+        $task->email = $row['email'];
+        array_push($tasks_array, $task);
+      }
+      $this->conn->close_conn();
+      return $tasks_array;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in task_dao::getTasksByCorpus : " . $ex->getMessage());
+    }
+  }
+  
   function getTasksByProject($project_id){
     try {
       $tasks_array = array();
@@ -205,3 +253,26 @@ task_dao::$columns_user_tasks = array(
     array( 'db' => "count(case when st.evaluation!='P' then 1 end)", 'alias' => 'sentencescompleted', 'dt' => 7),
     array( 'db' => 'us.email', 'alias' => 'email', 'dt' => 8 )
 );
+        
+task_dao::$columns_corpus_tasks = array(
+    
+    
+    array( 'db' => 't.id', 'alias' => 'id', 'dt' => 0 ),
+    array( 'db' => 'p.name', 'alias' => 'p_name', 'dt' => 1 ),   
+    array( 'db' => 'u.name', 'alias' => 'name', 'dt' => 2 ),    
+    array( 'db' => 't.size', 'alias' => 'size',  'dt' => 3 ),
+    array( 'db' => 'c.name', 'alias' => 'corpusname', 'dt' => 4 ),
+    array( 'db' => 't.status', 'alias' => 'status', 'dt' => 5 ),
+    array( 'db' => 't.creation_date', 'alias' => 'creation_date', 'dt' => 6,
+        'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
+    array( 'db' => 't.assigned_date', 'alias' => 'assigned_date', 'dt' => 7,
+        'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
+    array( 'db' => 't.completed_date', 'alias' => 'completed_date', 'dt' => 8,
+        'formatter' => function ($d, $row) { return getFormattedDate($d); } )
+//    array( 'db' => 'p.id', 'alias' => 'p_id', 'dt' => 8 ),
+//    array( 'db' => 'u.id', 'alias' => 'u_id', 'dt' => 9),
+//    array( 'db' => "count(case when st.evaluation!='P' then 1 end)", 'alias' => 'completedsentences', 'dt' => 10),
+//    array( 'db' => 'u.email', 'alias' => 'email', 'dt' => 11),
+    
+  );
+        

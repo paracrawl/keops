@@ -340,13 +340,18 @@ class DatatablesProcessing {
 
 			$groupBySql = 'GROUP BY '.$groupBy;
 		}
+    else {
+      $groupBySql = "";
+    }
 
+    
     
 		// Main query to actually get the data
 		$data = self::sql_exec( $db, $bindings,
 			"SELECT ".implode(", ", self::pluck_select($columns, 'db', 'alias'))."
 			 FROM $table $where $groupBySql	$order $limit"
 		);
+    
     
 // Data set length after filtering
 		$resFilterLength = self::sql_exec( $db, $bindings,
@@ -355,14 +360,15 @@ class DatatablesProcessing {
 		);
 		$recordsFiltered = $resFilterLength[0][0];
     
-  // Total data set length
+
+    // Total data set length
 		$resTotalLength = self::sql_exec( $db,
 			"SELECT COUNT(DISTINCT {$primaryKey})
 			 FROM   $table ".
 			$whereAllSql
 		);
 		$recordsTotal = $resTotalLength[0][0];
-        
+ 
 		/*
 		 * Output
 		 */

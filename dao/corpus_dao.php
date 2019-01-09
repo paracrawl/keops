@@ -127,6 +127,7 @@ class corpus_dao {
     return false;
   }
   
+  //Used ONLY when upload fails
   function deleteCorpus($corpus_id){
     try {
       $query = $this->conn->prepare("DELETE FROM corpora WHERE id = ?;");
@@ -137,6 +138,35 @@ class corpus_dao {
     } catch (Exception $ex) {
       $this->conn->close_conn();   
       throw new Exception("Error in corpus_dao::deleteCorpus : " . $ex->getMessage());
+    }
+    return false;
+  }
+  
+  //Used when there are tasks associated to the corpus
+  function removeCorpus($corpus_id){
+    try {
+      //First remove from sentences_tasks
+      $query1 = $this->conn->prepare("delete from sentences_tasks using tasks where tasks.corpus_id = ? and sentences_tasks.task_id = tasks.id");
+      $query1->bindParam(1, $corpus_id);
+      $query1->execute();
+      //Then remove from sentences
+      $query2 = $this->conn->prepare("delete from sentences where corpus_id = ?");
+      $query2->bindParam(1, $corpus_id);
+      $query2->execute();
+      //Remove from tasks
+      $query3 = $this->conn->prepare("delete from tasks where corpus_id = ?");
+      $query3->bindParam(1, $corpus_id);
+      $query3->execute();
+      //Finally delete corpus
+      $query = $this->conn->prepare("DELETE FROM corpora WHERE id = ?;");
+      $query->bindParam(1, $corpus_id);
+      $query->execute();
+      
+      $this->conn->close_conn();
+      return true;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();   
+      throw new Exception("Error in corpus_dao::removeCorpus : " . $ex->getMessage());
     }
     return false;
   }

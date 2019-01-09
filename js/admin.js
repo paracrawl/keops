@@ -272,6 +272,42 @@ $(document).ready(function() {
     stateSave: true
   });
   
+  
+  var corpus_tasks_table = $("#corpus-tasks-table").DataTable({
+
+    columnDefs:[
+      {
+        targets: 4,
+        render: function(data, type, row) {
+          return '<a href="/corpora/corpus_preview.php?id='+row[0]+'">'+row[4]+'</a>';
+        }
+      },
+
+
+      {
+        targets: 9,
+        className: "actions",
+        sortable: false,
+        searchable: false,
+     render: function (data, type, row) {
+          var actions_str = "";
+          actions_str += '<a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>';
+          actions_str += '<a href="mailto:' + row[11] + '" title="Contact assigned user"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>';
+          return actions_str;
+        }
+      }
+    ],
+    order: [[ 7, 'desc' ]],
+    processing: true,
+    serverSide: true,
+    ajax: {
+        url: "/tasks/task_list.php",
+        data: function (d) {
+          d.corpus_id = $("#corpus-tasks-table").data("corpusid");
+        }
+    },
+    stateSave: true
+  });
   // Activate Bootstrap tab on loading or user click.
   
   if (location.hash) {

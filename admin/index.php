@@ -40,6 +40,7 @@
                     case "userediterror":
                     case "pojectediterror":
                     case "corpusediterror":
+                    case "corpusremoveerror":
                     case "error":
                     default:
                       echo "Sorry, your request could not be processed. Please, try again later.";                     

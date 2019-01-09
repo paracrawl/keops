@@ -1,8 +1,8 @@
 <?php
   // load up your config file
-//  require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
-//  require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/corpus_dao.php");
-//  require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/user_dao.php");
+  require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
+  require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/corpus_dao.php");
+  require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/task_dao.php");
 //  require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/language_dao.php");
 //  require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/utils/utils.php");
 
@@ -16,6 +16,8 @@
   }
   $corpus_dao = new corpus_dao();
   $corpus = $corpus_dao->getCorpusById($corpus_id);
+//  $task_dao  = new task_dao();
+// $tasks = $task_dao->getTasksByCorpus($corpus_id);
 //  $language_dao = new language_dao();
 //  $languages = $language_dao->getLanguages();
 ?>
@@ -40,70 +42,55 @@
       <div class="page-header">
         <h1>Remove corpus</h1>
       </div>
-      <div>
-        BIG WARNING HERE
+      <div class="alert alert-warning" role="alert">
+        <h3>BEWARE!</h3>
+        <br>
+        Removing the corpus <?=$corpus->name?> will result in the removal of the tasks listed below. Are sure you want to proceed? Please note that this operation <b>cannot be undone</b>. <br>         
+        <br>
+        <b>Tip:</b>
+        If you just want to prevent this corpus to be used for new tasks, not removing the already existing ones, mark it as inactive <a href="/corpora/corpus_edit.php?id=<?=$corpus->id; ?>">here</a>.
       </div>
-      <form class="form-horizontal" action="/corpora/corpus_update.php" role="form" method="post" data-toggle="validator">
-        <div class="form-group">
-          <label for="id" class="col-sm-1 control-label">ID</label>
-          <div class="col-sm-4">
-            <input type="text" disabled class="form-control" aria-describedby="helpName" placeholder="ID" maxlength="100" required="" autofocus="" value="<?= $corpus->id ?>">
-            <div id="helpName" class="help-block with-errors"></div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="name" class="col-sm-1 control-label">Name</label>
-          <div class="col-sm-4">
-            <input type="text" name="name" class="form-control" aria-describedby="helpName" placeholder="Name" maxlength="100" required="" autofocus="" tabindex="1" value="<?= $corpus->name ?>">
-            <div id="helpName" class="help-block with-errors"></div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="source_lang" class="control-label col-sm-1">Source language</label>
-          <div class="col-sm-4">
-            <select class="form-control" name="source_lang" id="source_lang" tabindex="2">
-              <?php foreach ($languages as $lang) { ?>
-                <option value="<?= $lang->id?>"<?= $corpus->source_lang == $lang->id ? " selected" : "" ?>><?= $lang->langcode . " - " . $lang->langname ?></option>
-              <?php } ?>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="target_lang" class="control-label col-sm-1">Target language</label>
-          <div class="col-sm-4">
-            <select class="form-control" name="target_lang" id="target_lang" tabindex="3">
-              <?php foreach ($languages as $lang) { ?>
-                <option value="<?= $lang->id?>"<?= $corpus->target_lang == $lang->id ? " selected" : "" ?>><?= $lang->langcode . " - " . $lang->langname ?></option>
-              <?php } ?>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="lines" class="col-sm-1 control-label">Lines</label>
-          <div class="col-sm-4">
-            <input id="lines" type="text" disabled class="form-control" aria-describedby="helpName" placeholder="Lines" maxlength="100" required="" autofocus="" value="<?= $corpus->lines ?>">
-            <div id="helpName" class="help-block with-errors"></div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="creation_date" class="col-sm-1 control-label">Creation date</label>
-          <div class="col-sm-4">
-            <input id="creation_date" type="text" disabled class="form-control" aria-describedby="helpName" placeholder="Creation date" maxlength="100" required="" autofocus="" value="<?= getFormattedDate($corpus->creation_date) ?>">
-            <div id="helpName" class="help-block with-errors"></div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="active" class="col-sm-1 control-label">Active?</label>
-          <div class="col-sm-4">
-            <input type="checkbox" name="active"<?= $corpus->active ? " checked" : "" ?>>
-            <div id="helpName" class="help-block with-errors">If you uncheck this corpus, it will not be available for creating new tasks. </div>
-          </div>
-        </div>
+
+      <table id="corpus-tasks-table" class="table table-striped table-bordered" data-corpusid="<?= $corpus->id ?>" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Project</th>
+            <th>Assigned user</th>
+            <th>Size</th>
+            <th>Corpus</th>  
+            <th>Status</th>
+            <th>Creation date</th>
+            <th>Assigned date</th>
+            <th>Completed date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th>ID</th>
+            <th>Project</th>
+            <th>Assigned user</th>
+            <th>Size</th>
+            <th>Corpus</th>  
+            <th>Status</th>
+            <th>Creation date</th>
+            <th>Assigned date</th>
+            <th>Completed date</th>
+            <th>Actions</th>
+          </tr>
+        </tfoot>
+      </table>
+
+      <form action="/corpora/corpus_update.php" role="form" method="post">
         <input type="hidden" name="id" id="id" value="<?= $corpus->id ?>">
+        <input type="hidden" name="action" id="action" value="remove">
         <div class="form-group">
           <div class="col-sm-4 text-right">
             <a href="/corpora/corpus_preview.php?id=<?php echo $corpus->id;?>" class="col-sm-offset-1 btn btn-info" tabindex="6">Cancel</a>
-            <button type="submit" class="col-sm-offset-1 btn btn-success" tabindex="5">Save</button>
+            <button type="submit" class="col-sm-offset-1 btn btn-danger" tabindex="5">Remove corpus</button>
           </div>
         </div>
       </form>

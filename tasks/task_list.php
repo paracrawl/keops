@@ -7,4 +7,10 @@ $PAGETYPE = "admin";
 require_once(RESOURCES_PATH . "/session.php");
 
 $task_dao = new task_dao();
-echo $task_dao->getDatatablesTasks($_GET);
+        
+if (isset($_GET["corpus_id"])){
+ echo $task_dao->getDatatablesTasksByCorpus($_GET) ;
+}
+else {
+  echo $task_dao->getDatatablesTasks($_GET);
+}
