@@ -111,6 +111,29 @@ class project_dao {
     }
   }
 
+  function removeProject($project_id){
+    try{
+      //First  remove from sentences_tasks
+      $query1 = $this->conn->prepare("delete from sentences_tasks using tasks where tasks.project_id = ? and sentences_tasks.task_id = tasks.id");
+      $query1->bindParam(1, $project_id);
+      $query1->execute();
+      //Then remove form tasks
+      $query2 = $this->conn->prepare("delete from tasks where project_id = ?");
+      $query2->bindParam(1, $project_id);
+      $query2->execute();
+      //Finally, remove project
+      $query = $this->conn->prepare("DELETE FROM projects WHERE id = ?;");
+      $query->bindParam(1, $project_id);
+      $query->execute();
+      
+      $this->conn->close_conn();
+      return true;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();   
+      throw new Exception("Error in project_dao::removeProject : " . $ex->getMessage());
+    }
+    return false;
+  }
   
   function getDatatablesProjects($request) {
     try {

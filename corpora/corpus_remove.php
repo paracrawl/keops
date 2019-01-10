@@ -45,7 +45,7 @@
       <div class="alert alert-warning" role="alert">
         <h3>BEWARE!</h3>
         <br>
-        Removing the corpus <?=$corpus->name?> will result in the removal of the tasks listed below. Are sure you want to proceed? Please note that this operation <b>cannot be undone</b>. <br>         
+        Removing the corpus <b><?=$corpus->name?></b> will result in the removal of the tasks listed below. Are sure you want to proceed? Please note that this operation <b>cannot be undone</b>. <br>         
         <br>
         <b>Tip:</b>
         If you just want to prevent this corpus to be used for new tasks, not removing the already existing ones, mark it as inactive <a href="/corpora/corpus_edit.php?id=<?=$corpus->id; ?>">here</a>.

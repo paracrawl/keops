@@ -45,7 +45,7 @@
       <div class="alert alert-warning" role="alert">
         <h3>BEWARE!</h3>
         <br>
-        Removing the project <?=$project->name?> will result in the removal of the tasks listed below. Are sure you want to proceed? Please note that this operation <b>cannot be undone</b>. <br>         
+        Removing the project <b><?=$project->name?></b> will result in the removal of the tasks listed below. Are sure you want to proceed? Please note that this operation <b>cannot be undone</b>. <br>         
         <br>
         <b>Tip:</b>
         If you just want to prevent the creation of new tasks for this project, not removing the already existing ones, mark it as inactive <a href="/projects/project_edit.php?id=<?=$project->id; ?>">here</a>.
@@ -82,7 +82,7 @@
         </tfoot>
       </table>
 
-      <form action="/project/project_update.php" role="form" method="post">
+      <form action="/projects/project_update.php" role="form" method="post">
         <input type="hidden" name="id" id="id" value="<?= $project->id ?>">
         <input type="hidden" name="action" id="action" value="remove">
         <div class="form-group">

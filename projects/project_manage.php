@@ -82,7 +82,8 @@
         </div>
         <div class="col-md-2">
           <a href="/projects/project_edit.php?id=<?php echo $project->id;?>" type="submit" class="col-sm-offset-1 btn btn-primary pull-right" tabindex="5">Edit</a>
-          <a href="#popup_remove" type="submit" class="col-sm-offset-1 btn btn-danger pull-right" tabindex="5">Remove</a>
+          <a href="/projects/project_remove.php?id=<?php echo $project->id;?>" type="submit" class="col-sm-offset-1 btn btn-danger pull-right" tabindex="5">Remove</a>
+<!--          <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#popup_remove">Remove</button>-->
         </div>
       </div>
       <div class="title-container row">
@@ -134,3 +135,22 @@
     ?>
   </body>
 </html>
+
+
+<div class="modal fade" id="popup_remove" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header alert-warning">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Beware!</h4>
+      </div>
+      <div class="modal-body ">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
