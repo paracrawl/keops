@@ -98,6 +98,8 @@
     ?>
     <?php
     require_once(TEMPLATES_PATH . "/admin_resources.php");
+    require_once(TEMPLATES_PATH . "/modals.php")
+
     ?>
   </body>
 </html>

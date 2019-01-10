@@ -259,7 +259,7 @@ $(document).ready(function() {
           var actions_str = "";
           actions_str += '<a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>';
           actions_str += '<a href="mailto:' + row[11] + '" title="Contact assigned user"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>';
-          actions_str += '<a href="#popup_remove_task" title="Remove task"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>';
+          actions_str += '<a href="#" data-toggle="modal" data-target="#popup_remove_task" title="Remove task"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>';
           
           return actions_str;
           
@@ -299,6 +299,7 @@ $(document).ready(function() {
           var actions_str = "";
           actions_str += '<a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>';
           actions_str += '<a href="mailto:' + row[11] + '" title="Contact assigned user"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>';
+          actions_str += '<a href="#" data-toggle="modal" data-target="#popup_remove_task" title="Remove task"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>';
           return actions_str;
         }
       }
