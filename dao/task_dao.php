@@ -105,6 +105,27 @@ class task_dao {
     return false;
   }
   
+  
+  function removeTask($task_id){
+    try{
+      //First  remove from sentences_tasks
+      $query1 = $this->conn->prepare("delete from sentences_tasks  where task_id = ?");
+      $query1->bindParam(1, $task_id);
+      $query1->execute();
+      //Then remove form tasks
+      $query2 = $this->conn->prepare("delete from tasks where id = ?");
+      $query2->bindParam(1, $task_id);
+      $query2->execute();
+
+      $this->conn->close_conn();
+      return true;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();   
+      throw new Exception("Error in task_dao::removeTask : " . $ex->getMessage());
+    }
+    return false;
+  }
+  
   function getDatatablesTasks($request) {
     try {
       return json_encode(DatatablesProcessing::complex( $request, $this->conn,

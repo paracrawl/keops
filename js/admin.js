@@ -259,7 +259,7 @@ $(document).ready(function() {
           var actions_str = "";
           actions_str += '<a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>';
           actions_str += '<a href="mailto:' + row[11] + '" title="Contact assigned user"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>';
-          actions_str += '<a href="#" data-toggle="modal" data-target="#popup_remove_task" title="Remove task"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>';
+          actions_str += getRemoveTaskCode(row[0], row[1]);
           
           return actions_str;
           
@@ -299,7 +299,7 @@ $(document).ready(function() {
           var actions_str = "";
           actions_str += '<a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>';
           actions_str += '<a href="mailto:' + row[11] + '" title="Contact assigned user"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>';
-          actions_str += '<a href="#" data-toggle="modal" data-target="#popup_remove_task" title="Remove task"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>';
+          actions_str += getRemoveTaskCode(row[0], row[2]) ;
           return actions_str;
         }
       }
@@ -382,6 +382,18 @@ $(document).ready(function() {
   });
   
   
+  $("#popup_remove_task").on('show.bs.modal', function (event){
+    var button = $(event.relatedTarget);
+    var task_id = button.data("taskid");
+    var username = button.data("username");
+    
+    var modal = $(this);
+    modal.find("#modal-task-id").text(task_id);
+    modal.find("#modal-username").text(username);
+    modal.find("#task_id").val(task_id);
+    
+  });
+  
   $("#invite_token_modal").on("hidden.bs.modal", function () {
     var message_color = $("#helpInvitation").parents(".form-group");
     message_color.removeClass("has-error");
@@ -411,6 +423,11 @@ $(document).ready(function() {
   
 
 });
+
+function getRemoveTaskCode(task_id, username){
+  return '<a href="#" data-toggle="modal" data-target="#popup_remove_task" data-taskid='+task_id+' data-username="'+username+ '" title="Remove task"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>';
+  
+}
 
 
 function drawPieChart(id, labels, data) {
@@ -494,21 +511,3 @@ function clipboard(text) {
 };
 
         
-
-//function getUserLangs(user_id){
-//    $.ajax({
-//    data: {"id": user_id},
-//    url: 'get_user_langs.php', 
-//    type: 'post',
-//    dataType: 'json',
-//    success: function (response) {
-//      response.forEach(function(element){
-//        console.log(element);
-//      }); 
-//    },
-//    error: function(response){
-//
-//    }
-//            
-//  });
-//}
