@@ -200,7 +200,7 @@ class corpus_dao {
   function getSentencesFromCorpus($corpus_id, $amount){
     $sentences = array();
     try {       
-      $query = $this->conn->prepare("select * from sentences where corpus_id = ? limit ?;");
+      $query = $this->conn->prepare("select * from sentences where corpus_id = ? order by id limit ?;");
       $query->bindParam(1, $corpus_id);
       $query->bindParam(2, $amount);
       $query->execute();

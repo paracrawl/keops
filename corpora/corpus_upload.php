@@ -37,7 +37,7 @@ try {
               $values[] = $data;// save values
             }
             else {
-  //            error_log("WARNING : The following line of the file " . $_FILES['file']['name'] . " is not allowed : '" . $buffer . "'");
+              error_log("WARNING : The following line of the file " . $_FILES['file']['name'] . " is not allowed : '" . $buffer . "'");
               continue;
             }
 
@@ -61,7 +61,6 @@ try {
         $result = $sentence_dao->insertBatchSentences($corpus_dto->id, $values);
         }
         if ($first_batch==false) {
-          error_log("LETS UPDATE LINECOUNT");
           $corpus_dao->updateLinesInCorpus($corpus_dto->id);
         }
         else {
