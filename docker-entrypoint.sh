@@ -12,9 +12,12 @@ echo "HELLO KEOPS!"
 echo "STARTING SERVICES..."
 
 
-echo "STARTING POSTGRESQL..."
-#service postgresql restart
-nohup bash -c 'sudo -u postgres /usr/lib/postgresql/10/bin/postgres -D /var/lib/postgresql/10/main -c "config_file=/etc/postgresql/10/main/postgresql.conf" &'
+
+if [[ -z "${DB_REMOTE}" ]]; then
+  echo "STARTING POSTGRESQL..."
+  #service postgresql restart
+  nohup bash -c 'sudo -u postgres /usr/lib/postgresql/10/bin/postgres -D /var/lib/postgresql/10/main -c "config_file=/etc/postgresql/10/main/postgresql.conf" &'
+fi
 
 echo "STARTING PHP..."
 service php7.2-fpm stop && service php7.2-fpm start

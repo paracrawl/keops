@@ -8,5 +8,5 @@ defined("TEMPLATES_PATH")
 
 
 defined("DB_CONNECTION")
-  or define("DB_CONNECTION", RESOURCES_PATH . '/db/keopsdb.class.php');
+  or define("DB_CONNECTION", RESOURCES_PATH . (getenv('DB_REMOTE') == FALSE?'/db/keopsdb.class.php':'/db/keopsdb-alt.class.php'));
 
