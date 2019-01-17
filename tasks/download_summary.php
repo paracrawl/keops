@@ -17,6 +17,7 @@ if (isset($task_id)) {
   $project_dao = new project_dao();
   $project = $project_dao->getProjectById($task->project_id);
 
+  //  if ((($project->owner == $USER->id) || ($task->assigned_user == $USER->id)) && ($task->status == "DONE")) {
   if (($project->owner == $USER->id) && ($task->status == "DONE")) {
     $sentence_task_dao = new sentence_task_dao();
     $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id);

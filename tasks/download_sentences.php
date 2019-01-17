@@ -20,6 +20,7 @@ if (isset($task_id)) {
   $project = $project_dao->getProjectById($task->project_id);
   $sentence_task_dto = new sentence_task_dto();
 
+  //  if ((($project->owner == $USER->id) || ($task->assigned_user == $USER->id)) && ($task->status == "DONE")) {
   if (($project->owner == $USER->id) && ($task->status == "DONE")) {
     $sentence_task_dao = new sentence_task_dao();
     $lang_dao = new language_dao();
