@@ -74,12 +74,12 @@ class sentence_task_dao {
 
     function getSentenceIdByTermAndTask($task_id, $search_term) {
     $sentence_id = 0;
-    $endinginspace = "%".$search_term." %";
-    $endingincomma = "%".$search_term.",%";
-    $endingincolon = "%".$search_term.":%";
-    $enginginfullstop =  "%".$search_term.";%";
-    $enginginsemicolon =  "%".$search_term.".%";
-    $startingwithspace = "% ".$search_term."%";
+    $endinginspace = "'%".$search_term." %'";
+    $endingincomma = "'%".$search_term.",%'";
+    $endingincolon = "'%".$search_term.":%'";
+    $enginginfullstop =  "'%".$search_term.";%'";
+    $enginginsemicolon =  "'%".$search_term.".%'";
+    $startingwithspace = "'% ".$search_term."%'";
     try {
       $query = $this->conn->prepare("select  st.sentence_id as sentence_id from sentences_tasks as st left join sentences as s on st.sentence_id = s.id "
               . "where (s.source_text ILIKE ? or s.target_text ILIKE ? "
