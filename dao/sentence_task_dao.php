@@ -49,7 +49,7 @@ class sentence_task_dao {
     try {
       $sentence_task_dto = new sentence_task_dto();
 
-      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date, st.comments from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? and st.evaluation = 'P'::label order by s.id asc limit 1;");
+      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date, st.comments from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? and st.evaluation = 'P'::label order by st.id asc limit 1;");
       $query->bindParam(1, $task_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -123,7 +123,7 @@ class sentence_task_dao {
       }
       $sentence_task_dto = new sentence_task_dto();
       $offset = $sentence_id - 1;
-      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date, st.comments from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? order by s.id asc limit 1 offset ?;");
+      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date, st.comments from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? order by st.id asc limit 1 offset ?;");
       $query->bindParam(1, $task_id);
       $query->bindParam(2, $offset);
       $query->execute();
