@@ -318,14 +318,29 @@ display: table;
 
 .home-footer-container{
   margin-right: 6%;
+  margin-left: 6%;
   float: right;
   background-color: white;
 }
 
 .home-footer{
   background-color: white;
+  width: 100%
 }
 
+.eu-logo{
+    width: 20%;
+    display: inline;
+}
+.legal-notice{
+    width:40%;
+    font-size: xx-small;
+    display: inline;
+}
+.prompsit-info{
+    width: 40%;
+    display: inline;
+}
 .home-container .navbar-right{
   margin-right: 6%;
 }
