@@ -1,4 +1,7 @@
 <?php
+/**
+ * Page for editing the metadata of a project
+ */
   // load up your config file
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/project_dao.php");

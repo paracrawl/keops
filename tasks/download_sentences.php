@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Serves a file containing the annotated sentences for a task, ready to be downloaded
+ */
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/project_dao.php");

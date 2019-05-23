@@ -1,4 +1,7 @@
 <?php
+/**
+ * Page for creating new tasks
+ */
   // load up your config file
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/project_dao.php");

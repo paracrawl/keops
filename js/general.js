@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
 
 //$.fn.dataTable.enum( [ 'STARTED', 'PENDING', 'DONE' ] );
@@ -11,6 +12,9 @@ $(document).ready(function() {
 //    return 0;
 //};
 
+/**
+ * User tasks table
+ */
   var user_tasks_table = $("#user-tasks-table").DataTable({
     columnDefs: [{
         targets: 7,
@@ -55,6 +59,9 @@ $(document).ready(function() {
     stateSave: true
   });
   
+  /**
+   * Completion chart for a task
+   */
   var recapChart = new Chart(document.getElementById("pie-chart"), {
     type: 'pie',
     data: {

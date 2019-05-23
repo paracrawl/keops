@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Methods to work with Corpus objects in the DB
+ */
 require_once(DB_CONNECTION);
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/corpus_dto.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/sentence_dto.php");
@@ -15,6 +17,12 @@ class corpus_dao {
       $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   }
   
+  /**
+   * Retrieves from the DB all corpora metadata (not the sentences)
+   * 
+   * @return array Array containing corpus objects
+   * @throws Exception
+   */
   function getCorpora() {
     try {
       $corpora = array();
@@ -37,7 +45,13 @@ class corpus_dao {
     }
   }
   
-  
+  /**
+   * Retrieves from the DB the metadata (not the sentences) for a given corpus
+   * 
+   * @param int $id Corpus id
+   * @return \corpus_dto Corpus object
+   * @throws Exception
+   */
   function getCorpusById($id){
       try {
       $corpus = new corpus_dto();
@@ -62,10 +76,13 @@ class corpus_dao {
       throw new Exception("Error in corpus_dao::getCorpusById : " . $ex->getMessage());
     }
   }
-  
-  /** 
+
+  /**
+   * Retrieves from the DB a array of corpora, filtered by the criteria provided by parameter
    * 
-   * @param array $filters Expected map with keys (name of rows) and values to filter.
+   * @param array $filters Map with keys (name of rows) and values to filter.
+   * @return array Array of corpora matching the filters
+   * @throws Exception
    */
   function getFilteredCorpora($filters) {
     try {
@@ -98,6 +115,13 @@ class corpus_dao {
     }
   }
           
+  /**
+   * Retrieves from the DB a list of corpora, in a Datatables-friendly format
+   * 
+   * @param type $request GET request
+   * @return string A JSON for Datatables, containing the list of corpora
+   * @throws Exception
+   */
   function getDatatablesCorpora($request) {
     try {
       return json_encode(DatatablesProcessing::simple( $request, $this->conn,
@@ -109,6 +133,13 @@ class corpus_dao {
     }
   }
   
+  /**
+   * Inserts in the DB the corpus metadata (not the sentences) of a corpus
+   * 
+   * @param object $corpus_dto Corpus object to be stored
+   * @return True if succeeded, otherwise false
+   * @throws Exception
+   */
   function insertCorpus($corpus_dto) {
     try {
       $query = $this->conn->prepare("INSERT INTO corpora (name, source_lang, target_lang) VALUES (?, ?, ?);");
@@ -127,8 +158,16 @@ class corpus_dao {
     return false;
   }
   
-  //Used ONLY when upload fails
+
+  /**
+   * Removes from the DB the metadata of a corpus, when the upload fails
+   * 
+   * @param int $corpus_id Corpus ID
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
   function deleteCorpus($corpus_id){
+    //Used ONLY when upload fails
     try {
       $query = $this->conn->prepare("DELETE FROM corpora WHERE id = ?;");
       $query->bindParam(1, $corpus_id);
@@ -142,8 +181,15 @@ class corpus_dao {
     return false;
   }
   
-  //Used when there are tasks associated to the corpus
+  /**
+   * Removes from the DB a corpus and its associated tasks and sentences
+   * 
+   * @param int $corpus_id Corpus ID
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
   function removeCorpus($corpus_id){
+      //Used when there are tasks associated to the corpus
     try {
       //First remove from sentences_tasks
       $query1 = $this->conn->prepare("delete from sentences_tasks using tasks where tasks.corpus_id = ? and sentences_tasks.task_id = tasks.id");
@@ -171,6 +217,13 @@ class corpus_dao {
     return false;
   }
   
+  /**
+   * Stores in the DB the number of lines of an uploaded corpus, after storing sentences is finished
+   * 
+   * @param int $corpus_id Corpus ID
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
   function updateLinesInCorpus($corpus_id) {
     try {
       $query = $this->conn->prepare("with counted as (select count(corpus_id) as count from sentences where corpus_id = ? group by corpus_id) update corpora as c set lines = s.count from counted as s where c.id = ? returning lines;");
@@ -197,6 +250,14 @@ class corpus_dao {
   }
   
     
+  /**
+   * Retrieves from the DB the requested amount of sentences from a given corpus
+   * 
+   * @param int $corpus_id  Corpus ID
+   * @param int $amount Amount of sentences to retrieve
+   * @return array Array of Sentence objects
+   * @throws Exception
+   */
   function getSentencesFromCorpus($corpus_id, $amount){
     $sentences = array();
     try {       
@@ -221,6 +282,13 @@ class corpus_dao {
     }
   }
   
+  /**
+   * Updates in the DB the metadata of a given corpus
+   * 
+   * @param object $corpus_dto Corpus object
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
   function updateCorpus($corpus_dto){
      try {
       $query = $this->conn->prepare("UPDATE CORPORA SET name = ?, source_lang = ?, target_lang = ?, active =?  WHERE id = ?;");
@@ -238,6 +306,9 @@ class corpus_dao {
     }
   }
 }
+/**
+ * Datatables columns for the Corpus table
+ */
 corpus_dao::$columns = array(
     array( 'db' => 'c.id', 'alias' => 'id', 'dt' => 0 ),
     array( 'db' => 'c.name', 'alias' => 'name', 'dt' => 1 ),

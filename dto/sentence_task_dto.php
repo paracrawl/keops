@@ -1,5 +1,18 @@
 <?php
-
+/**
+ * Class for Sentence Tasks.
+ * Contains sentences associated to tasks
+ * 
+ * map labels: Possible values that can take the evaluation of the sentence
+ * int task_id: Task ID
+ * int sentence_id: Sentence ID
+ * string source_text: Source sentence
+ * string target_text: Target sentence
+ * string evaluation: Evaluation of the sentence in this given task
+ * string creation_date: Creation date of the task
+ * string completed_date: Evaluation date of the sentence
+ * string comments: Comments provided by the evaluator of this sentence in this task
+ */
 class sentence_task_dto {
   public static $labels;
   
@@ -13,6 +26,12 @@ class sentence_task_dto {
   public $completed_date;
   public $comments;
   
+  /**
+   * Retrieves the text (label) evaluation label of a evaluation type
+   * 
+   * @param string $value Value of the evaluation
+   * @return string Label
+   */
   public static function  getLabel($value){
     foreach (sentence_task_dto::$labels as $label) {
       if ($label['value'] == $value){
@@ -23,6 +42,9 @@ class sentence_task_dto {
 }
 }
 
+/**
+ * Map of evaluation values, labels and titles
+ */
 sentence_task_dto::$labels = array(
     array( 'value' => 'L', 'label' => 'Wrong language identification', 'title' => '' ),
     array( 'value' => 'A', 'label' => 'Incorrect alignment', 'title' => '' ),

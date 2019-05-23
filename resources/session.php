@@ -1,10 +1,18 @@
 <?php
+/**
+ * Session utils
+ */
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dto/user_dto.php");
 
 if(!isset($_SESSION)) { 
   session_start();
 }
 
+/**
+ * Checks if the user is logged in
+ * 
+ * @return boolean True if the user is logged, otherwise false
+ */
 function isSignedIn(){
 //if(isset($_SESSION["userinfo"])) {
 //  echo "<pre>";
@@ -14,6 +22,11 @@ function isSignedIn(){
   return isset($_SESSION["userinfo"]);
 }
 
+/**
+ * Retrieves the user role (ADMIN, STAFF or USER)
+ * 
+ * @return string User role
+ */
 function getUserRole(){
   $role = null;
   if (isset($_SESSION["userinfo"])) {
@@ -23,6 +36,11 @@ function getUserRole(){
   return $role;
 }
 
+/**
+ * Retrieves the user id
+ * 
+ * @return int User ID
+ */
 function getUserId(){
   $id = null;
   if (isset($_SESSION["userinfo"])) {
@@ -32,6 +50,11 @@ function getUserId(){
   return $id;
 }
 
+/**
+ * Checks if the user is deactivated
+ * 
+ * @return boolean True if the user is active, otherwise false
+ */
 function isActive(){
   $active = null;
   if (isset($_SESSION["userinfo"])) {
@@ -41,6 +64,11 @@ function isActive(){
   return $active;
 }
 
+/**
+ * Checks if the user can be the Admin zone
+ * 
+ * @return boolean True if he/she can view the admin zone, otherwise false
+ */
 function canSeeAdminView() {
   $role = getUserRole();
   if ($role != null && ($role == user_dto::ADMIN || $role == user_dto::STAFF) && isActive()) {

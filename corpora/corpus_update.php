@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Updates or removes a corpus, and then redirects to the "corpora" tab
+ */
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/corpus_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/utils/utils.php");

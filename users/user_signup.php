@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Creates a new user.
+ * If it fails, it redirects to the signup page.
+ * If it succeeds, it redirects to the index page.
+ */
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/user_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/invite_dao.php");

@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Adds a new language.
+ * If it succeeds, it redirects to the Languages tab.
+ * If it fails, it redirects to the New Language page.
+ * 
+ */
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/language_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/language_dto.php");

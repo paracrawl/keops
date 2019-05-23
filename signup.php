@@ -1,4 +1,7 @@
 <?php
+/*
+ * Sign-up page, to create an account
+ */
 // load up your config file
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/language_dao.php");
@@ -7,6 +10,7 @@ $PAGETYPE = "public";
 require_once(RESOURCES_PATH . "/session.php");
 
 if ($SIGNEDIN) {
+    //A logged user cannot create a new account until logging out
   $_SESSION["error"] = "signuploggedin";
   header("Location: /index.php");
   die();

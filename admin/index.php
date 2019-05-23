@@ -1,4 +1,7 @@
 <?php
+/**
+ * Admin index page (Management)
+ */
   // load up your config file
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/user_dao.php");

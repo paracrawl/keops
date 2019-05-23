@@ -1,4 +1,6 @@
-
+/**
+ * Evaluation shortcuts
+ */
 $(document).keypress(function (e) {
 //  console.log(e.which);
 //  console.log(e.keyCode);
@@ -45,7 +47,9 @@ $(document).keypress(function (e) {
     }
   }
 });
-
+/**
+ * Search button, to search a term in the task's sentences
+ */
 $('body').on('click', "#search-term-button", function (e) {
   e.preventDefault();
   var search_term = $("#search-term").val();

@@ -1,9 +1,12 @@
 <?php
-
+/**
+ * Methods to work with Invite objects in the DB
+ */
 require_once(DB_CONNECTION);
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/invite_dto.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/utils/utils.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/utils/datatables_helper.class.php' );
+
 
 class invite_dao {
   private $conn;
@@ -14,6 +17,13 @@ class invite_dao {
       $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   }
   
+  /**
+   * Stores a Invite object into the DB
+   * 
+   * @param object $invite_dto Invite object
+   * @return string  "ok" if succeeded, otherwise a string containing the error 
+   * @throws Exception
+   */
   function inviteUser($invite_dto) {
     try {
       // $invite = new invite_dto();
@@ -49,7 +59,13 @@ class invite_dao {
     }
   }
 
-  
+  /**
+   * Checks the token and the email, for an invite object, against those stored in the DB
+   * 
+   * @param object $invite_dto Invite object
+   * @return string  "ok" if it succeeded, otherwise a string with the error 
+   * @throws Exception
+   */
   function checkToken($invite_dto) {
     try {
       $query = $this->conn->prepare("SELECT * FROM tokens WHERE email = ?;");
@@ -75,6 +91,13 @@ class invite_dao {
     }
   }
   
+  /**
+   * Marks the invitation  as used, by setting its DATE_USED field in DB
+   * 
+   * @param object $invite_dto Invite object
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
   function markAsUsed($invite_dto){
     try {
       $query=$this->conn->prepare("UPDATE tokens SET DATE_USED = current_timestamp WHERE email = ?;");
@@ -88,6 +111,13 @@ class invite_dao {
     }
   }
   
+  /**
+   * Removes an invitation from the DB
+   * 
+   * @param int $id Invitation ID
+   * @return boolean  True if succeeded, otherwise false
+   * @throws Exception
+   */
   function revokeInvite($id){
     try {
       $query=$this->conn->prepare("DELETE FROM tokens  WHERE id = ?;");
@@ -101,6 +131,14 @@ class invite_dao {
     }
   }
 
+  
+    /**
+     * Retrieves from the DB a list of  invited users, in a Datatables-friendly format
+     * 
+     * @param request $request GET request
+     * @return string JSON enconded list, friendly for Datatables
+     * @throws Exception
+     */
     function getDatatablesInvited($request) {
     try {
       return json_encode(DatatablesProcessing::simple( $request, $this->conn,
@@ -113,6 +151,10 @@ class invite_dao {
   }
   
 }
+
+/**
+ * Datatables columns for the invitations table
+ */
 invite_dao::$columns = array(
   array( 'db' => 't.id', 'alias' => 'id', 'dt' => 0 ),
   array( 'db' => 't.email', 'alias' => 'email', 'dt' => 1 ),

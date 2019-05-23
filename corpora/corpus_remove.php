@@ -1,4 +1,7 @@
 <?php
+/*
+ * Page to remove a given corpus from Keops.
+ */
   // load up your config file
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/corpus_dao.php");

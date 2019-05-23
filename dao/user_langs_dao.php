@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Methods to interact with UserLang objects and the DB
+ */
 require_once(DB_CONNECTION);
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/user_langs_dto.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/user_dto.php");
@@ -12,6 +14,13 @@ class user_langs_dao {
       $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   }
   
+  /**
+   * Inserts into the DB the languages associated to an user
+   * 
+   * @param array $user_langs Array of  UserLangs objects
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
   public function addLanguages($user_langs){
     try {
       $insert_values = array();
@@ -33,6 +42,13 @@ class user_langs_dao {
     return false;
   }
   
+  /**
+   * Removes from the DB the languages for a given user
+   * 
+   * @param int $user_id User ID
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
   public function removeUserLangs($user_id){
     try {
       $query = $this->conn->prepare("DELETE FROM user_langs WHERE user_id = ?;");
@@ -48,11 +64,23 @@ class user_langs_dao {
     }
   }
   
-  
+  /**
+   * Removes from the DB all the languages for a given user, and then inserts the new ones
+   * 
+   * @param array $user_langs Array of UserLangs objects, containing the new ones
+   * @return type True if succeeded, otherwise false
+   */
   public function updateUserLangs($user_langs){
     return ($this->removeUserLangs($user_langs[0]->user_id) && $this->addLanguages($user_langs));
   }
 
+  /**
+   * Retrieves from the DB the languages associated to a given user
+   * 
+   * @param int $user_id User ID
+   * @return array Array of UserLangs objects
+   * @throws Exception
+   */
   public function getUserLangs($user_id){
     try {
       $user_langs = array();
@@ -75,6 +103,14 @@ class user_langs_dao {
     }
   }
   
+  /**
+   * Retrieves from the DB a list of users that have two given languages associated
+   * 
+   * @param int $lang1 Language ID for the first language
+   * @param int $lang2 Language ID for the second language
+   * @return array List of users IDs
+   * @throws Exception
+   */
   public function getUserIdsByLangPair($lang1, $lang2){   
 
     try {

@@ -4,6 +4,9 @@ var corpora_table = null;
 // Dropzone
 //Dropzone.autoDiscover = false;
 
+/*
+ * Corpora uploader
+ */
 Dropzone.options.dropzone = { // camelized id
   paramName: "file",
   maxFilesize: 10, // 10 MB
@@ -33,7 +36,9 @@ Dropzone.options.dropzone = { // camelized id
 };
 
 $(document).ready(function() {
-  
+  /*
+   * Users table (for "Users" tab)
+   */
   var users_table = $("#users-table").DataTable({
     columnDefs: [ {
       targets: 1,
@@ -63,6 +68,9 @@ $(document).ready(function() {
     stateSave: true
   });
   
+   /*
+   * Projects table (for "Projects" tab)
+   */
   var projects_table = $("#projects-table").DataTable({
     columnDefs: [ {
       targets: 1,
@@ -127,6 +135,10 @@ $(document).ready(function() {
     stateSave: true
   });
   
+  
+   /*
+   * Languages table (for "Languages" tab)
+   */
   var languages_table = $("#languages-table").DataTable({
     pageLength: 25,
     order: [[ 1, 'asc' ]],
@@ -146,6 +158,10 @@ $(document).ready(function() {
     ]
   });
   
+  
+   /*
+   * Invitations table (for "Invitations" tab)
+   */ 
   var invitations_table = $("#invitations-table").DataTable({
       columnDefs: [{          
         targets: 1,
@@ -183,6 +199,9 @@ $(document).ready(function() {
     stateSave: true
   });
   
+   /*
+   * Corpora table (for "Corpora" tab)
+   */
    corpora_table = $("#corpora-table").DataTable({
     columnDefs: [{
         targets: 1,
@@ -217,6 +236,9 @@ $(document).ready(function() {
     stateSave: true
   });
   
+   /*
+   * Tasks table, filtered by project (for "Project tasks" page)
+   */
   var tasks_table = $("#tasks-table").DataTable({
     /*columnDefs: [{
       targets: 6,
@@ -278,7 +300,9 @@ $(document).ready(function() {
     stateSave: true
   });
   
-  
+  /*
+   * Tasks table, filtered by corpus (For "Corpus Remove" page)
+   */
   var corpus_tasks_table = $("#corpus-tasks-table").DataTable({
 
     columnDefs:[
@@ -349,6 +373,9 @@ $(document).ready(function() {
     $('a[href=\'' + anchor + '\']').tab('show');
   });
   
+  /*
+   * Invite button. Generates an invitation token.
+   */
   $(document).on('click', '#invite_button', function(event){
     event.preventDefault();
     event.stopPropagation();
@@ -357,6 +384,9 @@ $(document).ready(function() {
     }
   });
   
+  /*
+   * Token autocopy button
+   */
   $(document).on('click', '#token', function(event) {
     if ($(this).val() === '') return;
     var message_color = $("#helpInvitation").parents(".form-group");
@@ -381,7 +411,9 @@ $(document).ready(function() {
 
   });
   
-  
+  /*
+   * Adds data to the Task remove modal 
+   */
   $("#popup_remove_task").on('show.bs.modal', function (event){
     var button = $(event.relatedTarget);
     var task_id = button.data("taskid");
@@ -394,6 +426,9 @@ $(document).ready(function() {
     
   });
   
+  /*
+   * Invitation modal
+   */
   $("#invite_token_modal").on("hidden.bs.modal", function () {
     var message_color = $("#helpInvitation").parents(".form-group");
     message_color.removeClass("has-error");
@@ -417,6 +452,9 @@ $(document).ready(function() {
               .addClass("glyphicon-collapse-down");
       });
 
+  /*
+   * Calls the function that builds the completion chart for each task
+   */    
   for (i in charts) {
     drawPieChart(charts[i]["id"], charts[i]["labels"], charts[i]["data"]);
   }
@@ -424,12 +462,17 @@ $(document).ready(function() {
 
 });
 
+/*
+ * Builds the link to remove a task
+ */
 function getRemoveTaskCode(task_id, username){
   return '<a href="#" data-toggle="modal" data-target="#popup_remove_task" data-taskid='+task_id+' data-username="'+username+ '" title="Remove task"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>';
   
 }
 
-
+/*
+ * Builds the completion chart for a task
+ */
 function drawPieChart(id, labels, data) {
   var recapChart = new Chart(document.getElementById(id), {
     type: 'pie',
@@ -450,6 +493,10 @@ function drawPieChart(id, labels, data) {
   });
 }
 
+/*
+ * Invites an user, given its email.
+ * Provides a link to the user, in case the email was already in use.
+ */
 function getInviteToken(email){
   var message_color = $("#helpEmail").parents(".form-group");
   message_color.removeClass("has-error");
@@ -488,6 +535,9 @@ function getInviteToken(email){
   });
 };
 
+/*
+ * Token autocopy
+ */
 function clipboard(text) {
   var result = false;
   if (window.clipboardData && window.clipboardData.setData) {

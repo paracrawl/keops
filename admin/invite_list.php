@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Retrieves a list of invitations, in a datatables-friendly format
+ */
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/invite_dao.php");
 

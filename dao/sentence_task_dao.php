@@ -1,5 +1,7 @@
 <?php
-
+/*
+ * Methods to work with  sentence_task_dto objects and the DB
+ */
 require_once(DB_CONNECTION);
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/sentence_task_dto.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/task_progress_dto.php");
@@ -16,7 +18,15 @@ class sentence_task_dao {
     $this->conn = new keopsdb();
     $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   }
-
+  
+  /**
+   * Retrieves a parallel sentence object from the DB, given its ID and the ID of its task
+   * 
+   * @param int $sentence_id Sentence ID
+   * @param int $task_id Task ID
+   * @return \sentence_task_dto Sentence object
+   * @throws Exception
+   */
   function getSentenceByIdAndTask($sentence_id, $task_id) {
     try {
       $sentence_task_dto = new sentence_task_dto();
@@ -45,6 +55,13 @@ class sentence_task_dao {
     }
   }
 
+  /**
+   * Retrieves from the DB the first pending sentence for a given task
+   * 
+   * @param int $task_id Task ID
+   * @return \sentence_task_dto Sentence object
+   * @throws Exception
+   */
   function getNextPendingSentenceByTask($task_id) {
     try {
       $sentence_task_dto = new sentence_task_dto();
@@ -72,6 +89,14 @@ class sentence_task_dao {
     }
   }
 
+    /**
+     * Searches in the DB a given term in the sentences of a given task
+     * 
+     * @param int $task_id Task ID
+     * @param string $search_term Search term
+     * @return int ID of the sentence where the term was found
+     * @throws Exception
+     */
     function getSentenceIdByTermAndTask($task_id, $search_term) {
     $sentence_id = 0;
     $endinginspace = "'%".$search_term." %'";
@@ -116,6 +141,14 @@ class sentence_task_dao {
     }
   }
 
+  /**
+   * Retrieves a sentence from the DB, given the ID of the previous one and the task ID
+   * 
+   * @param int $sentence_id ID of the preceeding sentence
+   * @param int $task_id Task ID
+   * @return \sentence_task_dto Sentence object
+   * @throws Exception
+   */
   function gotoSentenceByTask($sentence_id, $task_id) {
     try {
       if ($sentence_id == null || $sentence_id=="") {
@@ -143,10 +176,18 @@ class sentence_task_dao {
       return $sentence_task_dto;
     } catch (Exception $ex) {
       $this->conn->close_conn();
-      throw new Exception("Error in sentence_task_dao::getNextPendingSentenceByTask : " . $ex->getMessage());
+      throw new Exception("Error in sentence_task_dao::gotoSentenceByTask : " . $ex->getMessage());
     }
   }
 
+  /**
+   * Associates in the DB all sentences from a corpus to a given task
+   * 
+   * @param int $corpus_id Corpus ID
+   * @param int $task_id Task ID
+   * @return boolean Returns true if succeeded, otherwise false
+   * @throws Exception
+   */
   function insertBatchSentencesFromCorpusToTask($corpus_id, $task_id) {
     try {
       $query = $this->conn->prepare("insert into sentences_tasks (task_id, sentence_id) select ?, id from sentences where corpus_id = ?");
@@ -161,9 +202,14 @@ class sentence_task_dao {
     }
     return false;
   }
-
-
-  
+ 
+  /**
+   * Updates in the DB a given sentence object with its evaluation, comments and completion date
+   * 
+   * @param object $sentence_task_dto Sentence object to  update
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
   function updateSentence($sentence_task_dto) {
     try {
       $query = $this->conn->prepare("UPDATE sentences_tasks SET evaluation = ?, comments = ?, completed_date = ? WHERE id = ?;");
@@ -181,6 +227,14 @@ class sentence_task_dao {
     return false;
   }
 
+  /**
+   * Retrieves from the DB the completion status of a given task, in comparisson with the current sentence
+   * 
+   * @param int $sentence_id Current sentence ID
+   * @param type $task_id Task ID
+   * @return \task_progress_dto Task Progress object
+   * @throws Exception
+   */
   function getCurrentProgressByIdAndTask($sentence_id, $task_id) {
     try {
       $task_progress_dto = new task_progress_dto();
@@ -202,6 +256,13 @@ class sentence_task_dao {
     }
   }
 
+  /**
+   * Retrieves from the DB the stats for a given task
+   * 
+   * @param int $task_id Task id
+   * @return \task_stats_dto Task stats object
+   * @throws Exception
+   */
   function getStatsByTask($task_id) {
     try {
       $task_stats_dto = new task_stats_dto();
@@ -232,7 +293,13 @@ from sentences_tasks where task_id = ?;");
     }
   }
 
-  
+  /**
+   * Retrieves from the DB all sentences for a given task, with their evaluation and comments.
+   * 
+   * @param int $task_id Task ID
+   * @return array Array of sentence objects
+   * @throws Exception
+   */
   function getAnnotatedSentecesByTask($task_id){ 
      try {
       $st_array = array();

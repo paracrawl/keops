@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Methods to work with Task objects and the DB
+ */
 require_once(DB_CONNECTION);
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/task_dto.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/utils/utils.php");
@@ -15,7 +17,13 @@ class task_dao {
     $this->conn = new keopsdb();
     $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   }
-  
+  /**
+   * Retrieves a task from the DB, given its ID
+   * 
+   * @param int $id Task ID
+   * @return \task_dto Task object
+   * @throws Exception
+   */
   function getTaskById($id) {
     try {
       $task = new task_dto();
@@ -43,6 +51,13 @@ class task_dao {
     }
   }
   
+  /**
+   * Inserts a new Task into the DB
+   * 
+   * @param object $task_dto Task object
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
   function insertTask($task_dto) {
     try {
       $query = $this->conn->prepare("INSERT INTO tasks (project_id, assigned_user, corpus_id, assigned_date) VALUES (?, ?, ?, ?);");
@@ -61,6 +76,13 @@ class task_dao {
     return false;
   }
   
+  /**
+   * Updates the task metadata in the DB with its amount of sentences
+   * 
+   * @param int $task_id Task  ID
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
   function updateTaskSize($task_id) {
     try {
       $query = $this->conn->prepare("with counted as (select count(task_id) as count from sentences_tasks where task_id = ? group by task_id) update tasks as t set size=s.count from counted as s where t.id = ?;");
@@ -76,6 +98,13 @@ class task_dao {
     return false;
   }
   
+  /**
+   * Marks a task in the DB as "Done", including the completion date
+   * 
+   * @param object $task_dto Task object
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
   function closeTask($task_dto){
     try {
       $query = $this->conn->prepare("UPDATE TASKS set status='DONE', completed_date = ? where id = ?;");
@@ -91,6 +120,13 @@ class task_dao {
     return false;
   }
   
+  /**
+   * Marks a task in the DB as "Started"
+   * 
+   * @param int $task_id Task ID
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
   function startTask($task_id){
     try {
       $query = $this->conn->prepare("UPDATE TASKS set status='STARTED' where id = ?;");
@@ -105,7 +141,14 @@ class task_dao {
     return false;
   }
   
-  
+  /**
+   * Removes a task and the association with its sentences from the DB
+   * (the sentences themselves are not removed, only the association)
+   * 
+   * @param ID $task_id Task ID
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
   function removeTask($task_id){
     try{
       //First  remove from sentences_tasks
@@ -126,6 +169,13 @@ class task_dao {
     return false;
   }
   
+  /**
+   * Retrieves a task list from the DB, in a Datatables-friendly format
+   * 
+   * @param object $request GET request
+   * @return string JSON with a list of Tasks, in a format ready for Datatables
+   * @throws Exception
+   */
   function getDatatablesTasks($request) {
     try {
       return json_encode(DatatablesProcessing::complex( $request, $this->conn,
@@ -142,6 +192,13 @@ class task_dao {
     }
   }
   
+    /**
+     * Retrieves from the DB a list of tasks that use a given corpus, in a Datatables-friendly format
+     * 
+     * @param object $request GET request
+     * @return string JSON string with a list of the tasks, ready for Datatables
+     * @throws Exception
+     */
     function getDatatablesTasksByCorpus($request) {
     try {
       return json_encode(DatatablesProcessing::complex( $request, $this->conn,
@@ -157,6 +214,13 @@ class task_dao {
     }
   }
   
+  /**
+   * Retrieves from the DB the tasks that use a given corpus
+   * 
+   * @param int $corpus_id Corpus ID
+   * @return array Array of task objects
+   * @throws Exception
+   */
   function getTasksByCorpus($corpus_id){
     try {
       $tasks_array = array();
@@ -189,6 +253,13 @@ class task_dao {
     }
   }
   
+  /**
+   * Retrieves from the DB a list of tasks from a given project
+   * 
+   * @param int $project_id Project ID
+   * @return array List of Task objects
+   * @throws Exception
+   */
   function getTasksByProject($project_id){
     try {
       $tasks_array = array();
@@ -221,6 +292,14 @@ class task_dao {
     }
   }
 
+  /**
+   * Retrieves from the DB a list of tasks associated to a given user, in a Datatables-friendly format
+   * 
+   * @param object $request GET request
+   * @param int $user_id User ID
+   * @return string JSON with a list of tasks, ready for Datatables
+   * @throws Exception
+   */
   function getDatatablesUserTasks($request, $user_id) {
     try {
       return json_encode(DatatablesProcessing::complex( $request, $this->conn,
@@ -241,6 +320,10 @@ class task_dao {
     }
   }
 }
+
+/**
+ * Datatables columns for the Project Tasks table
+ */
 task_dao::$columns_project_tasks = array(
     array( 'db' => 't.id', 'alias' => 'id', 'dt' => 0 ),
     array( 'db' => 'u.name', 'alias' => 'name', 'dt' => 1 ),
@@ -262,6 +345,9 @@ task_dao::$columns_project_tasks = array(
               
 );
 
+/**
+* Datatables columns for the User Tasks table 
+*/
 task_dao::$columns_user_tasks = array(
     array( 'db' => 't.id', 'alias' => 'id', 'dt' => 0 ),
     array( 'db' => 'p.name', 'alias' => 'name', 'dt' => 1 ),
@@ -274,10 +360,11 @@ task_dao::$columns_user_tasks = array(
     array( 'db' => "count(case when st.evaluation!='P' then 1 end)", 'alias' => 'sentencescompleted', 'dt' => 7),
     array( 'db' => 'us.email', 'alias' => 'email', 'dt' => 8 )
 );
-        
-task_dao::$columns_corpus_tasks = array(
-    
-    
+
+/**
+ * Datatables columns for the Corpus Tasks table
+ */        
+task_dao::$columns_corpus_tasks = array(   
     array( 'db' => 't.id', 'alias' => 'id', 'dt' => 0 ),
     array( 'db' => 'p.name', 'alias' => 'p_name', 'dt' => 1 ),   
     array( 'db' => 'u.name', 'alias' => 'name', 'dt' => 2 ),    

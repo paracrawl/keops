@@ -1,4 +1,8 @@
 <?php
+/**
+ * Creates and retreives a new invitation token for a given email address.
+ * Retrieves the existing one if the email address is already in use.
+ */
   // load up your config file
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/invite_dao.php");

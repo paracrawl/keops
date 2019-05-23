@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Updates a language.
+ * In case of error, it redirects to the language edit page.
+ * If succeeds, it redirects to the Languages tab
+ */
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/language_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/language_dto.php");

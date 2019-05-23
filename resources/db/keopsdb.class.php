@@ -1,4 +1,7 @@
 <?php
+/**
+ * DB connection
+ */
 class keopsdb extends PDO{
   
  private $dbname = "keopsdb";

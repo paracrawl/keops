@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Methods to work with Language objects and  the DB
+ */
 require_once(DB_CONNECTION);
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/language_dto.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/utils/datatables_helper.class.php' );
@@ -13,6 +15,12 @@ class language_dao {
       $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   }
   
+  /**
+   * Retrieves from the DB the list of available languages 
+   * 
+   * @return array \language_dto Array of Language objects
+   * @throws Exception
+   */
   function getLanguages() {
     try {
       $languages = array();
@@ -34,7 +42,13 @@ class language_dao {
     }
   }
   
-  
+  /**
+   * Stores a new language into the DB
+   * 
+   * @param object $language Language object
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
   function addLanguage($language){
     try {
       $query = $this->conn->prepare("INSERT INTO langs (langcode, langname) VALUES (?, ?);");
@@ -51,6 +65,13 @@ class language_dao {
     }
   }
   
+  /**
+   * Retrieves a language from the DB, given its numeric ID
+   * 
+   * @param int $lang_id Language ID
+   * @return \language_dto Language object
+   * @throws Exception
+   */
   function getLanguageById($lang_id){
     try {
       $language= new language_dto();
@@ -71,6 +92,13 @@ class language_dao {
     } 
   }
   
+  /**
+   * Checks if a given language code is already in use in the DB
+   * 
+   * @param string $langcode Language code
+   * @return boolean True if already exists, false if not
+   * @throws Exception
+   */
   function existsLangCode($langcode){
     try {
       $query = $this->conn->prepare("SELECT COUNT(*) as count FROM langs WHERE langcode = ?;");
@@ -93,6 +121,12 @@ class language_dao {
     }
   }
   
+  /**
+   * Retrieves a language from the DB , given its language code
+   * @param string $langcode Language code
+   * @return \language_dto Language object
+   * @throws Exception
+   */
   function getLangByLangCode($langcode){
     try {
       $query = $this->conn->prepare("SELECT * FROM langs WHERE langcode = ?;");
@@ -120,7 +154,13 @@ class language_dao {
     }
   }
   
-  
+  /**
+   * Checks in the DB if a language name is already in use
+   * 
+   * @param string $langname Language name
+   * @return boolean True if already exists, false if not
+   * @throws Exception
+   */
   function existsLangName($langname){
     try {
       $query = $this->conn->prepare("SELECT COUNT(*) as count FROM langs WHERE langname = ?;");
@@ -143,6 +183,13 @@ class language_dao {
     }
   }
   
+  /**
+   * Retrieves a language from the DB, given its language name
+   * 
+   * @param string $langname Language name
+   * @return \language_dto Language object
+   * @throws Exception
+   */
     function getLangByLangName($langname){
     try {
       $query = $this->conn->prepare("SELECT * FROM langs WHERE langname = ?;");
@@ -170,6 +217,13 @@ class language_dao {
     }
   }
   
+  /**
+   * Updates a language in the DB
+   * 
+   * @param object $language Language object
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
   function updateLanguage($language){
     try {
       $query = $this->conn->prepare("UPDATE langs SET langcode=?, langname =? WHERE id = ?;");
@@ -185,6 +239,13 @@ class language_dao {
     }
   }
   
+  /**
+   * Retrieves from the DB a list of languages, in a Datatables-friendly format
+   * 
+   * @param type $request GET request
+   * @return string JSON list of languages, compatible with Datatables
+   * @throws Exception
+   */
   function getDatatablesLanguages($request) {
     try {
       return json_encode(DatatablesProcessing::simple( $request, $this->conn, "langs", "id", self::$columns ));
@@ -193,6 +254,10 @@ class language_dao {
     }
   }
 }
+
+/**
+ * Datatables columns for the Languages table 
+ */
 language_dao::$columns = array(
   array( 'db' => 'id', 'dt' => 0 ),
   array( 'db' => 'langcode', 'dt' => 1 ),

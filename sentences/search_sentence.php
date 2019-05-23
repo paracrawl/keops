@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Searches a text in the sentences of a task
+ */
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/sentence_task_dao.php");
 

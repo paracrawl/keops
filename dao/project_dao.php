@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Methods to work with Project objects and the DB
+ */
 require_once(DB_CONNECTION);
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/project_dto.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/utils/utils.php");
@@ -14,6 +16,13 @@ class project_dao {
     $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   }
   
+  /**
+   * Retrieves a project from the DB, given its ID
+   * 
+   * @param int $id Project ID
+   * @return \project_dto Project object
+   * @throws Exception
+   */
   function getProjectById($id) {
     try {
       $project = new project_dto();
@@ -49,6 +58,12 @@ class project_dao {
     }
   }
   
+  /**
+   * Retrieves all the  Projects from the DB
+   * 
+   * @return array \project_dto  Array of Project objects
+   * @throws Exception
+   */
   function getProjects() {
     try {
       $projects = array();
@@ -75,6 +90,13 @@ class project_dao {
     }
   }
   
+  /**
+   * Inserts a new project into the DB
+   * 
+   * @param object $project_dto Project object
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
   function insertProject($project_dto) {
     try {
       $query = $this->conn->prepare("INSERT INTO projects (name, source_lang, target_lang, description, owner) VALUES (?, ?, ?, ?, ?);");
@@ -93,6 +115,13 @@ class project_dao {
     return false;
   }
   
+  /**
+   * Updates in the DB the metadata for a given project
+   * 
+   * @param object $project_dto Project object, containing the new information
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
   function updateProject($project_dto) {
     try {
       $query = $this->conn->prepare("UPDATE PROJECTS SET name = ?, source_lang = ?, target_lang = ?, description = ?, active =?  WHERE id = ?;");
@@ -111,6 +140,13 @@ class project_dao {
     }
   }
 
+  /**
+   * Removes a project from the DB, including its tasks and their sentences
+   * 
+   * @param int $project_id Project ID
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
   function removeProject($project_id){
     try{
       //First  remove from sentences_tasks
@@ -135,6 +171,13 @@ class project_dao {
     return false;
   }
   
+  /**
+   * Retrieves from the DB a list of projects, in a Datatables-friendly format
+   * 
+   * @param object $request GET request
+   * @return string JSON string containing the requested projects for Datatables
+   * @throws Exception
+   */
   function getDatatablesProjects($request) {
     try {
       return json_encode(DatatablesProcessing::simple( $request, $this->conn,
@@ -150,6 +193,10 @@ class project_dao {
     }
   }
 }
+
+/**
+ * Datatables columns for the Projects table
+ */
 project_dao::$columns = array(
     array( 'db' => 'p.id', 'alias' => 'id', 'dt' => 0 ),
     array( 'db' => 'p.name', 'alias' => 'name', 'dt' => 1 ),

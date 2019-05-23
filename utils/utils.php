@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * Checks that each one of the strings in the array passed as parameter
+ * is in the $_POST request 
+ * 
+ * @param array $names Names of the parameters 
+ * @return array Array containing the missing parameters (empty array if none is missing)
+ */
 function checkPostParameters($names){
   $failed = [];
   foreach ($names as $name){
@@ -11,10 +17,25 @@ function checkPostParameters($names){
   return $failed;
 }
 
+/**
+ *  Formats a date
+ * 
+ * @param string $date Date (in the format returned by the DB)
+ * @param string $format Output date format (default: Y-m-d)
+ * @return type Formatted date
+ */
 function getFormattedDate($date, $format="Y-m-d") {
   return isset($date) && $date !== '' ? date($format, strtotime($date)) : "";
 }
 
+/**
+ * Searches a given pair of field->value in a given array
+ * 
+ * @param string $needle Value 
+ * @param string $needle_field Field
+ * @param array $haystack Array to be searched in
+ * @return boolean True if found, otherwise false
+ */
 function in_array_field($needle, $needle_field, $haystack) {
   foreach ($haystack as $item) {
     if (isset($item->$needle_field) && $item->$needle_field === $needle) {
@@ -25,6 +46,13 @@ function in_array_field($needle, $needle_field, $haystack) {
   return false;
 }
 
+/**
+ * Adds an underline to the shortcut letter of each evaluation label
+ * 
+ * @param string $label Evaluation label
+ * @param string  $value Evaluation shortcut
+ * @return string Formatted string
+ */
 function underline($label, $value){
   $char = substr($value, 0, 1);
   $regex="/(^".$char."|\b".strtolower($char).")/";    

@@ -1,4 +1,7 @@
 <?php
+/**
+ * Page to display the stats of a given project
+ */
 // load up your config file
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/utils/utils.php");

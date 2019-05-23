@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Methods to work with Sentence objects and the DB
+ */
 require_once(DB_CONNECTION);
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/sentence_dto.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/utils/datatables_helper.class.php' );
@@ -13,7 +15,14 @@ class sentence_dao {
       $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   }
   
-  
+  /**
+   * Inserts into the DB a batch of sentences, and associates them to the corpus they belong
+   * 
+   * @param int $corpus_id Corpus ID
+   * @param array $data Array containing the sentences
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
   function insertBatchSentences($corpus_id, $data) {
     try {
       $insert_values = array();

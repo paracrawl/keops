@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Methods to work with User objects and the DB
+ */
 require_once(DB_CONNECTION);
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/user_dto.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/utils/utils.php");
@@ -14,6 +16,13 @@ class user_dao {
       $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
   }
+  /**
+   * Retrieves from the DB all the information for a given user, given its email address
+   * 
+   * @param string $email User's email address
+   * @return \user_dto User object
+   * @throws Exception
+   */
   function getUser($email) {
     try {
       $user = new user_dto();
@@ -37,7 +46,14 @@ class user_dao {
       throw new Exception("Error in user_dao::getUser : " . $ex->getMessage());
     }
   }
-  
+ 
+  /**
+   * Retrieves from the DB all the information for a given user, given its ID
+   * 
+   * @param int $id User ID
+   * @return \user_dto User object
+   * @throws Exception
+   */
   function getUserById($id) {
     try {
       $user = new user_dto();
@@ -62,7 +78,14 @@ class user_dao {
     }
   }
   
-    function getUsersByIds($ids) {
+  /**
+   * Retrieves from the DB a list of users, given their IDs
+   * 
+   * @param array $ids List of User IDs
+   * @return array Array of User objects
+   * @throws Exception
+   */
+  function getUsersByIds($ids) {
 
     try {
       $users = array();
@@ -93,6 +116,13 @@ class user_dao {
     }
   }
 
+  /**
+   * Retrievesfrom the DB the (encoded) password for a user, given its email address
+   * 
+   * @param string $email Email address
+   * @return string Encoded password
+   * @throws Exception
+   */
   function getUserPassword($email){
     try {
       $query = $this->conn->prepare("SELECT password FROM USERS WHERE email LIKE ?;");
@@ -108,6 +138,12 @@ class user_dao {
     }
   }
 
+  /**
+   * Retrieves all the users from the DB
+   * 
+   * @return array \user_dto Array of User objects
+   * @throws Exception
+   */
   function getUsers() {
     try {
       $users = array();
@@ -133,6 +169,13 @@ class user_dao {
     }
   }
 
+  /**
+   * Inserts a new User into the DB
+   * 
+   * @param object $user_dto User object
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
   function newUser($user_dto){
     try {
       $query = $this->conn->prepare("INSERT INTO users (name, email, password, active) VALUES (?, ?, ?, ?);");
@@ -153,6 +196,13 @@ class user_dao {
     }
   }
 
+  /**
+   * Updates in the DB the information of a given user
+   * 
+   * @param object $user_dto User object, containing the new information
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
   function updateUser($user_dto) {
     try {
       $query = $this->conn->prepare("UPDATE USERS SET name = ?, email = ?,  role = ?, active = ? WHERE id = ?;");
@@ -170,6 +220,13 @@ class user_dao {
     }
   }
 
+  /**
+   * Retrieves from the DB a list of users, in a Datatables-friendly format
+   * 
+   * @param object $request GET request
+   * @return string JSON string containing the list of users, ready for Datatables
+   * @throws Exception
+   */
   function getDatatablesUsers($request) {
     try {
 
@@ -179,6 +236,10 @@ class user_dao {
     }
   }
 }
+
+/**
+ * Datatables columns for the  Users table 
+ */
 user_dao::$columns = array(
     array( 'db' => 'id', 'dt' => 0 ),
     array( 'db' => 'name', 'dt' => 1 ),
