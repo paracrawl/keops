@@ -90,9 +90,77 @@ An admin can have several projects (see table "projects"), but each project has 
 
 
 
-## FAQ ##
+## FAQ: Frequently Asked Questions ##
 
-* Corpus format:
-* Preloaded languages 
-* Validation guidelines
+### Which format must corpora have to be properly uploaded to Keops? ###
 
+The corpus format that Keops does currently support is TSV files having one pair of sentences per line (and no header). For example:
+
+```
+Hello   Hola
+Good morning    Buenos días
+It's raining cats and dogs  Está lloviendo a cántaros
+```
+
+
+### Which languages are preloaded in Keops? ###
+ 
+Preloaded languages are:  Bulgarian (bg), Czech (cs), Danish (da),  German (de), Greek (el), English (en), Spanish (es), Estonian (et), Finnish (fi), French (fr),  
+Irish (ga), Croatian (hr), Hungarian (hu), Italian (it), Lithuanian (lt), Latvian (lv), Maltese (mt), Dutch (nl), Polish (pl),  Portuguese (pt), Romanian (ro), 
+Slovak (sk), Slovenian (sl) and Swedish (sv)
+
+But remember: Admins can add as many languages as needed, at any time!
+
+
+### What are "validation guidelines"? ###
+
+Evaluators working with Keops must follow the European Language Resource Coordination (ELRC) validation guidelines.
+
+To ensure consistency from one evaluator to another, the following system has been adopted for grading translations.
+Evaluators should use the following types/labels to tag problematic cases:
+
+ 
+  * Wrong language identification 
+  * Incorrect alignment
+  * Wrong tokenization
+  * MT translation
+  * Translation error
+  * Free translation
+ 
+
+For more information on each label, please check the [ELRC Validation Guidelines document](http://www.lr-coordination.eu/sites/default/files/common/ELRC%20Data%20Validation%20Guidelines.pdf), section "4.2.2.2  Validation by human experts".
+
+Remember: Evaluators can refer to the Validation Guidelines at any time, just clicking in the link in the Evaluation window.
+
+### Which format does the "task summary" file have? ###
+
+The Task Summary (or task stats) file is a CSV file containing the amount of parallel sentences per each label.  
+
+Each line contains the Label code, the Label description and the amount of entries tagged with that label in the task. For example:
+
+```
+Label,Description,Count
+L,Wrong language identification,44
+A,Incorrect alignment,150
+T,Wrong tokenization,204
+MT,MT translation,97
+E,Translation error,70
+F,Free translation,39
+V,Valid translation,396
+P,Pending,0
+Total,Total,1000
+```
+
+### Which format does the "annotated sentences" file have? ###
+
+The Annotated Sentences file is a TSV file containing all parallel sentences that were evaluated in a task, as well as their evaluations (labels) and Evaluator comments (if any).
+
+An example of an annotated sentences file follows:
+
+```
+Source	Target	Source lang	Target lang	Evaluation	Description	Comments
+Use and maintenance manual	Manual de empleo y mantenimiento	en	es	V	Valid translation	
+Tooling for cup chain aka tennis chain	Herramienta para cadena tennis	en	es	MT	MT translation	
+Type of heating HVAC system	Tipo de calefacción Aire acondicionado frào-calor	en	es	L	Wrong language identification	This sentence has wrong encoding. 
+Budva - photo gallery, Montenegro, Montenegro photos	Lalibela- viajes , Etiopía, fotos de Etiopía, viajar a Etiopía	en	es	A	Incorrect alignment	
+```
