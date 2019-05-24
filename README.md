@@ -78,7 +78,16 @@ By marking the task as **DONE**, the Evaluator states that the task is finished,
 
 ![DB Schema](keops.png)
 
-## Screenshots ##
+A project can have several tasks (see table "tasks"), each one consisting of several sentences (see table "sentences_tasks"). 
+
+Sentences belong to a corpus (see table "corpora" and "sentences"), but can be used in several  tasks (see table "sentences_tasks")
+
+A task can only have one user assigned to it (see table "tasks"), but one user can have several tasks assignated.
+
+An user (admin or evaluator) can have to several languages associated (see table "user_langs"). 
+
+An admin can have several projects (see table "projects"), but each project has only one administrator (owner).
+
 
 
 ## FAQ ##
