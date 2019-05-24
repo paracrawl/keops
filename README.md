@@ -1,8 +1,8 @@
 # KEOPS (Keen Evaluator Of Parallel Sentences)
 
-KEOPS (Keen Evaluation Of Parallel Sentences) project provides a complete tool for manual evaluation of parallel sentences.
+KEOPS (Keen Evaluation Of Parallel Sentences) provides a complete tool for manual evaluation of parallel sentences.
 
-It can be installed
+It can be installed, or run inside a Docker.
 
 ## Requirements ##
 
