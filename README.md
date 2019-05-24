@@ -7,11 +7,28 @@ KEOPS (Keen Evaluation Of Parallel Sentences) provides a complete tool for manua
 It can be installed, or run inside a Docker. See [INSTALLATION.md](INSTALLATION.md) for more information.
 
 
+## Table of Contents ##
+ * [Overview](#overview)  
+   * [Admins](#admins)  
+   * [Evaluators](#evaluators)
+ * [DB Schema](#DB)
+ * [FAQ: Frequently Asked Questions](#faq)
+   * [Which format must corpora have to be properly uploaded to Keops?](#faq-corpora)
+   * [Which languages are preloaded in Keops?](#faq-langs)
+   * [What are "validation guidelines"?](#guidelines)
+   * [Which format does the "task summary" file have?](#summary-format)
+   * [Which format does the "annotated sentences" file have?](#annotation-format)
+
+
+<a name="overview"/>
+
 ## Overview ##
 
 There are two main types of users in Keops: **Users** (also known as "Evaluators") and **Admins**.
 Admins can perform management tasks (such as creating tasks, uploading corpora to evaluate, invite users...) and evaluation tasks,
 while regular Users can only perform evaluation tasks (assigned by the Admins).
+
+<a name="admins"/>
 
 ### Admins ###
 The most common **workflow** for an **Admin** is as follows: 
@@ -40,6 +57,7 @@ When an Evaluator finishes evaluating all sentences from a task, and markes it a
 
 <img src="screenshots/download-page.png" width="700">
 
+<a name="evaluators"/>
 
 ### Evaluators ###
 
@@ -74,6 +92,8 @@ By marking the task as **DONE**, the Evaluator states that the task is finished,
 <img src="screenshots/recap-page.png" width="700">
 
 
+<a name="DB"/>
+
 ## DB Schema ##
 
 ![DB Schema](keops.png)
@@ -88,9 +108,11 @@ An user (admin or evaluator) can have to several languages associated (see table
 
 An admin can have several projects (see table "projects"), but each project has only one administrator (owner).
 
-
+<a name="faq"/>
 
 ## FAQ: Frequently Asked Questions ##
+
+<a name="faq-corpora"/>
 
 ### Which format must corpora have to be properly uploaded to Keops? ###
 
@@ -102,6 +124,7 @@ Good morning    Buenos días
 It's raining cats and dogs  Está lloviendo a cántaros
 ```
 
+<a name="faq-langs"/>
 
 ### Which languages are preloaded in Keops? ###
  
@@ -111,6 +134,7 @@ Slovak (sk), Slovenian (sl) and Swedish (sv)
 
 But remember: Admins can add as many languages as needed, at any time!
 
+<a name="guidelines"/>
 
 ### What are "validation guidelines"? ###
 
@@ -132,6 +156,8 @@ For more information on each label, please check the [ELRC Validation Guidelines
 
 Remember: Evaluators can refer to the Validation Guidelines at any time, just clicking in the link in the Evaluation window.
 
+<a name="summary-format"/>
+
 ### Which format does the "task summary" file have? ###
 
 The Task Summary (or task stats) file is a CSV file containing the amount of parallel sentences per each label.  
@@ -150,6 +176,8 @@ V,Valid translation,396
 P,Pending,0
 Total,Total,1000
 ```
+
+<a name="annotation-format"/>
 
 ### Which format does the "annotated sentences" file have? ###
 
