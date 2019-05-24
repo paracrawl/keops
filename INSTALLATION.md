@@ -140,11 +140,6 @@ CREATE TABLE keopsdb.PROJECTS(
     ACTIVE boolean NOT NULL DEFAULT TRUE
 );
 
-CREATE TABLE keopsdb.PROJECTS_USERS(
-    ID serial PRIMARY KEY,
-    EMAIL varchar(200) NOT NULL,
-    USER_ID integer REFERENCES keopsdb.USERS(ID)
-);
 
 CREATE TABLE keopsdb.CORPORA(
     ID serial PRIMARY KEY,
