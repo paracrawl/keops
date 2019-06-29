@@ -6,7 +6,7 @@ It can be installed, or run inside a Docker.
 
 ## Requirements ##
 
-The following packages are needed.  They can be installed with ```sudo apt-get install```:
+To install KEOPS locally in your machine, the following packages are needed.  They can be installed with ```sudo apt-get install```:
 
 * postgresql
 * php7.2
@@ -222,16 +222,19 @@ At this point, you should be able to log into Keops with user "admin@admin.com" 
 All the needed files to dockerize Keops are provided. To build the dockerized version of Keops:
 
 ```
-docker build -t keopsdocker .
+sudo apt-get install docker
+git clone http://gitlab.prompsit.com/paracrawl/keops.git
+cd keops
+sudo docker build -t keopsdocker .
 ```
 
 Once built, run it:
 
 ```
-docker run -d -pOUT_PORT:80 --name keops keopsdocker:latest
+sudo docker run -d -pOUT_PORT:80 --name keops keopsdocker:latest
 ```
 
-With "OUT_PORT" being the port where Keops is going to be reachable
+With "OUT_PORT" being the port where Keops is going to be reachable  (usually, 80)
 
 ## Notes ##
 
@@ -244,6 +247,6 @@ Is also recommended to change the PostgreSQL user's password from "PASSWORD_FOR_
 Nginx log can be read, when Keops running in Docker, with the command:
 
 ``` 
-docker logs -f keops
+sudo docker logs -f keops
 ```
  
