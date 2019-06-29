@@ -6,7 +6,7 @@ keops:
     - KEOPS_DB_NAME=keopsdb
     - KEOPS_DB_HOST=postgres_db
     - KEOPS_DB_USER=keopsdb
-    - KEOPS_DB_PASS=.keopsdb.
+    - KEOPS_DB_PASS=PASSWORD_FOR_USER_KEOPS
     - KEOPS_DB_PORT=5432
   ports:
     - "8080:80"
@@ -18,4 +18,4 @@ postgres_db:
   container_name: postgres_db 
   restart: always
   environment:
-    - POSTGRES_PASSWORD=.keopsdb.
+    - POSTGRES_PASSWORD=PASSWORD_FOR_USER_KEOPS
