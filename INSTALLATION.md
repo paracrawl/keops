@@ -72,8 +72,8 @@ and you will see the result in http://localhost:80
 Also, for PostgreSQL pdo, add the following lines to ``` /etc/php/7.2/fpm/php.ini ```:
 
 ```
-extension=pdo_pgsql.so
-extension=pgsql.so
+extension=pdo_pgsql
+extension=pgsql
 ```
 
 Access and error logs are located in ```/var/log/nginx/ ```:
@@ -214,7 +214,8 @@ insert into keopsdb.users (name, email, role, password) values ('admin', 'admin@
 
 ```
 
-You should now be able to log into Keops with user "admin@admin.com" and password "admin".
+At this point, you should be able to log into Keops with user "admin@admin.com" and password "admin".
+(As pointed below, it's adviced to log as this user the first time to create a new administrator user, and then remove the default "admin" user for security.)
 
 ## Dockerized version ##
 
