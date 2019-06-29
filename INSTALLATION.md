@@ -193,11 +193,11 @@ CREATE TABLE keopsdb.SENTENCES_TASKS(
     COMMENTS varchar(1000)
 );
 
-insert INTO keopsdb.langs (langcode, langname) values
-('bg','Bulgarian'), ('cs', 'Czech'), ('ca', 'Catalan'),  ('da', 'Danish'), ('de', 'German'),  ('el', 'Greek'), ('en', 'English'), ('es', 'Spanish'), ('et', 'Estonian'),
-('fi', 'Finnish'), ('fr', 'French'), ('ga', 'Irish'), ('gl', 'Galician'), ('hr', 'Croatian'), ('hu', 'Hungarian'), ('is', 'Icelandic'), ('it', 'Italian'),  
-('lt', 'Lithuanian'), ('lv', 'Latvian'), ('mt', 'Maltese'), ('nl', 'Dutch'), ('nn', 'Norwegian - nynorsk'), ('no', 'Norwegian - bokmal), ('pl', 'Polish'), 
-('pt', 'Portuguese'),  ('ro', 'Romanian'), ('sk', 'Slovak'), ('sl', 'Slovenian'), ('sv', 'Swedish');
+insert INTO keopsdb.langs (langcode, langname) values ('bg','Bulgarian'), ('cs', 'Czech'), ('ca', 'Catalan'),  ('da', 'Danish'), ('de', 'German'), 
+('el', 'Greek'), ('en', 'English'), ('es', 'Spanish'), ('et', 'Estonian'), ('fi', 'Finnish'), ('fr', 'French'), ('ga', 'Irish'), ('gl', 'Galician'), 
+('hr', 'Croatian'), ('hu', 'Hungarian'), ('is', 'Icelandic'), ('it', 'Italian'),  ('lt', 'Lithuanian'), ('lv', 'Latvian'), ('mt', 'Maltese'), 
+('nl', 'Dutch'), ('nn', 'Norwegian - nynorsk'), ('no', 'Norwegian - bokmal'), ('pl', 'Polish'), ('pt', 'Portuguese'),  ('ro', 'Romanian'), 
+('sk', 'Slovak'), ('sl', 'Slovenian'), ('sv', 'Swedish');
 
 
 
@@ -213,6 +213,8 @@ GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA keopsdb TO keopsdb;
 insert into keopsdb.users (name, email, role, password) values ('admin', 'admin@admin.com', 'ADMIN', '$2y$10$dbba8ArdKTe9Uxt7rkGwKOrfX5EpI8SO2VheEnnfoYu4kmVFtQjW2');
 
 ```
+
+You should now be able to log into Keops with user "admin@admin.com" and password "admin".
 
 ## Dockerized version ##
 
@@ -232,7 +234,7 @@ With "OUT_PORT" being the port where Keops is going to be reachable
 
 ## Notes ##
 
-Please note that a default user "admin" with password "admin" and ADMIN privileges is created.
+Please note that a default user "admin@admin.com" with password "admin" and ADMIN privileges is created.
 
 Is adviced to log as this user the first time to create a new administrator user, and then remove the default "admin" user for security.
 
