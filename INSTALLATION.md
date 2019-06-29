@@ -9,21 +9,27 @@ It can be installed, or run inside a Docker.
 The following packages are needed.  They can be installed with ```sudo apt-get install```:
 
 * postgresql
-* php7.0
-* php7.0-pgsql
-* php7.0-fpm
+* php7.2
+* php7.2-pgsql
+* php7.2-fpm 
 * nginx
 
+### Get KEOPS ###
+
+```bash
+git clone http://gitlab.prompsit.com/paracrawl/keops.git
+```
 
 ### Install and configure PHP on nginx ###
 
 Create a config file for Keops:
 
 ```bash
-joe /etc/nginx/sites-available/keops.conf
+sudo joe /etc/nginx/sites-available/keops.conf
 ```
 
-In this file, insert the following modifying the path to the root folder:
+In this file, insert the following modifying the path to the root folder
+(the path where you git-cloned Keops):
 
 ```
 ## Main "keops" server block.
@@ -45,7 +51,7 @@ server {
                 include /etc/nginx/fastcgi.conf;
 
                 #Look for the FastCGI Process Manager at this location 
-                fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+                fastcgi_pass unix:/run/php/php7.2-fpm.sock;
         }
 }
 
@@ -55,25 +61,30 @@ server {
 
 ```bash
 cd /etc/nginx/sites-enabled
-rm default
+sudo rm default
 sudo ln -s /etc/nginx/sites-available/keops.conf
 sudo service nginx restart
 ```
 
-Create the file index.php in /PATH/TO/dev/keops/ and you will see the result in http://localhost
+and you will see the result in http://localhost:80
+(Please note that if the port is already in use, you may need to change it or stop other services using it)
 
-Also, for PostgreSQL pdo, add the following lines to ``` /etc/php/7.0/fpm/php.ini ```:
+Also, for PostgreSQL pdo, add the following lines to ``` /etc/php/7.2/fpm/php.ini ```:
 
 ```
 extension=pdo_pgsql.so
 extension=pgsql.so
 ```
 
-Access and error logs are located in ```/var/log/nginx/ ```
+Access and error logs are located in ```/var/log/nginx/ ```:
+
+```bash
+tail -f /var/log/nginx/error.log
+```
 
 ### Install and configure PostgreSQL ###
 
-After installing with ```sudo apt-get install postgresql```,  start the PostgreSQL service and connect with the ```postgres`` ` user to create a new DB and then access into it:
+After installation,  start the PostgreSQL service and connect with the ```postgres`` ` user to create a new DB and then access into it:
 
 ```bash
  sudo -i -u postgres
@@ -183,7 +194,12 @@ CREATE TABLE keopsdb.SENTENCES_TASKS(
 );
 
 insert INTO keopsdb.langs (langcode, langname) values
-('de', 'German'), ('fr', 'French'), ('es', 'Spanish'), ('en', 'English'), ('it', 'Italian'), ('pt', 'Portuguese'), ('nl', 'Dutch'), ('pl', 'Polish'), ('cs', 'Czech'), ('ro', 'Romanian'), ('fi', 'Finnish'), ('lv', 'Latvian');
+('bg','Bulgarian'), ('cs', 'Czech'), ('ca', 'Catalan'),  ('da', 'Danish'), ('de', 'German'),  ('el', 'Greek'), ('en', 'English'), ('es', 'Spanish'), ('et', 'Estonian'),
+('fi', 'Finnish'), ('fr', 'French'), ('ga', 'Irish'), ('gl', 'Galician'), ('hr', 'Croatian'), ('hu', 'Hungarian'), ('is', 'Icelandic'), ('it', 'Italian'),  
+('lt', 'Lithuanian'), ('lv', 'Latvian'), ('mt', 'Maltese'), ('nl', 'Dutch'), ('nn', 'Norwegian - nynorsk'), ('no', 'Norwegian - bokmal), ('pl', 'Polish'), 
+('pt', 'Portuguese'),  ('ro', 'Romanian'), ('sk', 'Slovak'), ('sl', 'Slovenian'), ('sv', 'Swedish');
+
+
 
 REVOKE CONNECT ON DATABASE keopsdb FROM PUBLIC;
 GRANT CONNECT ON DATABASE keopsdb TO keopsdb;
