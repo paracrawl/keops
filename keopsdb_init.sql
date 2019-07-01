@@ -1,4 +1,4 @@
-CREATE USER keopsdb PASSWORD '.keopsdb.';
+CREATE USER keopsdb PASSWORD 'PASSWORD_FOR_USER_KEOPS';
 CREATE SCHEMA keopsdb;
 
 CREATE TYPE keopsdb.role AS ENUM ('ADMIN', 'STAFF', 'USER');

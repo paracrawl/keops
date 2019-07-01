@@ -24,8 +24,8 @@ RUN apt-get update -q --fix-missing && \
     cd /etc/nginx/sites-enabled && \
     rm default && \
     ln -s /etc/nginx/sites-available/keops.conf && \
-    echo "extension=pdo_pgsql.so" >> /etc/php/7.2/fpm/php.ini && \ 
-    echo "extension=pgsql.so" >> /etc/php/7.2/fpm/php.ini
+    echo "extension=pdo_pgsql" >> /etc/php/7.2/fpm/php.ini && \ 
+    echo "extension=pgsql" >> /etc/php/7.2/fpm/php.ini
 
 EXPOSE 80
 
