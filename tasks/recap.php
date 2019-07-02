@@ -152,7 +152,10 @@ if (isset($task_id)) {
                     <br><span class="glyphicon glyphicon-envelope"></span> Contact evaluator</a>
                 </div>
               <br>
-                <div>
+                <?php
+              }
+              ?>
+              <div>
                   <a href="/tasks/download_summary.php?task_id=<?php echo $task_id ?>">
                     <span class="glyphicon glyphicon-download-alt"></span>
                     <span>Download summary (CSV)</span>
@@ -164,9 +167,6 @@ if (isset($task_id)) {
                     <span>Download annotated sentences (TSV)</span>
                   </a>
                 </div>
-                <?php
-              }
-              ?>
             </div>
           </div>
           <?php

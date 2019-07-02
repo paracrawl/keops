@@ -7,7 +7,7 @@ require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/project_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/sentence_task_dao.php");
 
-$PAGETYPE = "admin";
+$PAGETYPE = "user";
 require_once(RESOURCES_PATH . "/session.php");
 
 $task_id = filter_input(INPUT_GET, "task_id");
@@ -20,7 +20,7 @@ if (isset($task_id)) {
   $project = $project_dao->getProjectById($task->project_id);
 
   //  if ((($project->owner == $USER->id) || ($task->assigned_user == $USER->id)) && ($task->status == "DONE")) {
-  if (($project->owner == $USER->id) && ($task->status == "DONE")) {
+  if ($task->status == "DONE") {
     $sentence_task_dao = new sentence_task_dao();
     $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id);
 
@@ -44,6 +44,6 @@ if (isset($task_id)) {
     $total_row = array("Total", "Total", $task_stats_dto->total);
     fputs($output, implode($total_row, ",") . "\n");
   } else {
-    //The user is not the owner
+    //The task is not done
   }
 }

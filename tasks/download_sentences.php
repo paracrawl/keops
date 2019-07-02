@@ -9,7 +9,7 @@ require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/sentence_task_da
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/language_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dto/sentence_task_dto.php");
 
-$PAGETYPE = "admin";
+$PAGETYPE = "user";
 require_once(RESOURCES_PATH . "/session.php");
 
 $task_id = filter_input(INPUT_GET, "task_id");
@@ -23,7 +23,7 @@ if (isset($task_id)) {
   $sentence_task_dto = new sentence_task_dto();
 
   //  if ((($project->owner == $USER->id) || ($task->assigned_user == $USER->id)) && ($task->status == "DONE")) {
-  if (($project->owner == $USER->id) && ($task->status == "DONE")) {
+  if ($task->status == "DONE") {
     $sentence_task_dao = new sentence_task_dao();
     $lang_dao = new language_dao();
     $st_array = $sentence_task_dao->getAnnotatedSentecesByTask($task->id);
@@ -56,6 +56,6 @@ if (isset($task_id)) {
     
   }
   else{
-    //The user is not the owner
+    //The task is not done
   }
 }
