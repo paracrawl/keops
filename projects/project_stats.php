@@ -158,6 +158,7 @@ $tasks = $task_dao->getTasksByProject($project_id);
                              </p>
                              <a href="mailto:<?php echo $task->email; ?>">
                                <br><span class="glyphicon glyphicon-envelope"></span> Contact evaluator</a>
+                             
                              <br>
                              <div>
                                <a href="/tasks/download_summary.php?task_id=<?php echo $task->id ?>">

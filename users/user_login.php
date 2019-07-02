@@ -13,9 +13,7 @@ $PAGETYPE = "public";
 require_once(RESOURCES_PATH . "/session.php");
 
 $failedparams = checkPostParameters(["email", "password"]);
-
 if (count($failedparams) == 0){
-
   $email = $_POST["email"];
   $password = $_POST["password"];
 
@@ -25,7 +23,6 @@ if (count($failedparams) == 0){
   //$password_hash = $user_dao->getUserPassword($email);
   $userinfo = $user_dao->getUser($email);
   $password_hash = $userinfo->password;
-  
   if ($password_hash == null || $password_hash==""){
     //"Not registered";
     $_SESSION['error']="notregistered";
@@ -35,6 +32,7 @@ if (count($failedparams) == 0){
   }
   else {
     if (password_verify($password, $password_hash)) {
+      echo "valid!";
       //Valid password
       $user_langs_dao = new user_langs_dao();
       $userinfo->langs = $user_langs_dao->getUserLangs($userinfo->id);
@@ -42,6 +40,7 @@ if (count($failedparams) == 0){
       header("Location: /index.php");
     die();
     } else {
+      echo "wrong pw";
       //echo "Wrong password";
       $_SESSION['error']="wrongpassword";
       $_SESSION['userinfo']=null;
@@ -52,12 +51,14 @@ if (count($failedparams) == 0){
 }
 else {
   if (in_array("email", $failedparams) || in_array("password", $failedparams)){
+    echo "missing mail";
     $_SESSION["error"] = "missingdata";   
     $_SESSION["userinfo"] = null;
     header("Location: /signin.php");
     die();
   }
   else {
+    echo "unknown";
     $_SESSION["error"] = "unknownerror";
     $_SESSION["userinfo"] = null;
     header("Location: /signin.php");

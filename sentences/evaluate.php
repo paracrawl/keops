@@ -252,7 +252,7 @@ else {
                   <thead>
                     <tr>
                       <th>Label</th>
-                      <th>Shorcut</th>
+                      <th>Shortcut</th>
                     </tr>
                   </thead>
                   <tbody>

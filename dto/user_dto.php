@@ -71,7 +71,7 @@ class user_dto{
   }
   
   /**
-   * Theck if the user is user (evaluator)
+   * Check if the user is user (evaluator)
    * 
    * @return boolean True if is evaluator, otherwise false 
    */
