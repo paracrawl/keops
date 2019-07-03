@@ -15,11 +15,12 @@ require_once(RESOURCES_PATH . "/session.php");
 
 $task_id = filter_input(INPUT_GET, "task_id");
 $sentence_id = filter_input(INPUT_GET, "id");
+$first_sentence = filter_input(INPUT_GET, "first");
 
 if (isset($task_id)) {
   $task_dao = new task_dao();
   $task = $task_dao->getTaskById($task_id);
-  if ($task->id == $task_id && $task->status != "DONE" && $task->assigned_user == $USER->id) {
+  if ($task->id == $task_id && $task->assigned_user == $USER->id) {
     
     $sentence_task_dao = new sentence_task_dao();
     $paginate = filter_input(INPUT_GET, "p");
@@ -29,8 +30,18 @@ if (isset($task_id)) {
     else if (isset($sentence_id)) {
       $sentence = $sentence_task_dao->getSentenceByIdAndTask($sentence_id, $task_id);
     }
+    else if (isset($first_sentence)) {
+      $sentence = $sentence_task_dao->getFirstSentenceByTask($task_id);
+    }
     else {
-      $sentence = $sentence_task_dao->getNextPendingSentenceByTask($task_id);
+      if ($task->status == "DONE" && isset($_GET['review'])) {
+        // If the task is done but the review flag is set, we let the user
+        // review their evaluated sentences. This will disable the Save button
+        // below.
+        $sentence = $sentence_task_dao->getFirstSentenceByTask($task_id);
+      } else {
+        $sentence = $sentence_task_dao->getNextPendingSentenceByTask($task_id);
+      }
     }
     //TODO if the user reached the end of the task -> they should have an option to mark the task as DONE
     if($sentence->task_id == null) { // Check that sentence exists in db
@@ -42,14 +53,14 @@ if (isset($task_id)) {
     
     $project_dao = new project_dao();
     $project = $project_dao->getProjectById($task->project_id);
-    
+
     $task_progress = $sentence_task_dao->getCurrentProgressByIdAndTask($sentence->id, $task->id);
   }
   else {
-    // ERROR: Task doesn't exist or it's already done or user is not the assigned to the task
-    // Message: You don't have access to this evaluation / We couldn't find this task for you
-    header("Location: /index.php");
-    die();
+      // ERROR: Task doesn't exist or it's already done or user is not the assigned to the task
+      // Message: You don't have access to this evaluation / We couldn't find this task for you
+      header("Location: /index.php");
+      die();
   }
 }
 else {
@@ -71,6 +82,13 @@ else {
   <body>
     <div id="evaluation-container" class="container evaluation">
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
+
+      <?php if ($task->status == "DONE") { ?>
+        <div class="alert alert-success" role="alert">
+          <b>This task is done!</b> The evaluation can be read but not changed.
+        </div>
+      <?php } ?>
+
       <ul class="breadcrumb">
         <li><a href="/index.php">Tasks</a></li>
         <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>" title="Go to the first pending sentence">Evaluation of <?= $project->name ?> </a></li>
@@ -110,19 +128,19 @@ else {
             <div class="col-md-3">
             <?php foreach (array_slice(sentence_task_dto::$labels, 0, count(sentence_task_dto::$labels) - 2) as $label) { ?>
               <div class="radio wrong-eval" title="<?= $label['title'] ?>">
-                <label><input required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" name="evaluation" value="<?= $label['value'] ?>"><?= underline($label['label'], $label['value']); ?></label>
+                <label><input <?php if ($task->status == "DONE") { echo "disabled"; } ?> required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" name="evaluation" value="<?= $label['value'] ?>"><?= underline($label['label'], $label['value']); ?></label>
               </div>
             <?php } ?>
             </div>
             <div class="col-md-3">
             <?php foreach (array_slice(sentence_task_dto::$labels, -2, 1) as $label) { ?>
               <div class="radio valid-eval" title="<?= $label['title'] ?>">
-                <label><input  required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" name="evaluation" value="<?= $label['value'] ?>"><?= underline($label['label'], $label['value']) ?></label>
+                <label><input <?php if ($task->status == "DONE") { echo "disabled"; } ?> required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" name="evaluation" value="<?= $label['value'] ?>"><?= underline($label['label'], $label['value']) ?></label>
               </div>
             <?php } ?>
             <?php foreach (array_slice(sentence_task_dto::$labels, -1, 1) as $label) { ?>
               <div class="radio pending-eval" title="<?= $label['title'] ?>">
-                <label><input  required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" name="evaluation" value="<?= $label['value'] ?>"><?= underline($label['label'], $label['value']) ?></label>
+                <label><input <?php if ($task->status == "DONE") { echo "disabled"; } ?> required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" name="evaluation" value="<?= $label['value'] ?>"><?= underline($label['label'], $label['value']) ?></label>
               </div>
             <?php } ?>
             </div>
@@ -142,7 +160,7 @@ else {
             <div class="col-md-3">
             </div>
             <div class="col-md-6">
-              <textarea rows="3" name="comments" id="comments" class="form-control" aria-describedby="helpComment" placeholder="Write something you want to remark for these parallel sentences [optional]" maxlength="1000" tabindex="4"><?= $sentence->comments ?></textarea>
+              <textarea <?php if ($task->status == "DONE") { echo "disabled"; } ?> rows="3" name="comments" id="comments" class="form-control" aria-describedby="helpComment" placeholder="Write something you want to remark for these parallel sentences [optional]" maxlength="1000" tabindex="4"><?= $sentence->comments ?></textarea>
             </div>
             <div class="col-md-3">
             </div>
@@ -151,8 +169,12 @@ else {
             <div class="col-md-3 text-center">
             </div>
             <div class="col-md-6 text-center">
-              <button id="evalution-save-button" type="submit" class="btn btn-primary btn-lg" tabindex="5">Save</button>
-            </div>
+              <?php if ($task->status != "DONE") { ?>
+                <button id="evalution-save-button" type="submit" class="btn btn-primary btn-lg" tabindex="5">Save</button>
+              <?php } else { ?>
+                <span class="btn btn-success btn-lg disabled" tabindex="5" title="The evaluation cannot be changed because the task is marked as done.">Task done</span>
+              <?php } ?>
+              </div>
             <div class="col-md-3 text-center">
             </div>
           </div>

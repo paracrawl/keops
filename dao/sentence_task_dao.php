@@ -89,6 +89,41 @@ class sentence_task_dao {
     }
   }
 
+
+  /**
+   * Retrieves from the DB the first pending sentence for a given task
+   * 
+   * @param int $task_id Task ID
+   * @return \sentence_task_dto Sentence object
+   * @throws Exception
+   */
+  function getFirstSentenceByTask($task_id) {
+    try {
+      $sentence_task_dto = new sentence_task_dto();
+      // TODO We are assuming that sentence ids are consecutive
+      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date, st.comments from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? order by st.sentence_id ASC limit 1;");
+      $query->bindParam(1, $task_id);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while ($row = $query->fetch()) {
+        $sentence_task_dto->id = $row['id'];
+        $sentence_task_dto->task_id = $row['task_id'];
+        $sentence_task_dto->sentence_id = $row['sentence_id'];
+        $sentence_task_dto->source_text = $row['source_text'];
+        $sentence_task_dto->target_text = $row['target_text'];
+        $sentence_task_dto->evaluation = $row['evaluation'];
+        $sentence_task_dto->creation_date = $row['creation_date'];
+        $sentence_task_dto->completed_date = $row['completed_date'];
+        $sentence_task_dto->comments = $row['comments'];
+      }
+      $this->conn->close_conn();
+      return $sentence_task_dto;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in sentence_task_dao::getSentenceById : " . $ex->getMessage());
+    }
+  }
+
     /**
      * Searches in the DB a given term in the sentences of a given task
      * 

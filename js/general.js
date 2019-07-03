@@ -24,7 +24,8 @@ $(document).ready(function() {
         render: function (data, type, row) {
           var actions_str = "";
           if (row[5] == "DONE") {
-            actions_str += '<span class="glyphicon glyphicon-play-circle disabled" aria-hidden="true"  title="This task is finished"></span>';
+            //actions_str += '<span class="glyphicon glyphicon-play-circle disabled" aria-hidden="true"  title="This task is finished"></span>';
+            actions_str += '<a href="/sentences/evaluate.php?review=1&task_id=' + row[0] + '" title="See your evaluated sentences"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>';
           } else {
             actions_str += '<a href="/sentences/evaluate.php?task_id=' + row[0] + '" title="Start / continue the task"><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span></a>';
           }

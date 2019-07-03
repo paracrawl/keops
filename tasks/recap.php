@@ -156,6 +156,12 @@ if (isset($task_id)) {
               }
               ?>
               <div>
+              <a href="/sentences/evaluate.php?first&task_id=<?= $task_id ?>">
+                <span class="glyphicon glyphicon-info-sign"></span>
+                <span>Check evaluation <span class="sr-only"> of task <?= $task_id ?></span>
+              </a>
+              </div>
+              <div>
                   <a href="/tasks/download_summary.php?task_id=<?php echo $task_id ?>">
                     <span class="glyphicon glyphicon-download-alt"></span>
                     <span>Download summary (CSV)</span>
@@ -196,11 +202,42 @@ if (isset($task_id)) {
                   <h3 class="panel-title">Congrats! You've arrived to the end of the evaluation task</h3>
                 </div>
                 <div class="panel-body">
+                  <div class="row">
+                    <div class="col-sm-6 text-center">
+                      <p>
+                        <a href="/sentences/evaluate.php?first&task_id=<?= $task_id ?>" class="btn btn-lg btn-primary">Review task</a>
+                      </p>
+                      <div class="row" style="display: flex; justify-content: center; margin-top: 32px;">
+                        <div class="col-sm-8">
+                          <p><b>If you are not sure of your evaluation</b></p>
+                          <p style="margin-bottom: 32px;">
+                            When you finish reviewing the task, you will be able to mark it as done again
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6 text-center">
+                      <p>
+                        <a href="/tasks/task_close.php?task_id=<?= $task_id ?>" class="btn btn-lg btn-success">Mark as DONE</a>
+                      </p>
+                      <div class="row" style="display: flex; justify-content: center; margin-top: 32px;">
+                        <div class="col-sm-8">
+                          <p><b>If you don't have any more doubts</b></p>
+                          <p>
+                            The Project Manager will receive a notice. You will be able to access the task, but not to modify it
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--
                   <p>If you are sure that you finished the task and you don't have more doubts, please mark the task as DONE using the following button.</p>
                   <p class="text-center"><a href="/tasks/task_close.php?task_id=<?= $task_id ?>" class="btn btn-lg btn-success">Mark as DONE</a></p>
                   <p>If you mark the task as DONE, you will not have access to the task afterwards and the Project Manager  will receive a notice.</p>
                   <p>Thank you!</p>
-                </div>
+                </div> -->
               </div>
               <?php
             } else {
