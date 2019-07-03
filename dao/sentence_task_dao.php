@@ -99,14 +99,32 @@ class sentence_task_dao {
      */
     function getSentenceIdByTermAndTask($task_id, $search_term) {
     $sentence_id = 0;
-    $endinginspace = "'%".$search_term." %'";
-    $endingincomma = "'%".$search_term.",%'";
-    $endingincolon = "'%".$search_term.":%'";
-    $enginginfullstop =  "'%".$search_term.";%'";
-    $enginginsemicolon =  "'%".$search_term.".%'";
-    $startingwithspace = "'% ".$search_term."%'";
+
+    /*
+      TODO: When quotes are used in the search term, the query fails.
+      This could happen because quotes used in the corpora are not the same
+      as the ones input by keyboard.
+      This could be fixed by replacing the other types of quotes with the
+      ones written with the keyboard: --> " <--
+      This replacement should be temporal and can be done directly in the query:
+        translate(s.target_text, '“”', '""')
+
+      Another solution would be to add an ILIKE statement that replaces,
+      in the search filter, the quotes with an underscore (_). That underscore
+      will match any character (and that, besides a solution, can be a problem).
+      For example:
+        Search term: "compañia"
+        Search filter: %_compañía_%
+    */
+
+    $endinginspace = "%".$search_term." %";
+    $endingincomma = "%".$search_term.",%";
+    $endingincolon = "%".$search_term.":%";
+    $enginginfullstop =  "%".$search_term.";%";
+    $enginginsemicolon =  "%".$search_term.".%";
+    $startingwithspace = "% ".$search_term."%";
     try {
-      $query = $this->conn->prepare("select  st.sentence_id as sentence_id from sentences_tasks as st left join sentences as s on st.sentence_id = s.id "
+      $query = $this->conn->prepare("select st.id as sentence_id from sentences_tasks as st left join sentences as s on st.sentence_id = s.id "
               . "where (s.source_text ILIKE ? or s.target_text ILIKE ? "
                . "or s.source_text ILIKE ? or s.target_text ILIKE ? "
                . "or s.source_text ILIKE ? or s.target_text ILIKE ? "

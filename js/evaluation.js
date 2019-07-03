@@ -65,8 +65,20 @@ $('body').on('click', "#search-term-button", function (e) {
           alert ("Search term not found");
         }
         else {
+          var current_url = new URL(window.location.href);
+          var current_params = new URLSearchParams(current_url.search);
+          
+          var target_params = new URLSearchParams();
+          target_params.append('id', response);
+          target_params.append('task_id', current_params.get('task_id'));
+
+          var target_url = current_url;
+          target_url.search = target_params.toString();
+          window.location.href = target_url.toString();
+          
+          /*
           $("#gotopage").val(response);
-          $("#gotoform").submit();
+          $("#gotoform").submit();*/
         }
       },
       error: function (response) {
