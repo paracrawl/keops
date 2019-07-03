@@ -281,6 +281,8 @@ $(document).ready(function() {
           var actions_str = "";
           actions_str += '<a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>';
           actions_str += '<a href="mailto:' + row[11] + '" title="Contact assigned user"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>';
+          actions_str += '<a href="/tasks/change_assigned_user.php?task_id=' + row[0] + '" title="Change assigned user"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>';
+
           actions_str += getRemoveTaskCode(row[0], row[1]);
           
           return actions_str;

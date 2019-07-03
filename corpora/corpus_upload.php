@@ -37,7 +37,7 @@ try {
             $buffer = fgets($handle); // Read a line.
             $data = explode("\t", $buffer);
 
-            if (count($data) > 2) { $data = array_slice($data, 0, 2); }
+            $data = array_slice($data, 0, 2);
 
             if (!empty(trim($buffer)) && count($data) == 2 && strlen($data[0]) <= 5000 && strlen($data[1]) <= 5000) {
               $values[] = $data;// save values

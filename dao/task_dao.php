@@ -168,6 +168,29 @@ class task_dao {
     }
     return false;
   }
+
+  /**
+   * Updates the assigned user for a task
+   * 
+   * @param int $task_id Task  ID
+   * @param int $assigned_user User ID to be assigned to the task
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
+  function updateAssignedUser($task_id, $assigned_user) {
+    try {
+      $query = $this->conn->prepare("update tasks set assigned_user = ? where id = ?;");
+      $query->bindParam(1, $assigned_user);
+      $query->bindParam(2, $task_id);
+      $query->execute();
+      $this->conn->close_conn();
+      return true;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in task_dao::updateAssignedUser : " . $ex->getMessage());
+    }
+    return false;
+  }
   
   /**
    * Retrieves a task list from the DB, in a Datatables-friendly format
