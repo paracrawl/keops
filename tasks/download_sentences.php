@@ -50,8 +50,20 @@ if (isset($task_id)) {
 // output the column headings
     fputs($output, implode($headers, $delimiter)."\n");
      foreach ($st_array as $st) {  
-       $row = array($st->source_text, $st->target_text, $source_lang, $target_lang, $st->evaluation, $sentence_task_dto->getLabel($st->evaluation), $st->comments);
-       fputs($output, implode($row, $delimiter)."\n");
+      $source_text = $st->source_text;
+      $target_text = $st->target_text;
+
+      if (preg_match('/(.*)("|\t|\')(.*)/', $source_text)) {
+        $source_text = '"' . $source_text . '"';
+      }
+
+      if (preg_match('/(.*)("|\t|\')(.*)/', $target_text)) {
+        $target_text = '"' . $target_text . '"';
+      }
+
+      $row = array($source_text, $target_text, $source_lang, $target_lang, $st->evaluation, $sentence_task_dto->getLabel($st->evaluation), $st->comments);
+      $str = implode($row, $delimiter)."\n";
+      fputs($output,  implode($row, $delimiter)."\n");
      }  
     
   }
