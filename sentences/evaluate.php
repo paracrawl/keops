@@ -43,6 +43,7 @@ if (isset($task_id)) {
         $sentence = $sentence_task_dao->getNextPendingSentenceByTask($task_id);
       }
     }
+    
     //TODO if the user reached the end of the task -> they should have an option to mark the task as DONE
     if($sentence->task_id == null) { // Check that sentence exists in db
       // ERROR: Sentence doesn't exist
@@ -94,8 +95,38 @@ else {
         <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>" title="Go to the first pending sentence">Evaluation of <?= $project->name ?> </a></li>
         <li class="active">Task #<?= $task->id ?></li> 
         <a class="pull-right"  href="mailto:<?= $project->owner_object->email  ?>" title="Contact Project Manager">Contact PM <span id="contact-mail-logo" class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
-
       </ul>
+
+      <div class="col-md-12" style="margin-bottom: 1em;">
+        <div class="page-header" style="padding-bottom: 0px;">
+          <div class="row">
+            <div class="col-sm-4" style="margin-bottom: 1em;">
+              <span class="h1">Task #<?php echo $task->id ?></span>
+            </div>
+
+            <div class="col-sm-8 text-right">
+              <form action="#" class="form-inline">
+                <div class="form-group">
+                  <input type="hidden" id="task_id" name="task_id" value="<?= $task->id ?>">
+                  <input class="form-control" id="search-term" name="search" placeholder="Search through sentences">
+                
+                  <select class="form-control">
+                    <option>Everything</option>
+                    <option>L annotation</option>
+                    <option>A annotation</option>
+                    <option>T annotation</option>
+                    <option>MT annotation</option>
+                    <option>F annotation</option>
+                  </select>
+
+                  <button type=submit class="btn btn-primary" id="search-term-button">Search</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-1 vcenter"><div class="text-increase"><?= $project->source_lang_object->langname ?></div></div><div class="col-md-11 vcenter"><div class="text-box text-increase"><?= $sentence->source_text ?></div></div>                
@@ -182,11 +213,11 @@ else {
       </div>
       <div class="col-md-12">
           <div class="col-md-4">             
-          <form>
+          <!--<form>
             <input type="hidden" id="task_id" name="task_id" value="<?= $task->id ?>">
             <input class="form-control search-term" id="search-term" name="search">
-             <button class="btn btn-xs btn-link" id="search-term-button" >Search</button>          
-          </form>
+            <button class="btn btn-xs btn-link" id="search-term-button" >Search</button>          
+          </form>-->
         </div>
 
         <div class="col-md-4">
