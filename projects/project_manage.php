@@ -137,6 +137,8 @@
     require_once(TEMPLATES_PATH . "/admin_resources.php");
     require_once(TEMPLATES_PATH . "/modals.php")
     ?>
+
+    <input type=hidden id="input_isowner" name="isowner" value="<?php echo (getUserId() == $project->owner) ?>" />
   </body>
 </html>
 
