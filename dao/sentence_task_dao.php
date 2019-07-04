@@ -150,6 +150,8 @@ class sentence_task_dao {
       For example:
         Search term: "compañia"
         Search filter: %_compañía_%
+
+      This affects other functions related to search
     */
 
     $endinginspace = "%".$search_term." %";
@@ -205,23 +207,6 @@ class sentence_task_dao {
     function getSentencesIdByTermAndTask($task_id, $search_term) {
       $sentence_ids = array();
 
-      /*
-        TODO: When quotes are used in the search term, the query fails.
-        This could happen because quotes used in the corpora are not the same
-        as the ones input by keyboard.
-        This could be fixed by replacing the other types of quotes with the
-        ones written with the keyboard: --> " <--
-        This replacement should be temporal and can be done directly in the query:
-          translate(s.target_text, '“”', '""')
-  
-        Another solution would be to add an ILIKE statement that replaces,
-        in the search filter, the quotes with an underscore (_). That underscore
-        will match any character (and that, besides a solution, can be a problem).
-        For example:
-          Search term: "compañia"
-          Search filter: %_compañía_%
-      */
-  
       $endinginspace = "%".$search_term." %";
       $endingincomma = "%".$search_term.",%";
       $endingincolon = "%".$search_term.":%";
@@ -258,6 +243,82 @@ class sentence_task_dao {
         }
         $this->conn->close_conn();
         return $sentence_ids;
+      } catch (Exception $ex) {
+        $this->conn->close_conn();
+        throw new Exception("Error in sentence_task_dao::getSentenceById : " . $ex->getMessage());
+      }
+    }
+
+   /**
+     * Searches in the DB a given term in the sentences of a given task.
+     * The sentence must also have been marked with the given label.
+     * The results are paginated, returning SENTENCES_SEARCH_MAX results per page.
+     * 
+     * @param int $task_id Task ID
+     * @param string $search_term Search term
+     * @param string $label Label of the sentence (MT, F, A...)
+     * @param int $from If set, the function returns sentences subsequent to this Sentence ID
+     * @return array Array with 1) Number of pages ($max results per page) 2) IDs of the sentences where the term was found and which are tagged with the given label
+     * @throws Exception
+     */
+    function getSentencesIdByTermAndTaskAndLabel($task_id, $search_term, $label, $page = 1) {
+      $result = array('pages' => false, 'first_id' => 0, 'sentence_ids' => array());
+  
+      $endinginspace = "%".$search_term." %";
+      $endingincomma = "%".$search_term.",%";
+      $endingincolon = "%".$search_term.":%";
+      $enginginfullstop =  "%".$search_term.";%";
+      $enginginsemicolon =  "%".$search_term.".%";
+      $startingwithspace = "% ".$search_term."%";
+      try {
+        $queryText = "select st.id as sentence_id from sentences_tasks as st left join sentences as s on st.sentence_id = s.id "
+        . "where (s.source_text ILIKE ? or s.target_text ILIKE ? "
+        . "or s.source_text ILIKE ? or s.target_text ILIKE ? "
+        . "or s.source_text ILIKE ? or s.target_text ILIKE ? "
+        . "or s.source_text ILIKE ? or s.target_text ILIKE ? "
+        . "or s.source_text ILIKE ? or s.target_text ILIKE ? "
+        . "or s.source_text ILIKE ? or s.target_text ILIKE ? ) "
+        . " and st.task_id = ? " . (($label == "ALL") ? "" : "and st.evaluation = ? ")
+        . "order by s.id ASC;";
+
+        $query = $this->conn->prepare($queryText);
+        $query->bindParam(1, $endinginspace);
+        $query->bindParam(2, $endinginspace);
+        $query->bindParam(3, $endingincomma);
+        $query->bindParam(4, $endingincomma);
+        $query->bindParam(5, $endingincolon);
+        $query->bindParam(6, $endingincolon);
+        $query->bindParam(7, $enginginfullstop);
+        $query->bindParam(8, $enginginfullstop);
+        $query->bindParam(9, $enginginsemicolon);
+        $query->bindParam(10, $enginginsemicolon);
+        $query->bindParam(11, $startingwithspace);
+        $query->bindParam(12, $startingwithspace);
+        $query->bindParam(13, $task_id);
+        if ($label != "ALL") { $query->bindParam(14, $label); }
+
+        $query->execute();
+        $query->setFetchMode(PDO::FETCH_ASSOC);
+  
+        $count = 0;
+        $from = -1;
+        while ($row = $query->fetch()) {
+          $count++;
+
+          if ($from == -1) {
+            $from = ($row["sentence_id"] + (($page - 1) * SENTENCES_SEARCH_MAX));
+          }
+
+          if ($row["sentence_id"] >= $from) {
+            $result["sentence_ids"][] = $row['sentence_id'];
+          }
+        }
+
+        $this->conn->close_conn();
+
+        $result["pages"] = ceil($count / SENTENCES_SEARCH_MAX);
+        $result["first_id"] = count($result["sentence_ids"]) > 0 ? $result["sentence_ids"][0] : 0;
+        return $result;
       } catch (Exception $ex) {
         $this->conn->close_conn();
         throw new Exception("Error in sentence_task_dao::getSentenceById : " . $ex->getMessage());
