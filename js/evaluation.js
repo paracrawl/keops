@@ -50,7 +50,7 @@ $(document).keypress(function (e) {
 /**
  * Search button, to search a term in the task's sentences
  */
-$('body').on('click', "#search-term-button", function (e) {
+/*$('body').on('click', "#search-term-button", function (e) {
   e.preventDefault();
   var search_term = $("#search-term").val();
   var task_id = $("#task_id").val();
@@ -78,7 +78,7 @@ $('body').on('click', "#search-term-button", function (e) {
           
           /*
           $("#gotopage").val(response);
-          $("#gotoform").submit();*/
+          $("#gotoform").submit();
         }
       },
       error: function (response) {
@@ -88,4 +88,4 @@ $('body').on('click', "#search-term-button", function (e) {
 
     });
   }
-});
+});*/

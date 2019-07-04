@@ -86,7 +86,7 @@ else {
 
       <?php if ($task->status == "DONE") { ?>
         <div class="alert alert-success" role="alert">
-          <b>This task is done!</b> The evaluation can be read but not changed.
+          <b>This task is done!</b> The evaluation can be read but not changed. <a href="/tasks/recap.php?id=<?php echo $task->id; ?>">See the recap</a>.
         </div>
       <?php } ?>
 
@@ -105,23 +105,7 @@ else {
             </div>
 
             <div class="col-sm-8 text-right">
-              <form action="#" class="form-inline">
-                <div class="form-group">
-                  <input type="hidden" id="task_id" name="task_id" value="<?= $task->id ?>">
-                  <input class="form-control" id="search-term" name="search" placeholder="Search through sentences">
-                
-                  <select class="form-control">
-                    <option>Everything</option>
-                    <option>L annotation</option>
-                    <option>A annotation</option>
-                    <option>T annotation</option>
-                    <option>MT annotation</option>
-                    <option>F annotation</option>
-                  </select>
-
-                  <button type=submit class="btn btn-primary" id="search-term-button">Search</button>
-                </div>
-              </form>
+              <?php require_once(TEMPLATES_PATH . "/sentences_search.php"); ?>
             </div>
           </div>
         </div>
@@ -223,18 +207,34 @@ else {
         <div class="col-md-4">
           <div class="text-center text-increase">
             <ul class="pagination pagination-sm">
+            <?php // TODO We are assuming that sentence ids are consecutive
+              if ($task_progress->current > 1) { ?>
+              <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>">First</a></li>
+              <?php } else { ?>
+              <li class="disabled"><a href="#">First</a></li>
+              <?php } ?>
+              
               <?php // TODO We are assuming that sentence ids are consecutive
               if ($task_progress->current > 1) { ?>
               <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>&id=<?= $sentence->id-1 ?>">Prev</a></li>
               <?php } else { ?>
               <li class="disabled"><a href="#">Prev</a></li>
               <?php } ?>
+              
               <li class="active"><a href="#"><?= $task_progress->current ?> / <?= $task_progress->total ?></a></li>
+              
               <?php // TODO We are assuming that sentence ids are consecutive
               if ($task_progress->current < $task_progress->total) { ?>
               <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>&id=<?= $sentence->id+1 ?>">Next</a></li>
               <?php } else { ?>
               <li class="disabled"><a href="#">Next</a></li>
+              <?php } ?>
+              
+              <?php
+              if ($task_progress->current < $task_progress->total) { ?>
+                <li><a href="/sentences/evaluate.php?p=1&task_id=<?= $task->id ?>&id=<?= $task_progress->total ?>">Last</a></li>
+              <?php } else { ?>
+                <li class="disabled"><a href="#">Last</a></li>
               <?php } ?>
             </ul>
           </div>
