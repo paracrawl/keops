@@ -27,6 +27,10 @@ if (count($failedparams) == 0){
     $sentence_task_dto->task_id = filter_input(INPUT_POST, "task_id", FILTER_SANITIZE_STRING);
     $sentence_task_dto->evaluation = filter_input(INPUT_POST, "evaluation", FILTER_SANITIZE_STRING);
     $sentence_task_dto->comments = filter_input(INPUT_POST, "comments", FILTER_SANITIZE_STRING);
+    
+    // Filter comments newlines
+    $sentence_task_dto->comments = trim(preg_replace('/\s\s+/', ' ', $sentence_task_dto->comments));
+
     $datetime= date('Y-m-d H:i:s');
     $sentence_task_dto->completed_date = $datetime;
 
@@ -35,7 +39,12 @@ if (count($failedparams) == 0){
       if ($task->status == "PENDING"){
         $task_dao->startTask($task_id);                
       }
-      header("Location: /sentences/evaluate.php?task_id=" . $sentence_task_dto->task_id . "&id=" . ($sentence_task_dto->id+1));
+
+      $search_term = filter_input(INPUT_POST, "term");
+      $label = filter_input(INPUT_POST, "label");
+      $p_id = filter_input(INPUT_POST, "p_id");
+      $str = "Location: /sentences/evaluate.php?task_id=" . $sentence_task_dto->task_id . "&p=1&id=" . ($p_id+1) . ((isset($search_term) && isset($label)) ? "&term=".$search_term."&label=".$label : "");
+      header($str);
       die();
     }
     else {

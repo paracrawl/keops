@@ -368,7 +368,7 @@ class sentence_task_dao {
       $task_progress_dto = new task_progress_dto();
       $query = $this->conn->prepare("select count(case when id <= ? then 1 end) as current, count(*) as total, count(case when evaluation<>'P' then 1 end) as completed from sentences_tasks where task_id = ?;");
       $query->bindParam(1, $sentence_id);
-      $query->bindParam(2, $task_id);     
+      $query->bindParam(2, $task_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while ($row = $query->fetch()) {

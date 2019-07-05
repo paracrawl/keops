@@ -202,10 +202,17 @@ else {
           </div>
       </div>
 
-      <div class="col-md-6">
+      <div class="col-md-6 annotation-box">
         <form id="evaluation-form" class="form-horizontal" action="/sentences/sentence_save.php" role="form" method="post" data-toggle="validator">
           <input type="hidden" name="task_id" value="<?= $task->id ?>">
           <input type="hidden" name="sentence_id" value="<?= $sentence->id ?>">
+          <input type="hidden" name="p_id" value="<?= $task_progress->current ?>">
+
+          <?php if ($filtered) { ?>
+            <input type="hidden" name="term" value="<?= $search_term ?>" />
+            <input type="hidden" name="label" value="<?= $filter_label ?>" />
+          <?php } ?>
+
           <div class="col-md-6">
             <h4>Annotation</h4>
             <p class="p1">Select one of the following labels to tag these parallel sentences</p>
@@ -234,17 +241,13 @@ else {
             <?php } ?>
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group col-xs-12 col-md-12">
             <div class="col-md-12">
-              <label for="comments" class="col-sm-1 control-label">Comment</label>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-md-12">
+              <label for="comments" class="control-label">Comment</label>
               <textarea <?php if ($task->status == "DONE") { echo "disabled"; } ?> rows="3" name="comments" id="comments" class="form-control" aria-describedby="helpComment" placeholder="Write something you want to remark for these parallel sentences [optional]" maxlength="1000" tabindex="4"><?= $sentence->comments ?></textarea>
             </div>
           </div>
-          <div class="form-group" style="display: flex; align-items: baseline;">
+          <div class="form-group col-xs-12 col-md-12" style="display: flex; align-items: baseline;">
             <div class="col-md-12 text-center">
               <?php if ($task->status != "DONE") { ?>
                 <button id="evalution-save-button" type="submit" class="btn btn-primary" tabindex="5">Save</button>
