@@ -196,135 +196,6 @@ class sentence_task_dao {
     }
   }
 
-    /**
-     * Searches in the DB a given term in the sentences of a given task
-     * 
-     * @param int $task_id Task ID
-     * @param string $search_term Search term
-     * @return array IDs of the sentences where the term was found
-     * @throws Exception
-     */
-    function getSentencesIdByTermAndTask($task_id, $search_term) {
-      $sentence_ids = array();
-
-      $endinginspace = "%".$search_term." %";
-      $endingincomma = "%".$search_term.",%";
-      $endingincolon = "%".$search_term.":%";
-      $enginginfullstop =  "%".$search_term.";%";
-      $enginginsemicolon =  "%".$search_term.".%";
-      $startingwithspace = "% ".$search_term."%";
-      try {
-        $query = $this->conn->prepare("select st.id as sentence_id from sentences_tasks as st left join sentences as s on st.sentence_id = s.id "
-        . "where (s.source_text ILIKE ? or s.target_text ILIKE ? "
-        . "or s.source_text ILIKE ? or s.target_text ILIKE ? "
-        . "or s.source_text ILIKE ? or s.target_text ILIKE ? "
-        . "or s.source_text ILIKE ? or s.target_text ILIKE ? "
-        . "or s.source_text ILIKE ? or s.target_text ILIKE ? "
-        . "or s.source_text ILIKE ? or s.target_text ILIKE ? ) "
-        . " and st.task_id = ?;");
-         $query->bindParam(1, $endinginspace);
-         $query->bindParam(2, $endinginspace);
-         $query->bindParam(3, $endingincomma);
-         $query->bindParam(4, $endingincomma);
-         $query->bindParam(5, $endingincolon);
-         $query->bindParam(6, $endingincolon);
-         $query->bindParam(7, $enginginfullstop);
-         $query->bindParam(8, $enginginfullstop);
-         $query->bindParam(9, $enginginsemicolon);
-         $query->bindParam(10, $enginginsemicolon);
-         $query->bindParam(11, $startingwithspace);
-         $query->bindParam(12, $startingwithspace);
-         $query->bindParam(13, $task_id);
-        $query->execute();
-        $query->setFetchMode(PDO::FETCH_ASSOC);
-  
-        while ($row = $query->fetch()) {        
-         $sentence_ids[] = $row['sentence_id'];
-        }
-        $this->conn->close_conn();
-        return $sentence_ids;
-      } catch (Exception $ex) {
-        $this->conn->close_conn();
-        throw new Exception("Error in sentence_task_dao::getSentenceById : " . $ex->getMessage());
-      }
-    }
-
-   /**
-     * Searches in the DB a given term in the sentences of a given task.
-     * The sentence must also have been marked with the given label.
-     * The results are paginated, returning SENTENCES_SEARCH_MAX results per page.
-     * 
-     * @param int $task_id Task ID
-     * @param string $search_term Search term
-     * @param string $label Label of the sentence (MT, F, A...)
-     * @param int $from If set, the function returns sentences subsequent to this Sentence ID
-     * @return array Array with 1) Number of pages ($max results per page) 2) IDs of the sentences where the term was found and which are tagged with the given label
-     * @throws Exception
-     */
-    function getSentencesIdByTermAndTaskAndLabel($task_id, $search_term, $label, $page = 1) {
-      $result = array('pages' => false, 'first_id' => 0, 'sentence_ids' => array());
-  
-      $endinginspace = "%".$search_term." %";
-      $endingincomma = "%".$search_term.",%";
-      $endingincolon = "%".$search_term.":%";
-      $enginginfullstop =  "%".$search_term.";%";
-      $enginginsemicolon =  "%".$search_term.".%";
-      $startingwithspace = "% ".$search_term."%";
-      try {
-        $queryText = "select st.id as sentence_id from sentences_tasks as st left join sentences as s on st.sentence_id = s.id "
-        . "where (s.source_text ILIKE ? or s.target_text ILIKE ? "
-        . "or s.source_text ILIKE ? or s.target_text ILIKE ? "
-        . "or s.source_text ILIKE ? or s.target_text ILIKE ? "
-        . "or s.source_text ILIKE ? or s.target_text ILIKE ? "
-        . "or s.source_text ILIKE ? or s.target_text ILIKE ? "
-        . "or s.source_text ILIKE ? or s.target_text ILIKE ? ) "
-        . " and st.task_id = ? " . (($label == "ALL") ? "" : "and st.evaluation = ? ")
-        . "order by s.id ASC;";
-
-        $query = $this->conn->prepare($queryText);
-        $query->bindParam(1, $endinginspace);
-        $query->bindParam(2, $endinginspace);
-        $query->bindParam(3, $endingincomma);
-        $query->bindParam(4, $endingincomma);
-        $query->bindParam(5, $endingincolon);
-        $query->bindParam(6, $endingincolon);
-        $query->bindParam(7, $enginginfullstop);
-        $query->bindParam(8, $enginginfullstop);
-        $query->bindParam(9, $enginginsemicolon);
-        $query->bindParam(10, $enginginsemicolon);
-        $query->bindParam(11, $startingwithspace);
-        $query->bindParam(12, $startingwithspace);
-        $query->bindParam(13, $task_id);
-        if ($label != "ALL") { $query->bindParam(14, $label); }
-
-        $query->execute();
-        $query->setFetchMode(PDO::FETCH_ASSOC);
-  
-        $count = 0;
-        $from = -1;
-        while ($row = $query->fetch()) {
-          $count++;
-
-          if ($from == -1) {
-            $from = ($row["sentence_id"] + (($page - 1) * SENTENCES_SEARCH_MAX));
-          }
-
-          if ($row["sentence_id"] >= $from) {
-            $result["sentence_ids"][] = $row['sentence_id'];
-          }
-        }
-
-        $this->conn->close_conn();
-
-        $result["pages"] = ceil($count / SENTENCES_SEARCH_MAX);
-        $result["first_id"] = count($result["sentence_ids"]) > 0 ? $result["sentence_ids"][0] : 0;
-        return $result;
-      } catch (Exception $ex) {
-        $this->conn->close_conn();
-        throw new Exception("Error in sentence_task_dao::getSentenceById : " . $ex->getMessage());
-      }
-    }
-
   /**
    * Retrieves a sentence from the DB, given the ID of the previous one and the task ID
    * 
@@ -343,6 +214,79 @@ class sentence_task_dao {
       $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date, st.comments from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? order by st.id asc limit 1 offset ?;");
       $query->bindParam(1, $task_id);
       $query->bindParam(2, $offset);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while ($row = $query->fetch()) {
+        $sentence_task_dto->id = $row['id'];
+        $sentence_task_dto->task_id = $row['task_id'];
+        $sentence_task_dto->sentence_id = $row['sentence_id'];
+        $sentence_task_dto->source_text = $row['source_text'];
+        $sentence_task_dto->target_text = $row['target_text'];
+        $sentence_task_dto->evaluation = $row['evaluation'];
+        $sentence_task_dto->creation_date = $row['creation_date'];
+        $sentence_task_dto->completed_date = $row['completed_date'];
+        $sentence_task_dto->comments = $row['comments'];
+      }
+      $this->conn->close_conn();
+      return $sentence_task_dto;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in sentence_task_dao::gotoSentenceByTask : " . $ex->getMessage());
+    }
+  }
+
+  /**
+   * Retrieves a sentence from the DB, given the ID of the previous one and the task ID,
+   * taking into account applied filters (search term and label)
+   * 
+   * @param int $sentence_id ID of the preceeding sentence
+   * @param int $task_id Task ID
+   * @param string $search_term Term to search in source text, target text and comments
+   * @param string $label Label to filter the results ("ALL" if not filtering by label)
+   * @return \sentence_task_dto Sentence object
+   * @throws Exception
+   */
+  function gotoSentenceByTaskAndFilters($sentence_id, $task_id, $search_term, $label) {
+    try {
+      if ($sentence_id == null || $sentence_id=="") {
+        $sentence_id = 1;
+      }
+
+      $endinginspace = "%".$search_term." %";
+      $endingincomma = "%".$search_term.",%";
+      $endingincolon = "%".$search_term.":%";
+      $enginginfullstop =  "%".$search_term.";%";
+      $enginginsemicolon =  "%".$search_term.".%";
+      $startingwithspace = "% ".$search_term."%";
+      $comment = "%" . $search_term . "%";
+  
+      $sentence_task_dto = new sentence_task_dto();
+      $offset = $sentence_id - 1;
+      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date, st.comments from sentences_tasks as st "
+        . "left join sentences as s on st.sentence_id = s.id "
+        . "where st.task_id = :taskid "
+        . (($label != "ALL") ? "and st.evaluation = :label " : "")
+        . "and (st.comments like :comments "
+        . "or (s.source_text ILIKE :endinginspace or s.target_text ILIKE :endinginspace "
+        . "or s.source_text ILIKE :endingincomma or s.target_text ILIKE :endingincomma "
+        . "or s.source_text ILIKE :endingincolon or s.target_text ILIKE :endingincolon "
+        . "or s.source_text ILIKE :enginginfullstop or s.target_text ILIKE :enginginfullstop "
+        . "or s.source_text ILIKE :enginginsemicolon or s.target_text ILIKE :enginginsemicolon "
+        . "or s.source_text ILIKE :startingwithspace or s.target_text ILIKE :startingwithspace ))"
+        . "order by st.id asc limit 1 offset :offset;");
+      
+      $query->bindParam(':taskid', $task_id);
+      $query->bindParam(':offset', $offset);
+      $query->bindParam(':comments', $comment);
+      $query->bindParam(':endinginspace', $endinginspace);
+      $query->bindParam(':endingincomma', $endingincomma);
+      $query->bindParam(':endingincolon', $endingincolon);
+      $query->bindParam(':enginginfullstop', $enginginfullstop);
+      $query->bindParam(':enginginsemicolon', $enginginsemicolon);
+      $query->bindParam(':startingwithspace', $startingwithspace);
+
+      if ($label != "ALL") { $query->bindParam(':label', $label); }
+
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while ($row = $query->fetch()) {
@@ -425,6 +369,68 @@ class sentence_task_dao {
       $query = $this->conn->prepare("select count(case when id <= ? then 1 end) as current, count(*) as total, count(case when evaluation<>'P' then 1 end) as completed from sentences_tasks where task_id = ?;");
       $query->bindParam(1, $sentence_id);
       $query->bindParam(2, $task_id);     
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while ($row = $query->fetch()) {
+        $task_progress_dto->current = $row['current'];
+        $task_progress_dto->total = $row['total'];
+        $task_progress_dto->completed = $row['completed'];
+      }
+      $this->conn->close_conn();
+      return $task_progress_dto;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in sentence_task_dao::getNextPendingSentenceByTask : " . $ex->getMessage());
+    }
+  }
+
+  /**
+   * Retrieves from the DB the completion status of a given task, in comparisson with the current sentence
+   * and taking into account applied filters.
+   * 
+   * @param int $sentence_id Current sentence ID
+   * @param type $task_id Task ID
+   * @param string $search_term Term to search in source text, target text and comments
+   * @param string $label Label to filter the results ("ALL" if not filtering by label)
+   * @return \task_progress_dto Task Progress object
+   * @throws Exception
+   */
+  function getCurrentProgressByIdAndTaskAndFilters($sentence_id, $task_id, $search_term, $label) {
+    try {
+      $endinginspace = "%".$search_term." %";
+      $endingincomma = "%".$search_term.",%";
+      $endingincolon = "%".$search_term.":%";
+      $enginginfullstop =  "%".$search_term.";%";
+      $enginginsemicolon =  "%".$search_term.".%";
+      $startingwithspace = "% ".$search_term."%";
+      $comment = "%" . $search_term . "%";
+
+      $task_progress_dto = new task_progress_dto();
+      $query = $this->conn->prepare("
+        select count(case when st.id <= :sentenceid then 1 end) as current, count(*) as total, count(case when evaluation<>'P' then 1 end) as completed from sentences_tasks as st left join sentences as s on (s.id = st.sentence_id)
+        where task_id = :taskid " 
+        . (($label != "ALL") ? "and evaluation = :label " : "")
+        . "and (st.comments like :comments "
+        . "or (s.source_text ILIKE :endinginspace or s.target_text ILIKE :endinginspace "
+        . "or s.source_text ILIKE :endingincomma or s.target_text ILIKE :endingincomma "
+        . "or s.source_text ILIKE :endingincolon or s.target_text ILIKE :endingincolon "
+        . "or s.source_text ILIKE :enginginfullstop or s.target_text ILIKE :enginginfullstop "
+        . "or s.source_text ILIKE :enginginsemicolon or s.target_text ILIKE :enginginsemicolon "
+        . "or s.source_text ILIKE :startingwithspace or s.target_text ILIKE :startingwithspace ));"
+      );
+
+      $query->bindParam(':sentenceid', $sentence_id);
+      $query->bindParam(':taskid', $task_id);
+      $query->bindParam(':comments', $comment);
+      $query->bindParam(':endinginspace', $endinginspace);
+      $query->bindParam(':endingincomma', $endingincomma);
+      $query->bindParam(':endingincolon', $endingincolon);
+      $query->bindParam(':enginginfullstop', $enginginfullstop);
+      $query->bindParam(':enginginsemicolon', $enginginsemicolon);
+      $query->bindParam(':startingwithspace', $startingwithspace);
+
+      if ($label != "ALL") { $query->bindParam(':label', $label); }
+
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while ($row = $query->fetch()) {
