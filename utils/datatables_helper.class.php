@@ -254,16 +254,18 @@ class DatatablesProcessing {
 		);
 		// Data set length after filtering
 		$resFilterLength = self::sql_exec( $db, $bindings,
-			"SELECT COUNT({$primaryKey})
+			"SELECT COUNT(distinct {$primaryKey})
 			 FROM   $table
 			 $where"
 		);
 		$recordsFiltered = $resFilterLength[0][0];
 
 		// Total data set length
+		$str = "SELECT COUNT(distinct {$primaryKey})
+		FROM   $table";
+
 		$resTotalLength = self::sql_exec( $db,
-			"SELECT COUNT({$primaryKey})
-			 FROM   $table"
+			$str
 		);
 		$recordsTotal = $resTotalLength[0][0];
 
