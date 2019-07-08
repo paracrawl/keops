@@ -107,6 +107,7 @@ else {
         <a class="pull-right"  href="mailto:<?= $project->owner_object->email  ?>" title="Contact Project Manager">Contact PM <span id="contact-mail-logo" class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
       </ul>
 
+    <div class="row">
       <div class="col-md-12" style="margin-bottom: 1em;">
         <div class="page-header" style="padding-bottom: 0px;">
           <div class="row">
@@ -143,7 +144,10 @@ else {
           </div>
         </div>
       </div>
-
+    </div>
+    
+    <div class="row">
+      <form id="evaluation-form" action="/sentences/sentence_save.php" role="form" method="post" data-toggle="validator">
       <?php if ($sentence->task_id == NULL && $filtered) { ?>
         <div class="col-xs-12 col-md-12">
           <div class="alert alert-danger" role="alert">
@@ -154,7 +158,7 @@ else {
       <?php } else {?>
 
       <div class="col-md-6">
-          <div class="row">
+        <div class="row">
           <?php if ($filtered) { ?>
             <div class="col-xs-12 col-md-12">
               <div class="alert alert-warning" role="alert">
@@ -169,41 +173,72 @@ else {
                     <?= $project->source_lang_object->langname ?>
                   </div>
                   <div class="col-xs-6 col-md-6 text-right">
-                    <a href="https://translate.google.com/?op=translate&sl=<?= $project->source_lang_object->langcode?>&tl=<?=$project->target_lang_object->langcode?>&text=<?=$sentence->source_text ?>"  title="Translate source sentence with Google" target="_blank"><span class="glyphicon glyphicon-new-window"></span></a>
+                    Pair #<?= $sentence->id ?>
                   </div>
                 </div>
               </div>
-            <div class="col-xs-12 col-md-12 vcenter" style="margin-bottom: 1em;">
-              <div class="text-box text-increase">
-                <?= $sentence->source_text ?>
+            <div class="col-xs-12 col-md-12 vcenter">
+              <div class="translation-box col-md-12">
+                <div class="translation-box-content text-increase">
+                  <?= $sentence->source_text ?>
+                </div>
+                <div class="translation-box-actions">
+                  <div class="translation-box-action">
+                    <a class="btn btn-default translation-box-action" href="https://translate.google.com/?op=translate&sl=<?= $project->source_lang_object->langcode?>&tl=<?=$project->target_lang_object->langcode?>&text=<?=$sentence->source_text ?>" title="Translate source sentence with Google" target="_blank">
+                      <span class="glyphicon glyphicon-new-window"></span>
+                      <span class="hidden-md">Translate</span>
+                      <span class="hidden-xs">Translate with Google</span>
+                    </a>
+                  </div>
+                  <div class="btn-group translation-box-action" data-toggle="buttons">
+                    <label class="btn btn-default" title="Source text contains personal data">
+                      <input type="checkbox" name="personal_data_source" checked>
+                      <span class="glyphicon glyphicon-flag"></span>
+                      <span class="hidden-md">Personal data</span>
+                      <span class="hidden-xs">Contains personal data</span>
+                    </label>
+                  </div>
+                </div>
               </div>
-            </div>          
+            </div>
           </div>
           <div class="row">
-              <div class="col-xs-12 col-md-12 vcenter">
-                <div class="row">
-                  <div class="col-xs-6 col-md-6 text-increase">
-                    <?= $project->target_lang_object->langname ?>
-                  </div>
-                  <div class="col-xs-6 col-md-6 text-right">
-                    <a href="https://translate.google.com/?op=translate&sl=<?= $project->target_lang_object->langcode?>&tl=<?=$project->source_lang_object->langcode?>&text=<?=$sentence->target_text ?>"  title="Translate target sentence with Google" target="_blank"><span class="glyphicon glyphicon-new-window"></span></a>
-                  </div>
+            <div class="col-xs-12 col-md-12 vcenter">
+              <div class="row">
+                <div class="col-xs-12 col-md-12 text-increase">
+                  <?= $project->target_lang_object->langname ?>
                 </div>
               </div>
-              <div class="col-xs-12 col-md-12 vcenter">
-                <div class="text-box text-increase">
+            </div>
+            <div class="col-xs-12 col-md-12 vcenter">
+              <div class="translation-box col-md-12">
+                <div class="translation-box-content text-increase">
                   <?= $sentence->target_text ?>
                 </div>
-              </div>
-
-              <div class="col-md-12 col-xs-12 text-right">
-                Pair #<?= $sentence->id ?>
-              </div>
+                <div class="translation-box-actions">
+                  <div class="translation-box-action">
+                    <a class="btn btn-default translation-box-action" href="https://translate.google.com/?op=translate&sl=<?= $project->target_lang_object->langcode?>&tl=<?=$project->source_lang_object->langcode?>&text=<?=$sentence->target_text ?>" title="Translate source sentence with Google" target="_blank">
+                      <span class="glyphicon glyphicon-new-window"></span>
+                      <span class="hidden-md">Translate</span>
+                      <span class="hidden-xs">Translate with Google</span>
+                    </a>
+                  </div>
+                  <div class="btn-group translation-box-action" data-toggle="buttons">
+                    <label class="btn btn-default" title="Target text contains personal data">
+                      <input type="checkbox" name="personal_data_target" checked>
+                      <span class="glyphicon glyphicon-flag"></span>
+                      <span class="hidden-md">Personal data</span>
+                      <span class="hidden-xs">Contains personal data</span>
+                    </label>
+                  </div>
+                </div>
+            </div>
           </div>
+        </div>
       </div>
 
       <div class="col-md-6 annotation-box">
-        <form id="evaluation-form" class="form-horizontal" action="/sentences/sentence_save.php" role="form" method="post" data-toggle="validator">
+        <div class="row form-horizontal">
           <input type="hidden" name="task_id" value="<?= $task->id ?>">
           <input type="hidden" name="sentence_id" value="<?= $sentence->id ?>">
           <input type="hidden" name="p_id" value="<?= $task_progress->current ?>">
@@ -256,8 +291,12 @@ else {
               <?php } ?>
             </div>
           </div>
-        </form>
+        </div>
       </div>
+      </form>
+    </div>
+
+    <div class="row">
       <div class="col-md-12" style="margin-top: 2em;">
           <div class="col-md-4">
           <!--<form>
@@ -323,21 +362,17 @@ else {
         
       </div>
       <div class="col-md-12">
-        <div class="col-md-3">
-        </div>
-        <div class="col-md-6">
+        <div class="col-md-offset-3 col-md-6">
           <div class="progress" title="<?= $task_progress->completed . " of " . $task_progress->total . " senteces evaluated"; ?>" >
-            <div  class="progress-bar" role="progressbar" aria-valuenow="<?= ($task_progress->completed / $task_progress->total) * 100 ?>"
+            <div class="progress-bar" role="progressbar" aria-valuenow="<?= ($task_progress->completed / $task_progress->total) * 100 ?>"
                   aria-valuemin="0" aria-valuemax="100" style="width:<?= ($task_progress->completed / $task_progress->total) * 100 ?>%">  
               <span id="evaluate-percent"><?= round(($task_progress->completed / $task_progress->total) * 100, 2)?>%</span>
             </div>
           </div>
+        </div>
       </div>
-        
-          <div class="col-md-3">
-          </div>
-      </div>
-      
+    </div>
+
     <?php } ?>
       <!-- Modal -->
       <div id="evaluation-help" class="modal fade" role="dialog">
