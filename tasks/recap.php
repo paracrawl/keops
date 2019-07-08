@@ -62,7 +62,7 @@ if (isset($task_id)) {
       <ul class="breadcrumb">
         <li><a href="/index.php">Tasks</a></li>
         <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>"  title="Go to the first pending sentence">Evaluation of <?= $project->name ?></a></li>
-        <li class="active">Recap Task #<?= $task->id ?></li>
+        <li class="active">Recap of Task #<?= $task->id ?></li>
         <a class="pull-right" href="mailto:<?= $project->owner_object->email ?>" title="Contact Project Manager">Contact PM <span id="contact-mail-logo" class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
       </ul>
       <!--<div class="col-md-12">
@@ -87,6 +87,15 @@ if (isset($task_id)) {
           </table>
         </div>
       </div>-->
+
+      <div class="page-header">
+          <div class="row">
+            <div class="col-sm-4">
+              <span class="h1">Recap of Task #<?php echo $task->id ?></span>
+            </div>
+          </div>
+      </div>
+      
       <div class="col-md-4">
         <div class="table-responsive">
           <table class="table table-striped table-bordered table-hover table-condensed">
@@ -205,12 +214,12 @@ if (isset($task_id)) {
                   <div class="row">
                     <div class="col-sm-6 text-center">
                       <p>
-                        <a href="/sentences/evaluate.php?first&task_id=<?= $task_id ?>" class="btn btn-lg btn-primary">Review task</a>
+                        <a href="/sentences/evaluate.php?p=1&id=1&task_id=<?= $task_id ?>" class="btn btn-lg btn-primary" style="margin-top: 1em; margin-bottom: 1em;">Review task</a>
                       </p>
-                      <div class="row" style="display: flex; justify-content: center; margin-top: 32px;">
+                      <div class="row" style="display: flex; justify-content: center;">
                         <div class="col-sm-8">
                           <p><b>If you are not sure of your evaluation</b></p>
-                          <p style="margin-bottom: 32px;">
+                          <p>
                             When you finish reviewing the task, you will be able to mark it as done again
                           </p>
                         </div>
@@ -219,9 +228,9 @@ if (isset($task_id)) {
 
                     <div class="col-sm-6 text-center">
                       <p>
-                        <a href="/tasks/task_close.php?task_id=<?= $task_id ?>" class="btn btn-lg btn-success">Mark as DONE</a>
+                        <a href="/tasks/task_close.php?task_id=<?= $task_id ?>" class="btn btn-lg btn-success" style="margin-top: 1em; margin-bottom: 1em;">Mark as DONE</a>
                       </p>
-                      <div class="row" style="display: flex; justify-content: center; margin-top: 32px;">
+                      <div class="row" style="display: flex; justify-content: center;">
                         <div class="col-sm-8">
                           <p><b>If you don't have any more doubts</b></p>
                           <p>

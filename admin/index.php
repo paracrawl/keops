@@ -62,13 +62,14 @@
           <p>Number of users / projects / languages / tasks / tasks in progress / ...</p>
         </div>-->
     <div id="projects" class="tab-pane fade in active">
-      <div class="title-container row ">
-        <div class="col-md-10 vcenter">
+      <div class="title-container row vertical-align">
+        <div class="col-md-6">
           <h3>Projects</h3>
-        </div><div class="col-md-2 vcenter" >
+        </div><div class="col-md-6 buttons-menu">
           <a href="/projects/project_new.php" class="btn btn-primary pull-right">New project</a>
+          <a href="/projects/projects_stats.php" class="btn btn-primary pull-right" title="Recap of all the tasks which belong to your projects">Recap yours</a>
         </div>
-      </div>   
+      </div>
           <hr>
           <table id="projects-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
