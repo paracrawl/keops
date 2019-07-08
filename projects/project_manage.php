@@ -37,7 +37,16 @@
         <li class="active">Manage project</li> 
       </ul>
       <div class="page-header">
-        <h1><?= $project->name ?></h1>
+        <div class="row vertical-align">
+          <div class="col-xs-6 col-md-6">
+            <h1 style="margin-top: 0;"><?= $project->name ?></h1>
+          </div>
+
+          <div class="col-xs-6 col-md-6 buttons-menu">
+            <a href="/projects/project_edit.php?id=<?php echo $project->id;?>" type="submit" class="btn btn-primary pull-right" tabindex="5">Edit</a> 
+            <a href="/projects/project_remove.php?id=<?php echo $project->id;?>" type="submit" class="btn btn-danger pull-right" tabindex="5">Remove</a>
+          </div>
+        </div>
       </div>
                 <?php
         if (isset($_SESSION["error"])) {
@@ -84,21 +93,20 @@
           <p><strong>Description:</strong> <?= $project->description ?></p>
         </div>
         <div class="col-md-2">
-          <a href="/projects/project_edit.php?id=<?php echo $project->id;?>" type="submit" class="col-sm-offset-1 btn btn-primary pull-right" tabindex="5">Edit</a>
-          <a href="/projects/project_remove.php?id=<?php echo $project->id;?>" type="submit" class="col-sm-offset-1 btn btn-danger pull-right" tabindex="5">Remove</a>
 <!--          <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#popup_remove">Remove</button>-->
         </div>
       </div>
-      <div class="title-container row">
-        <div class="col-md-10 vcenter">
-        <h3>Project Tasks</h3>
-        </div><div class="col-md-2 vcenter">
+      <div class="title-container row vertical-align">
+        <div class="col-xs-6 col-md-6">
+          <h3>Project Tasks</h3>
+        </div>
+        <div class="col-xs-6 col-md-6 buttons-menu">
           <a href="/tasks/task_new.php?p_id=<?= $project->id ?>" class="btn btn-primary pull-right">New task</a>
+          </div>
+      </div>
 
-          
-      </div>
-      </div>
-      <hr>
+      <hr style="margin-top: 0px;">
+
       <table id="tasks-table" class="table table-striped table-bordered" data-projectid="<?= $project->id ?>" cellspacing="0" width="100%">
         <thead>
           <tr>

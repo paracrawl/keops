@@ -57,7 +57,35 @@ class project_dao {
       throw new Exception("Error in project_dao::getProjectById : " . $ex->getMessage());
     }
   }
-  
+
+  /**
+   * Retrieves an array of projects from the DB, given their owner ID
+   * 
+   * @param int $id Owner ID
+   * @return array Project objects
+   * @throws Exception
+   */
+  function getProjectsIdByOwner($id) {
+    try {
+      $project = new project_dto();
+      
+      $query = $this->conn->prepare("select id from projects where owner = ? ;");
+      $query->bindParam(1, $id);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+
+      $ids = array();
+      while($row = $query->fetch()){
+        $ids[] = $row["id"];
+      }
+
+      return $ids;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in project_dao::getProjectById : " . $ex->getMessage());
+    }
+  }
+
   /**
    * Retrieves all the  Projects from the DB
    * 

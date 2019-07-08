@@ -7,7 +7,7 @@ html {
 body{
   margin-top: 60px;
   /* Margin bottom by footer height + 20px for space */
-  margin-bottom: 80px;
+  margin-bottom: 180px;
 }
 
 .home-body{
@@ -60,21 +60,12 @@ body{
 
 /* Footer */
 footer {
-    position: absolute;
-    bottom: 0;
     width: 100%;
-    height: 60px;
     background-color: #f5f5f5;
-}
-
-footer .container{
-  height: 60px;
-  line-height: 60px;
-  text-align: right;
-}
-
-footer .container p{
-  margin: 0;
+    padding: 1em;
+    position: absolute;
+    bottom: 0px;
+    height: 180px;
 }
 
 /* Signin Form */
@@ -101,9 +92,9 @@ footer .container p{
 
 /* Evaluate */
 .evaluation .text-box {
-  margin: 5px;
+  margin-bottom: 1em;
   border: 1px #dedede solid;
-  padding: 5px 10px;
+  padding: 5px 10px 10px 5px;
   line-height: 1.5;
   border-radius: 3px;
   min-height: 100px;
@@ -125,9 +116,12 @@ footer .container p{
 
 .evaluation .form-horizontal {
   margin-top: 10px;
-  background-color: #f5f5f5;
   border-radius: 4px;
   padding: 15px;
+}
+
+.evaluation .annotation-box {
+  background-color: #f5f5f5;
   box-shadow: 0 5px 11px 0 rgba(0,0,0,.18), 0 4px 15px 0 rgba(0,0,0,.15);
 }
 
@@ -333,7 +327,6 @@ display: table;
     display: inline;
 }
 .legal-notice{
-    width:40%;
     font-size: xx-small;
     display: inline;
 }
@@ -430,7 +423,7 @@ display: table;
   text-decoration: none;
 }
 
-.dropdown:active, .open .dropdown-toggle {
+.dropdown:not(.original-dropdown):active, .open:not(.original-dropdown) .dropdown-toggle {
   background: #004A7A !important; 
 }
 
@@ -505,7 +498,21 @@ label>u{
     background-color: #fff;
     background-clip: border-box;
     border: 1px solid rgba(0,0,0,.125);
-    border-radius: 4px;
+    border-radius: 0px;
+}
+
+#stats-accordion .card:not(:first-child) {
+  border-top: 0px;
+}
+
+#stats-accordion .card:first-child {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+#stats-accordion .card:last-child {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 
 #stats-accordion .card-header{
@@ -556,4 +563,56 @@ label>u{
 .link-row{
     float: right;
     margin-right: 20px;
+}
+
+.translation-box {
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.18), 0 4px 15px 0 rgba(0,0,0,.15);
+  border: 1px #dedede solid;
+  padding: 0;
+  margin-bottom: 2em;
+}
+
+  .translation-box .translation-box-content {
+    background: #f5f5f5;
+    padding: 0.5em;
+    color: dimgrey;
+    overflow-wrap: break-word;
+  }
+
+  .translation-box .translation-box-actions {
+    background-color: transparent;
+    display: flex;
+  }
+
+    .translation-box .translation-box-actions .translation-box-action {
+      margin: 0;
+      flex-grow: 1;
+      width: 100%;
+    }
+
+    .translation-box .translation-box-actions .translation-box-action .btn {
+      border-bottom: 0;
+      border-right: 0;
+      border-radius: 0;
+      flex-grow: 1;
+      width: 100%;
+    }
+
+    .translation-box .translation-box-actions .translation-box-action:first-child .btn {
+      border-left: 0;
+    }
+
+.vertical-align {
+  display: flex;
+  align-items: center;
+}
+
+.buttons-menu .btn {
+  margin-left: 0.5em;
+  margin-top: 10px;
+}
+
+.card-label {
+  float: right;
+  margin-right: 0.5em;
 }
