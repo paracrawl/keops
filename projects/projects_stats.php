@@ -16,7 +16,7 @@ require_once(RESOURCES_PATH . "/session.php");
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>KEOPS | Recap of your projects</title>
+    <title>KEOPS | Your projects</title>
     <?php
     require_once(TEMPLATES_PATH . "/admin_head.php");
     ?>
@@ -31,10 +31,10 @@ require_once(RESOURCES_PATH . "/session.php");
     <ul class="breadcrumb">
         <li><a href="/admin/index.php">Management</a></li>
         <li><a href="/admin/index.php#projects">Projects</a></li>
-        <li class="active">Recap of your projects</li> 
+        <li class="active">Your projects</li> 
     </ul>
     <div class="page-header">
-        <h1>Recap of your projects</h1>
+        <h1>Your projects</h1>
     </div>
 
     <div class="col-xs-12 col-md-9">  
@@ -96,13 +96,24 @@ require_once(RESOURCES_PATH . "/session.php");
             ?>
 
             <div class="col-xs-12 col-md-12" >
-                <div class="page-header" id="project<?= $project->id ?>" style="margin-top: 0px;">
-                    <h3>Project #<?= $project->id ?> (<?= $project->name ?>, <?= $project->source_lang_object->langcode ?>-<?= $project->target_lang_object->langcode ?>)</h3>
+                <div class="page-header row vertical-align" id="project<?= $project->id ?>">
+                    <div class="col-xs-10 col-md-10">
+                        <h3>Project #<?= $project->id ?> (<?= $project->name ?>, <?= $project->source_lang_object->langcode ?>-<?= $project->target_lang_object->langcode ?>)</h3>
+                    </div>
+
+                    <div class="col-xs-2 col-md-2 text-right">
+                        <a href="/tasks/task_new.php?p_id=<?= $project->id ?>" class="btn btn-link" title="Add task to this project"><span class="glyphicon glyphicon-plus"></span></a>
+                    </div>
                 </div>
 
                 <div id="stats-accordion">
 
-                <?php 
+                <?php
+                    if (count($tasks[$project->id]) == 0) { ?>
+                        This project has no tasks, but you can <a href="/tasks/task_new.php?p_id=<?= $project->id ?>">add one</a>.
+                    <?php } ?>
+
+                    <?php
                     foreach ($tasks[$project->id] as $task) {
                         $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id);      
                 ?>
@@ -123,7 +134,7 @@ require_once(RESOURCES_PATH . "/session.php");
                         <div id="<?php echo "task-stats-" . $task->id ?>" class="collapse" data-parent="stats-accordion">
                             <div class="card-body">
                                 <div class="container-evaluation col-md-12">
-                                    <div class="col-md-12">
+                                    <div class="col-md-8">
                                         <div class="table-responsive">
                                             <table class="table table-striped table-bordered table-hover table-condensed">
                                                 <thead>
@@ -156,27 +167,15 @@ require_once(RESOURCES_PATH . "/session.php");
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="col-md-8">
-                                        <canvas class="pie-charts" id="pie-chart-<?php echo $task->id; ?>" width="800" height="500"></canvas>
-                                        <script type="text/javascript">
-                                        var labels_pie_chart = [<?= implode(",", $labels_chart_js) ?>];
-                                        var data_pie_chart = [<?= implode(",", $data_chart_js) ?>];
-                                        chart = [];
-                                        chart["id"] = "pie-chart-<?php echo $task->id; ?>";
-                                        chart["labels"] = labels_pie_chart;
-                                        chart["data"] = data_pie_chart;
-                                        charts.push(chart);
-                                        </script>
-                                        </div>
-                                        <div class="col-md-4">
-                                                            <?php
+                                    <div class="col-md-4">
+                                        <?php
                                         if ($task->status == "DONE") {
                                         ?>
                                         <div class="panel panel-success">
                                             <div class="panel-heading">
                                             <h3 class="panel-title">Finished task</h3>
                                             </div>
-                                        <div class="panel-body">
+                                            <div class="panel-body">
                                             <p>Evaluator: <?php echo $task->username; ?><p>
                                                 <p>Creation date: <?php echo getFormattedDate($task->creation_date); ?> <br>
                                                 Assigned on: <?php echo getFormattedDate($task->assigned_date); ?>  <br>
@@ -221,7 +220,19 @@ require_once(RESOURCES_PATH . "/session.php");
                                         <?php
                                         }?>
                                     </div>
-                                </div>
+                                    <div class="col-md-12">
+                                        <canvas class="pie-charts" id="pie-chart-<?php echo $task->id; ?>" width="800" height="500"></canvas>
+                                        <script type="text/javascript">
+                                        var labels_pie_chart = [<?= implode(",", $labels_chart_js) ?>];
+                                        var data_pie_chart = [<?= implode(",", $data_chart_js) ?>];
+                                        chart = [];
+                                        chart["id"] = "pie-chart-<?php echo $task->id; ?>";
+                                        chart["labels"] = labels_pie_chart;
+                                        chart["data"] = data_pie_chart;
+                                        charts.push(chart);
+                                        </script>
+                                        </div>
+                                    </div>
                             </div>
                         </div>
                     </div>

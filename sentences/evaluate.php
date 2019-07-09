@@ -96,7 +96,7 @@ else {
 
       <?php if ($task->status == "DONE") { ?>
         <div class="alert alert-success" role="alert">
-          <b>This task is done!</b> The evaluation can be read but not changed. <a href="/tasks/recap.php?id=<?php echo $task->id; ?>">See the recap</a>.
+          <b>This task is done!</b> The evaluation can be read but not changed. <a href="/tasks/recap.php?id=<?php echo $task->id; ?>" class="alert-link">See the recap</a>.
         </div>
       <?php } ?>
 

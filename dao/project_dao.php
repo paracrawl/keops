@@ -209,13 +209,13 @@ class project_dao {
   function getDatatablesProjects($request) {
     try {
       return json_encode(DatatablesProcessing::simple( $request, $this->conn,
-              "projects as p left join langs as l1 on p.source_lang = l1.id "
-              . "left join langs as l2 on p.target_lang = l2.id "
-              . "left join users as u on p.owner = u.id "
-              . "left join tasks as t on t.project_id = p.id ",
-              "p.id",
-              self::$columns,
-              array("p.id", "l1.langcode", "l1.langname", "l2.langcode", "l2.langname", "u.name",  "u.id")));
+      "projects as p left join langs as l1 on p.source_lang = l1.id "
+      . "left join langs as l2 on p.target_lang = l2.id "
+      . "left join users as u on p.owner = u.id "
+      . "left join tasks as t on t.project_id = p.id ",
+      "p.id",
+      self::$columns,
+      array("p.id", "l1.langcode", "l1.langname", "l2.langcode", "l2.langname", "u.name",  "u.id")));
     } catch (Exception $ex) {
       throw new Exception("Error in project_dao::getDatatablesProjects : " . $ex->getMessage());
     }
