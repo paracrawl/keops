@@ -63,47 +63,47 @@
         </div>-->
     <div id="projects" class="tab-pane fade in active">
       <div class="title-container row vertical-align">
-        <div class="col-md-6">
+        <div class="col-xs-12 col-md-6">
           <h3>Projects</h3>
-        </div><div class="col-md-6 buttons-menu">
-          <a href="/projects/project_new.php" class="btn btn-primary pull-right">New project</a>
-          <a href="/projects/projects_stats.php" class="btn btn-primary pull-right" title="Recap of all the tasks which belong to your projects">Recap yours</a>
+        </div><div class="col-xs-12 col-md-6 text-right">
+          <a href="/projects/projects_stats.php" class="btn btn-link" title="Recap of all the tasks which belong to your projects"><span class="glyphicon glyphicon-stats"></span></a>
+          <a href="/projects/project_new.php" class="btn btn-link" title="New project"><span class="glyphicon glyphicon-plus"></span></a>
         </div>
       </div>
-          <hr>
-          <table id="projects-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th title="Source language">SL</th>
-                <th title="Target language">TL</th>
-                <th>Description</th>
-                <th>Status</th>
-                <th>Creation date</th>
-                <th>Owner</th>
-                <th>Active?</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-            <tfoot>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th title="Source language">SL</th>
-                <th title="Target language">TL</th>
-                <th>Description</th>
-                <th>Status</th>
-                <th>Creation date</th>
-                <th>Owner</th>
-                <th>Active?</th>
-                <th>Actions</th>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
+        <hr>
+        <table id="projects-table" style="width:100%;" class="table table-striped table-bordered display responsive nowrap" cellspacing="0">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th title="Source language">SL</th>
+              <th title="Target language">TL</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Creation date</th>
+              <th>Owner</th>
+              <th>Active?</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th title="Source language">SL</th>
+              <th title="Target language">TL</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Creation date</th>
+              <th>Owner</th>
+              <th>Active?</th>
+              <th>Actions</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
 
       <div id="users" class="tab-pane fade">
         <div class="title-container row">
