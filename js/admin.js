@@ -132,7 +132,8 @@ $(document).ready(function() {
     processing: true,
     serverSide: true,
     ajax: "/services/project_service.php?service=list_dt",
-    stateSave: true
+    stateSave: true,
+    responsive: true
   });
   
   

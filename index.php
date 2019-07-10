@@ -162,7 +162,7 @@ require_once(RESOURCES_PATH . "/session.php");
           <h3>Your tasks</h3>
           <p>Check the status of the tasks assigned to you</p>
         </div>
-        <table id="user-tasks-table" class="table table-striped table-bordered" data-projectid="" cellspacing="0" width="100%">
+        <table id="user-tasks-table" class="table table-striped table-bordered display responsive nowrap" style="width:100%;" data-projectid="" cellspacing="0" width="100%">
           <thead>
             <tr>
               <th>ID</th>

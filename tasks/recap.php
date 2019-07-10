@@ -90,12 +90,13 @@ if (isset($task_id)) {
 
       <div class="page-header">
           <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-8">
               <span class="h1">Recap of Task #<?php echo $task->id ?></span>
             </div>
           </div>
       </div>
       
+      <div class="row">
       <div class="col-md-4">
         <div class="table-responsive">
           <table class="table table-striped table-bordered table-hover table-condensed">
@@ -268,6 +269,7 @@ if (isset($task_id)) {
 }
 ?>
       </div>
+    </div>
     </div>
         <?php
         require_once(TEMPLATES_PATH . "/footer.php");

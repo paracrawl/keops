@@ -66,6 +66,12 @@ require_once(RESOURCES_PATH . "/session.php");
             ?>
 
             <div class="row">
+                <?php
+                    if (count($projects) == 0) {
+                ?>
+                    You don't own any project. If you like, you can <a href="/projects/project_new.php">create a new one</a>.
+                <?php } else { ?>
+
                 <div class="col-xs-12 col-md-12">
                     <div class="row">
                         <div class="col-md-12 h3">Total progress in tasks</div>
@@ -92,6 +98,8 @@ require_once(RESOURCES_PATH . "/session.php");
         
 
             <?php
+                }
+
                 foreach ($projects as $project) {
             ?>
 

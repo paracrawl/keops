@@ -84,8 +84,10 @@
             <a href="/corpora/corpus_edit.php?id=<?php echo $corpus->id;?>" role="button" class="col-sm-offset-1 btn btn-primary" tabindex="5">Edit</a>
           </div>
       </div>
-      <div class="title-container row">
+      <div class="title-container">
         <h3>Corpus preview</h3>
+      </div>
+      
         <?php
         foreach ($preview as $line){
           ?>

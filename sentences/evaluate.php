@@ -186,7 +186,7 @@ else {
                   <div class="translation-box-action">
                     <a class="btn btn-default translation-box-action" href="https://translate.google.com/?op=translate&sl=<?= $project->source_lang_object->langcode?>&tl=<?=$project->target_lang_object->langcode?>&text=<?=$sentence->source_text ?>" title="Translate source sentence with Google" target="_blank">
                       <span class="glyphicon glyphicon-new-window"></span>
-                      <span class="hidden-md">Translate</span>
+                      <span class="visible-xs">Translate</span>
                       <span class="hidden-xs">Translate with Google</span>
                     </a>
                   </div>
@@ -194,7 +194,7 @@ else {
                     <label class="btn btn-default" title="Source text contains personal data">
                       <input type="checkbox" name="personal_data_source" checked>
                       <span class="glyphicon glyphicon-flag"></span>
-                      <span class="hidden-md">Personal data</span>
+                      <span class="visible-xs">Personal data</span>
                       <span class="hidden-xs">Contains personal data</span>
                     </label>
                   </div>
