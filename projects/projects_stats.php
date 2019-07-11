@@ -251,7 +251,7 @@ require_once(RESOURCES_PATH . "/session.php");
         </div>
         </div>
 
-        <div class="col-md-3 hidden-xs" style="position: sticky; top: 70px;">
+        <div class="col-md-3 visible-md visible-lg" style="position: sticky; top: 70px;">
             <nav id="sidenav">
                 <ul class="nav nav-pills nav-stacked">
                     <?php foreach ($projects_id as $project_id) { ?>

@@ -29,30 +29,37 @@
       <div class="page-header">
         <h1>Invite new user</h1>
       </div>
-      <form class="form-horizontal" role="form" data-toggle="validator">
-        <div class="form-group">
-          <label for="email" class="col-sm-1 control-label">Email</label>
-          <div class="col-sm-7">
+      <form class="form row" role="form" data-toggle="validator">
+        <div class="form-group col-xs-12 col-md-12 row vertical-align">
+          <div class="col-sm-1">
+            <div class="number-container text-increase">1</div>
+          </div>
+          <div class="col-sm-11">
+            <label for="email" class="control-label">Enter the email address you want to invite</label> <br />
             <input id="email" type="email" name="email" class="form-control" aria-describedby="helpEmail" placeholder="Email address" maxlength="200" required="" autofocus="" tabindex="1">
-            <div id="helpEmail" class="help-block with-errors">1. Enter the email address you want to invite</div>
+            <div id="helpEmail" class="help-block with-errors"></div>
           </div>
         </div>
-        <div class="form-group">
-          <div class="invitation_token">
-            <label for="token" class="col-sm-1 control-label">Invitation</label>
-            <div class="col-sm-7">
+        <div class="form-group col-xs-12 col-md-12 row" style="margin-top: 2em;">
+          <div class="invitation_token vertical-align">
+            <div class="col-sm-1">
+              <div class="number-container text-increase">2</div>
+              </div>
+            <div class="col-sm-11" id="invitation_url_controls">
+              <label for="token" class="control-label">Get the invitation URL</label> <br />
               <div class="input-group">
                 <div class="input-group-addon"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></div>
                 <input id="token" class="form-control" readonly aria-describedby="helpInvitation" placeholder="The invitation URL will appear here" maxlength="200" tabindex="2">
               </div>
-              <div id="helpInvitation" class="help-block with-errors">2. Please copy this URL when generated and send to the new user. They will be able to sign up with the token ID.</div>
+
+              <div id="tokenHelp" class="help-block with-errors text-success">An email will be sent to the new user with the invitation URL</div>
             </div>
           </div>
         </div>
-        <div class="form-group">
-          <div class="col-sm-5 text-right">
-            <a href="/admin/index.php#invitations" class="col-sm-offset-1 btn btn-info" tabindex="4">Cancel</a>
-            <button type="submit" id="invite_button" class="col-sm-offset-1 btn btn-success" tabindex="3">Invite</button>
+        <div class="form-group col-xs-12 col-md-12 row" style="margin-top: 2em;">
+          <div class="col-xs-12 col-md-12 text-right">
+            <a href="/admin/index.php#invitations" class="btn btn-info" tabindex="4">Cancel</a>
+            <button type="submit" id="invite_button" class="btn btn-success" tabindex="3">Invite</button>
           </div>
         </div>
       </form>
