@@ -527,6 +527,23 @@ function getInviteToken(email){
         if (response.message !== '') {
           $("#helpEmail").html(response.message);
           message_color.addClass("has-warning");
+        } else {
+          $.ajax({
+            data: { to: email, token_url: response.token_url },
+            url: '/services/invite_service.php',
+            type: 'post',
+            dataType: 'json',
+            success: (response) => {
+              console.log(response);
+              if (response.result == true) {
+                $("#tokenHelp").html(`We have sent an email with this invite link to ${email}`);
+                $("#invitation_url_controls").addClass("has-success");
+              } else {
+                $("#tokenHelp").html(`We could not send an email to ${email}. You can copy the URL above and send it manually.`);
+                $("#invitation_url_controls").addClass("has-error");
+              }
+            }
+          })
         }
       }
       else {
