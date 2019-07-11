@@ -45,16 +45,26 @@
       <div class="page-header">
         <h1>Remove project</h1>
       </div>
+
       <div class="alert alert-warning" role="alert">
-        <h3>BEWARE!</h3>
+        <p class="h3" style="margin-top: 0px;">
+          Removing <?= $project->name ?> will result in the removal of the tasks listed below.
+        </p>
+
+        <p>
+        <b>Tip:</b>
+          If you just want to prevent the creation of new tasks for this project, not removing the already existing ones, mark it as inactive <a href="/projects/project_edit.php?id=<?=$project->id; ?>" class="alert-link">here</a>.
+        </p>
+        <!--<h3>BEWARE!</h3>
         <br>
         Removing the project <b><?=$project->name?></b> will result in the removal of the tasks listed below. Are sure you want to proceed? Please note that this operation <b>cannot be undone</b>. <br>         
         <br>
         <b>Tip:</b>
         If you just want to prevent the creation of new tasks for this project, not removing the already existing ones, mark it as inactive <a href="/projects/project_edit.php?id=<?=$project->id; ?>">here</a>.
+        -->
       </div>
 
-    <table id="tasks-table" class="table table-striped table-bordered" data-projectid="<?= $project->id ?>" cellspacing="0" width="100%">
+    <table id="tasks-table" class="table table-striped table-bordered display responsive nowrap" data-projectid="<?= $project->id ?>" cellspacing="0" style="width:100%;">
         <thead>
           <tr>
             <th>ID</th>
@@ -88,10 +98,22 @@
       <form action="/projects/project_update.php" role="form" method="post">
         <input type="hidden" name="id" id="id" value="<?= $project->id ?>">
         <input type="hidden" name="action" id="action" value="remove">
+
+        <!--
         <div class="form-group">
-          <div class="col-sm-4 text-right">
-            <a href="/projects/project_manage.php?id=<?php echo $project->id;?>" class="col-sm-offset-1 btn btn-info" tabindex="6">Cancel</a>
-            <button type="submit" class="col-sm-offset-1 btn btn-danger" tabindex="5">Remove project</button>
+          <div class="col-sm-12 text-center">
+            <a href="/projects/project_manage.php?id=<?php echo $project->id;?>" class="btn btn-info" tabindex="6">Cancel</a>
+            <button type="submit" class="btn btn-danger" tabindex="5">Remove project</button>
+          </div>
+        </div>-->
+
+        <div class="row" style="margin-top: 1em;">
+          <div class="col-xs-6 col-md-6">
+            <a href="/projects/project_manage.php?id=<?php echo $project->id;?>" class="btn btn-default" tabindex="6">Cancel</a>
+          </div>  
+          <div class="col-xs-6 col-md-6 text-right">
+          <a href="/projects/project_edit.php?id=<?=$project->id; ?>" class="btn btn-info" tabindex="6" title="Keeps the project but prevents the creation of new tasks">Mark as inactive</a>
+            <button type="submit" class="btn btn-danger" tabindex="5">Remove project</button>
           </div>
         </div>
       </form>
@@ -104,5 +126,7 @@
     require_once(TEMPLATES_PATH . "/modals.php")
 
     ?>
+
+    <input type="hidden" id="input_isowner" value="<?php echo (getUserId() == $project->owner); ?>" />
   </body>
 </html>

@@ -63,11 +63,18 @@
         </div>-->
     <div id="projects" class="tab-pane fade in active">
       <div class="title-container row vertical-align">
-        <div class="col-xs-12 col-md-6">
+        <div class="col-xs-6 col-md-6">
           <h3>Projects</h3>
-        </div><div class="col-xs-12 col-md-6 text-right">
-          <a href="/projects/projects_stats.php" class="btn btn-link" title="Recap of all the tasks which belong to your projects"><span class="glyphicon glyphicon-stats"></span></a>
-          <a href="/projects/project_new.php" class="btn btn-link" title="New project"><span class="glyphicon glyphicon-plus"></span></a>
+        </div>
+        <div class="col-xs-6 col-md-6 text-right">
+          <a href="/projects/projects_stats.php" class="btn btn-link" title="Recap of all the tasks which belong to your projects">
+            <span class="glyphicon glyphicon-stats"></span>
+            <span class="hidden-xs">Recap all</span>
+          </a>
+          <a href="/projects/project_new.php" class="btn btn-link" title="New project">
+            <span class="glyphicon glyphicon-plus"></span>
+            <span class="hidden-xs">New</span>
+          </a>
         </div>
       </div>
         <hr>
@@ -106,15 +113,19 @@
       </div>
 
       <div id="users" class="tab-pane fade">
-        <div class="title-container row">
-          <div class="col-md-10 vcenter">
-          <h3>Users</h3>
-          </div><div class="col-md-2 vcenter">
-            <a href="invite.php" class="btn btn-primary pull-right">Send invitation</a>          
+        <div class="title-container row vertical-align">
+          <div class="col-xs-6 col-md-6">
+            <h3>Users</h3>
+          </div>
+          <div class="col-xs-6 col-md-6 text-right">
+            <a href="invite.php" class="btn btn-link">
+              <span class="glyphicon glyphicon-plus"></span>
+              <span class="hidden-xs">Send invitation</span>
+            </a>
           </div>
         </div>
           <hr>          
-          <table id="users-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+          <table id="users-table" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" style="width:100%;">
             <thead>
               <tr>
                 <th>ID</th>
@@ -141,13 +152,20 @@
         </div>
         
         <div id="languages" class="tab-pane fade">
-          <div class="title-container row">
-            <div class="col-md-10 vcenter">
-              <h3>Languages</h3>Existing languages available for projects and users</div><div class="col-md-2 vcenter"><a href="new_language.php" class="btn btn-primary pull-right">Add language</a>             
+          <div class="title-container row vertical-align">
+            <div class="col-xs-6 col-md-6">
+              <h3>Languages</h3>
+              Existing languages available for projects and users
+            </div>
+            <div class="col-xs-6 col-md-6 text-right">
+              <a href="new_language.php" class="btn btn-link">
+                <span class="glyphicon glyphicon-plus"></span>
+                <span class="hidden-xs">Add language</span>
+              </a>             
             </div>
           </div>
           <hr>
-          <table id="languages-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+          <table id="languages-table" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" style="width:100%;">
             <thead>
               <tr>
                 <th>ID</th>
@@ -169,15 +187,19 @@
           </table>
         </div>
         <div id="invitations" class="tab-pane fade">
-          <div class="title-container row">
-            <div class="col-md-10 vcenter">
-            <h3>Invitations</h3>
-            </div><div class="col-md-2 vcenter">
-              <a href="invite.php" class="btn btn-primary pull-right">Send invitation</a>
+          <div class="title-container row vertical-align">
+            <div class="col-xs-6 col-md-6">
+              <h3>Invitations</h3>
+            </div>
+            <div class="col-xs-6 col-md-6 text-right">
+              <a href="invite.php" class="btn btn-link">
+                <span class="glyphicon glyphicon-plus"></span>
+                <span class="hidden-xs">Send invitation</span>
+              </a>
             </div>
           </div>
           <hr>
-          <table id="invitations-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+          <table id="invitations-table" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" style="width:100%;">
             <thead>
               <tr>
                 <th>ID</th>
@@ -205,17 +227,20 @@
           </table>
         </div>
         <div id="corpora" class="tab-pane fade">
-          <div class="title-container row">
-            <div class="col-md-9 vcenter">
+          <div class="title-container row vertical-align">
+            <div class="col-xs-6 col-md-6">
               <h3>Corpora</h3>
               Files uploaded to create evaluation tasks.
             </div>
-            <div class="col-md-2 vcenter">
-              <a href="#upload" type="submit" class="col-sm-offset-1 btn btn-primary pull-right" tabindex="5">Upload</a>
+            <div class="col-xs-6 col-md-6 text-right">
+              <a href="#upload" type="submit" class="btn btn-link" tabindex="5">
+                <span class="glyphicon glyphicon-cloud-upload"></span>
+                <span class="hidden-xs">Upload</span>
+              </a>
             </div>
           </div>
             <hr>
-            <table id="corpora-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <table id="corpora-table" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" style="width:100%;">
             <thead>
               <tr>
                 <th>ID</th>

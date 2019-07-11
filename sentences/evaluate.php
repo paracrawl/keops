@@ -116,7 +116,7 @@ else {
             </div>
 
             <div class="col-sm-8 text-right">
-              <form action="" class="form-inline">
+              <form action="" class="search-form form-inline">
                 <div class="form-group">
                     <input type="hidden" name="task_id" value="<?= $task->id ?>" />
                     <input type="hidden" name="p" value="1" />
@@ -152,7 +152,7 @@ else {
         <div class="col-xs-12 col-md-12">
           <div class="alert alert-danger" role="alert">
             <strong>No sentences found with those filters!</strong>
-            <a href="?p=1&id=1&task_id=<?= $task->id ?>">See all</a>
+            <a href="?p=1&id=1&task_id=<?= $task->id ?>" class="alert-link">See all</a>
           </div>
         </div>
       <?php } else {?>
@@ -163,7 +163,7 @@ else {
             <div class="col-xs-12 col-md-12">
               <div class="alert alert-warning" role="alert">
                 <strong>Sentences filtered!</strong>
-                <a href="?p=1&id=1&task_id=<?= $task->id ?>">See all</a>
+                <a href="?p=1&id=1&task_id=<?= $task->id ?>" class="alert-link">See all</a>
               </div>
             </div>
           <?php } ?>
@@ -186,7 +186,7 @@ else {
                   <div class="translation-box-action">
                     <a class="btn btn-default translation-box-action" href="https://translate.google.com/?op=translate&sl=<?= $project->source_lang_object->langcode?>&tl=<?=$project->target_lang_object->langcode?>&text=<?=$sentence->source_text ?>" title="Translate source sentence with Google" target="_blank">
                       <span class="glyphicon glyphicon-new-window"></span>
-                      <span class="visible-xs">Translate</span>
+                      <span class="visible-xs-inline">Translate</span>
                       <span class="hidden-xs">Translate with Google</span>
                     </a>
                   </div>
@@ -194,7 +194,7 @@ else {
                     <label class="btn btn-default" title="Source text contains personal data">
                       <input type="checkbox" name="personal_data_source" checked>
                       <span class="glyphicon glyphicon-flag"></span>
-                      <span class="visible-xs">Personal data</span>
+                      <span class="visible-xs-inline">Personal data</span>
                       <span class="hidden-xs">Contains personal data</span>
                     </label>
                   </div>
@@ -219,7 +219,7 @@ else {
                   <div class="translation-box-action">
                     <a class="btn btn-default translation-box-action" href="https://translate.google.com/?op=translate&sl=<?= $project->target_lang_object->langcode?>&tl=<?=$project->source_lang_object->langcode?>&text=<?=$sentence->target_text ?>" title="Translate source sentence with Google" target="_blank">
                       <span class="glyphicon glyphicon-new-window"></span>
-                      <span class="hidden-md">Translate</span>
+                      <span class="visible-xs-inline">Translate</span>
                       <span class="hidden-xs">Translate with Google</span>
                     </a>
                   </div>
@@ -227,7 +227,7 @@ else {
                     <label class="btn btn-default" title="Target text contains personal data">
                       <input type="checkbox" name="personal_data_target" checked>
                       <span class="glyphicon glyphicon-flag"></span>
-                      <span class="hidden-md">Personal data</span>
+                      <span class="visible-xs-inline">Personal data</span>
                       <span class="hidden-xs">Contains personal data</span>
                     </label>
                   </div>

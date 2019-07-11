@@ -52,8 +52,22 @@
         <li><a href="/admin/index.php#corpora">Corpora</a></li>
         <li class="active"><?= $corpus->name?></a></li>
       </ul>
-      <div class="page-header">
-        <h1><?= $corpus->name?></h1>
+      <div class="page-header row vertical-align">
+        <div class="col-xs-6 col-md-6">
+          <h1><?= $corpus->name?></h1>
+        </div>
+        <div class="col-xs-6 col-md-6 text-right">
+          <a href="/corpora/corpus_edit.php?id=<?php echo $corpus->id;?>" type="submit" class="btn btn-link" tabindex="5">
+            <span class="glyphicon glyphicon-pencil"></span>
+            <span class="hidden-xs">Edit</span>
+          </a> 
+          <a href="/corpora/corpus_remove.php?id=<?php echo $corpus->id;?>" type="submit" class="btn btn-link" tabindex="5">
+            <span class="text-danger">
+              <span class="glyphicon glyphicon-trash"></span>
+              <span class="hidden-xs">Remove</span>
+            </span>
+          </a>
+        </div>
       </div>
       <div class="row">
         <div class="col-md-3">
@@ -79,10 +93,6 @@
         <div class="col-md-3">
            <p><strong>Active?: </strong>  <input disabled type="checkbox" name="active"<?= $corpus->active ? " checked" : "" ?>></p>
         </div>
-          <div class="col-md-3">
-            <a href="/corpora/corpus_remove.php?id=<?php echo $corpus->id;?>" type="submit" class="col-sm-offset-1 btn btn-danger" tabindex="5">Remove</a>
-            <a href="/corpora/corpus_edit.php?id=<?php echo $corpus->id;?>" role="button" class="col-sm-offset-1 btn btn-primary" tabindex="5">Edit</a>
-          </div>
       </div>
       <div class="title-container">
         <h3>Corpus preview</h3>

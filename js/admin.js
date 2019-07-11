@@ -132,8 +132,7 @@ $(document).ready(function() {
     processing: true,
     serverSide: true,
     ajax: "/services/project_service.php?service=list_dt",
-    stateSave: true,
-    responsive: true
+    stateSave: true
   });
   
   
@@ -283,7 +282,7 @@ $(document).ready(function() {
           actions_str += '<a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>';
           actions_str += '<a href="mailto:' + row[11] + '" title="Contact assigned user"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>';
           
-          if (document.getElementById("input_isowner").value == "1") {
+          if (document.getElementById("input_isowner") && document.getElementById("input_isowner").value == "1") {
             actions_str += '<a href="/tasks/change_assigned_user.php?task_id=' + row[0] + '" title="Change assigned user"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>';
           }
           actions_str += getRemoveTaskCode(row[0], row[1]);
@@ -457,14 +456,22 @@ $(document).ready(function() {
               .addClass("glyphicon-collapse-down");
       });
 
+    // In order to make data tables become responsive at first load
+    $(".dataTable").on("init.dt", () => {
+      $(window).trigger('resize');
+    });
+
+    // In order to make data tables become responsive at first load
+    $('a[data-toggle="tab"]').on('shown.bs.tab', () => {
+      $(window).trigger('resize');
+    });
+    
   /*
    * Calls the function that builds the completion chart for each task
    */    
   for (i in charts) {
     drawPieChart(charts[i]["id"], charts[i]["labels"], charts[i]["data"]);
   }
-  
-
 });
 
 /*

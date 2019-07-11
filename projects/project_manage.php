@@ -42,9 +42,17 @@
             <h1 style="margin-top: 0;"><?= $project->name ?></h1>
           </div>
 
-          <div class="col-xs-6 col-md-6 buttons-menu">
-            <a href="/projects/project_edit.php?id=<?php echo $project->id;?>" type="submit" class="btn btn-primary pull-right" tabindex="5">Edit</a> 
-            <a href="/projects/project_remove.php?id=<?php echo $project->id;?>" type="submit" class="btn btn-danger pull-right" tabindex="5">Remove</a>
+          <div class="col-xs-6 col-md-6 text-right">
+            <a href="/projects/project_edit.php?id=<?php echo $project->id;?>" type="submit" class="btn btn-link" tabindex="5">
+              <span class="glyphicon glyphicon-pencil"></span>
+              <span class="hidden-xs">Edit</span>
+            </a> 
+            <a href="/projects/project_remove.php?id=<?php echo $project->id;?>" type="submit" class="btn btn-link" tabindex="5">
+              <span class="text-danger">
+                <span class="glyphicon glyphicon-trash"></span>
+                <span class="hidden-xs">Remove</span>
+              </span>
+            </a>
           </div>
         </div>
       </div>
@@ -100,14 +108,17 @@
         <div class="col-xs-6 col-md-6">
           <h3>Project Tasks</h3>
         </div>
-        <div class="col-xs-6 col-md-6 buttons-menu">
-          <a href="/tasks/task_new.php?p_id=<?= $project->id ?>" class="btn btn-primary pull-right">New task</a>
+        <div class="col-xs-6 col-md-6 text-right">
+          <a href="/tasks/task_new.php?p_id=<?= $project->id ?>" class="btn btn-link">
+            <span class="glyphicon glyphicon-plus"></span>
+            <span class="hidden-xs">New task</span>
+          </a>
           </div>
       </div>
 
       <hr style="margin-top: 0px;">
 
-      <table id="tasks-table" class="table table-striped table-bordered" data-projectid="<?= $project->id ?>" cellspacing="0" width="100%">
+      <table id="tasks-table" class="table table-striped table-bordered display responsive nowrap" data-projectid="<?= $project->id ?>" cellspacing="0" style="width:100%;">
         <thead>
           <tr>
             <th>ID</th>
