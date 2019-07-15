@@ -1,5 +1,18 @@
 
 $(document).ready(function() {
+  // In order to make data tables become responsive at first load
+  $(".dataTable").on("init.dt", () => {
+    $(window).trigger('resize');
+  });
+
+  // In order to make data tables become responsive at first load
+  $('a[data-toggle="tab"]').on('shown.bs.tab', () => {
+    $(window).trigger('resize');
+  });
+
+  if ($(window).width() < 768) {
+    $(".nav-tabs").removeClass("nav-tabs").addClass("nav-pills");
+  }
 
 //$.fn.dataTable.enum( [ 'STARTED', 'PENDING', 'DONE' ] );
 //$.fn.dataTable.ext.type.order['customenum-pre'] = function ( d ) {

@@ -108,12 +108,15 @@
         </div>-->
 
         <div class="row" style="margin-top: 1em;">
-          <div class="col-xs-6 col-md-6">
-            <a href="/projects/project_manage.php?id=<?php echo $project->id;?>" class="btn btn-default" tabindex="6">Cancel</a>
+          <div class="col-xs-12 col-md-2">
+            <a style="width:100%; margin-bottom: 0.5em;" href="/projects/project_manage.php?id=<?php echo $project->id;?>" class="btn btn-default" tabindex="6">Cancel</a>
           </div>  
-          <div class="col-xs-6 col-md-6 text-right">
-          <a href="/projects/project_edit.php?id=<?=$project->id; ?>" class="btn btn-info" tabindex="6" title="Keeps the project but prevents the creation of new tasks">Mark as inactive</a>
-            <button type="submit" class="btn btn-danger" tabindex="5">Remove project</button>
+          <div class="col-xs-12 col-md-2 col-md-offset-6">
+            <a style="width:100%; margin-bottom: 0.5em;" href="/projects/project_edit.php?id=<?=$project->id; ?>" class="btn btn-info" tabindex="6" title="Keeps the project but prevents the creation of new tasks">Mark as inactive</a>
+          </div>
+
+          <div class="col-xs-12 col-md-2">
+            <button style="width:100%; margin-bottom: 0.5em;" type="submit" class="btn btn-danger" tabindex="5">Remove project</button>
           </div>
         </div>
       </form>

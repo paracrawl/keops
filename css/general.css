@@ -63,13 +63,6 @@ body > .container {
 }
 
 /* DataTables */
-.actions .glyphicon {
-  font-size: 1.3em;
-}
-
-.actions .glyphicon:before {
-  margin-right: 5px;
-}
 
 /* Footer */
 footer {
@@ -451,6 +444,11 @@ display: table;
   background: #004A7A !important; 
 }
 
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .open > a {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
 .navbar-toggle{
   background: #004A7A !important;
 }
@@ -685,4 +683,49 @@ hr {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Datatables */
+table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child::before, table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th:first-child::before {
+  content: '▼';
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 0px;
+  font-size: 15px;
+  line-height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  box-shadow: none;
+  color: #333339;
+}
+
+table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"].parent > td:first-child::before, table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"].parent > th:first-child::before {
+  content: "▲";
+}
+
+table.dataTable .child ul a {
+  margin-right: 0.5em;
+}
+
+table.dataTable .child ul {
+  width: 100%;
+}
+
+table.dataTable > tbody > tr.child span.dtr-title {
+  display: block;
+}
+
+table.dataTable .actions {
+  text-align: center;
+}
+
+table.dataTable .actions .glyphicon {
+  font-size: 1.3em;
+}
+
+table.dataTable .actions .btn {
+  padding: 0;
 }

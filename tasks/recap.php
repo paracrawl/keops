@@ -271,6 +271,7 @@ if (isset($task_id)) {
       </div>
     </div>
     </div>
+</div>
         <?php
         require_once(TEMPLATES_PATH . "/footer.php");
         ?>

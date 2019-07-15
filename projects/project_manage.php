@@ -43,11 +43,11 @@
           </div>
 
           <div class="col-xs-6 col-md-6 text-right">
-            <a href="/projects/project_edit.php?id=<?php echo $project->id;?>" type="submit" class="btn btn-link" tabindex="5">
-              <span class="glyphicon glyphicon-pencil"></span>
+            <a href="/projects/project_edit.php?id=<?php echo $project->id;?>" type="submit" title="Edit project" class="btn btn-link" tabindex="5">
+              <span class="glyphicon glyphicon-edit"></span>
               <span class="hidden-xs">Edit</span>
             </a> 
-            <a href="/projects/project_remove.php?id=<?php echo $project->id;?>" type="submit" class="btn btn-link" tabindex="5">
+            <a href="/projects/project_remove.php?id=<?php echo $project->id;?>" type="submit" title="Remove project" class="btn btn-link" tabindex="5">
               <span class="text-danger">
                 <span class="glyphicon glyphicon-trash"></span>
                 <span class="hidden-xs">Remove</span>
@@ -109,7 +109,7 @@
           <h3>Project Tasks</h3>
         </div>
         <div class="col-xs-6 col-md-6 text-right">
-          <a href="/tasks/task_new.php?p_id=<?= $project->id ?>" class="btn btn-link">
+          <a href="/tasks/task_new.php?p_id=<?= $project->id ?>" class="btn btn-link" title="New task">
             <span class="glyphicon glyphicon-plus"></span>
             <span class="hidden-xs">New task</span>
           </a>

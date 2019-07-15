@@ -43,8 +43,23 @@ $tasks = $task_dao->getTasksByProject($project_id);
         <li><a href="/projects/project_manage.php?id=<?php echo $project->id; ?>"><?= $project->name ?></a></li>
         <li class="active">Project stats</li> 
       </ul>
-      <div class="page-header">
-        <h1><?= $project->name ?></h1>
+      <div class="page-header row vertical-align">
+        <div class="col-xs-8 col-md-6">
+          <h1><?= $project->name ?></h1>
+        </div>
+        <div class="col-xs-4 col-md-6 text-right">
+          <a href="/projects/project_edit.php?id=<?php echo $project->id;?>" type="submit" class="btn btn-link" title="Edit project" tabindex="5">
+              <span class="glyphicon glyphicon-edit"></span>
+              <span class="hidden-xs">Edit</span>
+          </a> 
+          
+          <a href="/projects/project_remove.php?id=<?php echo $project->id;?>" type="submit" class="btn btn-link" title="Remove project" tabindex="5">
+              <span class="text-danger">
+                <span class="glyphicon glyphicon-trash"></span>
+                <span class="hidden-xs">Remove</span>
+              </span>
+            </a>
+        </div>
       </div>
 
       <div class="row">
@@ -63,19 +78,19 @@ $tasks = $task_dao->getTasksByProject($project_id);
         </div>
       </div>
       <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-12">
           <p><strong>Description:</strong> <?= $project->description ?></p>
         </div>
-        <div class="col-md-2">
-          <a href="/projects/project_edit.php?id=<?php echo $project->id;?>" type="submit" class="col-sm-offset-1 btn btn-primary pull-right" tabindex="5">Edit</a>
-          <a href="/projects/project_remove.php?id=<?php echo $project->id;?>" type="submit" class="col-sm-offset-1 btn btn-danger pull-right" tabindex="5">Remove</a>
-        </div>
       </div>
-      <div id class="title-container row">
-        <div class="col-md-10 vcenter">
-        <h3>Project Tasks</h3>
-        </div><div class="col-md-2 vcenter">
-          <a href="/tasks/task_new.php?p_id=<?= $project->id ?>" class="btn btn-primary pull-right">New task</a>
+      <div id class="title-container row vertical-align">
+        <div class="col-xs-6 col-md-6">
+          <h3>Project Tasks</h3>
+        </div>
+        <div class="col-xs-6 col-md-6 text-right">
+          <a href="/tasks/task_new.php?p_id=<?= $project->id ?>" class="btn btn-link" title="New task">
+            <span class="glyphicon glyphicon-plus"></span>
+            <span class="hidden-xs">New task</span>
+          </a>
         </div>
       </div>
       <div id="stats-accordion" >

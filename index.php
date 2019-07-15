@@ -63,7 +63,7 @@ require_once(RESOURCES_PATH . "/session.php");
             <div class="col-md-3">
               <div class="card text-center  ">
     <!--            <img class="card-img-top" src="http://placehold.it/500x325" alt="">-->
-                <span class="glyphicon glyphicon-pencil"></span>
+                <span class="glyphicon glyphicon-edit"></span>
                 <div class="card-body">
                   <h4 class="card-title">Action!</h4>
                   <p class="card-text">Start or resume an evaluation task, read the guidelines, annotate sentences, send comments and contact your PM in case of doubt.</p>

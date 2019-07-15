@@ -36,6 +36,20 @@ Dropzone.options.dropzone = { // camelized id
 };
 
 $(document).ready(function() {
+    // In order to make data tables become responsive at first load
+    $(".dataTable").on("init.dt", () => {
+      $(window).trigger('resize');
+    });
+
+    // In order to make data tables become responsive at first load
+    $('a[data-toggle="tab"]').on('shown.bs.tab', () => {
+      $(window).trigger('resize');
+    });
+
+    if ($(window).width() < 768) {
+      $(".nav-tabs").removeClass("nav-tabs").addClass("nav-pills");
+    }
+    
   /*
    * Users table (for "Users" tab)
    */
@@ -120,11 +134,25 @@ $(document).ready(function() {
       className: "actions",
       sortable: false,
       orderable:false,
+      responsivePriority: 1,
      render: function (data, type, row) {
-        return '<a href="/projects/project_manage.php?id=' + row[0] + '" title="Manage project\'s tasks"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span></a>' +
+       return `<div class="btn-group">
+                <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="glyphicon glyphicon glyphicon-cog"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li><a href="/projects/project_manage.php?id=${row[0]}" title="Manage project's tasks"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> Manage project's tasks</a></li>
+                  <li><a href="/projects/project_edit.php?id=${row[0]}" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit project</a></li>
+                  <li><a href="/projects/project_stats.php?id=${row[0]}" title="View stats"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> View project stats</a></li>
+                  <li><a href="/projects/project_remove.php?id=${row[0]}" title="Remove project"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete project</a></li>
+                </ul>
+              </div>
+       `;
+
+        /*return '<a href="/projects/project_manage.php?id=' + row[0] + '" title="Manage project\'s tasks"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span></a>' +
                 '<a href="/projects/project_edit.php?id=' + row[0] + '" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>' +
                 '<a href="/projects/project_stats.php?id=' + row[0] + '" title="View stats"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>' +
-                '<a href="/projects/project_remove.php?id=' + row[0] + '" title="Remove project"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a>';
+                '<a href="/projects/project_remove.php?id=' + row[0] + '" title="Remove project"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a>';*/
 
       }
     }],
@@ -178,18 +206,28 @@ $(document).ready(function() {
         className: "actions",
         sortable: false,
         orderable: false,
+        responsivePriority: 1,
       render: function (data, type, row) {
           str = "";
           if (row[3] == "") {
-            str = '<a href="/admin/revoke_invite.php?id=' + row[0] + '"><span class="glyphicon glyphicon-remove red" aria-hidden="true" title=\"Revoke invitation\"></span></a>';
-            str += '<a class="invitation-link" data-toggle="modal" data-target="#invite_token_modal"><span class="glyphicon glyphicon-link" aria-hidden="true" title=\"Get invitation link\"></span></a>';
+            str = '<li><a href="/admin/revoke_invite.php?id=' + row[0] + '"><span class="glyphicon glyphicon-remove red" aria-hidden="true" title=\"Revoke invitation\"></span></a></li>';
+            str += '<li><a class="invitation-link" data-toggle="modal" data-target="#invite_token_modal"><span class="glyphicon glyphicon-link" aria-hidden="true" title=\"Get invitation link\"></span></a></li>';
           }
           else {
-            str = "<span class=\"glyphicon glyphicon-remove disabled\" aria-hidden=\"true\" title=\"This user has already accepted the invitation\"></span>"; 
-            str += '<span class="glyphicon glyphicon-link disabled" aria-hidden="true" title=\"This user has already accepted the invitation\"></span>';
+            str = "<li><span class=\"glyphicon glyphicon-remove disabled\" aria-hidden=\"true\" title=\"This user has already accepted the invitation\"></span></li>"; 
+            str += '<li><span class="glyphicon glyphicon-link disabled" aria-hidden="true" title=\"This user has already accepted the invitation\"></span></li>';
 
          }
-        return str;
+
+         return `<div class="btn-group">
+                  <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="glyphicon glyphicon glyphicon-cog"></span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                    ${str}
+                  </ul>
+                </div>
+          `;
         }
       }],
     order: [[2, 'desc']],
@@ -223,9 +261,19 @@ $(document).ready(function() {
       {
       targets: 7,
       className: "actions",
+      responsivePriority: 1,
       render: function (data, type, row) {
-        return '<a href="/corpora/corpus_edit.php?id=' + row[0] + '" title="Edit corpus">' + '<span class="glyphicon glyphicon-edit "  aria-hidden=\"true\"></a>'+
-               '<a href="/corpora/corpus_remove.php?id=' + row[0] + '" title="Remove corpus">' +  '<span class="glyphicon glyphicon-trash " aria-hidden=\"true\"></a>';
+
+        return `<div class="btn-group">
+                <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="glyphicon glyphicon glyphicon-cog"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li><a href="/corpora/corpus_edit.php?id=${row[0]}" title="Edit corpus"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit corpus</a></li>
+                  <li><a href="/corpora/corpus_remove.php?id=${row[0]}" title="Remove corpus"><span class="glyphicon glyphicon-trash aria-hidden="true"></span> Remove corpus</a></li>
+                </ul>
+              </div>
+        `;
       }
     }
     ],
@@ -277,18 +325,26 @@ $(document).ready(function() {
         className: "actions",
         sortable: false,
         searchable: false,
+        responsivePriority: 1,
      render: function (data, type, row) {
           var actions_str = "";
-          actions_str += '<a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>';
-          actions_str += '<a href="mailto:' + row[11] + '" title="Contact assigned user"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>';
+          actions_str += '<li><a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Recap of the task</a></li>';
+          actions_str += '<li><a href="mailto:' + row[11] + '" title="Contact assigned user"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Contact assigned user</a></li>';
           
           if (document.getElementById("input_isowner") && document.getElementById("input_isowner").value == "1") {
-            actions_str += '<a href="/tasks/change_assigned_user.php?task_id=' + row[0] + '" title="Change assigned user"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>';
+            actions_str += '<li><a href="/tasks/change_assigned_user.php?task_id=' + row[0] + '" title="Change assigned user"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Change assigned user</a></li>';
           }
-          actions_str += getRemoveTaskCode(row[0], row[1]);
+          actions_str += '<li>' + getRemoveTaskCode(row[0], row[1]) + '</li>';
           
-          return actions_str;
-          
+          return `<div class="btn-group">
+                  <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="glyphicon glyphicon glyphicon-cog"></span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                    ${actions_str}
+                  </ul>
+                </div>
+          `;
         }
       }
     ],
@@ -455,16 +511,6 @@ $(document).ready(function() {
               .removeClass("glyphicon-collapse-up")
               .addClass("glyphicon-collapse-down");
       });
-
-    // In order to make data tables become responsive at first load
-    $(".dataTable").on("init.dt", () => {
-      $(window).trigger('resize');
-    });
-
-    // In order to make data tables become responsive at first load
-    $('a[data-toggle="tab"]').on('shown.bs.tab', () => {
-      $(window).trigger('resize');
-    });
     
   /*
    * Calls the function that builds the completion chart for each task
@@ -478,7 +524,7 @@ $(document).ready(function() {
  * Builds the link to remove a task
  */
 function getRemoveTaskCode(task_id, username){
-  return '<a href="#" data-toggle="modal" data-target="#popup_remove_task" data-taskid='+task_id+' data-username="'+username+ '" title="Remove task"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>';
+  return '<a href="#" data-toggle="modal" data-target="#popup_remove_task" data-taskid='+task_id+' data-username="'+username+ '" title="Remove task"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remove task</a>';
   
 }
 
@@ -536,10 +582,10 @@ function getInviteToken(email){
             success: (response) => {
               console.log(response);
               if (response.result == true) {
-                $("#tokenHelp").html(`We have sent an email with this invite link to ${email}`);
+                $("#tokenHelp").html(`We have sent an email with this invite link to <strong>${email}</strong>`);
                 $("#invitation_url_controls").addClass("has-success");
               } else {
-                $("#tokenHelp").html(`We could not send an email to ${email}. You can copy the URL above and send it manually.`);
+                $("#tokenHelp").html(`We could not send an email to <strong>${email}</strong>. You can copy the URL above and send it manually.`);
                 $("#invitation_url_controls").addClass("has-error");
               }
             }
