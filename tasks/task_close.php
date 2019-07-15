@@ -6,6 +6,12 @@ require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.ph
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/sentence_task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/utils/utils.php");
+
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/user_dao.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/project_dao.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/utils/mail_helper.class.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/templates/mail/closedtask.php");
+
 $PAGETYPE = "user";
 require_once(RESOURCES_PATH . "/session.php");
 
@@ -28,6 +34,18 @@ $task_dto->completed_date = date('Y-m-d H:i:s');
 //task admin o task assigned
 if ($task_dto->assigned_user == $USER->id) {
   if ($task_dao->closeTask($task_dto)) {
+    // We notify the project manager via mail
+    $params = (object) ["task_id" => $_GET["task_id"]];
+    $project_dao = new project_dao();
+    $project_dto = $project_dao->getProjectById($task_dto->project_id);
+    $user_dao = new user_dao();
+    $owner = $user_dao->getUserById($project_dto->owner);
+
+    $mail = new MailHelper();
+    $template = new MailTemplate();
+    $mail->prepare($template, $params);
+    $mail->send($owner->email, $owner->name);
+
     header("Location: /index.php");
   } else {
     // TODO Better to have an array with error => 0 and message => "..."

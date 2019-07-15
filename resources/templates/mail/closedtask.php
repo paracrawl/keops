@@ -2,7 +2,7 @@
     require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/utils/mail_template.interface.php");
     class MailTemplate implements MailTemplateI {
         public function getSubject($params = null) {
-            return "You have been invited to KEOPS!";
+            return "Task #" . $params->task_id . " is done!";
         }
 
         public function getHead($params = null) {
@@ -71,9 +71,11 @@ HTML;
 
         <div class="container">
             <div class="body">
-                You have been invited to join KEOPS! Please follow this link to do so:
+                Task #{$params->task_id} has been marked as done. Review it by following this link:
 
-                <p class="well"><a href="{$params->token_url}">{$params->token_url}</a></p>
+                <p class="well">
+                    <a href="http://{$_SERVER['HTTP_HOST']}/tasks/recap.php?id={$params->task_id}">http://{$_SERVER['HTTP_HOST']}/tasks/recap.php?id={$params->task_id}</a>
+                </p>
             </div>
 
             <div class="footer">

@@ -34,7 +34,7 @@ class MailHelper {
 
     public function prepare(MailTemplateI $template, $params) {
         $this->mail->isHTML(true);
-        $this->mail->Subject = $template->getSubject();
+        $this->mail->Subject = $template->getSubject($params);
         $this->mail->Body = MailHelper::generateHTML($template, $params);
     }
 

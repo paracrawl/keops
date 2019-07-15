@@ -35,9 +35,9 @@
             <div class="number-container text-increase">1</div>
           </div>
           <div class="col-sm-11">
-            <label for="email" class="control-label">Enter the email address you want to invite</label> <br />
+            <label for="email" class="control-label">Enter the email address of the user you want to invite</label> <br />
             <input id="email" type="email" name="email" class="form-control" aria-describedby="helpEmail" placeholder="Email address" maxlength="200" required="" autofocus="" tabindex="1">
-            <div id="helpEmail" class="help-block with-errors"></div>
+            <div id="helpEmail" class="help-block with-errors">The email should be valid, since it will be used to notify the user</div>
           </div>
         </div>
         <div class="form-group col-xs-12 col-md-12 row" style="margin-top: 2em;">

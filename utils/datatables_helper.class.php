@@ -352,8 +352,7 @@ class DatatablesProcessing {
 		$data = self::sql_exec( $db, $bindings,
 			"SELECT ".implode(", ", self::pluck_select($columns, 'db', 'alias'))."
 			 FROM $table $where $groupBySql	$order $limit"
-		);
-    
+		);    
     
 // Data set length after filtering
 		$resFilterLength = self::sql_exec( $db, $bindings,

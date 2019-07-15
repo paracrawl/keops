@@ -90,7 +90,7 @@
               <th>Creation date</th>
               <th>Owner</th>
               <th>Active?</th>
-              <th>Actions</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -106,7 +106,7 @@
               <th>Creation date</th>
               <th>Owner</th>
               <th>Active?</th>
-              <th>Actions</th>
+              <th></th>
             </tr>
           </tfoot>
         </table>
@@ -118,7 +118,7 @@
             <h3>Users</h3>
           </div>
           <div class="col-xs-6 col-md-6 text-right">
-            <a href="invite.php" class="btn btn-link">
+            <a href="invite.php" class="btn btn-link" title="Send invitation">
               <span class="glyphicon glyphicon-plus"></span>
               <span class="hidden-xs">Send invitation</span>
             </a>
@@ -158,7 +158,7 @@
               Existing languages available for projects and users
             </div>
             <div class="col-xs-6 col-md-6 text-right">
-              <a href="new_language.php" class="btn btn-link">
+              <a href="new_language.php" class="btn btn-link" title="Add language">
                 <span class="glyphicon glyphicon-plus"></span>
                 <span class="hidden-xs">Add language</span>
               </a>             
@@ -193,7 +193,7 @@
             </div>
             <div class="col-xs-6 col-md-6 text-right">
               <a href="invite.php" class="btn btn-link">
-                <span class="glyphicon glyphicon-plus"></span>
+                <span class="glyphicon glyphicon-plus" title="Send invitation"></span>
                 <span class="hidden-xs">Send invitation</span>
               </a>
             </div>
