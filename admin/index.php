@@ -69,11 +69,11 @@
         <div class="col-xs-6 col-md-6 text-right">
           <a href="/projects/projects_stats.php" class="btn btn-link" title="Recap of all the tasks which belong to your projects">
             <span class="glyphicon glyphicon-stats"></span>
-            <span class="hidden-xs">Recap all</span>
+            <span class="col-xs-12">Recap all</span>
           </a>
           <a href="/projects/project_new.php" class="btn btn-link" title="New project">
             <span class="glyphicon glyphicon-plus"></span>
-            <span class="hidden-xs">New</span>
+            <span class="col-xs-12">New</span>
           </a>
         </div>
       </div>
@@ -89,7 +89,7 @@
               <th>Status</th>
               <th>Creation date</th>
               <th>Owner</th>
-              <th>Active?</th>
+              <th>On?</th>
               <th></th>
             </tr>
           </thead>
@@ -105,7 +105,7 @@
               <th>Status</th>
               <th>Creation date</th>
               <th>Owner</th>
-              <th>Active?</th>
+              <th>On?</th>
               <th></th>
             </tr>
           </tfoot>
@@ -120,7 +120,7 @@
           <div class="col-xs-6 col-md-6 text-right">
             <a href="invite.php" class="btn btn-link" title="Send invitation">
               <span class="glyphicon glyphicon-plus"></span>
-              <span class="hidden-xs">Send invitation</span>
+              <span class="col-xs-12">Send invitation</span>
             </a>
           </div>
         </div>
@@ -133,7 +133,7 @@
                 <th>Email</th>
                 <th>Creation date</th>
                 <th>Role</th>
-                <th>Active?</th>
+                <th>On?</th>
               </tr>
             </thead>
             <tbody>
@@ -145,7 +145,7 @@
                 <th>Email</th>
                 <th>Creation date</th>
                 <th>Role</th>
-                <th>Active?</th>
+                <th>On?</th>
               </tr>
             </tfoot>
           </table>
@@ -160,7 +160,7 @@
             <div class="col-xs-6 col-md-6 text-right">
               <a href="new_language.php" class="btn btn-link" title="Add language">
                 <span class="glyphicon glyphicon-plus"></span>
-                <span class="hidden-xs">Add language</span>
+                <span class="col-xs-12">Add language</span>
               </a>             
             </div>
           </div>
@@ -194,7 +194,7 @@
             <div class="col-xs-6 col-md-6 text-right">
               <a href="invite.php" class="btn btn-link">
                 <span class="glyphicon glyphicon-plus" title="Send invitation"></span>
-                <span class="hidden-xs">Send invitation</span>
+                <span class="col-xs-12">Send invitation</span>
               </a>
             </div>
           </div>
@@ -235,7 +235,7 @@
             <div class="col-xs-6 col-md-6 text-right">
               <a href="#upload" type="submit" class="btn btn-link" tabindex="5">
                 <span class="glyphicon glyphicon-cloud-upload"></span>
-                <span class="hidden-xs">Upload</span>
+                <span class="col-xs-12">Upload</span>
               </a>
             </div>
           </div>
@@ -249,7 +249,7 @@
                 <th title="Target language">TL</th>
                 <th title="Number of lines in the file">Lines</th>
                 <th>Creation date</th>
-                <th>Active?</th>
+                <th>On?</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -263,7 +263,7 @@
                 <th title="Target language">TL</th>
                 <th title="Number of lines in the file">Lines</th>
                 <th>Creation date</th>
-                <th>Active?</th>
+                <th>On?</th>
                 <th>Actions</th>
               </tr>
             </tfoot>

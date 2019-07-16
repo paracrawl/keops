@@ -51,6 +51,7 @@ body > .container {
    float: none;
 }
 
+
 /* Dropzone */
 .dropzone-looks {
   background: #f9f9f9;
@@ -164,6 +165,25 @@ footer .prompsit-gradient {
   padding-top: 10px;
 }
 
+.evaluation-btn-group .btn {
+  margin: 0 0 0.5em 0;
+  float: none;
+  position: static;
+}
+
+.evaluation-btn-group .btn.active {
+  border-width: 1px;
+}
+
+.evaluation-btn-group input[type="radio"] {
+  display: none;
+}
+
+.evaluation-btn-group a {
+  text-decoration: none;
+  color: white;
+}
+
 /* Invitations */
 .invitation_token .input-group-addon, .invitation_token input, .invitation-link  {
   cursor: pointer;
@@ -187,11 +207,6 @@ table .progress span, #evaluate-percent {
 }
 
 /* Homepage */
-/*.browser_width {
-    position: absolute;
-    left: 0px;
-    right: 0px;
-}*/
 .home-container{
   width:100%;
   margin-right: 6%;
@@ -326,6 +341,36 @@ display: table;
   background-size: cover;
   min-height: 350px;
   position: relative;
+}
+
+.login-form {
+  padding: 1em;
+  background-color: #f5f5f5;
+}
+
+.line-separator {
+  position: relative;
+  text-align: center;
+  margin: 1em 0em;
+}
+
+.line-separator::before {
+  content: "";
+  width: 100%;
+  border-bottom: solid 1px #9f9f9f;
+  height: 50%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.line-separator span {
+  position: relative;
+  background-color: #f5f5f5;
+  z-index: 1;
+  padding: 0em 0.3em;
 }
 
 .home-footer-container{
@@ -642,6 +687,11 @@ hr {
   margin-right: 0.5em;
 }
 
+.title-container .btn-link, .title-container .col-xs-12, .title-container .col-sm-12, .page-header .btn-link, .page-header .col-xs-12, .page-header .col-sm-12 {
+  margin: 0;
+  padding: 0;
+}
+
 @media screen and (min-width: 768px) {
   .text-right-sm {
     text-align: right !important;
@@ -670,6 +720,16 @@ hr {
   
   .navbar-nav .open .dropdown-menu > li > a:hover,  .navbar-nav .open .dropdown-menu > li > a:active {
     color: #d9d9d9 !important;
+  }
+
+  .nav-tabs {
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: -webkit-box;
+  }
+
+  .nav-tabs > li {
+    float: none;
   }
 }
 
@@ -720,12 +780,19 @@ table.dataTable > tbody > tr.child span.dtr-title {
 
 table.dataTable .actions {
   text-align: center;
+  line-height: 1.3em;
 }
 
 table.dataTable .actions .glyphicon {
   font-size: 1.3em;
+  margin-right: 0.5em;
 }
 
-table.dataTable .actions .btn {
+table.dataTable .actions .btn-link {
   padding: 0;
+}
+
+table.dataTable .actions li a {
+  display: flex;
+  align-items: center;
 }

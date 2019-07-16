@@ -46,9 +46,17 @@ $(document).ready(function() {
       $(window).trigger('resize');
     });
 
+    /*$(window).on('resize', () => {
+      if ($(window).width() < 768) {
+        $(".nav-tabs").removeClass("nav-tabs").addClass("nav-pills");
+      } else {
+        $(".nav-pills").removeClass("nav-pills").addClass("nav-tabs");
+      }
+    });
+
     if ($(window).width() < 768) {
       $(".nav-tabs").removeClass("nav-tabs").addClass("nav-pills");
-    }
+    }*/
     
   /*
    * Users table (for "Users" tab)
@@ -62,6 +70,12 @@ $(document).ready(function() {
         //return row[1]
       },
       searchable: true
+    },
+    {
+      targets: 3,
+      render: function (data, type, row) {
+        return formatDate(row[3]);
+      }
     },
     {
       targets: 5,
@@ -108,7 +122,7 @@ $(document).ready(function() {
     {
       targets:6,
      render: function (data, type, row) {
-       return row[5];
+       return formatDate(row[5]);
        }
     },
     {
@@ -177,10 +191,18 @@ $(document).ready(function() {
     columnDefs: [{
       targets: 3,
       className: "actions",
-             render: function (data, type, row) {
-          return  '<a href="/languages/language_edit.php?id=' + row[0] + '" title="Edit language"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>';
-        },
-        sortable: false,
+      render: function (data, type, row) {
+        return `<div class="btn-group">
+                  <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="glyphicon glyphicon glyphicon-cog"></span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="/languages/language_edit.php?id=${row[0]}" title="Edit language"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit language</a></li>
+                  </ul>
+                </div>
+          `;
+      },
+      sortable: false,
       orderable:false
       }
     ]
@@ -194,6 +216,18 @@ $(document).ready(function() {
       columnDefs: [{          
         targets: 1,
         className: "email"
+      },
+      {
+        targets: 2,
+        render: function (data, type, row) {
+          return formatDate(row[2]);
+        }
+      },
+      {
+        targets: 3,
+        render: function(data, type, row) {
+          return formatDate(row[3]);
+        }
       },
       {
         targets: 5,
@@ -210,12 +244,12 @@ $(document).ready(function() {
       render: function (data, type, row) {
           str = "";
           if (row[3] == "") {
-            str = '<li><a href="/admin/revoke_invite.php?id=' + row[0] + '"><span class="glyphicon glyphicon-remove red" aria-hidden="true" title=\"Revoke invitation\"></span></a></li>';
-            str += '<li><a class="invitation-link" data-toggle="modal" data-target="#invite_token_modal"><span class="glyphicon glyphicon-link" aria-hidden="true" title=\"Get invitation link\"></span></a></li>';
+            str = `<li><a href="/admin/revoke_invite.php?id=${row[0]}"><span class="glyphicon glyphicon-remove red" aria-hidden="true" title=\"Revoke invitation\"></span></a></li>`;
+            str += `<li><a class="invitation-link" data-toggle="modal" data-target="#invite_token_modal"><span class="glyphicon glyphicon-link" aria-hidden="true" title="Get invitation link"></span></a></li>`;
           }
           else {
-            str = "<li><span class=\"glyphicon glyphicon-remove disabled\" aria-hidden=\"true\" title=\"This user has already accepted the invitation\"></span></li>"; 
-            str += '<li><span class="glyphicon glyphicon-link disabled" aria-hidden="true" title=\"This user has already accepted the invitation\"></span></li>';
+            str = `<li class="disabled"><a href="#"><span class="glyphicon glyphicon-remove" aria-hidden="true" title="This user has already accepted the invitation"></span> Remove invitation</a></li>`; 
+            str += `<li class="disabled"><a href="#" ><span class="glyphicon glyphicon-link" aria-hidden="true" title="This user has already accepted the invitation"></span> Get invitation link</a></li>`;
 
          }
 
@@ -245,6 +279,12 @@ $(document).ready(function() {
         targets: 1,
         render: function (data, type, row) {
           return '<a href="/corpora/corpus_preview.php?id=' + row[0] + '" title="Preview corpus">' + row[1] + '</a>';
+        }
+      },
+      {
+        targets: 5,
+        render: function (data, type, row) {
+          return formatDate(row[5]);
         }
       },
       {
@@ -309,55 +349,65 @@ $(document).ready(function() {
       },
       {
         targets:4,
-      render: function (data, type, row) {
-//        if (row[2]==null  || row[3] == "DONE") return  '<a href="/tasks/recap.php?id=' + row[0] + '">'+row[3]+'</a>';
-//        if (row[2]==null  || row[3] == "PENDING")  return  '<a href="/tasks/recap.php?id=' + row[0] + '">'+row[3]+'</a>';        
-        var completed = (parseInt(row[10])/parseInt(row[2])) * 100;        
-        return '<a href="/tasks/recap.php?id=' + row[0] + '"><div title="'+row[10]+' of '+row[2]+' sentences evaluated" class="progress">' +
-          '<div   class="progress-bar" role="progressbar" aria-valuenow="' + completed +'"' +
-          'aria-valuemin="0" aria-valuemax="100" style="width:' + completed +'%">' +
-          '<span>'+row[10] +' of '+ row[2]+'</span></div>' +
-          '</div></a>';
-      }
-    },
+        render: function (data, type, row) {
+          var completed = (parseInt(row[10])/parseInt(row[2])) * 100;        
+          return '<a href="/tasks/recap.php?id=' + row[0] + '"><div title="'+row[10]+' of '+row[2]+' sentences evaluated" class="progress">' +
+            '<div   class="progress-bar" role="progressbar" aria-valuenow="' + completed +'"' +
+            'aria-valuemin="0" aria-valuemax="100" style="width:' + completed +'%">' +
+            '<span>'+row[10] +' of '+ row[2]+'</span></div>' +
+            '</div></a>';
+        }
+      },
+      {
+        targets: 5,
+        render: function (data, type, row) {
+          return formatDate(row[5]);
+        }
+      },
+      {
+        targets: 6,
+        render: function (data, type, row) {
+          return formatDate(row[6]);
+        }
+      },
       {
         targets: 8,
         className: "actions",
         sortable: false,
         searchable: false,
         responsivePriority: 1,
-     render: function (data, type, row) {
-          var actions_str = "";
-          actions_str += '<li><a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Recap of the task</a></li>';
-          actions_str += '<li><a href="mailto:' + row[11] + '" title="Contact assigned user"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Contact assigned user</a></li>';
-          
-          if (document.getElementById("input_isowner") && document.getElementById("input_isowner").value == "1") {
-            actions_str += '<li><a href="/tasks/change_assigned_user.php?task_id=' + row[0] + '" title="Change assigned user"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Change assigned user</a></li>';
+        render: function (data, type, row) {
+            var actions_str = "";
+            actions_str += '<li><a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Recap of the task</a></li>';
+            actions_str += '<li><a href="mailto:' + row[11] + '" title="Contact assigned user"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Contact assigned user</a></li>';
+            
+            if (document.getElementById("input_isowner") && document.getElementById("input_isowner").value == "1") {
+              actions_str += '<li><a href="/tasks/change_assigned_user.php?task_id=' + row[0] + '" title="Change assigned user"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Change assigned user</a></li>';
+            }
+            actions_str += '<li>' + getRemoveTaskCode(row[0], row[1]) + '</li>';
+            
+            return `<div class="btn-group">
+                    <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="glyphicon glyphicon glyphicon-cog"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                      ${actions_str}
+                    </ul>
+                  </div>
+            `;
           }
-          actions_str += '<li>' + getRemoveTaskCode(row[0], row[1]) + '</li>';
-          
-          return `<div class="btn-group">
-                  <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="glyphicon glyphicon glyphicon-cog"></span>
-                  </button>
-                  <ul class="dropdown-menu dropdown-menu-right">
-                    ${actions_str}
-                  </ul>
-                </div>
-          `;
         }
-      }
-    ],
-    order: [[ 6, 'desc' ]],
-    processing: true,
-    serverSide: true,
-    ajax: {
-        url: "/tasks/task_list.php",
-        data: function (d) {
-          d.p_id = $("#tasks-table").data("projectid");
-        }
-    },
-    stateSave: true
+      ],
+      order: [[ 6, 'desc' ]],
+      processing: true,
+      serverSide: true,
+      ajax: {
+          url: "/tasks/task_list.php",
+          data: function (d) {
+            d.p_id = $("#tasks-table").data("projectid");
+          }
+      },
+      stateSave: true
   });
   
   /*
@@ -636,3 +686,10 @@ function clipboard(text) {
 };
 
         
+
+function formatDate(datestring) {
+  let date = new Date(datestring);
+  let day = ((date.getDate() < 10) ? "0" + date.getDate() : date.getDate());
+  let month = ((date.getMonth() + 1 < 10) ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1));
+  return `${day}.${month}.${date.getFullYear()}`;
+}

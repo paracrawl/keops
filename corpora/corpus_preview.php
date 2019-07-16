@@ -59,12 +59,12 @@
         <div class="col-xs-6 col-md-6 text-right">
           <a href="/corpora/corpus_edit.php?id=<?php echo $corpus->id;?>" type="submit" title="Edit corpus" class="btn btn-link" tabindex="5">
             <span class="glyphicon glyphicon-edit"></span>
-            <span class="hidden-xs">Edit</span>
+            <span class="col-xs-12">Edit</span>
           </a> 
           <a href="/corpora/corpus_remove.php?id=<?php echo $corpus->id;?>" type="submit" title="Remove corpus" class="btn btn-link" tabindex="5">
             <span class="text-danger">
               <span class="glyphicon glyphicon-trash"></span>
-              <span class="hidden-xs">Remove</span>
+              <span class="col-xs-12">Remove</span>
             </span>
           </a>
         </div>
