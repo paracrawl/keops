@@ -24,7 +24,6 @@ class sentence_task_dto {
   public $evaluation;
   public $creation_date;
   public $completed_date;
-  public $comments;
   
   /**
    * Retrieves the text (label) evaluation label of a evaluation type

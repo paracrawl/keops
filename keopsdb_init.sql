@@ -91,6 +91,12 @@ CREATE TABLE keopsdb.SENTENCES_TASKS(
     COMMENTS varchar(1000)
 );
 
+create table comments (
+	pair integer references sentences_tasks(id) ,
+	name varchar (140),
+	value varchar (255),
+	primary key (pair, name)
+);
 
 insert INTO keopsdb.langs (langcode, langname) values ('bg','Bulgarian'), ('cs', 'Czech'), ('ca', 'Catalan'),  ('da', 'Danish'), ('de', 'German'), 
 ('el', 'Greek'), ('en', 'English'), ('es', 'Spanish'), ('et', 'Estonian'), ('fi', 'Finnish'), ('fr', 'French'), ('ga', 'Irish'), ('gl', 'Galician'), 

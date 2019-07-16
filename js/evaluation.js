@@ -1,6 +1,77 @@
+$(".evaluation_tab_link").on('click', function (e) {
+  e.preventDefault();
+  
+  $('.evaluation-tab-content .tab-pane').removeClass("active");
+  $('.evaluation-tab-content input[type="radio"]').removeAttr("checked");
+
+  if ($($(this).attr('href')).length > 0) {
+    $(this).tab('show');
+  }
+});
+
+$('.evaluation_tab_link .btn.active').parent().tab('show');
+
+$('#evalutionsavebutton').on('click', () => {
+  $('#evaluationform').submit();
+})
+
 /**
  * Evaluation shortcuts
  */
+
+$(document).on('keypress', (e) => {
+  if ($(e.target).is('input')) return;
+
+  if (e.which == 13) { // Intro
+    $("#evalutionsavebutton").trigger('click');
+  } else {
+    $("#evaluationform :radio").removeAttr('checked');
+    $("#evaluationform label.active").removeClass("active");
+
+    if (e.which == 76 || e.which == 108) {//L
+      $("#evaluationform :radio[value=L]").attr("checked", "true");
+      $("#evaluationform label input[value='L']").parent().addClass("active");
+    }
+
+    if (e.which == 65 || e.which == 97) {//A
+      $("#evaluationform :radio[value=A]").attr("checked", "true");
+      $("#evaluationform label input[value='A']").parent().addClass("active");
+    }
+
+    if (e.which == 84 || e.which == 116) {//T
+      $("#evaluationform :radio[value=T]").attr("checked", "true");
+      $("#evaluationform label input[value='T']").parent().addClass("active");
+    }
+
+    if (e.which == 77 || e.which == 109) {//MT / M
+      $("#evaluationform :radio[value=MT]").attr("checked", "true");
+      $("#evaluationform label input[value='MT']").parent().addClass("active");
+    }
+
+    if (e.which == 69 || e.which == 101) {//E
+      $("#evaluationform :radio[value=E]").attr("checked", "true");
+      $("#evaluationform label input[value='E']").parent().addClass("active");
+    }
+
+    if (e.which == 70 || e.which == 102) {//F
+      $("#evaluationform :radio[value=F]").attr("checked", "true");
+      $("#evaluationform label input[value='F']").parent().addClass("active");
+    }
+
+    if (e.which == 86 || e.which == 118) {//V
+      $("#evaluationform :radio[value=V]").attr("checked", "true");
+      $("#evaluationform label input[value='V']").parent().addClass("active");
+    };
+    
+
+    if (e.which == 80 || e.which == 112) {//P
+      $("#evaluationform :radio[value=P]").attr("checked", "true");
+      $("#evaluationform label input[value='P']").parent().addClass("active");
+    }
+  }
+});
+
+/*
 $(document).keypress(function (e) {
 //  console.log(e.which);
 //  console.log(e.keyCode);
@@ -45,47 +116,5 @@ $(document).keypress(function (e) {
         $("#evaluation-form :radio[value=P]").attr("checked", "true");
       }
     }
-  }
-});
-/**
- * Search button, to search a term in the task's sentences
- */
-/*$('body').on('click', "#search-term-button", function (e) {
-  e.preventDefault();
-  var search_term = $("#search-term").val();
-  var task_id = $("#task_id").val();
-  if (search_term.length > 0 && task_id>0) {
-    $.ajax({
-      data: {"search_term": search_term, "task_id": task_id},
-      url: 'search_sentence.php',
-      type: 'post',
-      dataType: 'json',
-      success: function (response) {
-        if (response  == 0) {
-          alert ("Search term not found");
-        }
-        else {
-          var current_url = new URL(window.location.href);
-          var current_params = new URLSearchParams(current_url.search);
-          
-          var target_params = new URLSearchParams();
-          target_params.append('id', response);
-          target_params.append('task_id', current_params.get('task_id'));
-
-          var target_url = current_url;
-          target_url.search = target_params.toString();
-          window.location.href = target_url.toString();
-          
-          /*
-          $("#gotopage").val(response);
-          $("#gotoform").submit();
-        }
-      },
-      error: function (response) {
-        alert("Sorry, your request could not be processed. Please, try again later. ");
-      }
-
-
-    });
   }
 });*/

@@ -31,7 +31,7 @@ class sentence_task_dao {
     try {
       $sentence_task_dto = new sentence_task_dto();
       // TODO We are assuming that sentence ids are consecutive
-      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date, st.comments from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.id = ? and st.task_id = ? limit 1;");
+      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.id = ? and st.task_id = ? limit 1;");
       $query->bindParam(1, $sentence_id);
       $query->bindParam(2, $task_id);
       $query->execute();
@@ -45,7 +45,6 @@ class sentence_task_dao {
         $sentence_task_dto->evaluation = $row['evaluation'];
         $sentence_task_dto->creation_date = $row['creation_date'];
         $sentence_task_dto->completed_date = $row['completed_date'];
-        $sentence_task_dto->comments = $row['comments'];
       }
       $this->conn->close_conn();
       return $sentence_task_dto;
@@ -66,7 +65,7 @@ class sentence_task_dao {
     try {
       $sentence_task_dto = new sentence_task_dto();
 
-      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date, st.comments from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? and st.evaluation = 'P'::label order by st.id asc limit 1;");
+      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? and st.evaluation = 'P'::label order by st.id asc limit 1;");
       $query->bindParam(1, $task_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -79,7 +78,6 @@ class sentence_task_dao {
         $sentence_task_dto->evaluation = $row['evaluation'];
         $sentence_task_dto->creation_date = $row['creation_date'];
         $sentence_task_dto->completed_date = $row['completed_date'];
-        $sentence_task_dto->comments = $row['comments'];
       }
       $this->conn->close_conn();
       return $sentence_task_dto;
@@ -101,7 +99,7 @@ class sentence_task_dao {
     try {
       $sentence_task_dto = new sentence_task_dto();
       // TODO We are assuming that sentence ids are consecutive
-      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date, st.comments from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? order by st.sentence_id ASC limit 1;");
+      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? order by st.sentence_id ASC limit 1;");
       $query->bindParam(1, $task_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -114,7 +112,6 @@ class sentence_task_dao {
         $sentence_task_dto->evaluation = $row['evaluation'];
         $sentence_task_dto->creation_date = $row['creation_date'];
         $sentence_task_dto->completed_date = $row['completed_date'];
-        $sentence_task_dto->comments = $row['comments'];
       }
       $this->conn->close_conn();
       return $sentence_task_dto;
@@ -211,7 +208,7 @@ class sentence_task_dao {
       }
       $sentence_task_dto = new sentence_task_dto();
       $offset = $sentence_id - 1;
-      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date, st.comments from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? order by st.id asc limit 1 offset ?;");
+      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? order by st.id asc limit 1 offset ?;");
       $query->bindParam(1, $task_id);
       $query->bindParam(2, $offset);
       $query->execute();
@@ -225,7 +222,6 @@ class sentence_task_dao {
         $sentence_task_dto->evaluation = $row['evaluation'];
         $sentence_task_dto->creation_date = $row['creation_date'];
         $sentence_task_dto->completed_date = $row['completed_date'];
-        $sentence_task_dto->comments = $row['comments'];
       }
       $this->conn->close_conn();
       return $sentence_task_dto;
@@ -241,7 +237,7 @@ class sentence_task_dao {
    * 
    * @param int $sentence_id ID of the preceeding sentence
    * @param int $task_id Task ID
-   * @param string $search_term Term to search in source text, target text and comments
+   * @param string $search_term Term to search in source text and target text
    * @param string $label Label to filter the results ("ALL" if not filtering by label)
    * @return \sentence_task_dto Sentence object
    * @throws Exception
@@ -262,12 +258,11 @@ class sentence_task_dao {
   
       $sentence_task_dto = new sentence_task_dto();
       $offset = $sentence_id - 1;
-      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date, st.comments from sentences_tasks as st "
+      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date from sentences_tasks as st "
         . "left join sentences as s on st.sentence_id = s.id "
         . "where st.task_id = :taskid "
         . (($label != "ALL") ? "and st.evaluation = :label " : "")
-        . "and (st.comments like :comments "
-        . "or (s.source_text ILIKE :endinginspace or s.target_text ILIKE :endinginspace "
+        . "and (s.source_text ILIKE :endinginspace or s.target_text ILIKE :endinginspace "
         . "or s.source_text ILIKE :endingincomma or s.target_text ILIKE :endingincomma "
         . "or s.source_text ILIKE :endingincolon or s.target_text ILIKE :endingincolon "
         . "or s.source_text ILIKE :enginginfullstop or s.target_text ILIKE :enginginfullstop "
@@ -277,7 +272,6 @@ class sentence_task_dao {
       
       $query->bindParam(':taskid', $task_id);
       $query->bindParam(':offset', $offset);
-      $query->bindParam(':comments', $comment);
       $query->bindParam(':endinginspace', $endinginspace);
       $query->bindParam(':endingincomma', $endingincomma);
       $query->bindParam(':endingincolon', $endingincolon);
@@ -298,7 +292,6 @@ class sentence_task_dao {
         $sentence_task_dto->evaluation = $row['evaluation'];
         $sentence_task_dto->creation_date = $row['creation_date'];
         $sentence_task_dto->completed_date = $row['completed_date'];
-        $sentence_task_dto->comments = $row['comments'];
       }
       $this->conn->close_conn();
       return $sentence_task_dto;
@@ -332,7 +325,7 @@ class sentence_task_dao {
   }
  
   /**
-   * Updates in the DB a given sentence object with its evaluation, comments and completion date
+   * Updates in the DB a given sentence object with its evaluation and completion date
    * 
    * @param object $sentence_task_dto Sentence object to  update
    * @return boolean True if succeeded, otherwise false
@@ -340,11 +333,10 @@ class sentence_task_dao {
    */
   function updateSentence($sentence_task_dto) {
     try {
-      $query = $this->conn->prepare("UPDATE sentences_tasks SET evaluation = ?, comments = ?, completed_date = ? WHERE id = ?;");
+      $query = $this->conn->prepare("UPDATE sentences_tasks SET evaluation = ?, completed_date = ? WHERE id = ?;");
       $query->bindParam(1, $sentence_task_dto->evaluation);
-      $query->bindParam(2, $sentence_task_dto->comments);
-      $query->bindParam(3, $sentence_task_dto->completed_date);
-      $query->bindParam(4, $sentence_task_dto->id);
+      $query->bindParam(2, $sentence_task_dto->completed_date);
+      $query->bindParam(3, $sentence_task_dto->id);
       $query->execute();
       $this->conn->close_conn();
       return true;
@@ -390,7 +382,7 @@ class sentence_task_dao {
    * 
    * @param int $sentence_id Current sentence ID
    * @param type $task_id Task ID
-   * @param string $search_term Term to search in source text, target text and comments
+   * @param string $search_term Term to search in source text and target text
    * @param string $label Label to filter the results ("ALL" if not filtering by label)
    * @return \task_progress_dto Task Progress object
    * @throws Exception
@@ -403,25 +395,22 @@ class sentence_task_dao {
       $enginginfullstop =  "%".$search_term.";%";
       $enginginsemicolon =  "%".$search_term.".%";
       $startingwithspace = "% ".$search_term."%";
-      $comment = "%" . $search_term . "%";
 
       $task_progress_dto = new task_progress_dto();
       $query = $this->conn->prepare("
         select count(case when st.id <= :sentenceid then 1 end) as current, count(*) as total, count(case when evaluation<>'P' then 1 end) as completed from sentences_tasks as st left join sentences as s on (s.id = st.sentence_id)
         where task_id = :taskid " 
         . (($label != "ALL") ? "and evaluation = :label " : "")
-        . "and (st.comments like :comments "
-        . "or (s.source_text ILIKE :endinginspace or s.target_text ILIKE :endinginspace "
+        . "and (s.source_text ILIKE :endinginspace or s.target_text ILIKE :endinginspace "
         . "or s.source_text ILIKE :endingincomma or s.target_text ILIKE :endingincomma "
         . "or s.source_text ILIKE :endingincolon or s.target_text ILIKE :endingincolon "
         . "or s.source_text ILIKE :enginginfullstop or s.target_text ILIKE :enginginfullstop "
         . "or s.source_text ILIKE :enginginsemicolon or s.target_text ILIKE :enginginsemicolon "
-        . "or s.source_text ILIKE :startingwithspace or s.target_text ILIKE :startingwithspace ));"
+        . "or s.source_text ILIKE :startingwithspace or s.target_text ILIKE :startingwithspace );"
       );
 
       $query->bindParam(':sentenceid', $sentence_id);
       $query->bindParam(':taskid', $task_id);
-      $query->bindParam(':comments', $comment);
       $query->bindParam(':endinginspace', $endinginspace);
       $query->bindParam(':endingincomma', $endingincomma);
       $query->bindParam(':endingincolon', $endingincolon);
@@ -484,7 +473,7 @@ from sentences_tasks where task_id = ?;");
   }
 
   /**
-   * Retrieves from the DB all sentences for a given task, with their evaluation and comments.
+   * Retrieves from the DB all sentences for a given task, with their evaluation.
    * 
    * @param int $task_id Task ID
    * @return array Array of sentence objects
@@ -493,7 +482,7 @@ from sentences_tasks where task_id = ?;");
   function getAnnotatedSentecesByTask($task_id){ 
      try {
       $st_array = array();
-      $query = $this->conn->prepare("select s.source_text, s.target_text, st.evaluation, st.comments from sentences_tasks st left join sentences s  on s.id = st.sentence_id left join tasks t on t.id = st.task_id where st.task_id = ? order by s.id;");
+      $query = $this->conn->prepare("select s.source_text, s.target_text, st.evaluation from sentences_tasks st left join sentences s  on s.id = st.sentence_id left join tasks t on t.id = st.task_id where st.task_id = ? order by s.id;");
       $query->bindParam(1, $task_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -502,7 +491,6 @@ from sentences_tasks where task_id = ?;");
         $sentence_task_dto->source_text = $row['source_text'];
         $sentence_task_dto->target_text = $row['target_text'];
         $sentence_task_dto->evaluation = $row['evaluation'];
-        $sentence_task_dto->comments = $row['comments'];
         array_push($st_array, $sentence_task_dto);        
       }
       $this->conn->close_conn();

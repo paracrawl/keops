@@ -10,10 +10,6 @@ $(document).ready(function() {
     $(window).trigger('resize');
   });
 
-  if ($(window).width() < 768) {
-    $(".nav-tabs").removeClass("nav-tabs").addClass("nav-pills");
-  }
-
 //$.fn.dataTable.enum( [ 'STARTED', 'PENDING', 'DONE' ] );
 //$.fn.dataTable.ext.type.order['customenum-pre'] = function ( d ) {
 //  alert("HOLI");

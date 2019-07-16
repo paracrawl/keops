@@ -4,6 +4,7 @@
  */
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/task_dao.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/comment_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dto/sentence_task_dto.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/sentence_task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/utils/utils.php");
@@ -37,7 +38,25 @@ if (count($failedparams) == 0){
     $sentence_task_dao = new sentence_task_dao();
     if ($sentence_task_dao->updateSentence($sentence_task_dto)) {
       if ($task->status == "PENDING"){
-        $task_dao->startTask($task_id);                
+        $task_dao->startTask($task_id);
+      }
+
+      $comment_dao = new comment_dao();
+      $keys = array_keys($_POST);
+      foreach (array_keys($_POST) as $key) {
+        $matches = array();
+        if(preg_match("/^(". $sentence_task_dto->evaluation ."_.*)/i", $key, $matches)) {
+          $comment_dto = new comment_dto();
+          $comment_dto->pair = $sentence_task_dto->id;
+          $comment_dto->name = $matches[1];
+          $comment_dto->value = $_POST[$key];
+
+          if ($comment_dao->getCommentById($comment_dto->pair, $comment_dto->name)) {
+            $comment_dao->updateComment($comment_dto);
+          } else {
+            $comment_dao->insertComment($comment_dto);
+          }
+        }
       }
 
       $search_term = filter_input(INPUT_POST, "term");

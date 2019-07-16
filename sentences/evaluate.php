@@ -7,6 +7,7 @@ require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/sentence_task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/project_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dto/sentence_task_dto.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/comment_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/utils/utils.php");
 
   
@@ -19,6 +20,29 @@ $search_term = filter_input(INPUT_GET, "term");
 $filter_label = filter_input(INPUT_GET, "label");
 
 $filtered = isset($search_term) && isset($filter_label);
+
+$tabs = (object) [
+  ["label" => "L", "comments" => [
+    [
+      "name" => "L_sentence",
+      "text" => "Sentence with wrong language identification",
+      "options" => [
+        ["value" => "source", "text" => "[SOURCE]"],
+        ["value" => "target", "text" => "[TARGET]"]
+      ]
+    ]
+  ]],
+  ["label" => "MT", "comments" => [
+    [
+      "name" => "MT_direction",
+      "text" => "MT translation",
+      "options" => [
+        ["value" => "source", "text" => "[SOURCE] to [TARGET]"],
+        ["value" => "target", "text" => "[TARGET] to [SOURCE]"]
+      ]
+    ]
+  ]]
+];
 
 if (isset($task_id)) {
   $task_dao = new task_dao();
@@ -96,7 +120,7 @@ else {
 
       <?php if ($task->status == "DONE") { ?>
         <div class="alert alert-success" role="alert">
-          <b>This task is done!</b> The evaluation can be read but not changed. <a href="/tasks/recap.php?id=<?php echo $task->id; ?>" class="alert-link">See the recap</a>.
+            <b>This task is done!</b> The evaluation can be read but not changed. <a href="/tasks/recap.php?id=<?php echo $task->id; ?>" class="alert-link">See the recap</a>.
         </div>
       <?php } ?>
 
@@ -107,274 +131,263 @@ else {
         <a class="pull-right"  href="mailto:<?= $project->owner_object->email  ?>" title="Contact Project Manager">Contact PM <span id="contact-mail-logo" class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
       </ul>
 
-    <div class="row">
-      <div class="col-md-12" style="margin-bottom: 1em;">
-        <div class="page-header" style="padding-bottom: 0px;">
-          <div class="row">
-            <div class="col-sm-4" style="margin-bottom: 1em;">
-              <span class="h1">Task #<?php echo $task->id ?></span>
-            </div>
+      <div class="row">
+        <div class="col-md-12" style="margin-bottom: 1em;">
+          <div class="page-header" style="padding-bottom: 0px;">
+            <div class="row">
+              <div class="col-sm-4" style="margin-bottom: 1em;">
+                <span class="h1">Task #<?php echo $task->id ?></span>
+              </div>
 
-            <div class="col-sm-8 text-right">
-              <form action="" class="search-form form-inline">
-                <div class="form-group">
-                    <input type="hidden" name="task_id" value="<?= $task->id ?>" />
-                    <input type="hidden" name="p" value="1" />
-                    <input type="hidden" name="id" value="1" />
+              <div class="col-sm-8 text-right">
+                <form action="" class="search-form form-inline">
+                  <div class="form-group">
+                      <input type="hidden" name="task_id" value="<?= $task->id ?>" />
+                      <input type="hidden" name="p" value="1" />
+                      <input type="hidden" name="id" value="1" />
 
-                    <input class="form-control" id="search-term" name="term" value="<?php if (isset($search_term)) { echo $search_term; } ?>" placeholder="Search through sentences">
+                      <input class="form-control" id="search-term" name="term" value="<?php if (isset($search_term)) { echo $search_term; } ?>" placeholder="Search through sentences">
 
-                    <?php
-                        $labels = array("P", "L", "A", "T", "MT", "F", "V");
-                    ?>
+                      <?php
+                          $labels = array("P", "L", "A", "T", "MT", "F", "V");
+                      ?>
 
-                    <select class="form-control" name="label">
-                    <option value="ALL">Everything</option>
-                        <?php
-                            foreach ($labels as $labelcode) { ?>
-                                <option value="<?php echo $labelcode; ?>" <?php if (isset($filter_label) && $labelcode == $filter_label) { echo "selected"; } ?>><?php echo $labelcode; ?> label</option>
-                            <?php }
-                        ?>
-                    </select>
+                      <select class="form-control" name="label">
+                      <option value="ALL">Everything</option>
+                          <?php
+                              foreach ($labels as $labelcode) { ?>
+                                  <option value="<?php echo $labelcode; ?>" <?php if (isset($filter_label) && $labelcode == $filter_label) { echo "selected"; } ?>><?php echo $labelcode; ?> label</option>
+                              <?php }
+                          ?>
+                      </select>
 
-                    <button type=submit class="btn btn-primary" id="search-term-button">Search</button>
-                </div>
-              </form>
+                      <button type=submit class="btn btn-primary" id="search-term-button">Search</button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    
-    <div class="row">
-      <form id="evaluation-form" action="/sentences/sentence_save.php" role="form" method="post" data-toggle="validator">
-      <?php if ($sentence->task_id == NULL && $filtered) { ?>
-        <div class="col-xs-12 col-md-12">
-          <div class="alert alert-danger" role="alert">
-            <strong>No sentences found with those filters!</strong>
-            <a href="?p=1&id=1&task_id=<?= $task->id ?>" class="alert-link">See all</a>
-          </div>
-        </div>
-      <?php } else {?>
 
-      <div class="col-md-6">
-        <div class="row">
-          <?php if ($filtered) { ?>
-            <div class="col-xs-12 col-md-12">
-              <div class="alert alert-warning" role="alert">
-                <strong>Sentences filtered!</strong>
-                <a href="?p=1&id=1&task_id=<?= $task->id ?>" class="alert-link">See all</a>
+      <div class="row">
+        <?php if ($sentence->task_id == NULL && $filtered) { ?>
+          <div class="col-xs-12 col-md-12">
+            <div class="alert alert-danger" role="alert">
+              <strong>No sentences found with those filters!</strong>
+              <a href="?p=1&id=1&task_id=<?= $task->id ?>" class="alert-link">See all</a>
+            </div>
+          </div>
+        <?php } else {?>
+        <div class="col-md-6">
+          <div class="row">
+            <?php if ($filtered) { ?>
+              <div class="col-xs-12 col-md-12">
+                <div class="alert alert-warning" role="alert">
+                  <strong>Sentences filtered!</strong>
+                  <a href="?p=1&id=1&task_id=<?= $task->id ?>" class="alert-link">See all</a>
+                </div>
+              </div>
+            <?php } ?>
+              <div class="col-xs-12 col-md-12">
+                  <div class="row">
+                    <div class="col-xs-6 col-md-6 text-increase">
+                      <?= $project->source_lang_object->langname ?>
+                    </div>
+                    <div class="col-xs-6 col-md-6 text-right">
+                      <a href="https://translate.google.com/?op=translate&sl=<?= $project->source_lang_object->langcode?>&tl=<?=$project->target_lang_object->langcode?>&text=<?=$sentence->source_text ?>"  title="Translate source sentence with Google" target="_blank"><span class="glyphicon glyphicon-globe"></span></a>
+                    </div>
+                  </div>
+              </div>
+              <div class="col-xs-12 col-md-12">
+                <div class="well"><?= $sentence->source_text ?></div>
               </div>
             </div>
-          <?php } ?>
-            <div class="col-xs-12 col-md-12 vcenter">
+            <div class="row">
+              <div class="col-xs-12 col-md-12">
                 <div class="row">
                   <div class="col-xs-6 col-md-6 text-increase">
-                    <?= $project->source_lang_object->langname ?>
+                    <?= $project->target_lang_object->langname ?>
                   </div>
                   <div class="col-xs-6 col-md-6 text-right">
-                    Pair #<?= $sentence->id ?>
+                    <a href="https://translate.google.com/?op=translate&sl=<?= $project->target_lang_object->langcode?>&tl=<?=$project->source_lang_object->langcode?>&text=<?=$sentence->target_text ?>"  title="Translate target sentence with Google" target="_blank"><span class="glyphicon glyphicon-globe"></span></a>
                   </div>
                 </div>
               </div>
-            <div class="col-xs-12 col-md-12 vcenter">
-              <div class="translation-box col-md-12">
-                <div class="translation-box-content text-increase">
-                  <?= $sentence->source_text ?>
-                </div>
-                <div class="translation-box-actions">
-                  <div class="translation-box-action">
-                    <a class="btn btn-default translation-box-action" href="https://translate.google.com/?op=translate&sl=<?= $project->source_lang_object->langcode?>&tl=<?=$project->target_lang_object->langcode?>&text=<?=$sentence->source_text ?>" title="Translate source sentence with Google" target="_blank">
-                      <span class="glyphicon glyphicon-new-window"></span>
-                      <span class="visible-xs-inline">Translate</span>
-                      <span class="hidden-xs">Translate with Google</span>
-                    </a>
-                  </div>
-                  <div class="btn-group translation-box-action" data-toggle="buttons">
-                    <label class="btn btn-default" title="Source text contains personal data">
-                      <input type="checkbox" name="personal_data_source" checked>
-                      <span class="glyphicon glyphicon-flag"></span>
-                      <span class="visible-xs-inline">Personal data</span>
-                      <span class="hidden-xs">Contains personal data</span>
-                    </label>
-                  </div>
-                </div>
+              <div class="col-xs-12 col-md-12">
+                <div class="well"><?= $sentence->target_text ?></div>
+              </div>
+              <div class="col-xs-12 col-md-12 text-right">
+                Pair #<?= $sentence->id ?>
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-xs-12 col-md-12 vcenter">
-              <div class="row">
-                <div class="col-xs-12 col-md-12 text-increase">
-                  <?= $project->target_lang_object->langname ?>
-                </div>
-              </div>
-            </div>
-            <div class="col-xs-12 col-md-12 vcenter">
-              <div class="translation-box col-md-12">
-                <div class="translation-box-content text-increase">
-                  <?= $sentence->target_text ?>
-                </div>
-                <div class="translation-box-actions">
-                  <div class="translation-box-action">
-                    <a class="btn btn-default translation-box-action" href="https://translate.google.com/?op=translate&sl=<?= $project->target_lang_object->langcode?>&tl=<?=$project->source_lang_object->langcode?>&text=<?=$sentence->target_text ?>" title="Translate source sentence with Google" target="_blank">
-                      <span class="glyphicon glyphicon-new-window"></span>
-                      <span class="visible-xs-inline">Translate</span>
-                      <span class="hidden-xs">Translate with Google</span>
-                    </a>
-                  </div>
-                  <div class="btn-group translation-box-action" data-toggle="buttons">
-                    <label class="btn btn-default" title="Target text contains personal data">
-                      <input type="checkbox" name="personal_data_target" checked>
-                      <span class="glyphicon glyphicon-flag"></span>
-                      <span class="visible-xs-inline">Personal data</span>
-                      <span class="hidden-xs">Contains personal data</span>
-                    </label>
-                  </div>
-                </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6 annotation-box">
-        <div class="row form-horizontal">
-          <input type="hidden" name="task_id" value="<?= $task->id ?>">
-          <input type="hidden" name="sentence_id" value="<?= $sentence->id ?>">
-          <input type="hidden" name="p_id" value="<?= $task_progress->current ?>">
-
-          <?php if ($filtered) { ?>
-            <input type="hidden" name="term" value="<?= $search_term ?>" />
-            <input type="hidden" name="label" value="<?= $filter_label ?>" />
-          <?php } ?>
 
           <div class="col-md-6">
-            <h4>Annotation</h4>
-            <p class="p1">Select one of the following labels to tag these parallel sentences</p>
-          </div>
-          <div data-toggle="modal" data-target="#evaluation-help" class="col-md-6 guidelines text-right">
-            Validation guidelines <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-          </div>
-          <div class="form-group col-md-12">
-            <div class="col-md-6">
-            <?php foreach (array_slice(sentence_task_dto::$labels, 0, count(sentence_task_dto::$labels) - 2) as $label) { ?>
-              <div class="radio wrong-eval" title="<?= $label['title'] ?>">
-                <label><input <?php if ($task->status == "DONE") { echo "disabled"; } ?> required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" name="evaluation" value="<?= $label['value'] ?>"><?= underline($label['label'], $label['value']); ?></label>
-              </div>
-            <?php } ?>
-            </div>
-            <div class="col-md-6">
-            <?php foreach (array_slice(sentence_task_dto::$labels, -2, 1) as $label) { ?>
-              <div class="radio valid-eval" title="<?= $label['title'] ?>">
-                <label><input <?php if ($task->status == "DONE") { echo "disabled"; } ?> required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" name="evaluation" value="<?= $label['value'] ?>"><?= underline($label['label'], $label['value']) ?></label>
-              </div>
-            <?php } ?>
-            <?php foreach (array_slice(sentence_task_dto::$labels, -1, 1) as $label) { ?>
-              <div class="radio pending-eval" title="<?= $label['title'] ?>">
-                <label><input <?php if ($task->status == "DONE") { echo "disabled"; } ?> required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" name="evaluation" value="<?= $label['value'] ?>"><?= underline($label['label'], $label['value']) ?></label>
-              </div>
-            <?php } ?>
-            </div>
-          </div>
-          <div class="form-group col-xs-12 col-md-12">
-            <div class="col-md-12">
-              <label for="comments" class="control-label">Comment</label>
-              <textarea <?php if ($task->status == "DONE") { echo "disabled"; } ?> rows="3" name="comments" id="comments" class="form-control" aria-describedby="helpComment" placeholder="Write something you want to remark for these parallel sentences [optional]" maxlength="1000" tabindex="4"><?= $sentence->comments ?></textarea>
-            </div>
-          </div>
-          <div class="form-group col-xs-12 col-md-12" style="display: flex; align-items: baseline;">
-            <div class="col-md-12 text-center">
-              <?php if ($task->status != "DONE") { ?>
-                <button id="evalution-save-button" type="submit" class="btn btn-primary" tabindex="5">Save</button>
-              <?php } else { ?>
-                <span class="btn btn-success btn-lg disabled" tabindex="5" title="The evaluation cannot be changed because the task is marked as done.">Task done</span>
-              <?php } ?>
-            </div>
-          </div>
-        </div>
-      </div>
-      </form>
-    </div>
+            <form id="evaluationform" action="/sentences/sentence_save.php" role="form" method="post" data-toggle="validator">
+              <div class="row form-horizontal" style="margin-top: 0; padding: 0;">
+                <input type="hidden" name="task_id" value="<?= $task->id ?>">
+                <input type="hidden" name="sentence_id" value="<?= $sentence->id ?>">
+                <input type="hidden" name="p_id" value="<?= $task_progress->current ?>">
 
-    <div class="row">
-      <div class="col-md-12" style="margin-top: 2em;">
+                <?php if ($filtered) { ?>
+                  <input type="hidden" name="term" value="<?= $search_term ?>" />
+                  <input type="hidden" name="label" value="<?= $filter_label ?>" />
+                <?php } ?>
+
+                <div class="col-md-12">
+                  <div class="row vertical-align" style="margin-bottom: 1em;">
+                    <div class="col-sm-4">
+                      <h4>Annotation</h4>
+                    </div>
+                    <div class="col-sm-8 text-right">
+                      <div data-toggle="modal" data-target="#evaluation-help" class="guidelines">
+                        Validation guidelines <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                      </div>
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="row btn-group evaluation-btn-group" data-toggle="buttons">
+                      <div class="col-md-12 col-xs-12">
+                          <?php foreach (array_slice(sentence_task_dto::$labels, 0, count(sentence_task_dto::$labels) - 2) as $label) { ?>
+                            <a href="#tab_<?= $label['value'] ?>" data-toggle="tab" class="evaluation_tab_link">
+                              <label class="btn btn-primary wrong-eval <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>">
+                                <input type="radio" <?php if ($task->status == "DONE") { echo "disabled"; } ?> name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
+                              </label>
+                            </a>
+                            <!--<div class="radio wrong-eval" title="<?= $label['title'] ?>">
+                              <label><input <?php if ($task->status == "DONE") { echo "disabled"; } ?> required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" name="evaluation" value="<?= $label['value'] ?>"><?= underline($label['label'], $label['value']); ?></label>
+                            </div>-->
+                          <?php } ?>
+                      </div>
+                      <div class="col-md-12 col-xs-12" style="margin-top: 1em;">
+                          <?php foreach (array_slice(sentence_task_dto::$labels, -2, 1) as $label) { ?>
+                            <a href="#tab_<?= $label['value'] ?>" data-toggle="tab" class="evaluation_tab_link">
+                              <label class="btn btn-success valid-eval <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>">
+                                <input type="radio" <?php if ($task->status == "DONE") { echo "disabled"; } ?> name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
+                              </label>
+                            </a>
+                          <?php } ?>
+                          <?php foreach (array_slice(sentence_task_dto::$labels, -1, 1) as $label) { ?>
+                            <a href="#tab_<?= $label['value'] ?>" data-toggle="tab" class="evaluation_tab_link">
+                              <label class="btn btn-warning pending-eval <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>">
+                                <input type="radio" <?php if ($task->status == "DONE") { echo "disabled"; } ?> name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
+                              </label>
+                            </a>
+                          <?php } ?>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-md-12">
+                    <hr />
+                    <!--
+                      This is the fixed comments section. The name of the parameters
+                      which contain each comment should start with the code of the label
+                      followed by an underscore (for example, MT_ for Machine Translation).
+                    -->
+                    <?php $comment_dao = new comment_dao(); ?>
+                    <div class="tab-content evaluation-tab-content">
+                      <?php foreach($tabs as $tab) { ?>
+                      <div role="tabpanel" class="tab-pane" id="tab_<?= $tab["label"] ?>">
+                        <?php foreach($tab["comments"] as $comment) {?>
+                        <div class="row">
+                          <div class="col-xs-12 col-md-4">
+                            <label for="<?= $comment["name"] ?>"><?= $comment["text"] ?></label>
+                          </div>
+                          <div class="col-xs-12 col-md-8 text-right-md">
+                            <div class="btn-group btn-group-justified" data-toggle="buttons">
+                              <?php foreach($comment["options"] as $option) { ?>
+                              <?php 
+                                $option_data = $comment_dao->getCommentById($sentence->id, $comment["name"]); 
+                                $option["text"] = str_replace("[SOURCE]", $project->source_lang_object->langname, $option["text"]);
+                                $option["text"] = str_replace("[TARGET]", $project->target_lang_object->langname, $option["text"]);
+                                ?>
+                              <label class="btn btn-default  <?= (($option_data != false) ? (($option_data->value == $option["value"]) ? "active" : "") : "") ?> ">
+                                <input type="radio" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (isset($option_data->value) ? (($option_data->value == $option["value"]) ? "checked" : "") : "") ?> name="<?= $comment["name"] ?>" autocomplete="off" type="radio" value="<?= $option["value"] ?>"> <?= $option["text"] ?>
+                              </label>
+                              <?php } ?>
+                            </div>
+                          </div>
+                        </div>
+                        <?php } ?>
+                      </div>
+                      <?php } ?>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 vertical-align" style="margin-top: 2em;">
           <div class="col-md-4">
-          <!--<form>
-            <input type="hidden" id="task_id" name="task_id" value="<?= $task->id ?>">
-            <input class="form-control search-term" id="search-term" name="search">
-            <button class="btn btn-xs btn-link" id="search-term-button" >Search</button>          
-          </form>-->
-        </div>
+            <div class="row">
+              <div class="col-md-6">
+                <form id="gotoform" method="get" action="/sentences/evaluate.php">
+                  <input type="hidden" name="p" value="1">
+                  <input type="hidden" name="task_id" value="<?= $task->id ?>">
 
-        <div class="col-md-4">
-          <div class="text-center text-increase">
-            <ul class="pagination pagination-sm">
-            <?php // TODO We are assuming that sentence ids are consecutive
-              if ($task_progress->current > 1) { ?>
-              <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>&id=1&p=1<?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>#top">First</a></li>
-              <?php } else { ?>
-              <li class="disabled"><a href="#">First</a></li>
-              <?php } ?>
-              
-              <?php // TODO We are assuming that sentence ids are consecutive
-              if ($task_progress->current > 1) { ?>
-              <li>
-                <a href="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current-1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>#top">Prev</a>
-              </li>
-              <?php } else { ?>
-              <li class="disabled"><a href="#">Prev</a></li>
-              <?php } ?>
-              
-              <li class="active"><a href="#"><?= $task_progress->current ?> / <?= $task_progress->total ?></a></li>
-              
-              <?php // TODO We are assuming that sentence ids are consecutive
-              if ($task_progress->current < $task_progress->total) { ?>
-              <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current+1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>#top">Next</a></li>
-              <?php } else { ?>
-              <li class="disabled"><a href="#">Next</a></li>
-              <?php } ?>
-              
-              <?php
-              if ($task_progress->current < $task_progress->total) { ?>
-                <li><a href="/sentences/evaluate.php?p=1&task_id=<?= $task->id ?>&id=<?= $task_progress->total ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>#top">Last</a></li>
-              <?php } else { ?>
-                <li class="disabled"><a href="#">Last</a></li>
-              <?php } ?>
-            </ul>
+                  <?php if ($filtered) { ?>
+                    <input type="hidden" name="term" value="<?= $search_term ?>" />
+                    <input type="hidden" name="label" value="<?= $filter_label ?>" />
+                  <?php } ?>
+
+                  <input class="form-control go-to-page" id="gotopage" name="id" type="number" min="1" max="<?= $task_progress->total ?>" value="<?= $task_progress->current ?>">
+                  <button type="submit" class="btn btn-xs btn-link">Go!</button>
+                </form>
+                <!--<form>
+                  <input type="hidden" id="task_id" name="task_id" value="<?= $task->id ?>">
+                  <input class="form-control search-term" id="search-term" name="search">
+                  <button class="btn btn-xs btn-link" id="search-term-button" >Search</button>          
+                </form>-->
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="text-center text-increase">
+              <ul class="pagination pagination-sm">
+                <?php // TODO We are assuming that sentence ids are consecutive
+                if ($task_progress->current > 1) { ?>
+                <li>
+                  <a href="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current-1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>#top">Previous</a>
+                </li>
+                <?php } else { ?>
+                <li class="disabled"><a href="#">Previous</a></li>
+                <?php } ?>
+                
+                <li class="active"><a href="#"><?= $task_progress->current ?> / <?= $task_progress->total ?></a></li>
+                
+                <?php // TODO We are assuming that sentence ids are consecutive
+                if ($task_progress->current < $task_progress->total) { ?>
+                <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>#top">Next pending</a></li>
+                <?php } else { ?>
+                <li class="disabled"><a href="#">Next pending</a></li>
+                <?php } ?>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-4 text-right">
+            <button id="evalutionsavebutton" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" tabindex="5" title="Save this evaluation and go to the next sentence">Next <span class="glyphicon glyphicon-arrow-right"></span></button>
           </div>
         </div>
-        <div class="col-md-2">
-        </div>
-        <div class="col-md-2">
-          <form id="gotoform" method="get" action="/sentences/evaluate.php">
-            <input type="hidden" name="p" value="1">
-            <input type="hidden" name="task_id" value="<?= $task->id ?>">
-
-            <?php if ($filtered) { ?>
-              <input type="hidden" name="term" value="<?= $search_term ?>" />
-              <input type="hidden" name="label" value="<?= $filter_label ?>" />
-            <?php } ?>
-
-            <input class="form-control go-to-page" id="gotopage" name="id" type="number" min="1" max="<?= $task_progress->total ?>" value="<?= $task_progress->current ?>">
-            <button type="submit" class="btn btn-xs btn-link">Go!</button>
-          </form>
-        </div>
-        
-      </div>
-      <div class="col-md-12">
-        <div class="col-md-offset-3 col-md-6">
-          <div class="progress" title="<?= $task_progress->completed . " of " . $task_progress->total . " senteces evaluated"; ?>" >
-            <div class="progress-bar" role="progressbar" aria-valuenow="<?= ($task_progress->completed / $task_progress->total) * 100 ?>"
-                  aria-valuemin="0" aria-valuemax="100" style="width:<?= ($task_progress->completed / $task_progress->total) * 100 ?>%">  
-              <span id="evaluate-percent"><?= round(($task_progress->completed / $task_progress->total) * 100, 2)?>%</span>
+        <div class="col-md-12">
+          <div class="col-md-offset-3 col-md-6">
+            <div class="progress" title="<?= $task_progress->completed . " of " . $task_progress->total . " senteces evaluated"; ?>" >
+              <div class="progress-bar" role="progressbar" aria-valuenow="<?= ($task_progress->completed / $task_progress->total) * 100 ?>"
+                    aria-valuemin="0" aria-valuemax="100" style="width:<?= ($task_progress->completed / $task_progress->total) * 100 ?>%">  
+                <span id="evaluate-percent"><?= round(($task_progress->completed / $task_progress->total) * 100, 2)?>%</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <?php } ?>
-      <!-- Modal -->
+      <?php } ?>
+
       <div id="evaluation-help" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg">
 
@@ -493,7 +506,7 @@ else {
       </div>
     </div>
   </div>
-  
+
     <?php
     require_once(TEMPLATES_PATH . "/footer.php");
     ?>
@@ -503,4 +516,3 @@ else {
     <script type="text/javascript" src="/js/evaluation.js"></script>
   </body>
 </html>
-
