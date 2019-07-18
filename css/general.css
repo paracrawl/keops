@@ -702,6 +702,10 @@ hr {
   .text-right-md {
     text-align: right !important;
   }
+
+  .mt-md {
+    margin-top: 2em;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -731,6 +735,23 @@ hr {
   .nav-tabs > li {
     float: none;
   }
+
+  .mb-xs {
+    margin-bottom: 1em;
+  }
+
+  .mt-xs {
+    margin-top: 0.5em;
+  }
+
+  .pt-xs {
+    padding-top: 0.5em;
+  }
+}
+
+.mx-0 {
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .number-container {
@@ -795,4 +816,12 @@ table.dataTable .actions .btn-link {
 table.dataTable .actions li a {
   display: flex;
   align-items: center;
+}
+
+.btn-link.disabled, .btn-link-lg.disabled {
+  color: dimgray;
+}
+
+.btn.disabled.active {
+  border-width: 0.25em;
 }

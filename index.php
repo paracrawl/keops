@@ -110,9 +110,6 @@ require_once(RESOURCES_PATH . "/session.php");
       <body>
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
       <div class="container">
-      <div id="header">
-        <h1>Welcome to KEOPS</h1>
-      </div>
         <?php
       if (isset($_SESSION["error"])) {
         ?>
@@ -162,7 +159,7 @@ require_once(RESOURCES_PATH . "/session.php");
           <h3>Your tasks</h3>
           <p>Check the status of the tasks assigned to you</p>
         </div>
-        <table id="user-tasks-table" class="table table-striped table-bordered" data-projectid="" cellspacing="0" width="100%">
+        <table id="user-tasks-table" class="table table-striped table-bordered display responsive nowrap" data-projectid="" cellspacing="0" width="100%">
           <thead>
             <tr>
               <th>ID</th>
@@ -172,7 +169,7 @@ require_once(RESOURCES_PATH . "/session.php");
               <th>Size</th>
               <th>Status</th>
               <th>Creation date</th>
-              <th>Actions</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -186,7 +183,7 @@ require_once(RESOURCES_PATH . "/session.php");
               <th>Size</th>              
               <th>Status</th>
               <th>Creation date</th>
-              <th>Actions</th>
+              <th></th>
             </tr>
           </tfoot>
         </table>

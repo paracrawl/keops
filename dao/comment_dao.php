@@ -18,8 +18,8 @@ class comment_dao {
      * Retrieves a comment given its name
      * and the pair it belongs to
      * 
-     * @param int $id Task ID
-     * @return \task_dto Task object or FALSE if not accessible
+     * @param int $pair ID of the pair of sentences the comment belongs to
+     * @return \task_dto Comment object or FALSE if not accessible
      */
     function getCommentById($pair, $name) {
         try {

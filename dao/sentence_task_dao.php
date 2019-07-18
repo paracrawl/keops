@@ -267,7 +267,7 @@ class sentence_task_dao {
         . "or s.source_text ILIKE :endingincolon or s.target_text ILIKE :endingincolon "
         . "or s.source_text ILIKE :enginginfullstop or s.target_text ILIKE :enginginfullstop "
         . "or s.source_text ILIKE :enginginsemicolon or s.target_text ILIKE :enginginsemicolon "
-        . "or s.source_text ILIKE :startingwithspace or s.target_text ILIKE :startingwithspace ))"
+        . "or s.source_text ILIKE :startingwithspace or s.target_text ILIKE :startingwithspace )"
         . "order by st.id asc limit 1 offset :offset;");
       
       $query->bindParam(':taskid', $task_id);

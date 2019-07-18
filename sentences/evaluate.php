@@ -132,40 +132,36 @@ else {
       </ul>
 
       <div class="row">
-        <div class="col-md-12" style="margin-bottom: 1em;">
-          <div class="page-header" style="padding-bottom: 0px;">
-            <div class="row">
-              <div class="col-sm-4" style="margin-bottom: 1em;">
-                <span class="h1">Task #<?php echo $task->id ?></span>
+        <div class="col-md-12 page-header row mx-0">
+          <div class="col-sm-4 col-xs-12">
+            <span class="h2">Task #<?php echo $task->id ?> <small><?= ($task_progress->completed / $task_progress->total) * 100 ?>% done</small></span>
+          </div>
+
+          <div class="col-sm-8 col-xs-12 text-right">
+            <form action="" class="search-form form-inline mt-xs">
+              <div class="form-group">
+                  <input type="hidden" name="task_id" value="<?= $task->id ?>" />
+                  <input type="hidden" name="p" value="1" />
+                  <input type="hidden" name="id" value="1" />
+
+                  <input class="form-control" id="search-term" name="term" value="<?php if (isset($search_term)) { echo $search_term; } ?>" placeholder="Search through sentences">
+
+                  <?php
+                      $labels = array("P", "L", "A", "T", "MT", "F", "V");
+                  ?>
+
+                  <select class="form-control" name="label">
+                    <option value="ALL">Everything</option>
+                    <?php
+                        foreach ($labels as $labelcode) { ?>
+                            <option value="<?php echo $labelcode; ?>" <?php if (isset($filter_label) && $labelcode == $filter_label) { echo "selected"; } ?>><?php echo $labelcode; ?> label</option>
+                        <?php }
+                    ?>
+                  </select>
+
+                  <button type=submit class="btn btn-primary" id="search-term-button">Search</button>
               </div>
-
-              <div class="col-sm-8 text-right">
-                <form action="" class="search-form form-inline">
-                  <div class="form-group">
-                      <input type="hidden" name="task_id" value="<?= $task->id ?>" />
-                      <input type="hidden" name="p" value="1" />
-                      <input type="hidden" name="id" value="1" />
-
-                      <input class="form-control" id="search-term" name="term" value="<?php if (isset($search_term)) { echo $search_term; } ?>" placeholder="Search through sentences">
-
-                      <?php
-                          $labels = array("P", "L", "A", "T", "MT", "F", "V");
-                      ?>
-
-                      <select class="form-control" name="label">
-                      <option value="ALL">Everything</option>
-                          <?php
-                              foreach ($labels as $labelcode) { ?>
-                                  <option value="<?php echo $labelcode; ?>" <?php if (isset($filter_label) && $labelcode == $filter_label) { echo "selected"; } ?>><?php echo $labelcode; ?> label</option>
-                              <?php }
-                          ?>
-                      </select>
-
-                      <button type=submit class="btn btn-primary" id="search-term-button">Search</button>
-                  </div>
-                </form>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
@@ -184,6 +180,7 @@ else {
             <?php if ($filtered) { ?>
               <div class="col-xs-12 col-md-12">
                 <div class="alert alert-warning" role="alert">
+                  <a href="?p=1&id=1&task_id=<?= $task->id ?>" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></a>
                   <strong>Sentences filtered!</strong>
                   <a href="?p=1&id=1&task_id=<?= $task->id ?>" class="alert-link">See all</a>
                 </div>
@@ -217,9 +214,6 @@ else {
               <div class="col-xs-12 col-md-12">
                 <div class="well"><?= $sentence->target_text ?></div>
               </div>
-              <div class="col-xs-12 col-md-12 text-right">
-                Pair #<?= $sentence->id ?>
-              </div>
             </div>
           </div>
 
@@ -236,43 +230,40 @@ else {
                 <?php } ?>
 
                 <div class="col-md-12">
-                  <div class="row vertical-align" style="margin-bottom: 1em;">
-                    <div class="col-sm-4">
-                      <h4>Annotation</h4>
+                  <div class="row vertical-align mt-xs" style="margin-bottom: 1em;">
+                    <div class="col-sm-4 col-xs-6">
+                      <h4 style="margin-top: 0px;">Annotation</h4>
                     </div>
-                    <div class="col-sm-8 text-right">
+                    <div class="col-sm-8 col-xs-6 text-right">
                       <div data-toggle="modal" data-target="#evaluation-help" class="guidelines">
                         Validation guidelines <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
                       </div>
                     </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-12">
+                  <div class="col-md-12" style="padding-bottom: 1em;">
                     <div class="row btn-group evaluation-btn-group" data-toggle="buttons">
                       <div class="col-md-12 col-xs-12">
                           <?php foreach (array_slice(sentence_task_dto::$labels, 0, count(sentence_task_dto::$labels) - 2) as $label) { ?>
-                            <a href="#tab_<?= $label['value'] ?>" data-toggle="tab" class="evaluation_tab_link">
-                              <label class="btn btn-primary wrong-eval <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>">
-                                <input type="radio" <?php if ($task->status == "DONE") { echo "disabled"; } ?> name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
+                            <a href="#tab_<?= $label['value'] ?>" class="evaluation_tab_link <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                              <label class="btn btn-primary wrong-eval <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                                <input type="radio" name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
                               </label>
                             </a>
-                            <!--<div class="radio wrong-eval" title="<?= $label['title'] ?>">
-                              <label><input <?php if ($task->status == "DONE") { echo "disabled"; } ?> required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" name="evaluation" value="<?= $label['value'] ?>"><?= underline($label['label'], $label['value']); ?></label>
-                            </div>-->
                           <?php } ?>
                       </div>
                       <div class="col-md-12 col-xs-12" style="margin-top: 1em;">
                           <?php foreach (array_slice(sentence_task_dto::$labels, -2, 1) as $label) { ?>
-                            <a href="#tab_<?= $label['value'] ?>" data-toggle="tab" class="evaluation_tab_link">
-                              <label class="btn btn-success valid-eval <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>">
-                                <input type="radio" <?php if ($task->status == "DONE") { echo "disabled"; } ?> name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
+                            <a href="#tab_<?= $label['value'] ?>" data-toggle="tab" class="evaluation_tab_link <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                              <label class="btn btn-success valid-eval <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                                <input type="radio" name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
                               </label>
                             </a>
                           <?php } ?>
                           <?php foreach (array_slice(sentence_task_dto::$labels, -1, 1) as $label) { ?>
-                            <a href="#tab_<?= $label['value'] ?>" data-toggle="tab" class="evaluation_tab_link">
-                              <label class="btn btn-warning pending-eval <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>">
-                                <input type="radio" <?php if ($task->status == "DONE") { echo "disabled"; } ?> name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
+                            <a href="#tab_<?= $label['value'] ?>" data-toggle="tab" class="evaluation_tab_link <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                              <label class="btn btn-warning pending-eval <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                                <input type="radio" name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
                               </label>
                             </a>
                           <?php } ?>
@@ -303,7 +294,7 @@ else {
                                 $option["text"] = str_replace("[SOURCE]", $project->source_lang_object->langname, $option["text"]);
                                 $option["text"] = str_replace("[TARGET]", $project->target_lang_object->langname, $option["text"]);
                                 ?>
-                              <label class="btn btn-default  <?= (($option_data != false) ? (($option_data->value == $option["value"]) ? "active" : "") : "") ?> ">
+                              <label class="btn btn-default  <?= (($option_data != false) ? (($option_data->value == $option["value"]) ? "active" : "") : "") ?> <?= ($task->status == "DONE") ? "disabled" : "" ?>">
                                 <input type="radio" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (isset($option_data->value) ? (($option_data->value == $option["value"]) ? "checked" : "") : "") ?> name="<?= $comment["name"] ?>" autocomplete="off" type="radio" value="<?= $option["value"] ?>"> <?= $option["text"] ?>
                               </label>
                               <?php } ?>
@@ -321,70 +312,45 @@ else {
           </div>
       </div>
 
-      <div class="row">
-        <div class="col-md-12 vertical-align" style="margin-top: 2em;">
-          <div class="col-md-4">
+      <div class="col-xs-12 col-md-12" style="margin-top: 4em;">
+        <div class="row">
+          <div class="col-md-2 col-md-push-6 col-xs-2 pt-xs">
+            <a class="btn btn-link-lg <?= ($task_progress->current-1 == 0) ? "disabled" : "" ?>" style="padding-left: 0em;" href="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current-1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>#top" tabindex="5" title="Go to the previous sentence"><span class="glyphicon glyphicon-arrow-left"></span> Previous</a>
+          </div>
+
+          <div class="col-md-4 col-md-push-6 col-xs-10 text-right">
+            <a href="/sentences/evaluate.php?task_id=<?= $task->id ?>#top" class="btn btn-link" title="Go to the first pending sentence">First pending</a>
+
+            <?php if ($task->status == "DONE") { ?>
+              <button id="evalutionsavebutton" data-next="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current+1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>#top" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" tabindex="5" title="Go to the next sentence">
+                Next <span class="glyphicon glyphicon-arrow-right"></span>
+              </button>
+            <?php } else { ?>
+              <button id="evalutionsavebutton" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" tabindex="5" title="Save this evaluation and go to the next sentence">Next <span class="glyphicon glyphicon-arrow-right"></span></button>
+            <?php } ?>
+          </div>
+
+          <div class="col-md-6 col-md-pull-6 col-xs-12 mt-xs">
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-5 col-md-offset-4 col-xs-12">
                 <form id="gotoform" method="get" action="/sentences/evaluate.php">
                   <input type="hidden" name="p" value="1">
                   <input type="hidden" name="task_id" value="<?= $task->id ?>">
-
-                  <?php if ($filtered) { ?>
-                    <input type="hidden" name="term" value="<?= $search_term ?>" />
-                    <input type="hidden" name="label" value="<?= $filter_label ?>" />
-                  <?php } ?>
-
-                  <input class="form-control go-to-page" id="gotopage" name="id" type="number" min="1" max="<?= $task_progress->total ?>" value="<?= $task_progress->current ?>">
-                  <button type="submit" class="btn btn-xs btn-link">Go!</button>
+                  
+                  <div class="input-group">
+                      <input type="number" name="id" class="form-control" value="<?= $task_progress->current ?>" min="1" max="<?= $task_progress->total ?>" />
+                      <div class="input-group-addon">of <?= $task_progress->total ?></div>
+                      <div class="input-group-btn">
+                      <button type="submit" class="btn btn-default">Go</button>
+                      </div>
+                  </div>
                 </form>
-                <!--<form>
-                  <input type="hidden" id="task_id" name="task_id" value="<?= $task->id ?>">
-                  <input class="form-control search-term" id="search-term" name="search">
-                  <button class="btn btn-xs btn-link" id="search-term-button" >Search</button>          
-                </form>-->
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="text-center text-increase">
-              <ul class="pagination pagination-sm">
-                <?php // TODO We are assuming that sentence ids are consecutive
-                if ($task_progress->current > 1) { ?>
-                <li>
-                  <a href="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current-1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>#top">Previous</a>
-                </li>
-                <?php } else { ?>
-                <li class="disabled"><a href="#">Previous</a></li>
-                <?php } ?>
-                
-                <li class="active"><a href="#"><?= $task_progress->current ?> / <?= $task_progress->total ?></a></li>
-                
-                <?php // TODO We are assuming that sentence ids are consecutive
-                if ($task_progress->current < $task_progress->total) { ?>
-                <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>#top">Next pending</a></li>
-                <?php } else { ?>
-                <li class="disabled"><a href="#">Next pending</a></li>
-                <?php } ?>
-              </ul>
-            </div>
-          </div>
-          <div class="col-md-4 text-right">
-            <button id="evalutionsavebutton" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" tabindex="5" title="Save this evaluation and go to the next sentence">Next <span class="glyphicon glyphicon-arrow-right"></span></button>
-          </div>
-        </div>
-        <div class="col-md-12">
-          <div class="col-md-offset-3 col-md-6">
-            <div class="progress" title="<?= $task_progress->completed . " of " . $task_progress->total . " senteces evaluated"; ?>" >
-              <div class="progress-bar" role="progressbar" aria-valuenow="<?= ($task_progress->completed / $task_progress->total) * 100 ?>"
-                    aria-valuemin="0" aria-valuemax="100" style="width:<?= ($task_progress->completed / $task_progress->total) * 100 ?>%">  
-                <span id="evaluate-percent"><?= round(($task_progress->completed / $task_progress->total) * 100, 2)?>%</span>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
       <?php } ?>
 

@@ -303,7 +303,6 @@ $(document).ready(function() {
       className: "actions",
       responsivePriority: 1,
       render: function (data, type, row) {
-
         return `<div class="btn-group">
                 <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span class="glyphicon glyphicon glyphicon-cog"></span>

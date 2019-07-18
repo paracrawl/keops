@@ -45,7 +45,7 @@ if (count($failedparams) == 0){
       $keys = array_keys($_POST);
       foreach (array_keys($_POST) as $key) {
         $matches = array();
-        if(preg_match("/^(". $sentence_task_dto->evaluation ."_.*)/i", $key, $matches)) {
+        if(preg_match("/^(". $sentence_task_dto->evaluation ."_.*)/", $key, $matches)) {
           $comment_dto = new comment_dto();
           $comment_dto->pair = $sentence_task_dto->id;
           $comment_dto->name = $matches[1];
@@ -62,7 +62,7 @@ if (count($failedparams) == 0){
       $search_term = filter_input(INPUT_POST, "term");
       $label = filter_input(INPUT_POST, "label");
       $p_id = filter_input(INPUT_POST, "p_id");
-      $str = "Location: /sentences/evaluate.php?task_id=" . $sentence_task_dto->task_id . "&p=1&id=" . ($p_id+1) . ((isset($search_term) && isset($label)) ? "&term=".$search_term."&label=".$label : "");
+      $str = "Location: /sentences/evaluate.php?task_id=" . $sentence_task_dto->task_id . "&p=1&id=" . ($p_id+1) . ((isset($search_term) && isset($label)) ? "&term=".$search_term."&label=".$label : "") . "#top";
       header($str);
       die();
     }
