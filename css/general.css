@@ -825,3 +825,43 @@ table.dataTable .actions li a {
 .btn.disabled.active {
   border-width: 0.25em;
 }
+
+/* Quick reference table */
+
+.quickreference .row {
+  margin-top: 0px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  border-bottom: solid 1px #ddd;
+}
+
+.quickreference .row:nth-child(2n+1) {
+  background-color: #f9f9f9;
+}
+
+.quickreference .row:last-child {
+  border-bottom: none;
+}
+
+#evaluation-help .modal-body {
+  padding: 0;
+}
+
+#evaluation-help .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+  border-top-color: transparent;
+  border-top-right-radius: 0px;
+}
+
+#evaluation-help .nav-tabs > li > a {
+  border-radius: 0;
+}
+
+.arrow-list {
+  list-style-type: none;
+  padding: 0px;
+}
+
+.arrow-list li:before {
+  content: "✔";
+  font-size: 20px;
+}

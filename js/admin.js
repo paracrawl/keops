@@ -244,8 +244,8 @@ $(document).ready(function() {
       render: function (data, type, row) {
           str = "";
           if (row[3] == "") {
-            str = `<li><a href="/admin/revoke_invite.php?id=${row[0]}"><span class="glyphicon glyphicon-remove red" aria-hidden="true" title=\"Revoke invitation\"></span></a></li>`;
-            str += `<li><a class="invitation-link" data-toggle="modal" data-target="#invite_token_modal"><span class="glyphicon glyphicon-link" aria-hidden="true" title="Get invitation link"></span></a></li>`;
+            str = `<li><a href="/admin/revoke_invite.php?id=${row[0]}"><span class="glyphicon glyphicon-remove red" aria-hidden="true" title=\"Revoke invitation\"></span> Revoke invitation</a></li>`;
+            str += `<li><a class="invitation-link" data-toggle="modal" data-target="#invite_token_modal"><span class="glyphicon glyphicon-link" aria-hidden="true" title="Get invitation link"></span> Get invitation link</a></li>`;
           }
           else {
             str = `<li class="disabled"><a href="#"><span class="glyphicon glyphicon-remove" aria-hidden="true" title="This user has already accepted the invitation"></span> Remove invitation</a></li>`; 

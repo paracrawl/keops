@@ -364,104 +364,120 @@ else {
               <h4 class="modal-title">How to annotate</h4>
             </div>
             <div class="modal-body">
-              <h3>Taking the right decision</h3>
-              <p><b>Only one type of error should be attributed to each TU.</b> The hierarchy presented below should be followed in the identification of errors:</p>
-              <ul>
-                <li>The <b>wrong language identification</b> is the most important error to tag, followed by <b>incorrect
-                  alignment</b> and then, <b>wrong tokenization</b>. These features are related to the automatic
-                  processing by the crawling / alignment tools. If any of these errors are detected, the translation
-                  itself will not be checked more in depth.
-                </li>
-                <li>When no errors in the format are found, the content of the TU should be checked, focusing first
-                  on potential <b>MT-translated content</b> (in this case all the TUs from such a source should be
-                  discarded). Then major <b>translation errors</b> must be noted. If none of the errors described above
-                  are detected and the translation contains minor differences in formulation it must be noted as
-                  <b>free translation</b>.
-                </li>
-              </ul>
-              <p>It is essential that the given <b>translation receives the benefit of the doubt</b>. Only clear errors should be indicated.</p>
-              <p>
-                In case you don't want to take a decision at the moment, you can go to next sentence and the current one will be kept as <b>pending</b>.
-                Otherwise, you can mark the parallel sentence as <b>valid translation</b>.
-              </p>
-              <h3>Type explanation</h3>
-              <p>Validators should use the following types/labels to tag problematic cases:</p>
-              <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover table-condensed">
-                  <thead>
-                    <tr>
-                      <th>Label</th>
-                      <th>Shortcut</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Wrong language identification</td>
-                      <td>L</td>
-                    </tr>
-                    <tr>
-                      <td>Incorrect alignment</td>
-                      <td>A</td>
-                    </tr>
-                    <tr>
-                      <td>Wrong tokenization</td>
-                      <td>T</td>
-                    </tr>
-                    <tr>
-                      <td>MT translation</td>
-                      <td>MT</td>
-                    </tr>
-                    <tr>
-                      <td>Translation error</td>
-                      <td>E</td>
-                    </tr>
-                    <tr>
-                      <td>Free translation</td>
-                      <td>F</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <p><b>Wrong language identification</b> means the crawler tools failed in identifying the right language.</p>
-              <p><b>Incorrect alignment</b> refers to segments having a different content due to wrong alignment.</p>
-              <p><b>Wrong tokenization</b> means the text has not been tokenized properly by the crawler tools (no separator between words).</p>
-              <p><b>MT translation</b> refers to content identified as having been translated through a Machine Translation system. A few hints to detect if this is the case:</p>
-              <ul>
-                <li>
-                  grammar errors such as gender and number agreement;
-                </li>
-                <li>
-                  words that are not to be translated (trademarks for instance Nike Air => if ‘Air’ is translated
-                  in the target language instead of being kept unmodified);
-                </li>
-                <li>
-                  inconsistencies (use of different words for referring to the same object/person);
-                </li>
-                <li>
-                  translation errors showing there is no human behind.
-                </li>
-              </ul>
-              
-              <p><b>Translation error</b> refers to:</p>
-              <ul>
-                <li>
-                  Lexical errors (omitted/added words or wrong choice of lexical item, due to misinterpretation
-                  or mistranslation),
-                </li>
-                <li>
-                  Syntactic error (grammatical errors such as problems with verb tense, coreference and
-                  inflection, misinterpretation of the grammatical relationships among the words in the text).
-                </li>
-                <li>
-                  Poor usage of language (awkward, unidiomatic usage of the target language and failure to use
-                  commonly recognized titles and terms). It could be due to MT translation.
-                </li>
+              <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#quickreference" role="tab" data-toggle="tab">Quick reference</a></li>
+                <li role="presentation"><a href="#examples" aria-controls="profile" role="tab" data-toggle="tab">Examples</a></li>
+                <li role="presentation"><a href="#moreabout" aria-controls="messages" role="tab" data-toggle="tab">More about labels</a></li>
               </ul>
 
-              <p><b>Free translation</b> means a non-literal translation in the sense of having the content completely
-                  reformulated in one language (for editorial purposes for instance). This is a correct translation but in a
-                  different style or form. This includes figures of speech such as metaphors, anaphors, etc. We consider
-                  it as important to tag such cases for data that will be used for training MT systems.</p>
+              <div style="padding: 15px;">
+                <div class="tab-content">
+                  <div role="tabpanel" class="tab-pane active" id="quickreference">
+                    <div class="row">
+                      <div class="col-md-12 col-xs-12">
+                        <p class="h4"><strong class="label label-info">Keep in mind</strong></p>
+                        <ul class="arrow-list">
+                          <li>
+                            Only one type of error should be attributed to each pair of sentences
+                          </li>
+                          <li>
+                            The given translation must receive the benefit of the doubt
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="col-md-12 col-xs-12 quickreference">
+                        <p class="h4"><strong class="label label-default">Hierarchy</strong></p>
+                        <div class="row">
+                          <div class="col-md-1 col-xs-2"><span class="number-container">1</span></div>
+                          <div class="col-md-4 col-xs-4">
+                            <strong>L</strong> <br />
+                            Wrong Language Identification</div>
+                          <div class="col-md-6 col-xs-6">The crawler tools failed in identifying the right language</div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-1 col-xs-2"><span class="number-container">2</span></div>
+                          <div class="col-md-4 col-xs-4">
+                            <strong>A</strong> <br />
+                            Incorrect Alignment
+                          </div>
+                          <div class="col-md-6 col-xs-6">There are segments having different content due to wrong alignment</div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-1 col-xs-2"><span class="number-container">3</span></div>
+                          <div class="col-md-4 col-xs-4">
+                            <strong>T</strong> <br />
+                            Wrong Tokenization</div>
+                          <div class="col-md-6 col-xs-6">The text has not been tokenized properly by the crawler tools (no separator between words)</div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-1 col-xs-2"><span class="number-container">4</span></div>
+                          <div class="col-md-4 col-xs-4">
+                            <strong>M</strong> <br />
+                            Mt-translated Content</div>
+                          <div class="col-md-6 col-xs-6">Content identified as a translation through a Machine Translation system</div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-1 col-xs-2"><span class="number-container">5</span></div>
+                          <div class="col-md-4 col-xs-4">
+                            <strong>E</strong> <br />
+                            Translation Errors</div>
+                          <div class="col-md-6 col-xs-6">Lexical mistakes, syntactic errors or poor use of language</div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-1 col-xs-2"><span class="number-container">6</span></div>
+                          <div class="col-md-4 col-xs-4">
+                            <strong>F</strong> <br />
+                            Free Translation</div>
+                          <div class="col-md-6 col-xs-6">Non-literal translation, that is, the content is completely reformulated in one language</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div role="tabpanel" class="tab-pane" id="examples">
+
+                  </div>
+                  <div role="tabpanel" class="tab-pane" id="moreabout">
+                  <div class="row">
+                      <div class="col-xs-12 col-md-12">
+                        <p>
+                          <strong>Wrong language identification</strong> means the crawler tools failed in identifying the right language.
+                        </p>
+
+                        <p>
+                          <strong>Incorrect alignment</strong> refers to segments having a different content due to wrong alignment.
+                        </p>
+
+                        <p>
+                          <strong>Wrong tokenization</strong> means the text has not been tokenized properly by the crawler tools (no separator between words).
+                        </p>
+
+                        <p>
+                          <strong>MT translation</strong> refers to content identified as having been translated through a Machine Translation system. A few hints to detect if this is the case:
+                          <ul>
+                            <li>Grammar errors such as gender and number agreement;</li>
+                            <li>Words that are not to be translated (trademarks for instance Nike Air => if ‘Air’ is translated in the target language instead of being kept unmodified);</li>
+                            <li>Inconsistencies (use of different words for referring to the same object/person);</li>
+                            <li>Translation errors showing there is no human behind.</li>
+                          </ul>
+                        </p>
+
+                        <p>
+                          <strong>Translation error</strong> refers to:
+                          <ul>
+                            <li>Lexical errors (omitted/added words or wrong choice of lexical item, due to misinterpretation or mistranslation),</li>
+                            <li>Syntactic error (grammatical errors such as problems with verb tense, coreference and inflection, misinterpretation of the grammatical relationships among the words in the text).</li>
+                            <li>Poor usage of language (awkward, unidiomatic usage of the target language and failure to use commonly recognized titles and terms). It could be due to MT translation.</li>
+                          </ul>
+                        </p>
+
+                        <p>
+                          <strong>Free translation</strong> means a non-literal translation in the sense of having the content completely reformulated in one language (for editorial purposes for instance). This is a correct translation but in a different style or form. This includes figures of speech such as metaphors, anaphors, etc. We consider it as important to tag such cases for data that will be used for training MT systems.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

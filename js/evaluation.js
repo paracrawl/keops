@@ -74,35 +74,6 @@ $(document).on('keypress', (e) => {
   }
 });
 
-let moved = false;
-let taps = 0;
-let threshold;
-$(document).on('touchend', (e) => {
-  if (!moved && $(e.target).is('.row, [class*="col-"]')) {
-    taps++;
-    if (threshold) clearTimeout(threshold);
-    threshold = setTimeout(() => {
-      tapShortcut(taps)
-      taps = 0;
-    }, 500);
-  }
-
-  moved = false;
-});
-
-$(document).on('touchmove', (e) => {
-  moved = true;
-})
-
-function tapShortcut(taps) {
-  console.log(taps);
-  let annotations = $(".evaluation_tab_link label");
-  console.log(annotations);
-  if (taps - 1 < annotations.length) {
-    $(annotations[taps - 1]).trigger('click');
-  }
-}
-
 /*
 $(document).keypress(function (e) {
 //  console.log(e.which);

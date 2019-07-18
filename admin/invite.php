@@ -31,10 +31,10 @@
       </div>
       <form class="form row" role="form" data-toggle="validator">
         <div class="form-group col-xs-12 col-md-12 row vertical-align">
-          <div class="col-sm-1">
+          <div class="col-sm-1 col-xs-2">
             <div class="number-container text-increase">1</div>
           </div>
-          <div class="col-sm-11">
+          <div class="col-sm-11 col-xs-10">
             <label for="email" class="control-label">Enter the email address of the user you want to invite</label> <br />
             <input id="email" type="email" name="email" class="form-control" aria-describedby="helpEmail" placeholder="Email address" maxlength="200" required="" autofocus="" tabindex="1">
             <div id="helpEmail" class="help-block with-errors">The email should be valid, since it will be used to notify the user</div>
@@ -42,10 +42,10 @@
         </div>
         <div class="form-group col-xs-12 col-md-12 row" style="margin-top: 2em;">
           <div class="invitation_token vertical-align">
-            <div class="col-sm-1">
+            <div class="col-sm-1 col-xs-2">
               <div class="number-container text-increase">2</div>
               </div>
-            <div class="col-sm-11" id="invitation_url_controls">
+            <div class="col-sm-11 col-xs-10" id="invitation_url_controls">
               <label for="token" class="control-label">Get the invitation URL</label> <br />
               <div class="input-group">
                 <div class="input-group-addon"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></div>
