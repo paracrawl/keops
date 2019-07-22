@@ -128,7 +128,6 @@ else {
         <li><a href="/index.php">Tasks</a></li>
         <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>" title="Go to the first pending sentence">Evaluation of <?= $project->name ?> </a></li>
         <li class="active">Task #<?= $task->id ?></li> 
-        <a class="pull-right"  href="mailto:<?= $project->owner_object->email  ?>" title="Contact Project Manager">Contact PM <span id="contact-mail-logo" class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
       </ul>
 
       <div class="row">
@@ -246,8 +245,8 @@ else {
                       <div class="col-md-12 col-xs-12">
                           <?php foreach (array_slice(sentence_task_dto::$labels, 0, count(sentence_task_dto::$labels) - 2) as $label) { ?>
                             <a href="#tab_<?= $label['value'] ?>" class="evaluation_tab_link <?= ($task->status == "DONE") ? "disabled" : "" ?>">
-                              <label class="btn btn-primary wrong-eval <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
-                                <input type="radio" name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
+                              <label class="btn btn-primary <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                                <input type="radio" name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= underline($label['label'], $label['value']) ?>
                               </label>
                             </a>
                           <?php } ?>
@@ -255,15 +254,15 @@ else {
                       <div class="col-md-12 col-xs-12" style="margin-top: 1em;">
                           <?php foreach (array_slice(sentence_task_dto::$labels, -2, 1) as $label) { ?>
                             <a href="#tab_<?= $label['value'] ?>" data-toggle="tab" class="evaluation_tab_link <?= ($task->status == "DONE") ? "disabled" : "" ?>">
-                              <label class="btn btn-success valid-eval <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
-                                <input type="radio" name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
+                              <label class="btn btn-success <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                                <input type="radio" name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= underline($label['label'], $label['value']) ?>
                               </label>
                             </a>
                           <?php } ?>
                           <?php foreach (array_slice(sentence_task_dto::$labels, -1, 1) as $label) { ?>
                             <a href="#tab_<?= $label['value'] ?>" data-toggle="tab" class="evaluation_tab_link <?= ($task->status == "DONE") ? "disabled" : "" ?>">
-                              <label class="btn btn-warning pending-eval <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
-                                <input type="radio" name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
+                              <label class="btn btn-warning <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                                <input type="radio" name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= underline($label['label'], $label['value']) ?>
                               </label>
                             </a>
                           <?php } ?>
@@ -370,7 +369,7 @@ else {
                 <li role="presentation"><a href="#moreabout" aria-controls="messages" role="tab" data-toggle="tab">More about labels</a></li>
               </ul>
 
-              <div style="padding: 15px;">
+              <div class="modal-body-content">
                 <div class="tab-content">
                   <div role="tabpanel" class="tab-pane active" id="quickreference">
                     <div class="row">
@@ -434,7 +433,97 @@ else {
                     </div>
                   </div>
                   <div role="tabpanel" class="tab-pane" id="examples">
-
+                    These examples use English as the source language and Spanish as the target language.
+                    <div class="row">
+                      <div class="col-xs-12 col-md-12 h5">
+                        <span class="label label-default">L</span> Wrong Language Identification
+                      </div>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>English</strong> <br />
+                          Even though his parents stood against God and his house was cursed, God still saved this child regardless of what his parents had done because the son was good.
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Spanish</strong> <br />
+                          Очевидно, этот текст не на испанском. Он написан на на русском я языке, язык России, очень интересная страна.
+                        </p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 col-md-12 h5">
+                      <span class="label label-default">A</span> Incorrect Alignment
+                      </div>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>English</strong> <br />
+                          Thursday, 01 November 2012 03:55
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Spanish</strong> <br />
+                          Miércoles, 14 Noviembre 2012 06:16
+                        </p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 col-md-12 h5">
+                      <span class="label label-default">T</span> Wrong Tokenization
+                      </div>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>English</strong> <br />
+                          The warranty is one year.It valid time start from the time you receive it.
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Spanish</strong> <br />
+                          La garantía es de un año. El tiempo válido comienza desde el momento en que lo recibes.
+                        </p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 col-md-12 h5">
+                        <span class="label label-default">M</span> MT-translated content
+                      </div>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>English</strong> <br />
+                          There must be another way.
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Spanish</strong> <br />
+                          Hay que haber otro camino.
+                        </p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 col-md-12 h5">
+                        <span class="label label-default">E</span> Translation Errors
+                      </div>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>English</strong> <br />
+                          Since I lived near Orbea… and nowadays I have a horrible relationship with his family.
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Spanish</strong> <br />
+                          Como vivía cerquita de Orbea… y hoy es el día en el que tengo una relación tremenda con su familia.
+                        </p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 col-md-12 h5">
+                      <span class="label label-default">F</span> Free translation
+                      </div>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>English</strong> <br />
+                          I'll make you two promises: a very good steak, medium rare, and the truth, which is very rare
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Spanish</strong> <br />
+                          Te prometo dos cosas: un sabroso bistec a la plancha y decir siempre la verdad, lo que es raro en mí
+                        </p>
+                      </div>
+                    </div>
                   </div>
                   <div role="tabpanel" class="tab-pane" id="moreabout">
                   <div class="row">
@@ -454,19 +543,19 @@ else {
                         <p>
                           <strong>MT translation</strong> refers to content identified as having been translated through a Machine Translation system. A few hints to detect if this is the case:
                           <ul>
-                            <li>Grammar errors such as gender and number agreement;</li>
-                            <li>Words that are not to be translated (trademarks for instance Nike Air => if ‘Air’ is translated in the target language instead of being kept unmodified);</li>
-                            <li>Inconsistencies (use of different words for referring to the same object/person);</li>
-                            <li>Translation errors showing there is no human behind.</li>
+                            <li>Grammar errors such as gender and number agreement</li>
+                            <li>Words that are not to be translated (trademarks for instance Nike Air => if ‘Air’ is translated in the target language instead of being kept unmodified)</li>
+                            <li>Inconsistencies (use of different words for referring to the same object/person)</li>
+                            <li>Translation errors showing there is no human behind</li>
                           </ul>
                         </p>
 
                         <p>
                           <strong>Translation error</strong> refers to:
                           <ul>
-                            <li>Lexical errors (omitted/added words or wrong choice of lexical item, due to misinterpretation or mistranslation),</li>
-                            <li>Syntactic error (grammatical errors such as problems with verb tense, coreference and inflection, misinterpretation of the grammatical relationships among the words in the text).</li>
-                            <li>Poor usage of language (awkward, unidiomatic usage of the target language and failure to use commonly recognized titles and terms). It could be due to MT translation.</li>
+                            <li>Lexical errors (omitted/added words or wrong choice of lexical item, due to misinterpretation or mistranslation)</li>
+                            <li>Syntactic error (grammatical errors such as problems with verb tense, coreference and inflection, misinterpretation of the grammatical relationships among the words in the text)</li>
+                            <li>Poor usage of language (awkward, unidiomatic usage of the target language and failure to use commonly recognized titles and terms). It could be due to MT translation</li>
                           </ul>
                         </p>
 
