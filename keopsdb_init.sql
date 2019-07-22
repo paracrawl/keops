@@ -92,7 +92,7 @@ CREATE TABLE keopsdb.SENTENCES_TASKS(
 );
 
 create table comments (
-	pair integer references sentences_tasks(id) ,
+	pair integer references keopsdb.SENTENCES_TASKS(id) ,
 	name varchar (140),
 	value varchar (255),
 	primary key (pair, name)
