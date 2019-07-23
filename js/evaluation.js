@@ -35,6 +35,8 @@ $(document).on('keypress', (e) => {
     if (e.which == 13) { // Intro
       $("#evalutionsavebutton").trigger('click');
     } else {
+      if ($("#evaluation-container").attr("data-done") == "1") return;
+
       $("#evaluationform :radio").removeAttr('checked');
       $("#evaluationform label.active").removeClass("active");
 

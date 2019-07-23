@@ -226,17 +226,17 @@ class project_dao {
  * Datatables columns for the Projects table
  */
 project_dao::$columns = array(
-    array('p.id', 'id',),
-    array('p.name', 'name',),
-    array('l1.langcode', 'source_lang',),
-    array('l2.langcode', 'target_lang',),
-    array('p.description', 'description',),
+    array('p.id', 'id'),
+    array('p.name', 'name'),
+    array('l1.langcode', 'source_lang'),
+    array('l2.langcode', 'target_lang'),
+    array('p.description', 'description'),
     array('p.creation_date', 'creation_date'),
-    array('u.name', 'owner',),
-    array('p.active', 'active',),
-    array('l1.langname', 'nsource_lang',),
-    array('l2.langname', 'ntarget_lang',),
-    array('u.id', 'user_id', ),
-    array('count(case when t.project_id > 0 then 1 end)', 'taskcount', ),
-    array("count(case when t.status = 'DONE' then 1 end)", 'taskdone',)            
+    array('u.name', 'owner'),
+    array('p.active', 'active'),
+    array('l1.langname', 'nsource_lang'),
+    array('l2.langname', 'ntarget_lang'),
+    array('u.id', 'user_id'),
+    array('count(case when t.project_id > 0 then 1 end)', 'taskcount'),
+    array("count(case when t.status = 'DONE' then 1 end)", 'taskdone')            
 );

@@ -360,6 +360,7 @@ $(document).ready(function() {
       {
         targets: 5,
         render: function (data, type, row) {
+          console.log(row);
           return formatDate(row[5]);
         }
       },
@@ -427,8 +428,18 @@ $(document).ready(function() {
           return '<a href="/corpora/corpus_preview.php?id='+row[0]+'" title="Preview corpus">'+row[4]+'</a>';
         }
       },
-
-
+      {
+        targets: 7,
+        render: function (data, type, row) {
+          return formatDate(row[6]);
+        }
+      },
+      {
+        targets: 8,
+        render: function (data, type, row) {
+          return formatDate(row[7]);
+        }
+      },
       {
         targets: 9,
         className: "actions",
@@ -436,10 +447,19 @@ $(document).ready(function() {
         searchable: false,
      render: function (data, type, row) {
           var actions_str = "";
-          actions_str += '<a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>';
-          actions_str += '<a href="mailto:' + row[11] + '" title="Contact assigned user"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>';
+          actions_str += '<li><a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Recap of the task</a><li>';
+          actions_str += '<li><a href="mailto:' + row[11] + '" title="Contact assigned user"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Contact assigned user</a><li>';
           actions_str += getRemoveTaskCode(row[0], row[2]) ;
-          return actions_str;
+
+          return `<div class="btn-group">
+                    <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="glyphicon glyphicon glyphicon-cog"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                      ${actions_str}
+                    </ul>
+                  </div>
+            `;
         }
       }
     ],
@@ -692,7 +712,7 @@ function clipboard(text) {
 
 function formatDate(datestring) {
   let date = new Date(datestring);
-  if (isNaN(date.getTime())) return "—";
+  if (datestring == null || isNaN(date.getTime())) return "—";
 
   let day = ((date.getDate() < 10) ? "0" + date.getDate() : date.getDate());
   let month = ((date.getMonth() + 1 < 10) ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1));
