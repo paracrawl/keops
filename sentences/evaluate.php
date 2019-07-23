@@ -115,7 +115,7 @@ else {
     ?>
   </head>
   <body>
-    <div id="evaluation-container" class="container evaluation">
+    <div id="evaluation-container" class="container evaluation" data-done="<?= ($task->status == "DONE") ?>">
       <?php require_once(TEMPLATES_PATH . "/header.php"); ?>
 
       <?php if ($task->status == "DONE") { ?>
@@ -131,7 +131,7 @@ else {
       </ul>
 
       <div class="row">
-        <div class="col-md-12 page-header row mx-0">
+        <div class="col-md-12 page-header row mx-0 mt-0">
           <div class="col-sm-4 col-xs-12">
             <span class="h2">Task #<?php echo $task->id ?> <small><?= ($task_progress->completed / $task_progress->total) * 100 ?>% done</small></span>
           </div>
@@ -311,7 +311,7 @@ else {
           </div>
       </div>
 
-      <div class="col-xs-12 col-md-12" style="margin-top: 4em;">
+      <div class="col-xs-12 col-md-12">
         <div class="row">
           <div class="col-md-2 col-md-push-6 col-xs-2 pt-xs">
             <a class="btn btn-link-lg <?= ($task_progress->current-1 == 0) ? "disabled" : "" ?>" style="padding-left: 0em;" href="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current-1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>#top" tabindex="5" title="Go to the previous sentence"><span class="glyphicon glyphicon-arrow-left"></span> Previous</a>
@@ -385,55 +385,56 @@ else {
                         </ul>
                       </div>
                       <div class="col-md-12 col-xs-12 quickreference">
-                        <p class="h4"><strong class="label label-default">Hierarchy</strong></p>
+                        <p class="h4"><strong class="label label-default">Error hierarchy</strong></p>
                         <div class="row">
-                          <div class="col-md-1 col-xs-2"><span class="number-container">1</span></div>
                           <div class="col-md-4 col-xs-4">
-                            <strong>L</strong> <br />
-                            Wrong Language Identification</div>
-                          <div class="col-md-6 col-xs-6">The crawler tools failed in identifying the right language</div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-1 col-xs-2"><span class="number-container">2</span></div>
-                          <div class="col-md-4 col-xs-4">
-                            <strong>A</strong> <br />
-                            Incorrect Alignment
+                            <span class="number-container number-container-small">1</span>
+                            <strong>Wrong Language Identification</strong>
                           </div>
-                          <div class="col-md-6 col-xs-6">There are segments having different content due to wrong alignment</div>
+                          <div class="col-md-8 col-xs-6">The crawler tools failed in identifying the right language</div>
                         </div>
                         <div class="row">
-                          <div class="col-md-1 col-xs-2"><span class="number-container">3</span></div>
                           <div class="col-md-4 col-xs-4">
-                            <strong>T</strong> <br />
-                            Wrong Tokenization</div>
-                          <div class="col-md-6 col-xs-6">The text has not been tokenized properly by the crawler tools (no separator between words)</div>
+                            <span class="number-container number-container-small">2</span>
+                            <strong>Incorrect Alignment</strong>
+                          </div>
+                          <div class="col-md-8 col-xs-6">There are segments having different content due to wrong alignment</div>
                         </div>
                         <div class="row">
-                          <div class="col-md-1 col-xs-2"><span class="number-container">4</span></div>
                           <div class="col-md-4 col-xs-4">
-                            <strong>M</strong> <br />
-                            Mt-translated Content</div>
-                          <div class="col-md-6 col-xs-6">Content identified as a translation through a Machine Translation system</div>
+                            <span class="number-container number-container-small">3</span>
+                            <strong>Wrong Tokenization</strong>
+                            </div>
+                          <div class="col-md-8 col-xs-6">The text has not been tokenized properly by the crawler tools (no separator between words)</div>
                         </div>
                         <div class="row">
-                          <div class="col-md-1 col-xs-2"><span class="number-container">5</span></div>
                           <div class="col-md-4 col-xs-4">
-                            <strong>E</strong> <br />
-                            Translation Errors</div>
-                          <div class="col-md-6 col-xs-6">Lexical mistakes, syntactic errors or poor use of language</div>
+                              <span class="number-container number-container-small">4</span>
+                              <strong>Mt-translated Content</strong>
+                            </div>
+                          <div class="col-md-8 col-xs-6">Content identified as a translation through a Machine Translation system</div>
                         </div>
                         <div class="row">
-                          <div class="col-md-1 col-xs-2"><span class="number-container">6</span></div>
                           <div class="col-md-4 col-xs-4">
-                            <strong>F</strong> <br />
-                            Free Translation</div>
-                          <div class="col-md-6 col-xs-6">Non-literal translation, that is, the content is completely reformulated in one language</div>
+                            <span class="number-container number-container-small">5</span>
+                            <strong>Translation Errors</strong>
+                          </div>
+                          <div class="col-md-8 col-xs-6">Lexical mistakes, syntactic errors or poor use of language</div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4 col-xs-4">
+                            <span class="number-container number-container-small">6</span>
+                            <strong>Free Translation</strong>
+                          </div>
+                          <div class="col-md-8 col-xs-6">Non-literal translation, that is, the content is completely reformulated in one language</div>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div role="tabpanel" class="tab-pane" id="examples">
-                    These examples use English as the source language and Spanish as the target language.
+                    <p>
+                      These examples use English as the source language and Spanish as the target language.
+                    </p>
                     <div class="row">
                       <div class="col-xs-12 col-md-12 h5">
                         <span class="label label-default">L</span> Wrong Language Identification
