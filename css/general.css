@@ -24,9 +24,14 @@ body > .container {
 }
 
 .home-body{
-  margin-top: 50px;
-  margin-bottom: 80px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
+
+.home-body > .container {
+  margin-bottom: 0px;
+}
+
 .form-horizontal .checkbox {
   margin-top: 4px;
   width: 20px;
@@ -88,14 +93,21 @@ footer .prompsit-gradient {
 }
 
 /* Signin Form */
-.form-signin {
-  max-width: 330px;
-  padding: 15px;
+.signin-page {
+  max-width: 450px;
   margin: 0 auto;
 }
+
+.form-signin {
+  padding: 3em;
+  border: solid 1px #dadce0;
+  border-radius: 5px 5px 5px 5px;
+}
+
 .form-signin .checkbox {
   font-weight: normal;
 }
+
 .form-signin .form-control {
   position: relative;
   height: auto;
@@ -105,8 +117,28 @@ footer .prompsit-gradient {
   padding: 10px;
   font-size: 16px;
 }
+
 .form-signin .form-control:focus {
   z-index: 2;
+}
+
+.signin-title {
+  text-align: center;
+}
+
+.signin-title img {
+  height: 64px;
+}
+
+.signin-title .h3 {
+  margin-top: 0px;
+  margin-bottom: 1em;
+}
+
+.signin-page footer {
+  background: transparent;
+  padding: 0px;
+  margin-top: 10px;
 }
 
 /* Evaluate */
@@ -209,72 +241,51 @@ table .progress span, #evaluate-percent {
 /* Homepage */
 .home-container{
   width:100%;
-  margin-right: 6%;
 }
 
 .full-width{
-  position: relative;
-  right: 0;
-  left: 0;
-  margin: 0;
-  padding: 0;
   width: 100%;
-  /*background-color: #0071BC;*/
   background: #FFFFFF url(../img/paracrawl-background.jpg) no-repeat right center;
   background-size: cover;
-/*  color: white;
-  background-size: cover;*/
-height: 20em;
-display: table;
 }
-.home-banner{
-/*  color: white;
-  margin: 0 auto;
-  padding-bottom: 30px;*/
-/*  min-height: 300px;*/
-  display: table-cell;
-  padding-left: 10%;
-  vertical-align: middle;
+
+.home-banner {
+  padding: 2em;
 }
 
 .home-banner img{
-  position: relative;
-  top: 44px;
+  height: 48px;
 }
 
-.home-banner h1{
-/*  position: relative;*/
-/*  padding-top: 6%;*/
-/*  padding-left: 6%;*/
-  
+.home-banner h1 {
   color: white;
   text-align: left;
   font-size: 34px;
   line-height: 41px;
   font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
   font-weight: bold;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 .home-banner h2{
-/*  position: relative;*/
-/*  padding-top: 44px;*/
-/*  padding-left: 6%;*/
-  
   color: white;
   text-align: left;
   font-size: 30px;
   line-height: 41px;
   font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
   font-style: italic;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 
-.home-container .card .glyphicon{
+.home-body .card .glyphicon{
     font-size: 60px;
     color: #4D4D4D
 }
 
-.home-container .card{
+.home-body .card{
   background: rgba(255,255,255,0.7);
   min-height: 250px;
   padding: 20px;
@@ -754,6 +765,10 @@ hr {
   margin-right: 0;
 }
 
+.mt-0 {
+  margin-top: 0;
+}
+
 .number-container {
   background-color: #a8a6a6;
   width: 100%;
@@ -764,6 +779,14 @@ hr {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.number-container-small {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  text-align: center;
+  margin-right: 0.25em;
 }
 
 /* Datatables */
@@ -830,8 +853,8 @@ table.dataTable .actions li a {
 
 .quickreference .row {
   margin-top: 0px;
-  padding-top: 14px;
-  padding-bottom: 14px;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
   border-bottom: solid 1px #ddd;
 }
 
@@ -843,11 +866,37 @@ table.dataTable .actions li a {
   border-bottom: none;
 }
 
+#examples > .row:first-child > div:first-child {
+  border-radius: 5px 5px 0px 0px;
+}
+
+#examples > .row > div:first-child {
+  background-color: #eee;
+  padding: 0.75em;
+  padding-left: 16px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+#examples .label {
+  display: inline;
+  vertical-align: middle;
+  margin-right: 0.5em;
+}
+
+#examples > .row p {
+  margin-top: 0.5em;
+}
+
 #evaluation-help .modal-body {
   padding: 0;
 }
 
-#evaluation-help .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+#evaluation-help .modal-body-content {
+  padding: 15px 15px 0px 15px;
+}
+
+#evaluation-help .nav-tabs > li.active > a, #evaluation-help .nav-tabs > li.active > a:focus, #evaluation-help .nav-tabs > li.active > a:hover {
   border-top-color: transparent;
   border-top-right-radius: 0px;
 }
@@ -864,4 +913,27 @@ table.dataTable .actions li a {
 .arrow-list li:before {
   content: "✔";
   font-size: 20px;
+}
+
+.outline {
+    background-color: transparent;
+    color: inherit;
+    transition: all .25s;
+}
+
+.outline.inverted {
+  color: white;
+}
+
+.outline:hover {
+    color: #fff;
+    border-color: transparent;
+}
+
+.outline.inverted:hover {
+  color: #4d4d4d;
+}
+
+.btn-link.inverted {
+  color: white;
 }

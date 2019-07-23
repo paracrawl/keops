@@ -22,87 +22,65 @@ require_once(RESOURCES_PATH . "/session.php");
       if  (!isSignedIn()) {
         ?>
     <body class="home-body">    
-    <?php require_once(TEMPLATES_PATH . "/home-header.php"); ?>
-    <div class="home-container">
-        <div class="full-width">
-          <div class="home-banner text-center">
-            <h1>Welcome to KEOPS</h1>
-            <h2>Keen Evaluation Of Parallel Sentences</h2>
+      <div class="full-width">
+          <div class="container">
+            <div class="home-banner row">
+              <div class="col-xs-10 col-md-10">
+                <img src="img/pyramids-icon-white.png" alt="" />
+                <h1>Welcome to KEOPS</h1>
+                <h2>Keen Evaluation Of Parallel Sentences</h2>
+              </div>
 
-  <!--            <img class="img-fluid mb-5 d-block mx-auto" src="pyramids-icon-white.png" alt="">-->
+              <div class="col-xs-10 col-md-10" style="padding-top: 4em;">
+                <a href="/signin.php" class="btn btn-default outline inverted">Sign in</a>
+                <a href="/signup.php" class="btn btn-link inverted">Sign up with a token</a>
+              </div>
+            </div>
           </div>
-<!--          <div class="paracrawl">
-            <div class="paracrawl-text"> powered by paracrawl</div>
-            <div class="paracrawl-logo"><img src="paracraw-logo135x62.png"></div>
-          </div>-->
-        </div>
-          <div class="container text-center" id="paracrawl-logos-container">
-            <div class="inline-img"><!-- image -->
-              <a href="http://paracrawl.eu/"  target="_blank"> <img src="../img/paracrawl-logo135x62.png" alt=""></a>
-            </div> 
-            <div class="inline-img">
-              <a href="https://ec.europa.eu/inea/en/connecting-europe-facility" target="_blank"><!-- image --><img class="block"  src="../img/eu-logo.png" alt=""></a>          
-          </div>
-          </div>
-        <div class="grey-background container">
+      </div>
+
+      <div class="grey-background container">
           <div class="card-container row">         
             <div class="col-md-3">
               <div class="card text-center  ">
-    <!--            <img class="card-img-top" src="http://placehold.it/500x325" alt="">-->
                 <span class="glyphicon glyphicon-eye-open"></span>
                 <div class="card-body">
                   <h4 class="card-title">See your tasks</h4>
                   <p class="card-text">Your personal dashboard will tell you which tasks you've been assigned and practical details about them.</p>
                 </div>
-                <!--            <div class="card-footer">
-                              <a href="#" class="btn btn-primary">Find Out More!</a>
-                            </div>-->
               </div>
             </div>
 
             <div class="col-md-3">
               <div class="card text-center  ">
-    <!--            <img class="card-img-top" src="http://placehold.it/500x325" alt="">-->
                 <span class="glyphicon glyphicon-pencil"></span>
                 <div class="card-body">
                   <h4 class="card-title">Action!</h4>
                   <p class="card-text">Start or resume an evaluation task, read the guidelines, annotate sentences, send comments and contact your PM in case of doubt.</p>
                 </div>
-                <!--            <div class="card-footer">
-                              <a href="#" class="btn btn-primary">Find Out More!</a>
-                            </div>-->
               </div>
             </div>
 
             <div class="col-md-3">
               <div class="card text-center  ">
-    <!--            <img class="card-img-top" src="http://placehold.it/500x325" alt="">-->
                 <span class="glyphicon glyphicon-stats"></span>
                 <div class="card-body">
                   <h4 class="card-title">Project stats</h4>
                   <p class="card-text">At any point of completion of a task, see its status and a recap of the work done. Download your own results.</p>
                 </div>
-                <!--            <div class="card-footer">
-                              <a href="#" class="btn btn-primary">Find Out More!</a>
-                            </div>-->
               </div>
             </div>
             <div class="col-md-3">
               <div class="card text-center">
-    <!--            <img class="card-img-top" src="http://placehold.it/500x325" alt="">-->
                 <span class="glyphicon glyphicon-ok"></span>
                 <div class="card-body">
                   <h4 class="card-title">Done!</h4>
                   <p class="card-text">Communicate with your PM whenever you need it. Easily send your finished task.</p>
                 </div>
-                <!--            <div class="card-footer">
-                              <a href="#" class="btn btn-primary">Find Out More!</a>
-                            </div>-->
               </div>
             </div>
           </div>
         </div>
-
         <?php
       }else{
         
