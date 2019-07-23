@@ -201,15 +201,14 @@ class task_dao {
    */
   function getDatatablesTasks($request) {
     try {
-      return json_encode(DatatablesProcessing::complex( $request, $this->conn,
+      $dtProc = new DatatablesProcessing($this->conn);
+      return json_encode($dtProc->process(self::$columns_project_tasks,
               "tasks as t left join projects as p on p.id = t.project_id left join users as u on u.id = t.assigned_user "
               . "left join sentences_tasks as st on t.id = st.task_id " 
-              . "left join corpora as c on c.id = t.corpus_id " ,
-              "t.id",
-              self::$columns_project_tasks,
-              null,
+              . "left join corpora as c on c.id = t.corpus_id ",
+              $request,
               "project_id=" . $request['p_id'],
-              ["t.id", "u.name", "p.id", "u.id", "c.name"]));
+              "t.id, u.name, p.id, u.id, c.name"));
     } catch (Exception $ex) {
       throw new Exception("Error in task_dao::getDatatablesTasks : " . $ex->getMessage());
     }
@@ -224,14 +223,11 @@ class task_dao {
      */
     function getDatatablesTasksByCorpus($request) {
     try {
-      return json_encode(DatatablesProcessing::complex( $request, $this->conn,
-              "tasks as t left join projects as p on p.id = t.project_id left join users as u on u.id = t.assigned_user "
-              . "left join corpora as c on c.id = t.corpus_id ",
-              "t.id",
-              self::$columns_corpus_tasks,
-              null,
-              "corpus_id=" . $request['corpus_id'],
-              null));
+      $dtProc = new DatatablesProcessing($this->conn);
+      return json_encode($dtProc->process(self::$columns_corpus_tasks,
+              "tasks as t left join projects as p on p.id = t.project_id left join users as u on u.id = t.assigned_user " . "left join corpora as c on c.id = t.corpus_id ",
+              $request,
+              "corpus_id=" . $request['corpus_id']));
     } catch (Exception $ex) {
       throw new Exception("Error in task_dao::getDatatablesTasksByCorpus : " . $ex->getMessage());
     }
@@ -325,7 +321,9 @@ class task_dao {
    */
   function getDatatablesUserTasks($request, $user_id) {
     try {
-      return json_encode(DatatablesProcessing::complex( $request, $this->conn,
+      $dtProc = new DatatablesProcessing($this->conn);
+      return json_encode($dtProc->process(
+              self::$columns_user_tasks,
               "tasks as t "
               . "left join projects as p on p.id = t.project_id "
               . "left join users as u on u.id = t.assigned_user "
@@ -333,11 +331,9 @@ class task_dao {
               . "left join langs as l2 on l2.id = p.target_lang "
               . "left join users as us on us.id = p.owner "
               . "left join sentences_tasks as st on t.id = st.task_id",
-              "t.id",
-              self::$columns_user_tasks,
-              null,
-              "t.assigned_user=" . $user_id ,
-              ["t.id", "p.name", "l1.langcode", "l2.langcode", "us.email"]));
+              $request,
+              "t.assigned_user=" . $user_id,
+              "t.id, p.name, l1.langcode, l2.langcode, us.email"));
     } catch (Exception $ex) {
       throw new Exception("Error in task_dao::getDatatablesUserTasks : " . $ex->getMessage());
     }
@@ -348,62 +344,47 @@ class task_dao {
  * Datatables columns for the Project Tasks table
  */
 task_dao::$columns_project_tasks = array(
-    array( 'db' => 't.id', 'alias' => 'id', 'dt' => 0 ),
-    array( 'db' => 'u.name', 'alias' => 'name', 'dt' => 1 ),
-    array( 'db' => 'size', 'dt' => 2 ),
-    array( 'db' => 'c.name', 'alias' => 'corpusname', 'dt' => 3 ),
-    array( 'db' => 't.status', 'alias' => 'status', 'dt' => 4 ),
-    array( 'db' => 't.creation_date', 'alias' => 'creation_date', 'dt' => 5,
-        'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
-    array( 'db' => 't.assigned_date', 'alias' => 'assigned_date', 'dt' => 6,
-        'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
-    array( 'db' => 't.completed_date', 'alias' => 'completed_date', 'dt' => 7,
-        'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
-    array( 'db' => 'p.id', 'alias' => 'p_id', 'dt' => 8 ),
-    array( 'db' => 'u.id', 'alias' => 'u_id', 'dt' => 9),
-    array( 'db' => "count(case when st.evaluation!='P' then 1 end)", 'alias' => 'completedsentences', 'dt' => 10),
-    array( 'db' => 'u.email', 'alias' => 'email', 'dt' => 11),
-    array( 'db' => 't.corpus_id', 'alias' => 'corpus_id', 'dt' => 12 )
-
-              
+    array('t.id', 'id'),
+    array('u.name', 'name'),
+    array('size'),
+    array('c.name', 'corpusname'),
+    array('t.status', 'status'),
+    array('t.creation_date', 'creation_date'),
+    array('t.assigned_date', 'assigned_date'),
+    array('t.completed_date', 'completed_date'),
+    array('p.id', 'p_id'),
+    array('u.id', 'u_id'),
+    array("count(case when st.evaluation!='P' then 1 end)", 'completedsentences'),
+    array('u.email', 'email'),
+    array('t.corpus_id', 'corpus_id')
 );
 
 /**
 * Datatables columns for the User Tasks table 
 */
 task_dao::$columns_user_tasks = array(
-    array( 'db' => 't.id', 'alias' => 'id', 'dt' => 0 ),
-    array( 'db' => 'p.name', 'alias' => 'name', 'dt' => 1 ),
-    array( 'db' => 'l1.langcode', 'alias' => 'source_lang', 'dt' => 2 ),
-    array( 'db' => 'l2.langcode', 'alias' => 'target_lang', 'dt' => 3 ),
-    array( 'db' => 'size', 'dt' => 4 ),
-    array( 'db' => 't.status', 'alias' => 'status', 'dt' => 5 ),
-    array( 'db' => 't.creation_date', 'alias' => 'creation_date', 'dt' => 6,
-        'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
-    array( 'db' => "count(case when st.evaluation!='P' then 1 end)", 'alias' => 'sentencescompleted', 'dt' => 7),
-    array( 'db' => 'us.email', 'alias' => 'email', 'dt' => 8 )
+    array('t.id', 'id'),
+    array('p.name', 'name'),
+    array('l1.langcode', 'source_lang'),
+    array('l2.langcode', 'target_lang'),
+    array('size'),
+    array('t.status', 'status'),
+    array('t.creation_date', 'creation_date'),
+    array("count(case when st.evaluation!='P' then 1 end)", 'sentencescompleted'),
+    array('us.email', 'email')
 );
 
 /**
  * Datatables columns for the Corpus Tasks table
  */        
 task_dao::$columns_corpus_tasks = array(   
-    array( 'db' => 't.id', 'alias' => 'id', 'dt' => 0 ),
-    array( 'db' => 'p.name', 'alias' => 'p_name', 'dt' => 1 ),   
-    array( 'db' => 'u.name', 'alias' => 'name', 'dt' => 2 ),    
-    array( 'db' => 't.size', 'alias' => 'size',  'dt' => 3 ),
-    array( 'db' => 'c.name', 'alias' => 'corpusname', 'dt' => 4 ),
-    array( 'db' => 't.status', 'alias' => 'status', 'dt' => 5 ),
-    array( 'db' => 't.creation_date', 'alias' => 'creation_date', 'dt' => 6,
-        'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
-    array( 'db' => 't.assigned_date', 'alias' => 'assigned_date', 'dt' => 7,
-        'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
-    array( 'db' => 't.completed_date', 'alias' => 'completed_date', 'dt' => 8,
-        'formatter' => function ($d, $row) { return getFormattedDate($d); } )
-//    array( 'db' => 'p.id', 'alias' => 'p_id', 'dt' => 8 ),
-//    array( 'db' => 'u.id', 'alias' => 'u_id', 'dt' => 9),
-//    array( 'db' => "count(case when st.evaluation!='P' then 1 end)", 'alias' => 'completedsentences', 'dt' => 10),
-//    array( 'db' => 'u.email', 'alias' => 'email', 'dt' => 11),
-    
-  );
-        
+    array('t.id', 'id'),
+    array('p.name', 'p_name'),   
+    array('u.name', 'name'),    
+    array('t.size', 'size',),
+    array('c.name', 'corpusname'),
+    array('t.status', 'status'),
+    array('t.creation_date', 'creation_date'),
+    array('t.assigned_date', 'assigned_date'),
+    array('t.completed_date', 'completed_date')
+);

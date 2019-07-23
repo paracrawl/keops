@@ -248,7 +248,8 @@ class language_dao {
    */
   function getDatatablesLanguages($request) {
     try {
-      return json_encode(DatatablesProcessing::simple( $request, $this->conn, "langs", "id", self::$columns ));
+      $dtProc = new DatatablesProcessing($this->conn);
+      return json_encode($dtProc->process(self::$columns, "langs", $request));
     } catch (Exception $ex) {
       throw new Exception("Error in language_dao::getDatatablesLanguages : " . $ex->getMessage());
     }
@@ -259,7 +260,7 @@ class language_dao {
  * Datatables columns for the Languages table 
  */
 language_dao::$columns = array(
-  array( 'db' => 'id', 'dt' => 0 ),
-  array( 'db' => 'langcode', 'dt' => 1 ),
-  array( 'db' => 'langname', 'dt' => 2 )
+  array('id'),
+  array('langcode'),
+  array('langname')
 );

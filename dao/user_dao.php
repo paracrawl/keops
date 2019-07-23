@@ -229,8 +229,8 @@ class user_dao {
    */
   function getDatatablesUsers($request) {
     try {
-
-      return json_encode(DatatablesProcessing::simple( $request, $this->conn, "users", "id", self::$columns ));
+      $dtProc = new DatatablesProcessing($this->conn);
+      return json_encode($dtProc->process(self::$columns, "users", $request));
     } catch (Exception $ex) {
       throw new Exception("Error in user_dao::getDatatablesUsers : " . $ex->getMessage());
     }
@@ -241,13 +241,10 @@ class user_dao {
  * Datatables columns for the  Users table 
  */
 user_dao::$columns = array(
-    array( 'db' => 'id', 'dt' => 0 ),
-    array( 'db' => 'name', 'dt' => 1 ),
-    array( 'db' => 'email', 'dt' => 2 ),
-    array(
-        'db'        => 'creation_date',
-        'dt'        => 3,
-        'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
-    array( 'db' => 'role', 'dt' => 4 ),
-    array( 'db' => 'active', 'dt' => 5)
+    array('id'),
+    array('name'),
+    array('email'),
+    array('creation_date'),
+    array('role'),
+    array('active')
 );

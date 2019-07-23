@@ -141,10 +141,8 @@ class invite_dao {
      */
     function getDatatablesInvited($request) {
     try {
-      return json_encode(DatatablesProcessing::simple( $request, $this->conn,
-              "tokens as t left join users u on u.id = t.admin",
-              "t.id",
-              self::$columns ));
+      $dtProc = new DatatablesProcessing($this->conn);
+      return json_encode($dtProc->process(self::$columns, "tokens as t left join users u on u.id = t.admin", $request));
     } catch (Exception $ex) {
       throw new Exception("Error in invite_dao::getDatatablesInvited : " . $ex->getMessage());
     }
@@ -156,17 +154,11 @@ class invite_dao {
  * Datatables columns for the invitations table
  */
 invite_dao::$columns = array(
-  array( 'db' => 't.id', 'alias' => 'id', 'dt' => 0 ),
-  array( 'db' => 't.email', 'alias' => 'email', 'dt' => 1 ),
-  array(
-      'db'        => 't.date_sent', 'alias' => 'date_sent', 
-      'dt'        => 2,
-      'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
-  array(
-      'db' => 't.date_used', 'alias' => 'date_used', 
-      'dt' => 3,
-      'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
-  array( 'db' => 't.token', 'alias' => 'token', 'dt' => 4 ),
-  array( 'db' => 'u.name', 'alias' => 'name', 'dt' => 5 ),
-  array( 'db' => 't.admin', 'alias' => 'admin', 'dt' => 6 )
+  array('t.id', 'id'),
+  array('t.email', 'email'),
+  array('t.date_sent', 'date_sent'),
+  array('t.date_used', 'date_used'),
+  array('t.token', 'token'),
+  array('u.name', 'name'),
+  array('t.admin', 'admin')
 );

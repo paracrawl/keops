@@ -124,10 +124,10 @@ class corpus_dao {
    */
   function getDatatablesCorpora($request) {
     try {
-      return json_encode(DatatablesProcessing::simple( $request, $this->conn,
+      $dtProc = new DatatablesProcessing($this->conn);
+      return json_encode($dtProc->process(self::$columns,
               "corpora as c left join langs as l1 on c.source_lang = l1.id left join langs as l2 on c.target_lang = l2.id",
-              "c.id",
-              self::$columns ));
+              $request));
     } catch (Exception $ex) {
       throw new Exception("Error in corpus_dao::getDatatablesCorpora : " . $ex->getMessage());
     }
@@ -310,14 +310,13 @@ class corpus_dao {
  * Datatables columns for the Corpus table
  */
 corpus_dao::$columns = array(
-    array( 'db' => 'c.id', 'alias' => 'id', 'dt' => 0 ),
-    array( 'db' => 'c.name', 'alias' => 'name', 'dt' => 1 ),
-    array( 'db' => 'l1.langcode', 'alias' => 'source_lang', 'dt' => 2 ),
-    array( 'db' => 'l2.langcode', 'alias' => 'target_lang', 'dt' => 3 ),
-    array( 'db' => 'c.lines', 'alias' => 'lines', 'dt' => 4 ),
-    array( 'db' => 'c.creation_date', 'alias' => 'creation_date', 'dt' => 5,
-        'formatter' => function ($d, $row) { return getFormattedDate($d); } ),
-    array( 'db' => 'c.active', 'alias' => 'active', 'dt' => 6 ),
-    array( 'db' => 'l1.langname', 'alias' => 'nsource_lang', 'dt' => 7 ),
-    array( 'db' => 'l2.langname', 'alias' => 'ntarget_lang', 'dt' => 8 )
+    array('c.id', 'id'),
+    array('c.name', 'name'),
+    array('l1.langcode', 'source_lang'),
+    array('l2.langcode', 'target_lang'),
+    array('c.lines', 'lines'),
+    array('c.creation_date', 'creation_date'),
+    array('c.active', 'active'),
+    array('l1.langname', 'nsource_lang'),
+    array('l2.langname', 'ntarget_lang')
 );
