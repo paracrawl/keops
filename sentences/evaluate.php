@@ -37,8 +37,8 @@ $tabs = (object) [
       "name" => "MT_direction",
       "text" => "MT translation",
       "options" => [
-        ["value" => "source", "text" => "[SOURCE] to [TARGET]"],
-        ["value" => "target", "text" => "[TARGET] to [SOURCE]"]
+        ["value" => "source_to_target", "text" => "[SOURCE] to [TARGET]"],
+        ["value" => "target_to_source", "text" => "[TARGET] to [SOURCE]"]
       ]
     ]
   ]]
@@ -188,10 +188,10 @@ else {
               <div class="col-xs-12 col-md-12">
                   <div class="row">
                     <div class="col-xs-6 col-md-6 text-increase">
-                      <?= $project->source_lang_object->langname ?>
+                      <?= $task->source_lang_object->langname ?>
                     </div>
                     <div class="col-xs-6 col-md-6 text-right">
-                      <a href="https://translate.google.com/?op=translate&sl=<?= $project->source_lang_object->langcode?>&tl=<?=$project->target_lang_object->langcode?>&text=<?=$sentence->source_text ?>"  title="Translate source sentence with Google" target="_blank"><span class="glyphicon glyphicon-globe"></span></a>
+                      <a href="https://translate.google.com/?op=translate&sl=<?= $task->source_lang_object->langcode?>&tl=<?=$task->target_lang_object->langcode?>&text=<?=$sentence->source_text ?>"  title="Translate source sentence with Google" target="_blank"><span class="glyphicon glyphicon-globe"></span></a>
                     </div>
                   </div>
               </div>
@@ -203,10 +203,10 @@ else {
               <div class="col-xs-12 col-md-12">
                 <div class="row">
                   <div class="col-xs-6 col-md-6 text-increase">
-                    <?= $project->target_lang_object->langname ?>
+                    <?= $task->target_lang_object->langname ?>
                   </div>
                   <div class="col-xs-6 col-md-6 text-right">
-                    <a href="https://translate.google.com/?op=translate&sl=<?= $project->target_lang_object->langcode?>&tl=<?=$project->source_lang_object->langcode?>&text=<?=$sentence->target_text ?>"  title="Translate target sentence with Google" target="_blank"><span class="glyphicon glyphicon-globe"></span></a>
+                    <a href="https://translate.google.com/?op=translate&sl=<?= $task->target_lang_object->langcode?>&tl=<?=$task->source_lang_object->langcode?>&text=<?=$sentence->target_text ?>"  title="Translate target sentence with Google" target="_blank"><span class="glyphicon glyphicon-globe"></span></a>
                   </div>
                 </div>
               </div>

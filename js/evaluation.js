@@ -16,6 +16,13 @@ $(".evaluation_tab_link").on('click', function (e) {
 
 $('.evaluation_tab_link .btn.active').parent().tab('show');
 
+$(".evaluation-tab-content .btn-group .btn").on('click', function (e) {
+  if ($(this).hasClass("disabled")) {
+    e.stopPropagation();
+    return;
+  }
+});
+
 $('#evalutionsavebutton').on('click', function() {
   if ($(this).attr("data-next")) {
     window.location.href = $(this).attr("data-next");

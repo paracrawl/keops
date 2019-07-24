@@ -892,6 +892,10 @@ table.dataTable .actions li a {
   margin-top: 0.5em;
 }
 
+.evaluation-tab-content {
+  margin-bottom: 1em;
+}
+
 #evaluation-help .modal-body {
   padding: 0;
 }

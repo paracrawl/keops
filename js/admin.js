@@ -278,7 +278,7 @@ $(document).ready(function() {
         responsivePriority: 1,
       render: function (data, type, row) {
           str = "";
-          if (row[3] == "") {
+          if (row[3] == "" || row[3] == null) {
             str = `<li><a href="/admin/revoke_invite.php?id=${row[0]}"><span class="glyphicon glyphicon-remove red" aria-hidden="true" title=\"Revoke invitation\"></span> Revoke invitation</a></li>`;
             str += `<li><a class="invitation-link" data-toggle="modal" data-target="#invite_token_modal"><span class="glyphicon glyphicon-link" aria-hidden="true" title="Get invitation link"></span> Get invitation link</a></li>`;
           }

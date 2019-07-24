@@ -63,13 +63,8 @@
         $user_dao = new user_dao();
         $assigned_user = $user_dao->getUserById($task->assigned_user);
 
-        $language_dao = new language_dao();
-
-        $source_lang_object = $language_dao->getLangByLangCode($task->source_lang);
-        $target_lang_object = $language_dao->getLangByLangCode($task->target_lang);
-        
         $user_langs_dao = new user_langs_dao();
-        $user_ids= $user_langs_dao->getUserIdsByLangPair($source_lang_object->id, $target_lang_object->id);
+        $user_ids= $user_langs_dao->getUserIdsByLangcodePair($task->source_lang, $task->target_lang);
         
         if (!empty($user_ids)) {
           $users = $user_dao->getUsersByIds($user_ids);

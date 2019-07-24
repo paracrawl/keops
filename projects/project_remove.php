@@ -19,10 +19,6 @@
   }
   $project_dao = new project_dao();
   $project = $project_dao->getProjectById($project_id);
-//  $task_dao  = new task_dao();
-// $tasks = $task_dao->getTasksByCorpus($corpus_id);
-//  $language_dao = new language_dao();
-//  $languages = $language_dao->getLanguages();
 ?>
 <!DOCTYPE html>
 <html>

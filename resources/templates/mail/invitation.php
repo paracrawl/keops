@@ -40,20 +40,18 @@
             }
 
             .body {
-                padding-top: 1em;
-                font-size: 1em;
+                padding-top: 16px;
             }
 
             .well {
                 background-color: #f5f5f5;
-                padding: 1em;
+                padding: 16px;
                 border-radius: 5px 5px 5px 5px;
             }
 
             .footer {
                 border-top: solid 1px #f5f5f5;
-                padding-top: 1em;
-                font-size: 0.6em;
+                padding-top: 16px;
             }
         </style>
 HTML;

@@ -18,13 +18,8 @@ if ($service == "usersByLanguage") {
   $target_lang = filter_input(INPUT_GET, "target_lang");
 
   if (isset($source_lang) && isset($target_lang)){
-    $language_dao = new language_dao();
-
-    $source_lang_object = $language_dao->getLangByLangCode($source_lang);
-    $target_lang_object = $language_dao->getLangByLangCode($target_lang);
-
     $user_langs_dao = new user_langs_dao();
-    $user_ids = $user_langs_dao->getUserIdsByLangPair($source_lang_object->id, $target_lang_object->id);
+    $user_ids = $user_langs_dao->getUserIdsByLangcodePair($source_lang, $target_lang);
     if (!empty($user_ids)) {
         $user_dao = new user_dao();
         $users = $user_dao->getUsersByIds($user_ids);

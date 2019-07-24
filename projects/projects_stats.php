@@ -103,7 +103,7 @@ require_once(RESOURCES_PATH . "/session.php");
             <div class="col-xs-12 col-md-12" >
                 <div class="page-header row vertical-align" id="project<?= $project->id ?>">
                     <div class="col-xs-10 col-md-10">
-                        <h3>Project #<?= $project->id ?> (<?= $project->name ?>, <?= $project->source_lang_object->langcode ?>-<?= $project->target_lang_object->langcode ?>)</h3>
+                        <h3>Project #<?= $project->id ?> — <?= $project->name ?></h3>
                     </div>
 
                     <div class="col-xs-2 col-md-2 text-right">

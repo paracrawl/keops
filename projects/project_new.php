@@ -4,7 +4,6 @@
  */
   // load up your config file
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
-  require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/language_dao.php");
 
   $PAGETYPE = "admin";
   require_once(RESOURCES_PATH . "/session.php");
