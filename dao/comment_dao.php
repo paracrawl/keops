@@ -46,7 +46,44 @@ class comment_dao {
             return false;
         }
 
-        return true;
+        return false;
+    }
+
+    /**
+     * Retrieves a list of comments belonging to sentences of a given task
+     * 
+     * @param int $pair_id ID of the pair of sentences to retreive comments from
+     * @return array List of Comment objects
+     */
+    function getCommentsByPair($pair_id) {
+        try {            
+            $query = $this->conn->prepare("
+                select st.id as pair, c.name, c.value from sentences_tasks as st 
+                join comments as c on (c.pair = st.id)
+                where st.id = ?;
+            ");
+            $query->bindParam(1, $pair_id);
+            $query->execute();
+            $query->setFetchMode(PDO::FETCH_ASSOC);
+
+            $comments = array();
+            while($row = $query->fetch()){
+                $comment = new comment_dto();
+                $comment->pair = $row['pair'];
+                $comment->name = $row['name'];
+                $comment->value = $row['value'];
+
+                $comments[] = $comment;
+            }
+
+            $this->conn->close_conn();
+            return $comments;
+        } catch (Exception $ex) {
+            $this->conn->close_conn();
+            return false;
+        }
+
+        return false;
     }
 
      /**

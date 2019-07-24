@@ -27,8 +27,15 @@ class task_dao {
   function getTaskById($id) {
     try {
       $task = new task_dto();
-      
-      $query = $this->conn->prepare("SELECT * FROM tasks as t where t.id = ?;");
+
+      $query = $this->conn->prepare("
+        SELECT t.*, l1.id as source_langid, l1.langname as source_langname, l2.id as target_langid, l2.langname as target_langname 
+        FROM tasks as t
+        left join users as u on u.id = t.assigned_user
+        left join langs as l1 on l1.langcode = t.source_lang
+        left join langs as l2 on l2.langcode = t.target_lang
+        where t.id = ?;
+      ");
       $query->bindParam(1, $id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -44,6 +51,15 @@ class task_dao {
         $task->completed_date = $row['completed_date'];
         $task->source_lang = $row['source_lang'];
         $task->target_lang = $row['target_lang'];
+
+        $task->source_lang_object = new stdClass();
+        $task->target_lang_object = new stdClass();
+        $task->source_lang_object->id = $row['source_langid'];
+        $task->target_lang_object->id = $row['target_langid'];
+        $task->source_lang_object->langcode = $row['source_lang'];
+        $task->target_lang_object->langcode = $row['target_lang'];
+        $task->source_lang_object->langname = $row['source_langname'];
+        $task->target_lang_object->langname = $row['target_langname'];
       }
       $this->conn->close_conn();
       return $task;
@@ -209,10 +225,10 @@ class task_dao {
       $tasks_array = array();
 
       $query = $this->conn->prepare("
-        SELECT t.*, l1.langcode as source_langcode, l1.langname as source_langname, l2.langcode as target_langcode, l2.langname as target_langname
+        SELECT t.*, l1.id as source_langid, l1.langname as source_langname, l2.id as target_langid, l2.langname as target_langname
         FROM tasks as t 
-        left join langs as l1 on (l1.id = t.source_lang)
-        left join langs as l2 on (l2.id = t.target_lang)
+        left join langs as l1 on (l1.langcode = t.source_lang)
+        left join langs as l2 on (l2.langcode = t.target_lang)
         where t.corpus_id = ?;
       ");
 
@@ -235,6 +251,9 @@ class task_dao {
         $task->email = $row['email'];
         $task->source_lang = $row['source_lang'];
         $task->target_lang = $row['target_lang'];
+
+        $task->source_lang_object = new stdClass();
+        $task->target_lang_object = new stdClass();
         $task->source_lang_object->id = $row['source_lang'];
         $task->target_lang_object->id = $row['target_lang'];
         $task->source_lang_object->langcode = $row['source_langcode'];
@@ -264,9 +283,11 @@ class task_dao {
       $tasks_array = array();
 
       $query = $this->conn->prepare("
-        select t.*, u.name, u.email
+        select t.*, u.name, u.email, l1.id as source_langid, l1.langname as source_langname, l2.id as target_langid, l2.langname as target_langname 
         FROM tasks as t 
         left join users as u on u.id = t.assigned_user
+        left join langs as l1 on l1.langcode = t.source_lang
+        left join langs as l2 on l2.langcode = t.target_lang
         WHERE project_id = ?
         order by completed_date desc NULLS last, creation_date DESC;
       ");
@@ -289,6 +310,15 @@ class task_dao {
         $task->email = $row['email'];
         $task->source_lang = $row['source_lang'];
         $task->target_lang = $row['target_lang'];
+
+        $task->source_lang_object = new stdClass();
+        $task->target_lang_object = new stdClass();
+        $task->source_lang_object->id = $row['source_langid'];
+        $task->target_lang_object->id = $row['target_langid'];
+        $task->source_lang_object->langcode = $row['source_lang'];
+        $task->target_lang_object->langcode = $row['target_lang'];
+        $task->source_lang_object->langname = $row['source_langname'];
+        $task->target_lang_object->langname = $row['target_langname'];
         
         array_push($tasks_array, $task);
       }

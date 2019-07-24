@@ -482,12 +482,13 @@ from sentences_tasks where task_id = ?;");
   function getAnnotatedSentecesByTask($task_id){ 
      try {
       $st_array = array();
-      $query = $this->conn->prepare("select s.source_text, s.target_text, st.evaluation from sentences_tasks st left join sentences s  on s.id = st.sentence_id left join tasks t on t.id = st.task_id where st.task_id = ? order by s.id;");
+      $query = $this->conn->prepare("select st.id as pair, s.source_text, s.target_text, st.evaluation from sentences_tasks st left join sentences s  on s.id = st.sentence_id left join tasks t on t.id = st.task_id where st.task_id = ? order by s.id;");
       $query->bindParam(1, $task_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while ($row = $query->fetch()) {
         $sentence_task_dto = new sentence_task_dto();
+        $sentence_task_dto->id = $row['pair'];
         $sentence_task_dto->source_text = $row['source_text'];
         $sentence_task_dto->target_text = $row['target_text'];
         $sentence_task_dto->evaluation = $row['evaluation'];

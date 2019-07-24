@@ -290,8 +290,8 @@ else {
                               <?php foreach($comment["options"] as $option) { ?>
                               <?php 
                                 $option_data = $comment_dao->getCommentById($sentence->id, $comment["name"]); 
-                                $option["text"] = str_replace("[SOURCE]", $project->source_lang_object->langname, $option["text"]);
-                                $option["text"] = str_replace("[TARGET]", $project->target_lang_object->langname, $option["text"]);
+                                $option["text"] = str_replace("[SOURCE]", $task->source_lang_object->langname, $option["text"]);
+                                $option["text"] = str_replace("[TARGET]", $task->target_lang_object->langname, $option["text"]);
                                 ?>
                               <label class="btn btn-default  <?= (($option_data != false) ? (($option_data->value == $option["value"]) ? "active" : "") : "") ?> <?= ($task->status == "DONE") ? "disabled" : "" ?>">
                                 <input type="radio" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (isset($option_data->value) ? (($option_data->value == $option["value"]) ? "checked" : "") : "") ?> name="<?= $comment["name"] ?>" autocomplete="off" type="radio" value="<?= $option["value"] ?>"> <?= $option["text"] ?>
