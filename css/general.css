@@ -769,6 +769,10 @@ hr {
   margin-top: 0;
 }
 
+.d-none {
+  display: none;
+}
+
 .number-container {
   background-color: #a8a6a6;
   width: 100%;

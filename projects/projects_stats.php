@@ -88,9 +88,6 @@ require_once(RESOURCES_PATH . "/session.php");
                                 <div class="progress-bar progress-bar-success" style="width: <?php echo ($done / $total) * 100 ?>%">
                                     <?php echo floor(($done / $total) * 100) ?>%<span class="sr-only"> tasks done</span>
                                 </div>
-                                <div class="progress-bar progress-bar-warning" style="width: <?php echo (100 - (($done / $total) * 100)) ?>%">
-                                    <?php echo ceil(100 - (($done / $total) * 100)) ?>%<span class="sr-only"> tasks pending</span>
-                                </div>
                             </div>
                         </div>
                     </div>

@@ -22,15 +22,11 @@ require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/user_dto.php");
 class project_dto {
   public $id;
   public $name;
-  public $source_lang;
-  public $target_lang;
   public $description;
   public $creation_date;
   public $active;
   public $owner;
   
-  public $source_lang_object;
-  public $target_lang_object;
   public $owner_object;
   
   public function __construct(){
@@ -50,12 +46,10 @@ class project_dto {
    * @param boolean $active Active status (active/deactivated)
    * @return \self
    */
-  public function newProject($id, $name, $source_lang, $target_lang, $description, $active){
+  public function newProject($id, $name, $description, $active){
       $instance = new self();
       $instance->id = $id;
       $instance->name = $name;
-      $instance->source_lang = $source_lang;
-      $instance->target_lang = $target_lang;
       $instance->description = $description;
       $instance->active = $active;
       return  $instance;

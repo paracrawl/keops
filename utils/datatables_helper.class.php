@@ -1,5 +1,4 @@
 <?php
-
 class DatatablesProcessing {
     private $conn;
 
@@ -20,7 +19,6 @@ class DatatablesProcessing {
         SELECT count(distinct $primary) as c FROM $tables "
             . (($wheresql != "") ? "WHERE $wheresql " : "")
         . ";");
-
         $query->execute();
         $query->setFetchMode(PDO::FETCH_ASSOC);
         $count = 0;
@@ -96,7 +94,7 @@ class DatatablesProcessing {
         $total_count = $this->getCount($primary, $tables);
 
         return array(
-			"draw"            => isset ( $request['draw'] ) ? intval( $request['draw'] ) :0,
+			"draw"            => isset ($request['draw']) ? intval($request['draw']) :0,
 			"recordsTotal"    => $total_count,
 			"recordsFiltered" => $filtered_count,
 			"data"            => $data

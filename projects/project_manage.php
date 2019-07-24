@@ -123,6 +123,8 @@
           <tr>
             <th>ID</th>
             <th>Assigned user</th>
+            <th>SL</th>
+            <th>TL</th>
             <th>Size</th>
             <th>Corpus</th>  
             <th>Status</th>
@@ -138,6 +140,8 @@
           <tr>
             <th>ID</th>
             <th>Assigned user</th>
+            <th>SL</th>
+            <th>TL</th>
             <th>Size</th>
             <th>Corpus</th>  
             <th>Status</th>

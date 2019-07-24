@@ -83,8 +83,6 @@
             <tr>
               <th>ID</th>
               <th>Name</th>
-              <th title="Source language">SL</th>
-              <th title="Target language">TL</th>
               <th>Description</th>
               <th>Status</th>
               <th>Creation date</th>
@@ -99,8 +97,6 @@
             <tr>
               <th>ID</th>
               <th>Name</th>
-              <th title="Source language">SL</th>
-              <th title="Target language">TL</th>
               <th>Description</th>
               <th>Status</th>
               <th>Creation date</th>

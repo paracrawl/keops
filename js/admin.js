@@ -46,17 +46,58 @@ $(document).ready(function() {
       $(window).trigger('resize');
     });
 
-    /*$(window).on('resize', () => {
-      if ($(window).width() < 768) {
-        $(".nav-tabs").removeClass("nav-tabs").addClass("nav-pills");
+    let source_lang = target_lang = -1;
+    $(".new-task-form select[name$='_lang']").on('change', function() {
+      if ($(this).attr('name') == "source_lang") {
+        source_lang = $(this).val();
       } else {
-        $(".nav-pills").removeClass("nav-pills").addClass("nav-tabs");
+        target_lang = $(this).val();
+      }
+
+      if (source_lang != -1 && target_lang != -1) {
+        // We get available users for that language pair
+        $.getJSON(`/services/languages_service.php?service=usersByLanguage&source_lang=${source_lang}&target_lang=${target_lang}`, ({result, data}) => {
+          if (result == 200) {
+            $("#assigned_user option").remove();
+
+            if (data.length > 0) {
+              $("#assigned_user").removeAttr("disabled");
+              $("#helpUsers").addClass("d-none");
+              for (user of data) {
+                let option = document.createElement('option');
+                option.setAttribute('value', user.id);
+                option.textContent = user.name;
+                $("#assigned_user").append(option);
+              }
+            } else {
+              $("#assigned_user").attr("disabled", "");
+              $("#helpUsers").removeClass("d-none");
+            }
+          }
+        });
+
+        // We get corpora available for that language pair
+        $.getJSON(`/services/corpora_service.php?service=corporaByLanguage&source_lang=${source_lang}&target_lang=${target_lang}`, ({result, data}) => {
+          if (result == 200) {
+            $("#corpus option").remove();
+
+            if (data.length > 0) {
+              $("#corpus").removeAttr("disabled");
+              $("#helpCorpus").addClass("d-none");
+              for (user of data) {
+                let option = document.createElement('option');
+                option.setAttribute('value', user.id);
+                option.textContent = user.name;
+                $("#corpus").append(option);
+              }
+            } else {
+              $("#corpus").attr("disabled", "");
+              $("#helpCorpus").removeClass("d-none");
+            }
+          }
+        });
       }
     });
-
-    if ($(window).width() < 768) {
-      $(".nav-tabs").removeClass("nav-tabs").addClass("nav-pills");
-    }*/
     
   /*
    * Users table (for "Users" tab)
@@ -107,35 +148,35 @@ $(document).ready(function() {
       }
     },
     {
-      targets:5,
+      targets:3,
      render: function (data, type, row) {
-       var completed = (parseInt(row[12])/parseInt(row[11])) * 100;
+       var completed = (parseInt(row[8])/parseInt(row[7])) * 100;
         
         return '<a href="/projects/project_stats.php?id=' + row[0] + '" title="View stats">'+
-          '<div title="'+row[12]+' of '+row[11]+' tasks completed"'+'class="progress">' +
+          '<div title="'+row[8]+' of '+row[7]+' tasks completed"'+'class="progress">' +
           '<div class="progress-bar" role="progressbar" aria-valuenow="' + completed +'"' +
           'aria-valuemin="0" aria-valuemax="100" style="width:' + completed +'%">' +
-          '<span>'+row[12] +' of '+ row[11]+'</span></div>' +
+          '<span>'+row[8] +' of '+ row[7]+'</span></div>' +
           '</div></a>';
        }  
     },
     {
-      targets:6,
+      targets:4,
      render: function (data, type, row) {
-       return formatDate(row[5]);
+       return formatDate(row[3]);
        }
     },
     {
-      targets:7,
+      targets:5,
      render: function (data, type, row) {
-       return row [6];
+       return row [4];
        }
     },
    {
-      targets: 8,
+      targets: 6,
       className: "text-center",
       render: function (data, type, row) {
-        if (row[7]){
+        if (row[5]){
           return '<span class="glyphicon glyphicon-ok green" aria-hidden="true"></span>';
         }
         else {
@@ -144,7 +185,7 @@ $(document).ready(function() {
       }
     },
     {
-      targets: 9,
+      targets: 7,
       className: "actions",
       sortable: false,
       orderable:false,
@@ -162,12 +203,6 @@ $(document).ready(function() {
                 </ul>
               </div>
        `;
-
-        /*return '<a href="/projects/project_manage.php?id=' + row[0] + '" title="Manage project\'s tasks"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span></a>' +
-                '<a href="/projects/project_edit.php?id=' + row[0] + '" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>' +
-                '<a href="/projects/project_stats.php?id=' + row[0] + '" title="View stats"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>' +
-                '<a href="/projects/project_remove.php?id=' + row[0] + '" title="Remove project"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a>';*/
-
       }
     }],
     order: [[ 6, 'desc' ]],
@@ -341,43 +376,43 @@ $(document).ready(function() {
     }],*/
     columnDefs:[
       {
-        targets: 3,
+        targets: 5,
         render: function(data, type, row) {
-          return '<a href="/corpora/corpus_preview.php?id='+row[12]+'" title="Preview corpus">'+row[3]+'</a>';
+          return '<a href="/corpora/corpus_preview.php?id='+row[14]+'" title="Preview corpus">'+row[5]+'</a>';
         }
       },
       {
-        targets:4,
+        targets:6,
         render: function (data, type, row) {
-          var completed = (parseInt(row[10])/parseInt(row[2])) * 100;        
-          return '<a href="/tasks/recap.php?id=' + row[0] + '"><div title="'+row[10]+' of '+row[2]+' sentences evaluated" class="progress">' +
+          var completed = (parseInt(row[12])/parseInt(row[4])) * 100;        
+          return '<a href="/tasks/recap.php?id=' + row[0] + '"><div title="'+row[12]+' of '+row[4]+' sentences evaluated" class="progress">' +
             '<div   class="progress-bar" role="progressbar" aria-valuenow="' + completed +'"' +
             'aria-valuemin="0" aria-valuemax="100" style="width:' + completed +'%">' +
-            '<span>'+row[10] +' of '+ row[2]+'</span></div>' +
+            '<span>'+row[12] +' of '+ row[4]+'</span></div>' +
             '</div></a>';
-        }
-      },
-      {
-        targets: 5,
-        render: function (data, type, row) {
-          console.log(row);
-          return formatDate(row[5]);
-        }
-      },
-      {
-        targets: 6,
-        render: function (data, type, row) {
-          return formatDate(row[6]);
         }
       },
       {
         targets: 7,
         render: function (data, type, row) {
+          console.log(row);
           return formatDate(row[7]);
         }
       },
       {
         targets: 8,
+        render: function (data, type, row) {
+          return formatDate(row[8]);
+        }
+      },
+      {
+        targets: 9,
+        render: function (data, type, row) {
+          return formatDate(row[9]);
+        }
+      },
+      {
+        targets: 10,
         className: "actions",
         sortable: false,
         searchable: false,
@@ -385,7 +420,7 @@ $(document).ready(function() {
         render: function (data, type, row) {
             var actions_str = "";
             actions_str += '<li><a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Recap of the task</a></li>';
-            actions_str += '<li><a href="mailto:' + row[11] + '" title="Contact assigned user"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Contact assigned user</a></li>';
+            actions_str += '<li><a href="mailto:' + row[13] + '" title="Contact assigned user"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Contact assigned user</a></li>';
             
             if (document.getElementById("input_isowner") && document.getElementById("input_isowner").value == "1") {
               actions_str += '<li><a href="/tasks/change_assigned_user.php?task_id=' + row[0] + '" title="Change assigned user"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Change assigned user</a></li>';

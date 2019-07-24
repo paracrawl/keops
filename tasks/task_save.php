@@ -17,7 +17,7 @@ require_once(RESOURCES_PATH . "/session.php");
 const ERROR_CREATE_TASK = "Error while creating the task.";
 const MISSING_PARAMETERS = "Missing parameters while saving the task: ";
 
-$failedparams = checkPostParameters(["project", "assigned_user", "corpus"]);
+$failedparams = checkPostParameters(["project", "assigned_user", "corpus", "source_lang", "target_lang"]);
 
 if (count($failedparams) == 0){
   $assigned_user = filter_input(INPUT_POST, "assigned_user", FILTER_SANITIZE_STRING);
@@ -29,6 +29,8 @@ if (count($failedparams) == 0){
   $task_dto->corpus_id = filter_input(INPUT_POST, "corpus", FILTER_SANITIZE_STRING);
   $datetime= date('Y-m-d H:i:s');
   $task_dto->assigned_date = $datetime;
+  $task_dto->source_lang = filter_input(INPUT_POST, "source_lang", FILTER_SANITIZE_STRING);
+  $task_dto->target_lang = filter_input(INPUT_POST, "target_lang", FILTER_SANITIZE_STRING);
 
   $result = false;
   $task_dao = new task_dao();

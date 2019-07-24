@@ -28,7 +28,7 @@ class task_dao {
     try {
       $task = new task_dto();
       
-      $query = $this->conn->prepare("SELECT * FROM tasks WHERE id = ?;");
+      $query = $this->conn->prepare("SELECT * FROM tasks as t where t.id = ?;");
       $query->bindParam(1, $id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -42,6 +42,8 @@ class task_dao {
         $task->creation_date = $row['creation_date'];
         $task->assigned_date = $row['assigned_date'];
         $task->completed_date = $row['completed_date'];
+        $task->source_lang = $row['source_lang'];
+        $task->target_lang = $row['target_lang'];
       }
       $this->conn->close_conn();
       return $task;
@@ -60,11 +62,14 @@ class task_dao {
    */
   function insertTask($task_dto) {
     try {
-      $query = $this->conn->prepare("INSERT INTO tasks (project_id, assigned_user, corpus_id, assigned_date) VALUES (?, ?, ?, ?);");
+      $query = $this->conn->prepare("INSERT INTO tasks (project_id, assigned_user, corpus_id, assigned_date, source_lang, target_lang) VALUES (?, ?, ?, ?, ?, ?);");
       $query->bindParam(1, $task_dto->project_id);
       $query->bindParam(2, $task_dto->assigned_user);
       $query->bindParam(3, $task_dto->corpus_id);      
       $query->bindParam(4, $task_dto->assigned_date);
+      $query->bindParam(5, $task_dto->source_lang);
+      $query->bindParam(6, $task_dto->target_lang);
+
       $query->execute();
       $task_dto->id = $this->conn->lastInsertId();
       $this->conn->close_conn();
@@ -193,47 +198,6 @@ class task_dao {
   }
   
   /**
-   * Retrieves a task list from the DB, in a Datatables-friendly format
-   * 
-   * @param object $request GET request
-   * @return string JSON with a list of Tasks, in a format ready for Datatables
-   * @throws Exception
-   */
-  function getDatatablesTasks($request) {
-    try {
-      $dtProc = new DatatablesProcessing($this->conn);
-      return json_encode($dtProc->process(self::$columns_project_tasks,
-              "tasks as t left join projects as p on p.id = t.project_id left join users as u on u.id = t.assigned_user "
-              . "left join sentences_tasks as st on t.id = st.task_id " 
-              . "left join corpora as c on c.id = t.corpus_id ",
-              $request,
-              "project_id=" . $request['p_id'],
-              "t.id, u.name, p.id, u.id, c.name"));
-    } catch (Exception $ex) {
-      throw new Exception("Error in task_dao::getDatatablesTasks : " . $ex->getMessage());
-    }
-  }
-  
-    /**
-     * Retrieves from the DB a list of tasks that use a given corpus, in a Datatables-friendly format
-     * 
-     * @param object $request GET request
-     * @return string JSON string with a list of the tasks, ready for Datatables
-     * @throws Exception
-     */
-    function getDatatablesTasksByCorpus($request) {
-    try {
-      $dtProc = new DatatablesProcessing($this->conn);
-      return json_encode($dtProc->process(self::$columns_corpus_tasks,
-              "tasks as t left join projects as p on p.id = t.project_id left join users as u on u.id = t.assigned_user " . "left join corpora as c on c.id = t.corpus_id ",
-              $request,
-              "corpus_id=" . $request['corpus_id']));
-    } catch (Exception $ex) {
-      throw new Exception("Error in task_dao::getDatatablesTasksByCorpus : " . $ex->getMessage());
-    }
-  }
-  
-  /**
    * Retrieves from the DB the tasks that use a given corpus
    * 
    * @param int $corpus_id Corpus ID
@@ -244,7 +208,14 @@ class task_dao {
     try {
       $tasks_array = array();
 
-      $query = $this->conn->prepare("SELECT * FROM tasks WHERE corpus_id = ?;");
+      $query = $this->conn->prepare("
+        SELECT t.*, l1.langcode as source_langcode, l1.langname as source_langname, l2.langcode as target_langcode, l2.langname as target_langname
+        FROM tasks as t 
+        left join langs as l1 on (l1.id = t.source_lang)
+        left join langs as l2 on (l2.id = t.target_lang)
+        where t.corpus_id = ?;
+      ");
+
       $query->bindParam(1, $corpus_id);
       $query->execute();      
       $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -262,6 +233,15 @@ class task_dao {
         $task->completed_date = $row['completed_date'];
         $task->username = $row['name'];
         $task->email = $row['email'];
+        $task->source_lang = $row['source_lang'];
+        $task->target_lang = $row['target_lang'];
+        $task->source_lang_object->id = $row['source_lang'];
+        $task->target_lang_object->id = $row['target_lang'];
+        $task->source_lang_object->langcode = $row['source_langcode'];
+        $task->target_lang_object->langcode = $row['target_langcode'];
+        $task->source_lang_object->langname = $row['source_langname'];
+        $task->target_lang_object->langname = $row['target_langname'];
+
         array_push($tasks_array, $task);
       }
       $this->conn->close_conn();
@@ -283,7 +263,13 @@ class task_dao {
     try {
       $tasks_array = array();
 
-      $query = $this->conn->prepare("select t.*, u.name, u.email FROM tasks as t left join users as u on u.id = t.assigned_user WHERE project_id = ? order by completed_date desc NULLS last, creation_date DESC;");
+      $query = $this->conn->prepare("
+        select t.*, u.name, u.email
+        FROM tasks as t 
+        left join users as u on u.id = t.assigned_user
+        WHERE project_id = ?
+        order by completed_date desc NULLS last, creation_date DESC;
+      ");
       $query->bindParam(1, $project_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -301,6 +287,9 @@ class task_dao {
         $task->completed_date = $row['completed_date'];
         $task->username = $row['name'];
         $task->email = $row['email'];
+        $task->source_lang = $row['source_lang'];
+        $task->target_lang = $row['target_lang'];
+        
         array_push($tasks_array, $task);
       }
       $this->conn->close_conn();
@@ -308,6 +297,47 @@ class task_dao {
     } catch (Exception $ex) {
       $this->conn->close_conn();
       throw new Exception("Error in task_dao::getTaskById : " . $ex->getMessage());
+    }
+  }
+
+  /**
+   * Retrieves a task list from the DB, in a Datatables-friendly format
+   * 
+   * @param object $request GET request
+   * @return string JSON with a list of Tasks, in a format ready for Datatables
+   * @throws Exception
+   */
+  function getDatatablesTasks($request) {
+    try {
+      $dtProc = new DatatablesProcessing($this->conn);
+      return json_encode($dtProc->process(self::$columns_project_tasks,
+              "tasks as t left join projects as p on p.id = t.project_id left join users as u on u.id = t.assigned_user "
+              . "left join sentences_tasks as st on t.id = st.task_id " 
+              . "left join corpora as c on c.id = t.corpus_id ",
+              $request,
+              "project_id=" . $request['p_id'],
+              "t.id, u.name, p.id, u.id, c.name"));
+    } catch (Exception $ex) {
+      throw new Exception("Error in task_dao::getDatatablesTasks : " . $ex->getMessage());
+    }
+  }
+
+  /**
+     * Retrieves from the DB a list of tasks that use a given corpus, in a Datatables-friendly format
+     * 
+     * @param object $request GET request
+     * @return string JSON string with a list of the tasks, ready for Datatables
+     * @throws Exception
+  */
+  function getDatatablesTasksByCorpus($request) {
+    try {
+      $dtProc = new DatatablesProcessing($this->conn);
+      return json_encode($dtProc->process(self::$columns_corpus_tasks,
+              "tasks as t left join projects as p on p.id = t.project_id left join users as u on u.id = t.assigned_user " . "left join corpora as c on c.id = t.corpus_id ",
+              $request,
+              "corpus_id=" . $request['corpus_id']));
+    } catch (Exception $ex) {
+      throw new Exception("Error in task_dao::getDatatablesTasksByCorpus : " . $ex->getMessage());
     }
   }
 
@@ -327,13 +357,11 @@ class task_dao {
               "tasks as t "
               . "left join projects as p on p.id = t.project_id "
               . "left join users as u on u.id = t.assigned_user "
-              . "left join langs as l1 on l1.id = p.source_lang "
-              . "left join langs as l2 on l2.id = p.target_lang "
               . "left join users as us on us.id = p.owner "
               . "left join sentences_tasks as st on t.id = st.task_id",
               $request,
               "t.assigned_user=" . $user_id,
-              "t.id, p.name, l1.langcode, l2.langcode, us.email"));
+              "t.id, p.name, source_lang, target_lang, us.email"));
     } catch (Exception $ex) {
       throw new Exception("Error in task_dao::getDatatablesUserTasks : " . $ex->getMessage());
     }
@@ -346,6 +374,8 @@ class task_dao {
 task_dao::$columns_project_tasks = array(
     array('t.id', 'id'),
     array('u.name', 'name'),
+    array('t.source_lang', 'source_lang'),
+    array('t.target_lang', 'target_lang'),
     array('size'),
     array('c.name', 'corpusname'),
     array('t.status', 'status'),
@@ -365,8 +395,8 @@ task_dao::$columns_project_tasks = array(
 task_dao::$columns_user_tasks = array(
     array('t.id', 'id'),
     array('p.name', 'name'),
-    array('l1.langcode', 'source_lang'),
-    array('l2.langcode', 'target_lang'),
+    array('t.source_lang', 'source_lang'),
+    array('t.target_lang', 'target_lang'),
     array('size'),
     array('t.status', 'status'),
     array('t.creation_date', 'creation_date'),

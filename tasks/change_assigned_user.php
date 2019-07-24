@@ -9,6 +9,7 @@
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/user_dao.php");
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/corpus_dao.php");
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/user_langs_dao.php");
+  require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/language_dao.php");
  
  $PAGETYPE = "admin";
   require_once(RESOURCES_PATH . "/session.php");
@@ -50,7 +51,7 @@
       <div class="page-header">
         <h1>Change assigned user for Task #<?= $task->id ?></h1>
         <p>
-            This task belongs to <b>Project #<?= $project->id ?> (<?= $project->description ?>, <?= $project->source_lang_object->langcode ?>-<?= $project->target_lang_object->langcode ?>)</b>
+            This task belongs to <b>Project #<?= $project->id ?> ("<?= $project->description ?>")</b>
         </p>
       </div>
       <form action="/tasks/task_update.php" class="row" role="form" method="post" data-toggle="validator">
@@ -62,8 +63,13 @@
         $user_dao = new user_dao();
         $assigned_user = $user_dao->getUserById($task->assigned_user);
 
+        $language_dao = new language_dao();
+
+        $source_lang_object = $language_dao->getLangByLangCode($task->source_lang);
+        $target_lang_object = $language_dao->getLangByLangCode($task->target_lang);
+        
         $user_langs_dao = new user_langs_dao();
-        $user_ids= $user_langs_dao->getUserIdsByLangPair($project->source_lang, $project->target_lang);
+        $user_ids= $user_langs_dao->getUserIdsByLangPair($source_lang_object->id, $target_lang_object->id);
         
         if (!empty($user_ids)) {
           $users = $user_dao->getUsersByIds($user_ids);

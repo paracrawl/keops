@@ -27,10 +27,10 @@ if (isset($task_id)) {
     $sentence_task_dao = new sentence_task_dao();
     $lang_dao = new language_dao();
     $st_array = $sentence_task_dao->getAnnotatedSentecesByTask($task->id);
-    $source_lang_id = $project->source_lang;
-    $target_lang_id = $project->target_lang;
-    $source_lang = $lang_dao->getLanguageById($source_lang_id)->langcode;
-    $target_lang = $lang_dao->getLanguageById($target_lang_id)->langcode;
+    $source_lang_code = $task->source_lang;
+    $target_lang_code = $task->target_lang;
+    $source_lang = $lang_dao->getLangByLangCode($source_lang_code)->langcode;
+    $target_lang = $lang_dao->getLangByLangCode($target_lang_code)->langcode;
 
     
 // output headers so that the file is downloaded rather than displayed

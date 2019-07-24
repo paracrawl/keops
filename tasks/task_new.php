@@ -7,7 +7,7 @@
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/project_dao.php");
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/user_dao.php");
   require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/corpus_dao.php");
-  require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/user_langs_dao.php");
+  require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/language_dao.php");
  
  $PAGETYPE = "admin";
   require_once(RESOURCES_PATH . "/session.php");
@@ -24,7 +24,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>KEOPS | New task for "<?= $project->name . " [" . $project->source_lang_object->langcode . "-" . $project->target_lang_object->langcode . "]" ?>"</title>
+    <title>KEOPS | New task for "<?= $project->name ?>"</title>
     <?php
     require_once(TEMPLATES_PATH . "/admin_head.php");
     ?>
@@ -39,54 +39,68 @@
         <li class="active">New task</li> 
       </ul>
       <div class="page-header">
-        <h1>New task for "<?= $project->name . " [" . $project->source_lang_object->langcode . "-" . $project->target_lang_object->langcode . "]" ?>" project</h1>
+        <h1>New task for "<?= $project->name ?>" project</h1>
         <p>The task will be created for this project. To create a task for another project, create it using the "New task" button existing on that page.</p>
       </div>
-      <form class="form-horizontal" action="/tasks/task_save.php" role="form" method="post" data-toggle="validator">
+      <form class="form-horizontal new-task-form" action="/tasks/task_save.php" role="form" method="post" data-toggle="validator">
         <input type="hidden" name="project" value="<?= $project->id ?>">
-        <?php   
-        $user_langs_dao = new user_langs_dao();
-        $user_ids= $user_langs_dao->getUserIdsByLangPair($project->source_lang, $project->target_lang);
-        if (!empty($user_ids)) {
-          $user_dao = new user_dao();
-          $users = $user_dao->getUsersByIds($user_ids);
-        }
-        else {
-          $users = array();
-        }
-        ?>
+        <div class="form-group">
+          <label for="source_lang" class="control-label col-sm-1">Source language</label>
+          <div class="col-sm-4">
+            <select class="form-control" required=""  name="source_lang" id="source_lang">
+              <option value="-1">Choose one</option>
+              <?php
+                $language_dao = new language_dao();
+                $langs = $language_dao->getLanguages();
+                foreach ($langs as $lang) { ?>  
+
+                  <option value="<?= $lang->langcode ?>"><?= $lang->langcode ?> - <?= $lang->langname ?></option>
+
+              <?php 
+                }
+              ?>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="target_lang" class="control-label col-sm-1">Target language</label>
+          <div class="col-sm-4">
+            <select class="form-control" required=""  name="target_lang" id="target_lang">
+              <option value="-1">Choose one</option>
+              <?php
+                $language_dao = new language_dao();
+                $langs = $language_dao->getLanguages();
+                foreach ($langs as $lang) { ?>
+
+                  <option value="<?= $lang->langcode ?>"><?= $lang->langcode ?> - <?= $lang->langname ?></option>
+
+              <?php 
+                }
+              ?>
+            </select>
+          </div>
+        </div>
         <div class="form-group">
           <label for="assigned_user" class="control-label col-sm-1">Evaluator</label>
           <div class="col-sm-4">
-            <select class="form-control" name="assigned_user" id="assigned_user" tabindex="2">
-              <?php foreach ($users as $user) { ?>
-                <option value="<?= $user->id?>"><?= $user->name ?></option>
-              <?php } ?>
+            <select disabled class="form-control" name="assigned_user" id="assigned_user">
+              <!-- Now we fill this with JavaScript :) -->
             </select>
-            <div id="helpCorpus" class="help-block with-errors">
-              <?php if (count($users) == 0) { ?>
-              No users available. Please <a href="/admin/index.php#users">click here</a> to invite new users.
-              <?php } ?>
+            <div id="helpUsers" class="help-block with-errors d-none">
+              No users available for this language pair. Please <a href="/admin/index.php#users">click here</a> to invite new users.
             </div>
           </div>
         </div>
         <?php
-        $corpus_dao = new corpus_dao();
-        $corpora_filters = array('active' => 'true', 'source_lang' => $project->source_lang, 'target_lang' => $project->target_lang);
-        $corpora = $corpus_dao->getFilteredCorpora($corpora_filters);
         ?>
         <div class="form-group">
           <label for="corpus" class="control-label col-sm-1">Corpus</label>
           <div class="col-sm-4">
-            <select class="form-control" required=""  name="corpus" id="corpus" tabindex="2">
-              <?php foreach ($corpora as $corpus) { ?>
-                <option value="<?= $corpus->id ?>"><?= $corpus->name ?></option>
-              <?php } ?>
+            <select disabled class="form-control" required=""  name="corpus" id="corpus" tabindex="2">
+              <!-- Now we fill this with JavaScript :) -->
             </select>
-            <div id="helpCorpus" required=""  class="help-block with-errors">
-              <?php if (count($corpora) == 0) { ?>
-              No corpora available for language pair <?= $project->source_lang_object->langcode . "-" . $project->target_lang_object->langcode ?>. Please <a href="/admin/index.php#corpora">click here</a> upload a corpus first.
-              <?php } ?>
+            <div id="helpCorpus" required=""  class="help-block with-errors d-none">
+              No corpora available for this language pair. Please <a href="/admin/index.php#corpora">click here</a> upload a corpus first.
             </div>
           </div>
         </div>

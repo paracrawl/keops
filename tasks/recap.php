@@ -165,12 +165,14 @@ if (isset($task_id)) {
                 <?php
               }
               ?>
+              <?php if ($USER->id == $task->assigned_user) { ?>
               <div>
-              <a href="/sentences/evaluate.php?first&task_id=<?= $task_id ?>">
+              <a href="http://localhost/sentences/evaluate.php?review=1&task_id=<?= $task_id ?>">
                 <span class="glyphicon glyphicon-info-sign"></span>
                 <span>Check evaluation <span class="sr-only"> of task <?= $task_id ?></span>
               </a>
               </div>
+              <?php } ?>
               <div>
                   <a href="/tasks/download_summary.php?task_id=<?php echo $task_id ?>">
                     <span class="glyphicon glyphicon-download-alt"></span>

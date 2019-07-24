@@ -41,30 +41,6 @@
                 <div id="helpName" class="help-block with-errors">Write the public name of the project</div>
               </div>
             </div>
-            <?php
-            $language_dao = new language_dao();
-            $languages = $language_dao->getLanguages();
-            ?>
-            <div class="form-group">
-              <label for="source_lang" class="control-label col-sm-2">Source language</label>
-              <div class="col-sm-10">
-                <select class="form-control" name="source_lang" id="source_lang" tabindex="2">
-                  <?php foreach ($languages as $lang) { ?>
-                    <option value="<?= $lang->id?>"><?= $lang->langcode . " - " . $lang->langname ?></option>
-                  <?php } ?>
-                </select>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="target_lang" class="control-label col-sm-2">Target language</label>
-              <div class="col-sm-10">
-                <select class="form-control" name="target_lang" id="target_lang" tabindex="3">
-                  <?php foreach ($languages as $lang) { ?>
-                    <option value="<?= $lang->id?>"><?= $lang->langcode . " - " . $lang->langname ?></option>
-                  <?php } ?>
-                </select>
-              </div>
-            </div>
             <div class="form-group">
               <label for="description" class="col-sm-2 control-label">Description</label>
               <div class="col-sm-10">

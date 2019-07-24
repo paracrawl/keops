@@ -140,7 +140,8 @@ class language_dao {
       }
       $this->conn->close_conn();
       if (isset($id)) {
-      $lang = language_dto::newLanguage($id, $lc, $ln);
+        $langauge_dto = new language_dto();
+        $lang = $langauge_dto->newLanguage($id, $lc, $ln);
       }
       else {
         $lang = new language_dto;

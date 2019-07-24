@@ -23,4 +23,8 @@ class task_dto {
   public $creation_date;
   public $assigned_date;
   public $completed_date;
+  public $source_lang;
+  public $target_lang;
+  public $source_lang_object;
+  public $target_lang_object;
 }
