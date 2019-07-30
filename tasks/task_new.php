@@ -21,7 +21,7 @@
   $project = $project_dao->getProjectById($project_id);
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>KEOPS | New task for "<?= $project->name ?>"</title>
@@ -45,7 +45,7 @@
       <form class="form-horizontal new-task-form" action="/tasks/task_save.php" role="form" method="post" data-toggle="validator">
         <input type="hidden" name="project" value="<?= $project->id ?>">
         <div class="form-group">
-          <label for="source_lang" class="control-label col-sm-1">Source language</label>
+          <label for="source_lang" class="control-label col-sm-2">Source language</label>
           <div class="col-sm-4">
             <select class="form-control" required=""  name="source_lang" id="source_lang">
               <option value="-1">Choose one</option>
@@ -63,7 +63,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="target_lang" class="control-label col-sm-1">Target language</label>
+          <label for="target_lang" class="control-label col-sm-2">Target language</label>
           <div class="col-sm-4">
             <select class="form-control" required=""  name="target_lang" id="target_lang">
               <option value="-1">Choose one</option>
@@ -81,7 +81,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="assigned_user" class="control-label col-sm-1">Evaluator</label>
+          <label for="assigned_user" class="control-label col-sm-2">Evaluator</label>
           <div class="col-sm-4">
             <select disabled class="form-control" name="assigned_user" id="assigned_user">
               <!-- Now we fill this with JavaScript :) -->
@@ -94,9 +94,9 @@
         <?php
         ?>
         <div class="form-group">
-          <label for="corpus" class="control-label col-sm-1">Corpus</label>
+          <label for="corpus" class="control-label col-sm-2">Corpus</label>
           <div class="col-sm-4">
-            <select disabled class="form-control" required=""  name="corpus" id="corpus" tabindex="2">
+            <select disabled class="form-control" required=""  name="corpus" id="corpus">
               <!-- Now we fill this with JavaScript :) -->
             </select>
             <div id="helpCorpus" required=""  class="help-block with-errors d-none">
@@ -105,9 +105,9 @@
           </div>
         </div>
         <div class="form-group">
-          <div class="col-sm-4 text-right">
-            <a href="/projects/project_manage.php?id=<?php echo $project->id; ?>" class="col-sm-offset-1 btn btn-info" tabindex="6">Cancel</a>
-            <button type="submit" class="col-sm-offset-1 btn btn-success" tabindex="5">Save</button>
+          <div class="col-sm-5 text-right">
+            <a href="/projects/project_manage.php?id=<?php echo $project->id; ?>" class="col-sm-offset-1 btn btn-info">Cancel</a>
+            <button type="submit" class="col-sm-offset-1 btn btn-success">Save</button>
           </div>
         </div>
       </form>

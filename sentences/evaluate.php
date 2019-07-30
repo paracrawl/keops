@@ -106,7 +106,7 @@ else {
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>KEOPS | Evaluation of task #<?= $task->id ?> - <?= $project->name ?></title>
@@ -133,7 +133,10 @@ else {
       <div class="row">
         <div class="col-md-12 page-header row mx-0 mt-0">
           <div class="col-sm-4 col-xs-12">
-            <span class="h2">Task #<?php echo $task->id ?> <small><?= ($task_progress->completed / $task_progress->total) * 100 ?>% done</small></span>
+            <span class="h2">Task #<?php echo $task->id ?>
+            <?php if (!$filtered) { ?>
+              <small><?= ($task_progress->completed / $task_progress->total) * 100 ?>% done</small></span>
+            <?php } ?>
           </div>
 
           <div class="col-sm-8 col-xs-12 text-right">
@@ -143,13 +146,13 @@ else {
                   <input type="hidden" name="p" value="1" />
                   <input type="hidden" name="id" value="1" />
 
-                  <input class="form-control" id="search-term" name="term" value="<?php if (isset($search_term)) { echo $search_term; } ?>" placeholder="Search through sentences">
+                  <input class="form-control" id="search-term" name="term" value="<?php if (isset($search_term)) { echo $search_term; } ?>" placeholder="Search through sentences" aria-label="Search through sentences">
 
                   <?php
                       $labels = array("P", "L", "A", "T", "MT", "F", "V");
                   ?>
 
-                  <select class="form-control" name="label">
+                  <select class="form-control" name="label" aria-label="Select label">
                     <option value="ALL">Everything</option>
                     <?php
                         foreach ($labels as $labelcode) { ?>
@@ -234,9 +237,9 @@ else {
                       <h4 style="margin-top: 0px;">Annotation</h4>
                     </div>
                     <div class="col-sm-8 col-xs-6 text-right">
-                      <div data-toggle="modal" data-target="#evaluation-help" class="guidelines">
+                      <a href="#" data-toggle="modal" data-target="#evaluation-help">
                         Validation guidelines <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-                      </div>
+                      </a>
                     </div>
                 </div>
                 <div class="row">
@@ -314,18 +317,18 @@ else {
       <div class="col-xs-12 col-md-12">
         <div class="row">
           <div class="col-md-2 col-md-push-6 col-xs-2 pt-xs">
-            <a class="btn btn-link-lg <?= ($task_progress->current-1 == 0) ? "disabled" : "" ?>" style="padding-left: 0em;" href="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current-1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>#top" tabindex="5" title="Go to the previous sentence"><span class="glyphicon glyphicon-arrow-left"></span> Previous</a>
+            <a class="btn btn-link-lg <?= ($task_progress->current-1 == 0) ? "disabled" : "" ?>" style="padding-left: 0em;" href="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current-1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>#top" title="Go to the previous sentence"><span class="glyphicon glyphicon-arrow-left"></span> Previous</a>
           </div>
 
           <div class="col-md-4 col-md-push-6 col-xs-10 text-right">
             <a href="/sentences/evaluate.php?task_id=<?= $task->id ?>#top" class="btn btn-link" title="Go to the first pending sentence">First pending</a>
 
             <?php if ($task->status == "DONE") { ?>
-              <button id="evalutionsavebutton" data-next="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current+1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>#top" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" tabindex="5" title="Go to the next sentence">
+              <button id="evalutionsavebutton" data-next="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current+1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>#top" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" title="Go to the next sentence">
                 Next <span class="glyphicon glyphicon-arrow-right"></span>
               </button>
             <?php } else { ?>
-              <button id="evalutionsavebutton" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" tabindex="5" title="Save this evaluation and go to the next sentence">Next <span class="glyphicon glyphicon-arrow-right"></span></button>
+              <button id="evalutionsavebutton" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" title="Save this evaluation and go to the next sentence">Next <span class="glyphicon glyphicon-arrow-right"></span></button>
             <?php } ?>
           </div>
 
@@ -337,7 +340,7 @@ else {
                   <input type="hidden" name="task_id" value="<?= $task->id ?>">
                   
                   <div class="input-group">
-                      <input type="number" name="id" class="form-control" value="<?= $task_progress->current ?>" min="1" max="<?= $task_progress->total ?>" />
+                      <input type="number" name="id" class="form-control" aria-label="Current page" value="<?= $task_progress->current ?>" min="1" max="<?= $task_progress->total ?>" />
                       <div class="input-group-addon">of <?= $task_progress->total ?></div>
                       <div class="input-group-btn">
                       <button type="submit" class="btn btn-default">Go</button>
@@ -387,46 +390,46 @@ else {
                       <div class="col-md-12 col-xs-12 quickreference">
                         <p class="h4"><strong class="label label-default">Error hierarchy</strong></p>
                         <div class="row">
-                          <div class="col-md-4 col-xs-4">
+                          <div class="col-md-4 col-xs-12">
                             <span class="number-container number-container-small">1</span>
                             <strong>Wrong Language Identification</strong>
                           </div>
-                          <div class="col-md-8 col-xs-6">The crawler tools failed in identifying the right language</div>
+                          <div class="col-md-8 col-xs-11 mt-xs">The crawler tools failed in identifying the right language</div>
                         </div>
                         <div class="row">
-                          <div class="col-md-4 col-xs-4">
+                          <div class="col-md-4 col-xs-12">
                             <span class="number-container number-container-small">2</span>
                             <strong>Incorrect Alignment</strong>
                           </div>
-                          <div class="col-md-8 col-xs-6">There are segments having different content due to wrong alignment</div>
+                          <div class="col-md-8 col-xs-11 mt-xs">There are segments having different content due to wrong alignment</div>
                         </div>
                         <div class="row">
-                          <div class="col-md-4 col-xs-4">
+                          <div class="col-md-4 col-xs-12">
                             <span class="number-container number-container-small">3</span>
                             <strong>Wrong Tokenization</strong>
                             </div>
-                          <div class="col-md-8 col-xs-6">The text has not been tokenized properly by the crawler tools (no separator between words)</div>
+                          <div class="col-md-8 col-xs-11 mt-xs">The text has not been tokenized properly by the crawler tools (no separator between words)</div>
                         </div>
                         <div class="row">
-                          <div class="col-md-4 col-xs-4">
+                          <div class="col-md-4 col-xs-12">
                               <span class="number-container number-container-small">4</span>
                               <strong>Mt-translated Content</strong>
                             </div>
-                          <div class="col-md-8 col-xs-6">Content identified as a translation through a Machine Translation system</div>
+                          <div class="col-md-8 col-xs-11 mt-xs">Content identified as a translation through a Machine Translation system</div>
                         </div>
                         <div class="row">
-                          <div class="col-md-4 col-xs-4">
+                          <div class="col-md-4 col-xs-12">
                             <span class="number-container number-container-small">5</span>
                             <strong>Translation Errors</strong>
                           </div>
-                          <div class="col-md-8 col-xs-6">Lexical mistakes, syntactic errors or poor use of language</div>
+                          <div class="col-md-8 col-xs-11 mt-xs">Lexical mistakes, syntactic errors or poor use of language</div>
                         </div>
                         <div class="row">
-                          <div class="col-md-4 col-xs-4">
+                          <div class="col-md-4 col-xs-12">
                             <span class="number-container number-container-small">6</span>
                             <strong>Free Translation</strong>
                           </div>
-                          <div class="col-md-8 col-xs-6">Non-literal translation, that is, the content is completely reformulated in one language</div>
+                          <div class="col-md-8 col-xs-11 mt-xs">Non-literal translation, that is, the content is completely reformulated in one language</div>
                         </div>
                       </div>
                     </div>
@@ -437,7 +440,7 @@ else {
                     </p>
                     <div class="row">
                       <div class="col-xs-12 col-md-12 h5">
-                        <span class="label label-default">L</span> Wrong Language Identification
+                        Wrong Language Identification
                       </div>
                       <div class="col-xs-12 col-md-12 row">
                         <p class="col-xs-12 col-md-6">
@@ -452,7 +455,7 @@ else {
                     </div>
                     <div class="row">
                       <div class="col-xs-12 col-md-12 h5">
-                      <span class="label label-default">A</span> Incorrect Alignment
+                        Incorrect Alignment
                       </div>
                       <div class="col-xs-12 col-md-12 row">
                         <p class="col-xs-12 col-md-6">
@@ -467,7 +470,7 @@ else {
                     </div>
                     <div class="row">
                       <div class="col-xs-12 col-md-12 h5">
-                      <span class="label label-default">T</span> Wrong Tokenization
+                        Wrong Tokenization
                       </div>
                       <div class="col-xs-12 col-md-12 row">
                         <p class="col-xs-12 col-md-6">
@@ -482,7 +485,7 @@ else {
                     </div>
                     <div class="row">
                       <div class="col-xs-12 col-md-12 h5">
-                        <span class="label label-default">M</span> MT-translated content
+                        MT-translated content
                       </div>
                       <div class="col-xs-12 col-md-12 row">
                         <p class="col-xs-12 col-md-6">
@@ -497,7 +500,7 @@ else {
                     </div>
                     <div class="row">
                       <div class="col-xs-12 col-md-12 h5">
-                        <span class="label label-default">E</span> Translation Errors
+                        Translation Errors
                       </div>
                       <div class="col-xs-12 col-md-12 row">
                         <p class="col-xs-12 col-md-6">
@@ -512,7 +515,7 @@ else {
                     </div>
                     <div class="row">
                       <div class="col-xs-12 col-md-12 h5">
-                      <span class="label label-default">F</span> Free translation
+                        Free translation
                       </div>
                       <div class="col-xs-12 col-md-12 row">
                         <p class="col-xs-12 col-md-6">

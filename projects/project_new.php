@@ -9,7 +9,7 @@
   require_once(RESOURCES_PATH . "/session.php");
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>KEOPS | New project</title>
@@ -36,21 +36,21 @@
             <div class="form-group">
               <label for="name" class="col-sm-2 control-label">Name</label>
               <div class="col-sm-10">
-                <input type="text" name="name" class="form-control" aria-describedby="helpName" placeholder="Name" maxlength="100" required="" autofocus="" tabindex="1">
+                <input type="text" name="name" class="form-control" aria-describedby="helpName" placeholder="Name" maxlength="100" required="" autofocus="">
                 <div id="helpName" class="help-block with-errors">Write the public name of the project</div>
               </div>
             </div>
             <div class="form-group">
               <label for="description" class="col-sm-2 control-label">Description</label>
               <div class="col-sm-10">
-                <textarea name="description" class="form-control" aria-describedby="helpDesc" placeholder="Description" maxlength="500" required="" tabindex="4"></textarea>
+                <textarea name="description" class="form-control" aria-describedby="helpDesc" placeholder="Description" maxlength="500" required=""></textarea>
                 <div id="helpDesc" class="help-block with-errors"></div>
               </div>
             </div>
             <div class="form-group">
               <div class="col-sm-8 col-sm-offset-4 text-right">
-                <a href="/admin/index.php#projects" class="btn btn-info" tabindex="6">Cancel</a>
-                <button type="submit" class="btn btn-success" tabindex="5">Save</button>
+                <a href="/admin/index.php#projects" class="btn btn-info">Cancel</a>
+                <button type="submit" class="btn btn-success">Save</button>
               </div>
             </div>
           </form>

@@ -20,7 +20,7 @@
   $project = $project_dao->getProjectById($project_id);
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>KEOPS | Edit project</title>
@@ -52,14 +52,14 @@
         <div class="form-group">
           <label for="name" class="col-sm-1 control-label">Name</label>
           <div class="col-sm-4">
-            <input type="text" name="name" class="form-control" aria-describedby="helpName" placeholder="Name" maxlength="100" required="" autofocus="" tabindex="1" value="<?= $project->name ?>">
+            <input type="text" name="name" class="form-control" aria-describedby="helpName" placeholder="Name" maxlength="100" required="" autofocus="" value="<?= $project->name ?>">
             <div id="helpName" class="help-block with-errors"></div>
           </div>
         </div>
         <div class="form-group">
           <label for="description" class="col-sm-1 control-label">Description</label>
           <div class="col-sm-4">
-            <textarea name="description" class="form-control" aria-describedby="helpDesc" placeholder="Description" maxlength="500" required="" tabindex="4"><?= $project->description ?></textarea>
+            <textarea name="description" class="form-control" aria-describedby="helpDesc" placeholder="Description" maxlength="500" required=""><?= $project->description ?></textarea>
             <div id="helpDesc" class="help-block with-errors"></div>
           </div>
         </div>
@@ -80,8 +80,8 @@
         <input type="hidden" name="id" id="id" value="<?= $project->id ?>">
         <div class="form-group">
           <div class="col-sm-4 text-right">
-            <a href="/projects/project_manage.php?id=<?=$project->id?>" class="col-sm-offset-1 btn btn-info" tabindex="6">Cancel</a>
-            <button type="submit" class="col-sm-offset-1 btn btn-success" tabindex="5">Save</button>
+            <a href="/projects/project_manage.php?id=<?=$project->id?>" class="col-sm-offset-1 btn btn-info">Cancel</a>
+            <button type="submit" class="col-sm-offset-1 btn btn-success">Save</button>
           </div>
         </div>
       </form>

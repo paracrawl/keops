@@ -144,9 +144,11 @@ class user_langs_dao {
     try {
       $user_ids = array();
       $query = $this->conn->prepare("
-        select ul.user_id from user_langs as ul
-        join langs as l on l.id = ul.lang_id
-        where l.langcode = ? or l.langcode = ? ;
+        select  ul1.user_id from  user_langs ul1 
+        inner join user_langs ul2 on ul1.user_id = ul2.user_id
+        join langs as l1 on (ul1.lang_id = l1.id)
+        join langs as l2 on (ul2.lang_id = l2.id)
+        where l1.langcode = ? and l2.langcode = ? ;
       ");
       $query->bindParam(1, $lang1);
       $query->bindParam(2, $lang2);

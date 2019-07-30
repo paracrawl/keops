@@ -38,6 +38,8 @@ $('#evalutionsavebutton').on('click', function() {
 $(document).on('keypress', (e) => {
   if ($(e.target).is('input, select, label, a, .btn') && e.which == 13) {
     $(e.target).find(".btn").trigger('click');
+  } else if ($(e.target).is('input, select, label')) {
+    return;
   } else {
     if (e.which == 13) { // Intro
       $("#evalutionsavebutton").trigger('click');

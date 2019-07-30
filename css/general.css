@@ -400,8 +400,9 @@ table .progress span, #evaluate-percent {
     width: 20%;
     display: inline;
 }
+
 .legal-notice{
-    font-size: xx-small;
+    font-size: small;
     display: inline;
 }
 .prompsit-info{
@@ -752,11 +753,15 @@ hr {
   }
 
   .mt-xs {
-    margin-top: 0.5em;
+    margin-top: 0.25em;
   }
 
   .pt-xs {
-    padding-top: 0.5em;
+    padding-top: 0.25em;
+  }
+
+  .quickreference .row [class*="col-"]:nth-child(2) {
+    margin-left: 2em;
   }
 }
 
@@ -943,5 +948,22 @@ table.dataTable .actions li a {
 }
 
 .btn-link.inverted {
+  color: white;
+}
+
+/*
+  Color-contrast adjustments
+*/
+.pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover,
+.breadcrumb>.active,
+.h1 .small, .h1 small, .h2 .small, .h2 small, .h3 .small, .h3 small, .h4 .small, .h4 small, .h5 .small, .h5 small, .h6 .small, .h6 small, h1 .small, h1 small, h2 .small, h2 small, h3 .small, h3 small, h4 .small, h4 small, h5 .small, h5 small, h6 .small, h6 small {
+  color: #595959;
+}
+
+a {
+  color: #24557F;
+}
+
+.navbar-header a:focus {
   color: white;
 }

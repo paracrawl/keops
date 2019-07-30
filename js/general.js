@@ -44,7 +44,7 @@ $(document).ready(function() {
           actions_str += '<li><a href="mailto:' + row[8] + '" title="Contact project manager"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Contact project manager</a></li>';
 
           return `<div class="btn-group">
-                  <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-label="Toggle actions" aria-haspopup="true" aria-expanded="false">
                     <span class="glyphicon glyphicon glyphicon-cog"></span>
                   </button>
                   <ul class="dropdown-menu dropdown-menu-right">
@@ -90,23 +90,25 @@ $(document).ready(function() {
   /**
    * Completion chart for a task
    */
-  var recapChart = new Chart(document.getElementById("pie-chart"), {
-    type: 'pie',
-    data: {
-      labels: labels_pie_chart,
-      datasets: [{
-        backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#3e95cd", "#8e5ea2","#3cba9f","#e2782c", "#4D5360","#20a96a"],
-        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#50aeea", "#c184da", "#46d6b7", "#f38f48", "#616774", "#4bcc91"],
-        data: data_pie_chart
-      }]
-    },
-    options: {
-      title: {
-        display: true,
-        text: '# of sentences by type'
+  if (document.getElementById("pie-chart") && labels_pie_chart && data_pie_chart) {
+    var recapChart = new Chart(document.getElementById("pie-chart"), {
+      type: 'pie',
+      data: {
+        labels: labels_pie_chart,
+        datasets: [{
+          backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#3e95cd", "#8e5ea2","#3cba9f","#e2782c", "#4D5360","#20a96a"],
+          hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#50aeea", "#c184da", "#46d6b7", "#f38f48", "#616774", "#4bcc91"],
+          data: data_pie_chart
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: '# of sentences by type'
+        }
       }
-    }
-  });
+    });
+  }
 });
 
 function formatDate(datestring) {

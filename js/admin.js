@@ -192,7 +192,7 @@ $(document).ready(function() {
       responsivePriority: 1,
      render: function (data, type, row) {
        return `<div class="btn-group">
-                <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-label="Toggle actions" aria-expanded="false">
                   <span class="glyphicon glyphicon glyphicon-cog"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right">
@@ -228,7 +228,7 @@ $(document).ready(function() {
       className: "actions",
       render: function (data, type, row) {
         return `<div class="btn-group">
-                  <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-label="Toggle actions" aria-expanded="false">
                     <span class="glyphicon glyphicon glyphicon-cog"></span>
                   </button>
                   <ul class="dropdown-menu dropdown-menu-right">
@@ -289,7 +289,7 @@ $(document).ready(function() {
          }
 
          return `<div class="btn-group">
-                  <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-label="Toggle actions" aria-expanded="false">
                     <span class="glyphicon glyphicon glyphicon-cog"></span>
                   </button>
                   <ul class="dropdown-menu dropdown-menu-right">
@@ -339,7 +339,7 @@ $(document).ready(function() {
       responsivePriority: 1,
       render: function (data, type, row) {
         return `<div class="btn-group">
-                <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-label="Toggle actions" aria-expanded="false">
                   <span class="glyphicon glyphicon glyphicon-cog"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right">
@@ -428,7 +428,7 @@ $(document).ready(function() {
             actions_str += '<li>' + getRemoveTaskCode(row[0], row[1]) + '</li>';
             
             return `<div class="btn-group">
-                    <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-label="Toggle actions" aria-expanded="false">
                       <span class="glyphicon glyphicon glyphicon-cog"></span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right">
@@ -487,7 +487,7 @@ $(document).ready(function() {
           actions_str += getRemoveTaskCode(row[0], row[2]) ;
 
           return `<div class="btn-group">
-                    <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-label="Toggle actions" aria-expanded="false">
                       <span class="glyphicon glyphicon glyphicon-cog"></span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right">
@@ -624,9 +624,11 @@ $(document).ready(function() {
     
   /*
    * Calls the function that builds the completion chart for each task
-   */    
-  for (i in charts) {
-    drawPieChart(charts[i]["id"], charts[i]["labels"], charts[i]["data"]);
+   */
+  if (typeof charts != 'undefined') {
+    for (i in charts) {
+      drawPieChart(charts[i]["id"], charts[i]["labels"], charts[i]["data"]);
+    }
   }
 });
 
