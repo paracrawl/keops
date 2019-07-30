@@ -10,7 +10,7 @@
   require_once(RESOURCES_PATH . "/session.php");
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>KEOPS | Management</title>
@@ -229,7 +229,7 @@
               Files uploaded to create evaluation tasks.
             </div>
             <div class="col-xs-6 col-md-6 text-right">
-              <a href="#upload" type="submit" class="btn btn-link" tabindex="5">
+              <a href="#upload" type="submit" class="btn btn-link">
                 <span class="glyphicon glyphicon-cloud-upload"></span>
                 <span class="col-xs-12">Upload</span>
               </a>
@@ -328,7 +328,7 @@
                 <div class="form-group">
                   <label for="email" class="col-sm-1 control-label">Email</label>
                   <div class="col-sm-9">
-                    <input id="modal-email" type="email" readonly name="email" class="form-control" aria-describedby="helpEmail" placeholder="Email address" maxlength="200" required="" autofocus="" tabindex="1">
+                    <input id="modal-email" type="email" readonly name="email" class="form-control" aria-describedby="helpEmail" placeholder="Email address" maxlength="200" required="" autofocus="">
                   </div>
                 </div>
                 <div class="form-group">
@@ -337,7 +337,7 @@
                     <div class="col-sm-9">
                       <div class="input-group">
                         <div class="input-group-addon"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></div>
-                        <input id="token" class="form-control" readonly aria-describedby="helpInvitation" placeholder="The invitation URL will appear here" maxlength="200" tabindex="2">
+                        <input id="token" class="form-control" readonly aria-describedby="helpInvitation" placeholder="The invitation URL will appear here" maxlength="200">
                       </div>
                       <div id="helpInvitation" class="help-block with-errors">Please copy this URL and send to the new user. They will be able to sign up with the token ID.</div>
                     </div>

@@ -23,7 +23,7 @@ $languages = $language_dao->getLanguages();
 
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>KEOPS | Edit User <?= $user->id ?></title>

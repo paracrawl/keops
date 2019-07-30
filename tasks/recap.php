@@ -48,7 +48,7 @@ if (isset($task_id)) {
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>KEOPS | Recap of task #<?= $task->id ?> - <?= $project->name ?></title>
@@ -63,7 +63,6 @@ if (isset($task_id)) {
         <li><a href="/index.php">Tasks</a></li>
         <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>"  title="Go to the first pending sentence">Evaluation of <?= $project->name ?></a></li>
         <li class="active">Recap of Task #<?= $task->id ?></li>
-        <a class="pull-right" href="mailto:<?= $project->owner_object->email ?>" title="Contact Project Manager">Contact PM <span id="contact-mail-logo" class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
       </ul>
       <!--<div class="col-md-12">
         <div class="table-responsive">

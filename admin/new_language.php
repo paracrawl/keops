@@ -10,7 +10,7 @@
   require_once(RESOURCES_PATH . "/session.php");
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>KEOPS | New language</title>
@@ -66,21 +66,21 @@
         <div class="form-group">
           <label for="langcode" class="col-sm-1 control-label">Language code</label>
           <div class="col-sm-7">
-            <input id="langcode" name="langcode" class="form-control" aria-describedby="helpLangCode" placeholder="Language code" maxlength="5" required="" autofocus="" tabindex="1">
+            <input id="langcode" name="langcode" class="form-control" aria-describedby="helpLangCode" placeholder="Language code" maxlength="5" required="" autofocus="">
             <div id="helpLangCode" class="help-block with-errors">Two-letter <a target="_blank" href="http://www.loc.gov/standards/iso639-2/php/code_list.php">ISO 639-1</a> language code</div>
           </div>
         </div>
         <div class="form-group">
             <label for="langname" class="col-sm-1 control-label">Language name</label>
             <div class="col-sm-7">
-                <input id="langname" name="langname" class="form-control" aria-describedby="helpLangName" placeholder="Language name" maxlength="200" tabindex="2" required="">
+                <input id="langname" name="langname" class="form-control" aria-describedby="helpLangName" placeholder="Language name" maxlength="200" required="">
               <div id="helpLangName" class="help-block with-errors"></div>
             </div>
         </div>
         <div class="form-group">
           <div class="col-sm-5 text-right">
-            <a href="/admin/index.php#languages" class="col-sm-offset-1 btn btn-info" tabindex="4">Cancel</a>
-            <button type="submit" id="add_lang_button" class="col-sm-offset-1 btn btn-success" tabindex="3">Save</button>
+            <a href="/admin/index.php#languages" class="col-sm-offset-1 btn btn-info">Cancel</a>
+            <button type="submit" id="add_lang_button" class="col-sm-offset-1 btn btn-success">Save</button>
           </div>
         </div>
       </form>

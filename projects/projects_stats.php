@@ -13,7 +13,7 @@ $PAGETYPE = "admin";
 require_once(RESOURCES_PATH . "/session.php");
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>KEOPS | Your projects</title>
@@ -250,7 +250,7 @@ require_once(RESOURCES_PATH . "/session.php");
 
         <div class="col-md-3 visible-md visible-lg" style="position: sticky; top: 70px;">
             <nav id="sidenav">
-                <ul class="nav nav-pills nav-stacked">
+                <ul class="nav nav-pills nav-stacked" style="height: calc(100vh - 80px); overflow-y: scroll;">
                     <?php foreach ($projects_id as $project_id) { ?>
                         <li role="presentation"><a href="#project<?= $project_id ?>">Project #<?= $project_id ?></a></li>
                     <?php } ?>

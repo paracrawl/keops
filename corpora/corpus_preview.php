@@ -36,7 +36,7 @@
   }
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>KEOPS | Corpus preview </title>
@@ -57,11 +57,11 @@
           <h1><?= $corpus->name?></h1>
         </div>
         <div class="col-xs-6 col-md-6 text-right">
-          <a href="/corpora/corpus_edit.php?id=<?php echo $corpus->id;?>" type="submit" title="Edit corpus" class="btn btn-link" tabindex="5">
+          <a href="/corpora/corpus_edit.php?id=<?php echo $corpus->id;?>" type="submit" title="Edit corpus" class="btn btn-link">
             <span class="glyphicon glyphicon-edit"></span>
             <span class="col-xs-12">Edit</span>
           </a> 
-          <a href="/corpora/corpus_remove.php?id=<?php echo $corpus->id;?>" type="submit" title="Remove corpus" class="btn btn-link" tabindex="5">
+          <a href="/corpora/corpus_remove.php?id=<?php echo $corpus->id;?>" type="submit" title="Remove corpus" class="btn btn-link">
             <span class="text-danger">
               <span class="glyphicon glyphicon-trash"></span>
               <span class="col-xs-12">Remove</span>

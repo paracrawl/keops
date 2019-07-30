@@ -33,7 +33,7 @@
   }
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>KEOPS | Change assigned user for Task #<?= $task->id ?></title>
@@ -81,7 +81,7 @@
                     <label for="assigned_user">New evaluator</label>
                 </div>
                 <div class="col-sm-8">
-                    <select class="form-control" name="assigned_user" id="assigned_user" tabindex="2">
+                    <select class="form-control" name="assigned_user" id="assigned_user">
                     <option value="<?= $assigned_user->id?>"><?= $assigned_user->name ?></option>
                     <?php foreach ($users as $user) { if ($user->id != $task->assigned_user) { ?>
                         <option value="<?= $user->id?>"><?= $user->name ?></option>
@@ -93,8 +93,8 @@
             <div class="form-group row">
                 <div class="col-sm-offset-4 col-sm-8 mt-2 text-right">
                     <hr />
-                    <a href="/projects/project_manage.php?id=<?php echo $task->project_id; ?>" class="btn btn-info" tabindex="6">Cancel</a>
-                    <button type="submit" class="btn btn-success" tabindex="5">Save</button>
+                    <a href="/projects/project_manage.php?id=<?php echo $task->project_id; ?>" class="btn btn-info">Cancel</a>
+                    <button type="submit" class="btn btn-success">Save</button>
                 </div>
             </div>
         </div>

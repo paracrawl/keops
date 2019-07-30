@@ -25,7 +25,7 @@
 //  $languages = $language_dao->getLanguages();
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>KEOPS | Remove corpus</title>
@@ -93,8 +93,8 @@
         <input type="hidden" name="action" id="action" value="remove">
         <div class="form-group">
           <div class="col-sm-4 text-right">
-            <a href="/corpora/corpus_preview.php?id=<?php echo $corpus->id;?>" class="col-sm-offset-1 btn btn-info" tabindex="6">Cancel</a>
-            <button type="submit" class="col-sm-offset-1 btn btn-danger" tabindex="5">Remove corpus</button>
+            <a href="/corpora/corpus_preview.php?id=<?php echo $corpus->id;?>" class="col-sm-offset-1 btn btn-info">Cancel</a>
+            <button type="submit" class="col-sm-offset-1 btn btn-danger">Remove corpus</button>
           </div>
         </div>
       </form>

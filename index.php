@@ -9,7 +9,7 @@ $PAGETYPE = "public";
 require_once(RESOURCES_PATH . "/session.php");
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>KEOPS | Home</title>

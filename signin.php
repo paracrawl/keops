@@ -10,7 +10,7 @@
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>KEOPS | Sign in</title>
@@ -79,7 +79,7 @@
           <div class="prompsit-gradient"></div>
           <div class="prompsit-info">
               <a target="_blank" href="http://www.prompsit.com">
-                <img src="http://www.prompsit.com/wp-content/themes/prompsit-theme/images/logotipo-prompsit.png" alt="" />
+                <img src="http://www.prompsit.com/wp-content/themes/prompsit-theme/images/logotipo-prompsit.png" alt="Prompsit home" />
               </a>
           </div>
       </footer>

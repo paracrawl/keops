@@ -4,8 +4,8 @@
             <div class="col-xs-12 col-md-4" style="margin-bottom: 1em;">
                 <div class="prompsit-gradient"></div>
                 <div class="prompsit-info">
-                    <a target="_blank" href="http://www.prompsit.com">
-                        <img src="http://www.prompsit.com/wp-content/themes/prompsit-theme/images/logotipo-prompsit.png" alt="" />
+                    <a target="_blank" href="http://www.prompsit.com" rel="noopener" aria-label="">
+                        <img src="http://www.prompsit.com/wp-content/themes/prompsit-theme/images/logotipo-prompsit.png" alt="Prompsit home" />
                     </a>
                     <p>
                     <span class="glyphicon glyphicon-copyright-mark" aria-hidden="true"></span>&nbsp;2019 Prompsit Language Engineering S.L. <br />
@@ -18,7 +18,7 @@
             <div class="col-xs-12 col-md-8 text-right-md">
                 <div class="row">
                     <div class="col-xs-12 col-md-12">
-                        <img src="../../img/eu-logo.png">
+                        <img src="../../img/eu-logo.png" alt="Logo of the European Union">
                     </div>
 
                     <div class="col-md-offset-4 col-xs-12 col-md-8 legal-notice" style="margin-top: 1em;">              

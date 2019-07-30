@@ -19,7 +19,7 @@
   $project = $project_dao->getProjectById($project_id);
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>KEOPS | Project: <?= $project->name ?></title>
@@ -43,11 +43,11 @@
           </div>
 
           <div class="col-xs-6 col-md-6 text-right">
-            <a href="/projects/project_edit.php?id=<?php echo $project->id;?>" type="submit" title="Edit project" class="btn btn-link" tabindex="5">
+            <a href="/projects/project_edit.php?id=<?php echo $project->id;?>" type="submit" title="Edit project" class="btn btn-link">
               <span class="glyphicon glyphicon-edit"></span>
               <span class="col-xs-12">Edit</span>
             </a> 
-            <a href="/projects/project_remove.php?id=<?php echo $project->id;?>" type="submit" title="Remove project" class="btn btn-link" tabindex="5">
+            <a href="/projects/project_remove.php?id=<?php echo $project->id;?>" type="submit" title="Remove project" class="btn btn-link">
               <span class="text-danger">
                 <span class="glyphicon glyphicon-trash"></span>
                 <span class="col-xs-12">Remove</span>

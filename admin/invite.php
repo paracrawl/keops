@@ -10,7 +10,7 @@
   require_once(RESOURCES_PATH . "/session.php");
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>KEOPS | Invite new user</title>
@@ -36,7 +36,7 @@
           </div>
           <div class="col-sm-11 col-xs-10">
             <label for="email" class="control-label">Enter the email address of the user you want to invite</label> <br />
-            <input id="email" type="email" name="email" class="form-control" aria-describedby="helpEmail" placeholder="Email address" maxlength="200" required="" autofocus="" tabindex="1">
+            <input id="email" type="email" name="email" class="form-control" aria-describedby="helpEmail" placeholder="Email address" maxlength="200" required="" autofocus="">
             <div id="helpEmail" class="help-block with-errors">The email should be valid, since it will be used to notify the user</div>
           </div>
         </div>
@@ -49,7 +49,7 @@
               <label for="token" class="control-label">Get the invitation URL</label> <br />
               <div class="input-group">
                 <div class="input-group-addon"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></div>
-                <input id="token" class="form-control" readonly aria-describedby="helpInvitation" placeholder="The invitation URL will appear here" maxlength="200" tabindex="2">
+                <input id="token" class="form-control" readonly aria-describedby="helpInvitation" placeholder="The invitation URL will appear here" maxlength="200">
               </div>
 
               <div id="tokenHelp" class="help-block with-errors text-success">An email will be sent to the new user with the invitation URL</div>
@@ -58,8 +58,8 @@
         </div>
         <div class="form-group col-xs-12 col-md-12 row" style="margin-top: 2em;">
           <div class="col-xs-12 col-md-12 text-right">
-            <a href="/admin/index.php#invitations" class="btn btn-info" tabindex="4">Cancel</a>
-            <button type="submit" id="invite_button" class="btn btn-success" tabindex="3">Invite</button>
+            <a href="/admin/index.php#invitations" class="btn btn-info">Cancel</a>
+            <button type="submit" id="invite_button" class="btn btn-success">Invite</button>
           </div>
         </div>
       </form>

@@ -21,7 +21,7 @@
   $project = $project_dao->getProjectById($project_id);
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>KEOPS | Remove project</title>
@@ -95,24 +95,16 @@
         <input type="hidden" name="id" id="id" value="<?= $project->id ?>">
         <input type="hidden" name="action" id="action" value="remove">
 
-        <!--
-        <div class="form-group">
-          <div class="col-sm-12 text-center">
-            <a href="/projects/project_manage.php?id=<?php echo $project->id;?>" class="btn btn-info" tabindex="6">Cancel</a>
-            <button type="submit" class="btn btn-danger" tabindex="5">Remove project</button>
-          </div>
-        </div>-->
-
         <div class="row" style="margin-top: 1em;">
           <div class="col-xs-12 col-md-2">
-            <a style="width:100%; margin-bottom: 0.5em;" href="/projects/project_manage.php?id=<?php echo $project->id;?>" class="btn btn-default" tabindex="6">Cancel</a>
+            <a style="width:100%; margin-bottom: 0.5em;" href="/projects/project_manage.php?id=<?php echo $project->id;?>" class="btn btn-default">Cancel</a>
           </div>  
           <div class="col-xs-12 col-md-2 col-md-offset-6">
-            <a style="width:100%; margin-bottom: 0.5em;" href="/projects/project_edit.php?id=<?=$project->id; ?>" class="btn btn-info" tabindex="6" title="Keeps the project but prevents the creation of new tasks">Mark as inactive</a>
+            <a style="width:100%; margin-bottom: 0.5em;" href="/projects/project_edit.php?id=<?=$project->id; ?>" class="btn btn-info" title="Keeps the project but prevents the creation of new tasks">Mark as inactive</a>
           </div>
 
           <div class="col-xs-12 col-md-2">
-            <button style="width:100%; margin-bottom: 0.5em;" type="submit" class="btn btn-danger" tabindex="5">Remove project</button>
+            <button style="width:100%; margin-bottom: 0.5em;" type="submit" class="btn btn-danger">Remove project</button>
           </div>
         </div>
       </form>

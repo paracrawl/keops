@@ -23,7 +23,7 @@
   $languages = $language_dao->getLanguages();
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>KEOPS | Edit corpus</title>
@@ -54,14 +54,14 @@
         <div class="form-group">
           <label for="name" class="col-sm-1 control-label">Name</label>
           <div class="col-sm-4">
-            <input type="text" name="name" class="form-control" aria-describedby="helpName" placeholder="Name" maxlength="100" required="" autofocus="" tabindex="1" value="<?= $corpus->name ?>">
+            <input type="text" name="name" class="form-control" aria-describedby="helpName" placeholder="Name" maxlength="100" required="" autofocus="" value="<?= $corpus->name ?>">
             <div id="helpName" class="help-block with-errors"></div>
           </div>
         </div>
         <div class="form-group">
           <label for="source_lang" class="control-label col-sm-1">Source language</label>
           <div class="col-sm-4">
-            <select class="form-control" name="source_lang" id="source_lang" tabindex="2">
+            <select class="form-control" name="source_lang" id="source_lang">
               <?php foreach ($languages as $lang) { ?>
                 <option value="<?= $lang->id?>"<?= $corpus->source_lang == $lang->id ? " selected" : "" ?>><?= $lang->langcode . " - " . $lang->langname ?></option>
               <?php } ?>
@@ -71,7 +71,7 @@
         <div class="form-group">
           <label for="target_lang" class="control-label col-sm-1">Target language</label>
           <div class="col-sm-4">
-            <select class="form-control" name="target_lang" id="target_lang" tabindex="3">
+            <select class="form-control" name="target_lang" id="target_lang">
               <?php foreach ($languages as $lang) { ?>
                 <option value="<?= $lang->id?>"<?= $corpus->target_lang == $lang->id ? " selected" : "" ?>><?= $lang->langcode . " - " . $lang->langname ?></option>
               <?php } ?>
@@ -102,8 +102,8 @@
         <input type="hidden" name="id" id="id" value="<?= $corpus->id ?>">
         <div class="form-group">
           <div class="col-sm-4 text-right">
-            <a href="/corpora/corpus_preview.php?id=<?php echo $corpus->id;?>" class="col-sm-offset-1 btn btn-info" tabindex="6">Cancel</a>
-            <button type="submit" class="col-sm-offset-1 btn btn-success" tabindex="5">Save</button>
+            <a href="/corpora/corpus_preview.php?id=<?php echo $corpus->id;?>" class="col-sm-offset-1 btn btn-info">Cancel</a>
+            <button type="submit" class="col-sm-offset-1 btn btn-success">Save</button>
           </div>
         </div>
       </form>
