@@ -27,10 +27,6 @@ if (count($failedparams) == 0){
     $sentence_task_dto->id = filter_input(INPUT_POST, "sentence_id", FILTER_SANITIZE_STRING);
     $sentence_task_dto->task_id = filter_input(INPUT_POST, "task_id", FILTER_SANITIZE_STRING);
     $sentence_task_dto->evaluation = filter_input(INPUT_POST, "evaluation", FILTER_SANITIZE_STRING);
-    $sentence_task_dto->comments = filter_input(INPUT_POST, "comments", FILTER_SANITIZE_STRING);
-    
-    // Filter comments newlines
-    $sentence_task_dto->comments = trim(preg_replace('/\s\s+/', ' ', $sentence_task_dto->comments));
 
     $datetime= date('Y-m-d H:i:s');
     $sentence_task_dto->completed_date = $datetime;
@@ -42,27 +38,25 @@ if (count($failedparams) == 0){
       }
 
       $comment_dao = new comment_dao();
+
+      $personal_data = filter_input(INPUT_POST, "personal_data");
+      $content_error = filter_input(INPUT_POST, "content_error");
+
+      if (isset($personal_data)) $comment_dao->upsertComment(comment_dto::newComment($sentence_task_dto->id, "personal_data", $personal_data));
+      if (isset($content_error)) $comment_dao->upsertComment(comment_dto::newComment($sentence_task_dto->id, "content_error", $content_error));
+
       $keys = array_keys($_POST);
       foreach (array_keys($_POST) as $key) {
         $matches = array();
         if(preg_match("/^(". $sentence_task_dto->evaluation ."_.*)/", $key, $matches)) {
-          $comment_dto = new comment_dto();
-          $comment_dto->pair = $sentence_task_dto->id;
-          $comment_dto->name = $matches[1];
-          $comment_dto->value = $_POST[$key];
-
-          if ($comment_dao->getCommentById($comment_dto->pair, $comment_dto->name)) {
-            $comment_dao->updateComment($comment_dto);
-          } else {
-            $comment_dao->insertComment($comment_dto);
-          }
+          $comment_dao->upsertComment(comment_dto::newComment($sentence_task_dto->id, $matches[1], $_POST[$key]));
         }
       }
 
       $search_term = filter_input(INPUT_POST, "term");
       $label = filter_input(INPUT_POST, "label");
       $p_id = filter_input(INPUT_POST, "p_id");
-      $str = "Location: /sentences/evaluate.php?task_id=" . $sentence_task_dto->task_id . "&p=1&id=" . ($p_id+1) . ((isset($search_term) && isset($label)) ? "&term=".$search_term."&label=".$label : "") . "#top";
+      $str = "Location: /sentences/evaluate.php?task_id=" . $sentence_task_dto->task_id . "&p=1&id=" . ($p_id+1) . ((isset($search_term) && isset($label)) ? "&term=".$search_term."&label=".$label : "");
       header($str);
       die();
     }

@@ -106,6 +106,7 @@ class comment_dao {
             $this->conn->close_conn();
             throw new Exception("Error in comment_dao::insertComment : " . $ex->getMessage());
         }
+        
         return false;
     }
 
@@ -129,7 +130,35 @@ class comment_dao {
             $this->conn->close_conn();
             throw new Exception("Error in comment_dao::updateComment : " . $ex->getMessage());
         }
+
         return false;
     }
 
+    /**
+     * Inserts a comment but updates it if it already exists
+     * 
+     * @param \comment_dto $comment_dto Comment object
+     * 
+     * @return boolean True if succeeded, False otherwise
+     */
+    function upsertComment($comment_dto) {
+        try {
+            $query = $this->conn->prepare("
+                INSERT INTO comments (pair, name, value) VALUES (?, ?, ?)
+                on conflict (pair, name) do update set value = ?;
+            ");
+            $query->bindParam(1, $comment_dto->pair);
+            $query->bindParam(2, $comment_dto->name);
+            $query->bindParam(3, $comment_dto->value);
+            $query->bindParam(4, $comment_dto->value); 
+            $query->execute();
+            $this->conn->close_conn();
+            return true;
+        } catch (Exception $ex) {
+            $this->conn->close_conn();
+            return false;
+        }
+
+        return false;
+    }
 }

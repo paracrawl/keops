@@ -6,7 +6,6 @@ require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.ph
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/project_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/sentence_task_dao.php");
-require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/language_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/comment_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dto/sentence_task_dto.php");
 
@@ -25,14 +24,8 @@ if (isset($task_id)) {
 
   if ($task->status == "DONE") {
     $sentence_task_dao = new sentence_task_dao();
-    $lang_dao = new language_dao();
     $st_array = $sentence_task_dao->getAnnotatedSentecesByTask($task->id);
-    $source_lang_code = $task->source_lang;
-    $target_lang_code = $task->target_lang;
-    $source_lang = $lang_dao->getLangByLangCode($source_lang_code)->langcode;
-    $target_lang = $lang_dao->getLangByLangCode($target_lang_code)->langcode;
 
-    
     // output headers so that the file is downloaded rather than displayed
 
     header('Content-Encoding: UTF-8');
@@ -71,7 +64,7 @@ if (isset($task_id)) {
         $sentence_comment[] = $stc->name . ": " . $stc->value;
       }
 
-      $row = array($source_text, $target_text, $source_lang, $target_lang, $st->evaluation, $sentence_task_dto->getLabel($st->evaluation), implode($sentence_comment, ";"));
+      $row = array($source_text, $target_text, $task->source_lang, $task->target_lang, $st->evaluation, $sentence_task_dto->getLabel($st->evaluation), implode($sentence_comment, "; "));
       $str = implode($row, $delimiter)."\n";
       fputs($output,  implode($row, $delimiter)."\n");
     }

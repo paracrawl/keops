@@ -21,10 +21,10 @@ function checkPostParameters($names){
  *  Formats a date
  * 
  * @param string $date Date (in the format returned by the DB)
- * @param string $format Output date format (default: Y-m-d)
+ * @param string $format Output date format (default: d.m.Y)
  * @return type Formatted date
  */
-function getFormattedDate($date, $format="Y-m-d") {
+function getFormattedDate($date, $format="d.m.Y") {
   return isset($date) && $date !== '' ? date($format, strtotime($date)) : "";
 }
 

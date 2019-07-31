@@ -25,7 +25,7 @@ $tabs = (object) [
   ["label" => "L", "comments" => [
     [
       "name" => "L_sentence",
-      "text" => "Sentence with wrong language identification",
+      "text" => "Error is in",
       "options" => [
         ["value" => "source", "text" => "[SOURCE]"],
         ["value" => "target", "text" => "[TARGET]"]
@@ -35,10 +35,20 @@ $tabs = (object) [
   ["label" => "MT", "comments" => [
     [
       "name" => "MT_direction",
-      "text" => "MT translation",
+      "text" => "Error is in",
       "options" => [
         ["value" => "source_to_target", "text" => "[SOURCE] to [TARGET]"],
         ["value" => "target_to_source", "text" => "[TARGET] to [SOURCE]"]
+      ]
+    ]
+  ]],
+  ["label" => "F", "comments" => [
+    [
+      "name" => "F_keep",
+      "text" => "Translation should be",
+      "options" => [
+        ["value" => "keep", "text" => "Kept"],
+        ["value" => "discard", "text" => "Discarded"]
       ]
     ]
   ]]
@@ -243,7 +253,7 @@ else {
                     </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-12" style="padding-bottom: 1em;">
+                  <div class="col-md-12">
                     <div class="row btn-group evaluation-btn-group" data-toggle="buttons">
                       <div class="col-md-12 col-xs-12">
                           <?php foreach (array_slice(sentence_task_dto::$labels, 0, count(sentence_task_dto::$labels) - 2) as $label) { ?>
@@ -274,21 +284,59 @@ else {
                   </div>
                   <div class="col-xs-12 col-md-12">
                     <hr />
+                    <?php
+                      $comment_dao = new comment_dao();
+                      $content_error = $comment_dao->getCommentById($sentence->id, "content_error");
+                    ?>
+                    <div class="row" style="margin-top: 0.5em;">
+                      <div class="col-xs-12 col-md-5">
+                        <label for="content_error">Contains inappropriate content</label>
+                      </div>
+                      <div class="col-xs-12 col-md-7 text-right-md">
+                        <div class="btn-group btn-group-justified" data-toggle="buttons">
+                          <label class="btn btn-default <?= ($task->status == "DONE") ? "disabled" : "" ?>  <?= (($content_error != false) ? (($content_error->value == "1") ? "active" : "") : "") ?>">
+                            <input type="radio" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($content_error != false) ? (($content_error->value == "1") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="content_error" value="1"> Yes
+                          </label>
+                          <label class="btn btn-default <?= ($task->status == "DONE") ? "disabled" : "" ?>  <?= (($content_error != false) ? (($content_error->value == "0") ? "active" : "") : "") ?>">
+                            <input type="radio" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($content_error != false) ? (($content_error->value == "0") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="content_error" value="0"> No
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <?php
+                      $personal_data = $comment_dao->getCommentById($sentence->id, "personal_data");
+                    ?>
+                    <div class="row" style="margin-top: 0.5em;">
+                      <div class="col-xs-12 col-md-5">
+                        <label for="personal_data">Contains personal data</label>
+                      </div>
+                      <div class="col-xs-12 col-md-7 text-right-md">
+                        <div class="btn-group btn-group-justified" data-toggle="buttons">
+                          <label class="btn btn-default <?= ($task->status == "DONE") ? "disabled" : "" ?>  <?= (($personal_data != false) ? (($personal_data->value == "1") ? "active" : "") : "") ?>">
+                            <input type="radio" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($personal_data != false) ? (($personal_data->value == "1") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="personal_data" value="1"> Yes
+                          </label>
+                          <label class="btn btn-default <?= ($task->status == "DONE") ? "disabled" : "" ?>  <?= (($personal_data != false) ? (($personal_data->value == "0") ? "active" : "") : "") ?>">
+                            <input type="radio" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($personal_data != false) ? (($personal_data->value == "0") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="personal_data" value="0"> No
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
                     <!--
                       This is the fixed comments section. The name of the parameters
                       which contain each comment should start with the code of the label
                       followed by an underscore (for example, MT_ for Machine Translation).
                     -->
-                    <?php $comment_dao = new comment_dao(); ?>
-                    <div class="tab-content evaluation-tab-content">
+                    <div class="tab-content evaluation-tab-content" style="margin-top: 0.5em;">
                       <?php foreach($tabs as $tab) { ?>
                       <div role="tabpanel" class="tab-pane" id="tab_<?= $tab["label"] ?>">
                         <?php foreach($tab["comments"] as $comment) {?>
                         <div class="row">
-                          <div class="col-xs-12 col-md-4">
+                          <div class="col-xs-12 col-md-5">
                             <label for="<?= $comment["name"] ?>"><?= $comment["text"] ?></label>
                           </div>
-                          <div class="col-xs-12 col-md-8 text-right-md">
+                          <div class="col-xs-12 col-md-7 text-right-md">
                             <div class="btn-group btn-group-justified" data-toggle="buttons">
                               <?php foreach($comment["options"] as $option) { ?>
                               <?php 
@@ -317,14 +365,14 @@ else {
       <div class="col-xs-12 col-md-12">
         <div class="row">
           <div class="col-md-2 col-md-push-6 col-xs-2 pt-xs">
-            <a class="btn btn-link-lg <?= ($task_progress->current-1 == 0) ? "disabled" : "" ?>" style="padding-left: 0em;" href="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current-1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>#top" title="Go to the previous sentence"><span class="glyphicon glyphicon-arrow-left"></span> Previous</a>
+            <a class="btn btn-lg btn-previous <?= ($task_progress->current-1 == 0) ? "disabled" : "" ?>" style="padding-left: 0em;" href="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current-1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>" title="Go to the previous sentence"><span class="glyphicon glyphicon-arrow-left"></span> Previous</a>
           </div>
 
           <div class="col-md-4 col-md-push-6 col-xs-10 text-right">
-            <a href="/sentences/evaluate.php?task_id=<?= $task->id ?>#top" class="btn btn-link" title="Go to the first pending sentence">First pending</a>
+            <a href="/sentences/evaluate.php?task_id=<?= $task->id ?>" class="btn btn-link" title="Go to the first pending sentence">First pending</a>
 
             <?php if ($task->status == "DONE") { ?>
-              <button id="evalutionsavebutton" data-next="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current+1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>#top" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" title="Go to the next sentence">
+              <button id="evalutionsavebutton" data-next="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current+1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" title="Go to the next sentence">
                 Next <span class="glyphicon glyphicon-arrow-right"></span>
               </button>
             <?php } else { ?>
@@ -334,7 +382,7 @@ else {
 
           <div class="col-md-6 col-md-pull-6 col-xs-12 mt-xs">
             <div class="row">
-              <div class="col-md-5 col-md-offset-4 col-xs-12">
+              <div class="col-md-5 col-md-offset-4 col-xs-12 mt-xs">
                 <form id="gotoform" method="get" action="/sentences/evaluate.php">
                   <input type="hidden" name="p" value="1">
                   <input type="hidden" name="task_id" value="<?= $task->id ?>">
@@ -343,7 +391,7 @@ else {
                       <input type="number" name="id" class="form-control" aria-label="Current page" value="<?= $task_progress->current ?>" min="1" max="<?= $task_progress->total ?>" />
                       <div class="input-group-addon">of <?= $task_progress->total ?></div>
                       <div class="input-group-btn">
-                      <button type="submit" class="btn btn-default">Go</button>
+                        <button type="submit" class="btn btn-default">Go</button>
                       </div>
                   </div>
                 </form>

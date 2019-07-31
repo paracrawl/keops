@@ -25,7 +25,7 @@ class comment_dto {
    * @param int $value The comment itself
    * @return \self
    */
-  public function newComment($pair, $name, $value) {
+  public static function newComment($pair, $name, $value) {
     $instance = new self();
     $instance->pair = $pair;
     $instance->name = $name;
