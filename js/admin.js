@@ -149,6 +149,7 @@ $(document).ready(function() {
     },
     {
       targets:3,
+      searchable: false,
      render: function (data, type, row) {
        var completed = (parseInt(row[8])/parseInt(row[7])) * 100;
         
@@ -174,6 +175,7 @@ $(document).ready(function() {
     },
    {
       targets: 6,
+      searchable: false,
       className: "text-center",
       render: function (data, type, row) {
         if (row[5]){
@@ -186,6 +188,7 @@ $(document).ready(function() {
     },
     {
       targets: 7,
+      searchable: false,
       className: "actions",
       sortable: false,
       orderable:false,
@@ -225,6 +228,7 @@ $(document).ready(function() {
     stateSave: true,
     columnDefs: [{
       targets: 3,
+      searchable: false,
       className: "actions",
       render: function (data, type, row) {
         return `<div class="btn-group">
@@ -260,12 +264,14 @@ $(document).ready(function() {
       },
       {
         targets: 3,
+        searchable: false,
         render: function(data, type, row) {
           return formatDate(row[3]);
         }
       },
       {
         targets: 5,
+        searchable: false,
         data: function (row, type, val, meta) {
           return '<a href="/admin/user_edit.php?id=' + row[6] + '" title="Edit user">' + row[5] + '</a>';
         }
@@ -276,6 +282,7 @@ $(document).ready(function() {
         sortable: false,
         orderable: false,
         responsivePriority: 1,
+        searchable: false,
       render: function (data, type, row) {
           str = "";
           if (row[3] == "" || row[3] == null) {
@@ -337,6 +344,7 @@ $(document).ready(function() {
       targets: 7,
       className: "actions",
       responsivePriority: 1,
+      searchable: false,
       render: function (data, type, row) {
         return `<div class="btn-group">
                 <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-label="Toggle actions" aria-expanded="false">

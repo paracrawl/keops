@@ -56,6 +56,10 @@ body > .container {
    float: none;
 }
 
+.vertical-align {
+  display: flex;
+  align-items: baseline;
+}
 
 /* Dropzone */
 .dropzone-looks {
@@ -96,16 +100,36 @@ footer .prompsit-gradient {
 .signin-page {
   max-width: 450px;
   margin: 0 auto;
+  border: solid 1px #dadce0;
+  border-radius: 5px 5px 5px 5px;
+
 }
 
 .form-signin {
   padding: 3em;
-  border: solid 1px #dadce0;
-  border-radius: 5px 5px 5px 5px;
+}
+
+.signin-error-panel {
+  border: 0;
+  margin: 0;
+}
+
+.signin-error-panel .panel-heading {
+  border-radius: 0;
+}
+
+.form-signin-error {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .form-signin .checkbox {
   font-weight: normal;
+}
+
+.form-signin .btn-signup {
+  font-size: 14px;
+  padding-left: 0;
 }
 
 .form-signin .form-control {
@@ -135,10 +159,13 @@ footer .prompsit-gradient {
   margin-bottom: 1em;
 }
 
-.signin-page footer {
+.signin footer {
   background: transparent;
   padding: 0px;
-  margin-top: 10px;
+  width: 450px;
+  margin: auto;
+  position: relative;
+  top: 10px;
 }
 
 /* Evaluate */
@@ -397,16 +424,15 @@ table .progress span, #evaluate-percent {
 }
 
 .eu-logo{
-    width: 20%;
     display: inline;
 }
 
 .legal-notice{
-    font-size: small;
+    font-size: x-small;
     display: inline;
 }
+
 .prompsit-info{
-    width: 40%;
     display: inline;
 }
 .home-container .navbar-right{
@@ -680,13 +706,9 @@ label>u{
       border-left: 0;
     }
 
-.vertical-align {
-  display: flex;
-  align-items: center;
-}
-
 hr {
-  margin-top: 0px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .buttons-menu .btn {
@@ -949,6 +971,10 @@ table.dataTable .actions li a {
 
 .btn-link.inverted {
   color: white;
+}
+
+.btn-previous {
+  font-size: 14px;
 }
 
 /*
