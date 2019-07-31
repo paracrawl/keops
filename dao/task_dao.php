@@ -345,8 +345,9 @@ class task_dao {
               . "left join sentences_tasks as st on t.id = st.task_id " 
               . "left join corpora as c on c.id = t.corpus_id ",
               $request,
-              "project_id=" . $request['p_id'],
-              "t.id, u.name, p.id, u.id, c.name"));
+              "t.id, u.name, p.id, u.id, c.name",
+              "project_id= ? ",
+              array($request['p_id'])));
     } catch (Exception $ex) {
       throw new Exception("Error in task_dao::getDatatablesTasks : " . $ex->getMessage());
     }
@@ -365,7 +366,9 @@ class task_dao {
       return json_encode($dtProc->process(self::$columns_corpus_tasks,
               "tasks as t left join projects as p on p.id = t.project_id left join users as u on u.id = t.assigned_user " . "left join corpora as c on c.id = t.corpus_id ",
               $request,
-              "corpus_id=" . $request['corpus_id']));
+              "",
+              "corpus_id=?",
+              array($request['corpus_id'])));
     } catch (Exception $ex) {
       throw new Exception("Error in task_dao::getDatatablesTasksByCorpus : " . $ex->getMessage());
     }
@@ -390,8 +393,9 @@ class task_dao {
               . "left join users as us on us.id = p.owner "
               . "left join sentences_tasks as st on t.id = st.task_id",
               $request,
-              "t.assigned_user=" . $user_id,
-              "t.id, p.name, source_lang, target_lang, us.email"));
+              "t.id, p.name, source_lang, target_lang, us.email",
+              "t.assigned_user= ? ",
+              array($user_id)));
     } catch (Exception $ex) {
       throw new Exception("Error in task_dao::getDatatablesUserTasks : " . $ex->getMessage());
     }

@@ -14,11 +14,22 @@ class DatatablesProcessing {
      * @param   string $wheresql  SQL statement of WHERE clause 
      * @return  int    Value of count()
      */
-    private function getCount($primary, $tables, $wheresql = "") {
+    private function getCount($primary, $tables, $wheresql = "", $conditionsValues = array(), $filter_count = 0, $search_term = "") {
         $query = $this->conn->prepare("
         SELECT count(distinct $primary) as c FROM $tables "
-            . (($wheresql != "") ? "WHERE $wheresql " : "")
+            . (($wheresql != "") ? "WHERE $wheresql" : "")
         . ";");
+
+        if ($wheresql != "") {
+            for ($i = 0; $i < count($conditionsValues); $i++) {
+                $query->bindParam($i + 1, $conditionsValues[$i]);
+            }
+    
+            for ($j = $i; $j < ($i + $filter_count); $j++) {
+                $query->bindParam($j + 1, $filter_term);
+            }
+        }
+
         $query->execute();
         $query->setFetchMode(PDO::FETCH_ASSOC);
         $count = 0;
@@ -38,7 +49,7 @@ class DatatablesProcessing {
 	 *  @param  array   $group      The SQL statement of the GROUP BY clause
 	 *  @return array   Server-side processing response array
      */
-    function process($columns, $tables, $dt_params, $conditions = "", $group = "") {
+    function process($columns, $tables, $dt_params, $group = "", $conditionsStatement = "", $conditionsValues = array()) {
         // We transform the array of columns to a string in the form "column as alias, column as alias, ..."
         $columnssql = array_reduce($columns, function($a, $b) {
             $a = $a . (($a != "") ? ", " : "") . $b[0] . (isset($b[1]) ? " as $b[1]" : "");
@@ -47,22 +58,24 @@ class DatatablesProcessing {
 
         // We get the search filters ready creating the corresponding SQL
         $filter = "";
+        $filter_count = 0;
         if (isset($dt_params["search"]) && $dt_params["search"]["value"] != "") {
             foreach ($dt_params["columns"] as $column) {
                 if ($column["searchable"] == "true") {
-                    $filter = $filter . (($filter != "") ? " or " : "") . $columns[$column['data']][0] . "::text ILIKE '%" . $dt_params['search']['value'] . "%'";
+                    $filter = $filter . (($filter != "") ? " or " : "") . $columns[$column['data']][0] . "::text ILIKE ?";
+                    $filter_count++;
                 }
             }
             $filter = "($filter)";
         }
 
-        // And we create a WHERE close combining the given conditions and the filter
-        $conditionssql = ($conditions != "") ? $conditions : "";
-        $filtersql = ($filter != "") ? (($conditionssql == "") ? $filter : (" AND " . $filter)) : "";
-        $wheresql = $conditionssql . $filtersql;
+        $filter_term = '%' . $dt_params["search"]["value"] . '%';
+
+        // And we create a WHERE clause combining the given conditions and the filter
+        $wheresql = $conditionsStatement . (($filter != "") ? (($conditionsStatement != "") ? "and $filter" : "$filter") : "");
         
         // SQL cluases for paging and grouping
-        $limitsql = ((isset($dt_params["start"]) ? "OFFSET {$dt_params['start']} " : "") . ((isset($dt_params["length"]) ? "LIMIT {$dt_params['length']}" : "")));
+        $limitsql = ((isset($dt_params["start"]) ? "OFFSET ? " : "") . ((isset($dt_params["length"]) ? "LIMIT ?" : "")));
         $groupsql = (($group != "") ? "GROUP BY " . $group : "");
 
         // Order SQL clause
@@ -75,6 +88,22 @@ class DatatablesProcessing {
             . (($ordersql != "") ? "$ordersql ": "")
             . (($limitsql != "") ? "$limitsql " : "")
         . ";");
+
+        // We start binding the values
+        if ($wheresql != "") {
+            for ($i = 0; $i < count($conditionsValues); $i++) {
+                $query->bindParam($i + 1, $conditionsValues[$i]);
+            }
+
+            for ($j = $i; $j < ($i + $filter_count); $j++) {
+                $query->bindParam($j + 1, $filter_term);
+            }
+        } else {
+            $j = 0;
+        }
+
+        if (isset($dt_params["start"])) $j++; $query->bindParam($j, $dt_params["start"]);
+        if (isset($dt_params["length"])) $j++; $query->bindParam($j, $dt_params["length"]);
 
         $query->execute();
         $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -90,7 +119,7 @@ class DatatablesProcessing {
 
         // We consider the first given column as primary
         $primary = $columns[0][0];
-        $filtered_count = $this->getCount($primary, $tables, $wheresql);
+        $filtered_count = $this->getCount($primary, $tables, $wheresql, $conditionsValues, $filter_count, $filter_term);
         $total_count = $this->getCount($primary, $tables);
 
         return array(

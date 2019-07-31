@@ -194,8 +194,7 @@ class project_dao {
       return json_encode($dtProc->process(self::$columns,
       "projects as p left join users as u on p.owner = u.id "
       . "left join tasks as t on t.project_id = p.id ",
-      $request, "",
-      "p.id, u.name, u.id"));
+      $request, "p.id, u.name, u.id"));
     } catch (Exception $ex) {
       throw new Exception("Error in project_dao::getDatatablesProjects : " . $ex->getMessage());
     }
