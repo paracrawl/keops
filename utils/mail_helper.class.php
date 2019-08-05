@@ -28,6 +28,8 @@ class MailHelper {
         $this->mail->Password   = self::KEOPS_PWD;
         $this->mail->SMTPSecure = 'tls';
         $this->mail->Port       = 587;
+        $this->mail->CharSet   = 'UTF-8';
+        $this->mail->Encoding  = 'base64';
         $this->mail->setFrom(self::KEOPS_USER, 'KEOPS');
         $this->mail->isHTML(true);
     }
@@ -49,7 +51,7 @@ class MailHelper {
     }
 
     private function generateHTML(MailTemplateI $template, $params) {
-        $html = "<!doctype html><html><head>" . $template->getHead($params) . "</head><body>" . $template->getBody($params) . "</body></html>";
+        $html = "<!doctype html><html><head><meta charset='utf-8' />" . $template->getHead($params) . "</head><body>" . $template->getBody($params) . "</body></html>";
         return $html;
     }
 }
