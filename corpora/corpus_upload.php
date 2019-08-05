@@ -53,7 +53,7 @@ try {
                 $first_batch = false;
                 $corpus_dao->insertCorpus($corpus_dto);
               }            
-              $result = $sentence_dao->insertBatchSentences($corpus_dto->id, $values);
+              $result = $sentence_dao->insertBatchSentences($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $values);
               if ($result) {
                 $values = array();
               }

@@ -247,14 +247,6 @@ class sentence_task_dao {
       if ($sentence_id == null || $sentence_id=="") {
         $sentence_id = 1;
       }
-
-      $endinginspace = "%".$search_term." %";
-      $endingincomma = "%".$search_term.",%";
-      $endingincolon = "%".$search_term.":%";
-      $enginginfullstop =  "%".$search_term.";%";
-      $enginginsemicolon =  "%".$search_term.".%";
-      $startingwithspace = "% ".$search_term."%";
-      $comment = "%" . $search_term . "%";
   
       $sentence_task_dto = new sentence_task_dto();
       $offset = $sentence_id - 1;
@@ -262,23 +254,15 @@ class sentence_task_dao {
         . "left join sentences as s on st.sentence_id = s.id "
         . "where st.task_id = :taskid "
         . (($label != "ALL") ? "and st.evaluation = :label " : "")
-        . "and (s.source_text ILIKE :endinginspace or s.target_text ILIKE :endinginspace "
-        . "or s.source_text ILIKE :endingincomma or s.target_text ILIKE :endingincomma "
-        . "or s.source_text ILIKE :endingincolon or s.target_text ILIKE :endingincolon "
-        . "or s.source_text ILIKE :enginginfullstop or s.target_text ILIKE :enginginfullstop "
-        . "or s.source_text ILIKE :enginginsemicolon or s.target_text ILIKE :enginginsemicolon "
-        . "or s.source_text ILIKE :startingwithspace or s.target_text ILIKE :startingwithspace )"
+        . (($search_term != "") ? "and (s.source_text_vector @@ to_tsquery(:searchterm) " : "")
+        . (($search_term != "") ? "or s.target_text_vector @@ to_tsquery(:searchterm2))" : " ")
         . "order by st.id asc limit 1 offset :offset;");
       
       $query->bindParam(':taskid', $task_id);
       $query->bindParam(':offset', $offset);
-      $query->bindParam(':endinginspace', $endinginspace);
-      $query->bindParam(':endingincomma', $endingincomma);
-      $query->bindParam(':endingincolon', $endingincolon);
-      $query->bindParam(':enginginfullstop', $enginginfullstop);
-      $query->bindParam(':enginginsemicolon', $enginginsemicolon);
-      $query->bindParam(':startingwithspace', $startingwithspace);
 
+      if ($search_term != "") $query->bindParam(':searchterm', $search_term);
+      if ($search_term != "") $query->bindParam(':searchterm2', $search_term);
       if ($label != "ALL") { $query->bindParam(':label', $label); }
 
       $query->execute();
@@ -389,35 +373,20 @@ class sentence_task_dao {
    */
   function getCurrentProgressByIdAndTaskAndFilters($sentence_id, $task_id, $search_term, $label) {
     try {
-      $endinginspace = "%".$search_term." %";
-      $endingincomma = "%".$search_term.",%";
-      $endingincolon = "%".$search_term.":%";
-      $enginginfullstop =  "%".$search_term.";%";
-      $enginginsemicolon =  "%".$search_term.".%";
-      $startingwithspace = "% ".$search_term."%";
-
       $task_progress_dto = new task_progress_dto();
       $query = $this->conn->prepare("
         select count(case when st.id <= :sentenceid then 1 end) as current, count(*) as total, count(case when evaluation<>'P' then 1 end) as completed from sentences_tasks as st left join sentences as s on (s.id = st.sentence_id)
         where task_id = :taskid " 
         . (($label != "ALL") ? "and evaluation = :label " : "")
-        . "and (s.source_text ILIKE :endinginspace or s.target_text ILIKE :endinginspace "
-        . "or s.source_text ILIKE :endingincomma or s.target_text ILIKE :endingincomma "
-        . "or s.source_text ILIKE :endingincolon or s.target_text ILIKE :endingincolon "
-        . "or s.source_text ILIKE :enginginfullstop or s.target_text ILIKE :enginginfullstop "
-        . "or s.source_text ILIKE :enginginsemicolon or s.target_text ILIKE :enginginsemicolon "
-        . "or s.source_text ILIKE :startingwithspace or s.target_text ILIKE :startingwithspace );"
+        . (($search_term != "") ? "and (s.source_text_vector @@ to_tsquery(:searchterm) " : "")
+        . (($search_term != "") ?" or s.target_text_vector @@ to_tsquery(:searchterm2))" : ";")
       );
 
       $query->bindParam(':sentenceid', $sentence_id);
       $query->bindParam(':taskid', $task_id);
-      $query->bindParam(':endinginspace', $endinginspace);
-      $query->bindParam(':endingincomma', $endingincomma);
-      $query->bindParam(':endingincolon', $endingincolon);
-      $query->bindParam(':enginginfullstop', $enginginfullstop);
-      $query->bindParam(':enginginsemicolon', $enginginsemicolon);
-      $query->bindParam(':startingwithspace', $startingwithspace);
 
+      if ($search_term != "") $query->bindParam(':searchterm', $search_term);
+      if ($search_term != "") $query->bindParam(':searchterm2', $search_term);
       if ($label != "ALL") { $query->bindParam(':label', $label); }
 
       $query->execute();
