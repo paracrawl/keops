@@ -96,6 +96,10 @@ footer .prompsit-gradient {
   margin-top: -1em;
 }
 
+footer .eu-logos img {
+  height: 39px;
+}
+
 /* Signin Form */
 .signin-page {
   max-width: 450px;
@@ -112,6 +116,8 @@ footer .prompsit-gradient {
 .signin-error-panel {
   border: 0;
   margin: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .signin-error-panel .panel-heading {
@@ -162,8 +168,8 @@ footer .prompsit-gradient {
 .signin footer {
   background: transparent;
   padding: 0px;
-  width: 450px;
-  margin: auto;
+  max-width: 450px;
+  margin: 0 auto;
   position: relative;
   top: 10px;
 }
@@ -226,7 +232,6 @@ footer .prompsit-gradient {
 
 .evaluation-btn-group .btn {
   margin: 0 0 0.5em 0;
-  float: none;
   position: static;
 }
 
@@ -262,7 +267,7 @@ table .progress span, #evaluate-percent {
 }
 
 .disabled{
-    color: lightgrey;
+    color: #aaa;
 }
 
 /* Homepage */
@@ -800,6 +805,10 @@ hr {
   display: none;
 }
 
+.w-100 {
+  width: 100%;
+}
+
 .number-container {
   background-color: #a8a6a6;
   width: 100%;
@@ -860,7 +869,10 @@ table.dataTable .actions {
 
 table.dataTable .actions .glyphicon {
   font-size: 1.3em;
-  margin-right: 0.5em;
+}
+
+table.dataTable .actions .dropdown-menu .glyphicon {
+  margin-right: 0.3em;
 }
 
 table.dataTable .actions .btn-link {
@@ -871,6 +883,15 @@ table.dataTable .actions li a {
   display: flex;
   align-items: center;
 }
+
+table.dataTable td:not(.actions) {
+  max-width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Buttons */
 
 .btn-link.disabled, .btn-link-lg.disabled {
   color: dimgray;
@@ -920,7 +941,7 @@ table.dataTable .actions li a {
 }
 
 .evaluation-tab-content {
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
 }
 
 #evaluation-help .modal-body {
@@ -950,6 +971,7 @@ table.dataTable .actions li a {
   font-size: 20px;
 }
 
+/* Outline buttons */
 .outline {
     background-color: transparent;
     color: inherit;
@@ -977,6 +999,30 @@ table.dataTable .actions li a {
   font-size: 14px;
 }
 
+.btn-primary.outline {
+  color: #428bca;
+}
+
+.btn-success.outline {
+  color: #5cb85c;
+}
+
+.btn-info.outline {
+  color: #5bc0de;
+}
+
+.btn-warning.outline {
+  color: #f0ad4e;
+}
+
+.btn-danger.outline {
+  color: #d9534f;
+}
+
+.btn.outline:not(.inverted):hover, .btn.outline.active:not(.inverted) {
+  color: #fff;
+}
+
 /*
   Color-contrast adjustments
 */
@@ -992,4 +1038,44 @@ a {
 
 .navbar-header a:focus {
   color: white;
+}
+
+/* Checkbox */
+.checkbox-custom input {
+  display: none;
+}
+
+.checkbox-custom .checkbox-control {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: solid #c2c8ce 1px;
+  border-radius: 4px;
+  line-height: 20px;
+  vertical-align: bottom;
+}
+
+.checkbox-custom input:checked + .checkbox-control {
+  text-align: center;
+  color: white;
+  background: #449d44;
+  border-color: #4cae4c;
+}
+
+.checkbox-custom input:checked + .checkbox-control:before {
+  transition: all 0.3s ease;
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 12px;
+  transform: rotate(45deg);
+  border: solid white;
+  border-width: 0px 2px 2px 0px;
+  position: relative;
+  top: -2px;
+}
+
+.checkbox-custom.disabled input:checked + .checkbox-control {
+  background: #85bf85;
+  border-color: #7dae7d;
 }

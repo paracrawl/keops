@@ -17,14 +17,12 @@
 
             <div class="col-xs-12 col-md-8 text-right-md">
                 <div class="row">
-                    <div class="col-xs-12 col-md-12">
-                        <img src="../../img/eu-logo.png" alt="Logo of the European Union">
+                    <div class="col-xs-12 col-md-12 eu-logos">
+                        <a href="http://paracrawl.eu/"  target="_blank" style="margin-right: 1em;" rel="noopener"><img src="../img/paracrawl-logo135x62.png" alt="Paracrawl Project home"></a>
+                        <a href="https://ec.europa.eu/inea/en/connecting-europe-facility" target="_blank" rel="noopener"><img src="../../img/eu-logo.png" alt="European Union home"></a>
                     </div>
 
-                    <div class="col-md-offset-4 col-xs-12 col-md-8 legal-notice" style="margin-top: 1em;">              
-                        <!--All documents and software contained in this repository reflect only the authors' view. 
-                        The Innovation and Networks Executive Agency of the European Union is not responsible for any use that may be made of the information it contains.-->
-                        
+                    <div class="col-md-offset-4 col-xs-12 col-md-8 legal-notice" style="margin-top: 1em;">
                         Any comunication or publication related to the action,
                         made by the beneficiaries jointly or individually in any form and using any means, 
                         shall indicate that it reflects only the author's view and that the
