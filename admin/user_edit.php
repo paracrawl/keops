@@ -77,7 +77,7 @@ $languages = $language_dao->getLanguages();
                 <?php } ?>
               </select>
             </div>
-            <div class="help-block">Hold the CTRL key to select several languages.</div>
+            <div class="help-block">Hold the <?= (preg_match("/(macintosh|mac os x)/i", $_SERVER['HTTP_USER_AGENT']) ? "CMD" : "CTRL") ?> key to select several languages.</div>
           </div>
         </div>
                
