@@ -28,18 +28,30 @@ $(document).ready(function() {
     columnDefs: [
       {
         targets: 7,
+        searchable: false,
+        sortable: false,
+        responsivePriority: 1,
+        className: "actions",
+        render: function (data, type, row) {
+          let actions_str = '';
+
+          if (row[5] == "DONE") {
+            actions_str += '<a href="/sentences/evaluate.php?review=1&task_id=' + row[0] + '" title="See your evaluated sentences"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>';
+          } else {
+            actions_str += '<a href="/sentences/evaluate.php?task_id=' + row[0] + '" title="Start / continue the task"><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span></a>';
+          }
+
+          return actions_str;
+        }
+      },
+      {
+        targets: 8,
         className: "actions",
         sortable: false,
         searchable: false,
         responsivePriority: 1,
         render: function (data, type, row) {
           var actions_str = "";
-          if (row[5] == "DONE") {
-            actions_str += '<li><a href="/sentences/evaluate.php?review=1&task_id=' + row[0] + '" title="See your evaluated sentences"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> See your evaluated sentences</a></li>';
-          } else {
-            actions_str += '<li><a href="/sentences/evaluate.php?task_id=' + row[0] + '" title="Start / continue the task"><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span> Start / continue the task</a></li>';
-          }
-
           actions_str += '<li><a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Recap of the task</a></li>';
           actions_str += '<li><a href="mailto:' + row[8] + '" title="Contact project manager"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Contact project manager</a></li>';
 

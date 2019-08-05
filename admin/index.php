@@ -78,7 +78,7 @@
         </div>
       </div>
         <hr>
-        <table id="projects-table" style="width:100%;" class="table table-striped table-bordered display responsive nowrap" cellspacing="0">
+        <table id="projects-table" style="width:100%;" class="table table-striped table-bordered display responsive wrap" cellspacing="0">
           <thead>
             <tr>
               <th>ID</th>

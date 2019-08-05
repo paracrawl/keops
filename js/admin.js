@@ -143,6 +143,7 @@ $(document).ready(function() {
   var projects_table = $("#projects-table").DataTable({
     columnDefs: [ {
       targets: 1,
+      responsivePriority: 1,
      render: function (data, type, row) {
         return '<a href="/projects/project_manage.php?id=' + row[0] + '" title="Manage project">' + row[1] + '</a>';
       }
