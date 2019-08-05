@@ -8,7 +8,10 @@
   $PAGETYPE = "public";
   require_once(RESOURCES_PATH . "/session.php");
 
-  if (isSignedIn()) header("Location: /");
+  if (isSignedIn()) {
+    header("Location: /index.php");
+    exit();
+  }
 ?>
 
 <!DOCTYPE html>
@@ -82,6 +85,7 @@
           </div>
         </form>
     </div>
+    
     <footer>
       <div class="prompsit-gradient"></div>
       <div class="prompsit-info">

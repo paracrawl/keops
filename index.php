@@ -19,6 +19,7 @@ require_once(RESOURCES_PATH . "/session.php");
   </head>
 
       <?php
+      $signedin = isSignedIn();
       if  (!isSignedIn()) {
         ?>
     <body class="home-body">    
@@ -148,6 +149,7 @@ require_once(RESOURCES_PATH . "/session.php");
               <th>Status</th>
               <th>Creation date</th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -161,6 +163,7 @@ require_once(RESOURCES_PATH . "/session.php");
               <th>Size</th>              
               <th>Status</th>
               <th>Creation date</th>
+              <th></th>
               <th></th>
             </tr>
           </tfoot>
