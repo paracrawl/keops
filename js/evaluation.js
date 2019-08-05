@@ -1,88 +1,127 @@
-$(".evaluation_tab_link").on('click', function (e) {
-  e.preventDefault();
+$(document).ready(function() {
 
-  if ($(this).hasClass("disabled")) {
-    e.stopPropagation();
-    return;
-  };
-  
-  $('.evaluation-tab-content .tab-pane').removeClass("active");
-  $('.evaluation-tab-content input[type="radio"]').removeAttr("checked");
+  $('.btn-annotation.active').closest('.row').find('.question-column').removeClass('d-none');
 
-  if ($($(this).attr('href')).length > 0) {
-    $(this).tab('show');
-  }
-});
+  $(".btn-annotation").on('click', function (e) {
+    e.preventDefault();
 
-$('.evaluation_tab_link .btn.active').parent().tab('show');
+    if ($(this).hasClass("disabled")) {
+      e.stopPropagation();
+      return;
+    };
+    
+    // Make active
+    $('.btn-annotation').removeClass('active');
+    $('.btn-annotation input').prop('checked', false);
 
-$("#evaluationform .btn-group .btn").on('click', function (e) {
-  if ($(this).hasClass("disabled")) {
-    e.stopPropagation();
-    return;
-  }
-});
+    $(this).addClass('active');
+    $(this).find('input').prop('checked', true);
+    
+    // Show annotation question
+    $('.question-column').addClass('d-none');
+    $('.question-column input').prop('checked', false);
+    $(this).closest('.row').find('.question-column').removeClass('d-none');
+  });
 
-$('#evalutionsavebutton').on('click', function() {
-  if ($(this).attr("data-next")) {
-    window.location.href = $(this).attr("data-next");
-  } else {
-    $('#evaluationform').submit();
-  }
-});
+  $("#evaluationform .btn-group .btn").on('click', function (e) {
+    if ($(this).hasClass("disabled")) {
+      e.stopPropagation();
+      return;
+    }
+  });
 
-/**
- * Evaluation shortcuts
- */
+  $('.question-column .btn-group .btn').on('click', function(e) {
+    if ($(this).parent().attr('data-single') == '1') {
+      $(this).parent().find('.btn').removeClass('active');
+      $(this).parent().find('.btn input').prop('checked', false);
+    }
 
-$(document).on('keypress', (e) => {
-  if ($(e.target).is('input, select, label, a, .btn') && e.which == 13) {
-    $(e.target).find(".btn").trigger('click');
-  } else if ($(e.target).is('input, select, label')) {
-    return;
-  } else {
-    if (e.which == 13) { // Intro
-      $("#evalutionsavebutton").trigger('click');
+    if ($(this).hasClass('active')) {
+      setTimeout(function() {
+        $(this).removeClass('active').find('input').prop('checked', false);
+      }.bind(this), 10);
+    }
+  });
+
+  $('#evalutionsavebutton').on('click', function() {
+    if ($(this).attr("data-next")) {
+      window.location.href = $(this).attr("data-next");
     } else {
-      if ($("#evaluation-container").attr("data-done") == "1") return;
+      $('#evaluationform').submit();
+    }
+  });
 
-      $("#evaluationform :radio").removeAttr('checked');
-      $("#evaluationform label.active").removeClass("active");
+  $(".search-form").on('submit', function(e) {
+    if ($("#search-term").val() == "" && $("select[name='label'] option:selected").val() == "ALL") {
+      e.preventDefault();
+      window.location.href = $("input[name='seall']").val();
+    }
+  });
 
-      if (e.which == 76 || e.which == 108) {//L
-        $("#evaluationform label input[value='L']").parent().trigger('click');
-      }
+  $("select[name='label']").on('change', function() {
+    $(".search-form").submit();
+  });
 
-      if (e.which == 65 || e.which == 97) {//A
-        $("#evaluationform label input[value='A']").parent().trigger('click');
-      }
+  $('.current-page-control').on('change', function() {
+    $('.current-page-control').on('blur', function() {
+      console.log('blur');
+      $(this).closest('form').submit();
+    })
+  });
 
-      if (e.which == 84 || e.which == 116) {//T
-        $("#evaluationform label input[value='T']").parent().trigger('click');
-      }
+  /**
+   * Evaluation shortcuts
+   */
 
-      if (e.which == 77 || e.which == 109) {//MT / M
-        $("#evaluationform label input[value='MT']").parent().trigger('click');
-      }
+  $(document).on('keypress', (e) => {
+    if ($(e.target).is('input, select, label, a, .btn') && e.which == 13) {
+      $(e.target).find(".btn").trigger('click');
+    } else if ($(e.target).is('input, select, label')) {
+      return;
+    } else {
+      if (e.which == 13) { // Intro
+        $("#evalutionsavebutton").trigger('click');
+      } else {
+        if ($("#evaluation-container").attr("data-done") == "1") return;
 
-      if (e.which == 69 || e.which == 101) {//E
-        $("#evaluationform label input[value='E']").parent().trigger('click');
-      }
+        $("#evaluationform :radio").removeAttr('checked');
+        $("#evaluationform label.active").removeClass("active");
 
-      if (e.which == 70 || e.which == 102) {//F
-        $("#evaluationform label input[value='F']").parent().trigger('click');
-      }
+        if (e.which == 76 || e.which == 108) {//L
+          $("#evaluationform label input[value='L']").parent().trigger('click');
+        }
 
-      if (e.which == 86 || e.which == 118) {//V
-        $("#evaluationform label input[value='V']").parent().trigger('click');
-      };
-      
+        if (e.which == 65 || e.which == 97) {//A
+          $("#evaluationform label input[value='A']").parent().trigger('click');
+        }
 
-      if (e.which == 80 || e.which == 112) {//P
-        $("#evaluationform label input[value='P']").parent().trigger('click');
+        if (e.which == 84 || e.which == 116) {//T
+          $("#evaluationform label input[value='T']").parent().trigger('click');
+        }
+
+        if (e.which == 77 || e.which == 109) {//MT / M
+          $("#evaluationform label input[value='MT']").parent().trigger('click');
+        }
+
+        if (e.which == 69 || e.which == 101) {//E
+          $("#evaluationform label input[value='E']").parent().trigger('click');
+        }
+
+        if (e.which == 70 || e.which == 102) {//F
+          $("#evaluationform label input[value='F']").parent().trigger('click');
+        }
+
+        if (e.which == 86 || e.which == 118) {//V
+          $("#evaluationform label input[value='V']").parent().trigger('click');
+        };
+        
+
+        if (e.which == 80 || e.which == 112) {//P
+          $("#evaluationform label input[value='P']").parent().trigger('click');
+        }
       }
     }
-  }
+  });
 });
 
 /*

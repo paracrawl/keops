@@ -23,16 +23,20 @@ class sentence_dao {
    * @return boolean True if succeeded, otherwise false
    * @throws Exception
    */
-  function insertBatchSentences($corpus_id, $data) {
+  function insertBatchSentences($corpus_id, $source_lang, $target_lang, $data) {
     try {
       $insert_values = array();
       foreach($data as $d){
-          $question_marks[] = '('  . rtrim(str_repeat('?,', sizeof($d) + 1), ",") . ')'; // +1 for id
+          $question_marks[] = '('  . rtrim(str_repeat('?,', sizeof($d) + 1), ",") . ', to_tsvector((select langname::regconfig from langs where id = ? limit 1), ?), to_tsvector((select langname::regconfig from langs where id = ? limit 1), ?) )'; // +3 for id
           $insert_values[] = $corpus_id;
           $insert_values = array_merge($insert_values, array_values($d));
+          $insert_values[] = $source_lang;
+          $insert_values[] = $d[0];
+          $insert_values[] = $target_lang;
+          $insert_values[] = $d[1];
       }
 
-      $query = $this->conn->prepare("INSERT INTO sentences (corpus_id, source_text, target_text) VALUES " . implode(',', $question_marks));
+      $query = $this->conn->prepare("INSERT INTO sentences (corpus_id, source_text, target_text, source_text_vector, target_text_vector) VALUES " . implode(',', $question_marks));
       $query->execute($insert_values);
       $this->conn->close_conn();
       return true;

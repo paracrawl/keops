@@ -38,12 +38,13 @@ if (count($failedparams) == 0){
       }
 
       $comment_dao = new comment_dao();
+      $comment_dao->clearComments($sentence_task_dto->id);
 
       $personal_data = filter_input(INPUT_POST, "personal_data");
       $content_error = filter_input(INPUT_POST, "content_error");
 
-      if (isset($personal_data)) $comment_dao->upsertComment(comment_dto::newComment($sentence_task_dto->id, "personal_data", $personal_data));
-      if (isset($content_error)) $comment_dao->upsertComment(comment_dto::newComment($sentence_task_dto->id, "content_error", $content_error));
+      if (isset($personal_data)) $comment_dao->upsertComment(comment_dto::newComment($sentence_task_dto->id, "personal_data", ($personal_data == "on")));
+      if (isset($content_error)) $comment_dao->upsertComment(comment_dto::newComment($sentence_task_dto->id, "content_error", ($content_error == "on")));
 
       $keys = array_keys($_POST);
       foreach (array_keys($_POST) as $key) {

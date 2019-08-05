@@ -161,4 +161,28 @@ class comment_dao {
 
         return false;
     }
+
+
+    /**
+     * Deletes all comments of a pair of sentences
+     * 
+     * @param int $pair $ID of the pair to clear
+     * 
+     * @return boolean True if succeeded, False otherwise
+     */
+    function clearComments($pair) {
+        try {
+            $query = $this->conn->prepare("
+                DELETE FROM comments WHERE pair = ?;
+            ");
+
+            $query->bindParam(1, $pair);
+            $query->execute();
+        } catch (Exception $ex) {
+            $this->conn->close_conn();
+            return false;
+        }
+
+        return false;
+    }
 }

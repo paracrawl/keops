@@ -21,37 +21,28 @@ $filter_label = filter_input(INPUT_GET, "label");
 
 $filtered = isset($search_term) && isset($filter_label);
 
-$tabs = (object) [
-  ["label" => "L", "comments" => [
-    [
-      "name" => "L_sentence",
-      "text" => "Error is in",
-      "options" => [
-        ["value" => "source", "text" => "[SOURCE]"],
-        ["value" => "target", "text" => "[TARGET]"]
-      ]
+$comments = [
+  "L" => [
+    "single_option" => false,
+    "options" => [
+      ["value" => "true", "text" => "[SOURCE]", "name" => "L_sentence_source"],
+      ["value" => "true", "text" => "[TARGET]", "name" => "L_sentence_target"]
     ]
-  ]],
-  ["label" => "MT", "comments" => [
-    [
-      "name" => "MT_direction",
-      "text" => "Error is in",
-      "options" => [
-        ["value" => "source_to_target", "text" => "[SOURCE] to [TARGET]"],
-        ["value" => "target_to_source", "text" => "[TARGET] to [SOURCE]"]
-      ]
+  ],
+  "MT" => [
+    "single_option" => false,
+    "options" => [
+      ["value" => "true", "text" => "[SOURCE] to [TARGET]", "name" => "MT_direction_source_to_target"],
+      ["value" => "true", "text" => "[TARGET] to [SOURCE]", "name" => "MT_direction_target_to_source"]
     ]
-  ]],
-  ["label" => "F", "comments" => [
-    [
-      "name" => "F_keep",
-      "text" => "Translation should be",
-      "options" => [
-        ["value" => "keep", "text" => "Kept"],
-        ["value" => "discard", "text" => "Discarded"]
-      ]
+  ],
+  "F" =>[
+    "single_option" => true,
+    "options" => [
+      ["value" => "keep", "text" => "Keep", "name" => "F_keep"],
+      ["value" => "discard", "text" => "Discard", "name" => "F_keep"]
     ]
-  ]]
+  ]
 ];
 
 if (isset($task_id)) {
@@ -150,6 +141,7 @@ else {
           </div>
 
           <div class="col-sm-8 col-xs-12 text-right">
+            <input type="hidden" name="seall" value="?p=1&id=1&task_id=<?= $task->id ?>" />
             <form action="" class="search-form form-inline mt-xs">
               <div class="form-group">
                   <input type="hidden" name="task_id" value="<?= $task->id ?>" />
@@ -171,7 +163,10 @@ else {
                     ?>
                   </select>
 
-                  <button type=submit class="btn btn-primary" id="search-term-button">Search</button>
+                  <div class="btn-group" role="group">
+                    <button type=submit class="btn btn-primary" id="search-term-button">Search</button>
+                    <a class="btn btn-danger <?= ($filtered) ? "" : "disabled" ?>" href="?p=1&id=1&task_id=<?= $task->id ?>" title="Clear search" aria-label="Clear search"><i class="glyphicon glyphicon-remove"></i></a>
+                  </div>
               </div>
             </form>
           </div>
@@ -183,7 +178,7 @@ else {
           <div class="col-xs-12 col-md-12">
             <div class="alert alert-danger" role="alert">
               <strong>No sentences found with those filters!</strong>
-              <a href="?p=1&id=1&task_id=<?= $task->id ?>" class="alert-link">See all</a>
+              <a href="?p=1&id=1&task_id=<?= $task->id ?>" class="alert-link">Remove filters</a>
             </div>
           </div>
         <?php } else {?>
@@ -194,7 +189,7 @@ else {
                 <div class="alert alert-warning" role="alert">
                   <a href="?p=1&id=1&task_id=<?= $task->id ?>" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></a>
                   <strong>Sentences filtered!</strong>
-                  <a href="?p=1&id=1&task_id=<?= $task->id ?>" class="alert-link">See all</a>
+                  <a href="?p=1&id=1&task_id=<?= $task->id ?>" class="alert-link">Remove filters</a>
                 </div>
               </div>
             <?php } ?>
@@ -204,7 +199,7 @@ else {
                       <?= $task->source_lang_object->langname ?>
                     </div>
                     <div class="col-xs-6 col-md-6 text-right">
-                      <a href="https://translate.google.com/?op=translate&sl=<?= $task->source_lang_object->langcode?>&tl=<?=$task->target_lang_object->langcode?>&text=<?=$sentence->source_text ?>"  title="Translate source sentence with Google" target="_blank"><span class="glyphicon glyphicon-globe"></span></a>
+                      <a href="https://translate.google.com/?op=translate&sl=<?= $task->source_lang_object->langcode?>&tl=<?=$task->target_lang_object->langcode?>&text=<?=$sentence->source_text ?>"  title="Translate source sentence with Google" target="_blank"><img alt="Translate source sentence with Google" src="/img/googletranslate.png" /></a>
                     </div>
                   </div>
               </div>
@@ -219,7 +214,7 @@ else {
                     <?= $task->target_lang_object->langname ?>
                   </div>
                   <div class="col-xs-6 col-md-6 text-right">
-                    <a href="https://translate.google.com/?op=translate&sl=<?= $task->target_lang_object->langcode?>&tl=<?=$task->source_lang_object->langcode?>&text=<?=$sentence->target_text ?>"  title="Translate target sentence with Google" target="_blank"><span class="glyphicon glyphicon-globe"></span></a>
+                    <a href="https://translate.google.com/?op=translate&sl=<?= $task->target_lang_object->langcode?>&tl=<?=$task->source_lang_object->langcode?>&text=<?=$sentence->target_text ?>"  title="Translate target sentence with Google" target="_blank"><img alt="Translate target sentence with Google" src="/img/googletranslate.png" /></a>
                   </div>
                 </div>
               </div>
@@ -253,113 +248,88 @@ else {
                     </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-12">
-                    <div class="row btn-group evaluation-btn-group" data-toggle="buttons">
-                      <div class="col-md-12 col-xs-12">
-                          <?php foreach (array_slice(sentence_task_dto::$labels, 0, count(sentence_task_dto::$labels) - 2) as $label) { ?>
-                            <a href="#tab_<?= $label['value'] ?>" class="evaluation_tab_link <?= ($task->status == "DONE") ? "disabled" : "" ?>">
-                              <label class="btn btn-primary <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
-                                <input type="radio" name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= underline($label['label'], $label['value']) ?>
-                              </label>
-                            </a>
-                          <?php } ?>
+                  <div class="col-md-12 col-xs-12 btn-group evaluation-btn-group">
+                    <div class="row">  
+                      <?php foreach (array_slice(sentence_task_dto::$labels, 0, 1) as $label) { ?>
+                      <div class="col-md-5 col-xs-12">  
+                        <label class="btn btn-annotation outline btn-warning w-100 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                          <input type="radio" name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= underline($label['label'], $label['value']) ?>
+                        </label>
                       </div>
-                      <div class="col-md-12 col-xs-12" style="margin-top: 1em;">
-                          <?php foreach (array_slice(sentence_task_dto::$labels, -2, 1) as $label) { ?>
-                            <a href="#tab_<?= $label['value'] ?>" data-toggle="tab" class="evaluation_tab_link <?= ($task->status == "DONE") ? "disabled" : "" ?>">
-                              <label class="btn btn-success <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
-                                <input type="radio" name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= underline($label['label'], $label['value']) ?>
-                              </label>
-                            </a>
-                          <?php } ?>
-                          <?php foreach (array_slice(sentence_task_dto::$labels, -1, 1) as $label) { ?>
-                            <a href="#tab_<?= $label['value'] ?>" data-toggle="tab" class="evaluation_tab_link <?= ($task->status == "DONE") ? "disabled" : "" ?>">
-                              <label class="btn btn-warning <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
-                                <input type="radio" name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= underline($label['label'], $label['value']) ?>
-                              </label>
-                            </a>
-                          <?php } ?>
-                      </div>
+                      <?php } ?>
                     </div>
-                  </div>
-                  <div class="col-xs-12 col-md-12">
-                    <hr />
-                    <?php
-                      $comment_dao = new comment_dao();
-                      $content_error = $comment_dao->getCommentById($sentence->id, "content_error");
-                    ?>
-                    <div class="row" style="margin-top: 0.5em;">
-                      <div class="col-xs-12 col-md-5">
-                        <label for="content_error">Contains inappropriate content</label>
+                    <?php $comment_dao = new comment_dao(); ?>
+                    <?php foreach (array_slice(sentence_task_dto::$labels, 1, count(sentence_task_dto::$labels) - 2) as $label) { ?>
+                      <div class="row">
+                      <div class="col-md-5 col-xs-12">
+                        <label class="btn btn-annotation outline btn-primary w-100 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                          <input type="radio" name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= underline($label['label'], $label['value']) ?>
+                        </label>
                       </div>
-                      <div class="col-xs-12 col-md-7 text-right-md">
-                        <div class="btn-group btn-group-justified" data-toggle="buttons">
-                          <label class="btn btn-default <?= ($task->status == "DONE") ? "disabled" : "" ?>  <?= (($content_error != false) ? (($content_error->value == "1") ? "active" : "") : "") ?>">
-                            <input type="radio" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($content_error != false) ? (($content_error->value == "1") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="content_error" value="1"> Yes
+                      <div class="col-md-7 col-xs-12 d-none question-column">
+                        <?php
+                            if (array_key_exists($label['value'], $comments)) {
+                            $comment = $comments[$label['value']];
+                        ?>
+                        <div class="btn-group btn-group-justified w-100" data-toggle="buttons" data-single="<?= $comment["single_option"] ?>">
+                          <?php foreach ($comment["options"] as $option) { ?>
+                          <?php $comment_dto = $comment_dao->getCommentById($sentence->id, $option["name"]); ?>
+                          <label class="btn btn-default <?= ($comment_dto) ? ($comment_dto->value == $option["value"] ? "active" : "") : "" ?>">
+                            <input type="checkbox" name="<?= $option["name"] ?>" value="<?= $option["value"] ?>" <?= ($comment_dto) ? ($comment_dto->value == $option["value"] ? "checked" : "") : "" ?> /> <?= str_replace("[SOURCE]", $task->source_lang_object->langname, str_replace("[TARGET]",  $task->target_lang_object->langname, $option["text"])); ?>
                           </label>
-                          <label class="btn btn-default <?= ($task->status == "DONE") ? "disabled" : "" ?>  <?= (($content_error != false) ? (($content_error->value == "0") ? "active" : "") : "") ?>">
-                            <input type="radio" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($content_error != false) ? (($content_error->value == "0") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="content_error" value="0"> No
-                          </label>
+                          <?php } ?>
                         </div>
+                        <?php } else {  ?> &nbsp; <?php } ?>
                       </div>
                     </div>
+                    <?php } ?>
 
-                    <?php
-                      $personal_data = $comment_dao->getCommentById($sentence->id, "personal_data");
-                    ?>
-                    <div class="row" style="margin-top: 0.5em;">
-                      <div class="col-xs-12 col-md-5">
-                        <label for="personal_data">Contains personal data</label>
-                      </div>
-                      <div class="col-xs-12 col-md-7 text-right-md">
-                        <div class="btn-group btn-group-justified" data-toggle="buttons">
-                          <label class="btn btn-default <?= ($task->status == "DONE") ? "disabled" : "" ?>  <?= (($personal_data != false) ? (($personal_data->value == "1") ? "active" : "") : "") ?>">
-                            <input type="radio" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($personal_data != false) ? (($personal_data->value == "1") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="personal_data" value="1"> Yes
-                          </label>
-                          <label class="btn btn-default <?= ($task->status == "DONE") ? "disabled" : "" ?>  <?= (($personal_data != false) ? (($personal_data->value == "0") ? "active" : "") : "") ?>">
-                            <input type="radio" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($personal_data != false) ? (($personal_data->value == "0") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="personal_data" value="0"> No
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!--
-                      This is the fixed comments section. The name of the parameters
-                      which contain each comment should start with the code of the label
-                      followed by an underscore (for example, MT_ for Machine Translation).
-                    -->
-                    <div class="tab-content evaluation-tab-content" style="margin-top: 0.5em;">
-                      <?php foreach($tabs as $tab) { ?>
-                      <div role="tabpanel" class="tab-pane" id="tab_<?= $tab["label"] ?>">
-                        <?php foreach($tab["comments"] as $comment) {?>
-                        <div class="row">
-                          <div class="col-xs-12 col-md-5">
-                            <label for="<?= $comment["name"] ?>"><?= $comment["text"] ?></label>
-                          </div>
-                          <div class="col-xs-12 col-md-7 text-right-md">
-                            <div class="btn-group btn-group-justified" data-toggle="buttons">
-                              <?php foreach($comment["options"] as $option) { ?>
-                              <?php 
-                                $option_data = $comment_dao->getCommentById($sentence->id, $comment["name"]); 
-                                $option["text"] = str_replace("[SOURCE]", $task->source_lang_object->langname, $option["text"]);
-                                $option["text"] = str_replace("[TARGET]", $task->target_lang_object->langname, $option["text"]);
-                                ?>
-                              <label class="btn btn-default  <?= (($option_data != false) ? (($option_data->value == $option["value"]) ? "active" : "") : "") ?> <?= ($task->status == "DONE") ? "disabled" : "" ?>">
-                                <input type="radio" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (isset($option_data->value) ? (($option_data->value == $option["value"]) ? "checked" : "") : "") ?> name="<?= $comment["name"] ?>" autocomplete="off" type="radio" value="<?= $option["value"] ?>"> <?= $option["text"] ?>
-                              </label>
-                              <?php } ?>
-                            </div>
-                          </div>
-                        </div>
-                        <?php } ?>
+                    <div class="row">
+                      <?php foreach (array_slice(sentence_task_dto::$labels, -1, 1) as $label) { ?>
+                      <div class="col-md-5 col-xs-12">
+                        <label class="btn btn-annotation outline btn-success w-100 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                          <input type="radio" name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= underline($label['label'], $label['value']) ?>
+                        </label>
                       </div>
                       <?php } ?>
                     </div>
                   </div>
                 </div>
+
+                <div class="row" style="margin-bottom: 1em;">
+                  <hr />
+
+                  <!--
+                    This is the fixed comments section. The name of the parameters
+                    which contain each comment should start with the code of the label
+                    followed by an underscore (for example, MT_ for Machine Translation).
+                  
+                  -->
+
+                  <?php
+                    $content_error = $comment_dao->getCommentById($sentence->id, "content_error");
+                    $personal_data = $comment_dao->getCommentById($sentence->id, "personal_data");
+                  ?>
+
+                  <div class="col-xs-12 col-md-12">
+                    <label for="personal_data" class="checkbox-custom <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                      <input type="checkbox" id="personal_data" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($personal_data) ? (($personal_data->value == "1") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="personal_data" />
+                      <span class="checkbox-control"></span>
+                      Contains personal data
+                    </label>
+                  </div>
+                  <div class="col-xs-12 col-md-12">
+                    <label for="content_error" class="checkbox-custom <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                      <input type="checkbox" id="content_error" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($content_error) ? (($content_error->value == "1") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="content_error" />
+                      <span class="checkbox-control"></span>
+                      Contains inappropriate language
+                    </label>
+                  </div>
+                </div>
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
+        </div>
       </div>
 
       <div class="col-xs-12 col-md-12">
@@ -382,13 +352,13 @@ else {
 
           <div class="col-md-6 col-md-pull-6 col-xs-12 mt-xs">
             <div class="row">
-              <div class="col-md-5 col-md-offset-4 col-xs-12 mt-xs">
-                <form id="gotoform" method="get" action="/sentences/evaluate.php">
+              <div class="col-md-12 col-xs-12 mt-xs" style="display: flex; justify-content: center;">
+                <form id="gotoform" method="get" action="/sentences/evaluate.php" class="col-md-5">
                   <input type="hidden" name="p" value="1">
                   <input type="hidden" name="task_id" value="<?= $task->id ?>">
                   
                   <div class="input-group">
-                      <input type="number" name="id" class="form-control" aria-label="Current page" value="<?= $task_progress->current ?>" min="1" max="<?= $task_progress->total ?>" />
+                      <input type="number" name="id" class="form-control current-page-control" aria-label="Current page" value="<?= $task_progress->current ?>" min="1" max="<?= $task_progress->total ?>" />
                       <div class="input-group-addon">of <?= $task_progress->total ?></div>
                       <div class="input-group-btn">
                         <button type="submit" class="btn btn-default">Go</button>
