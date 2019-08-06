@@ -142,7 +142,7 @@ else {
 
           <div class="col-sm-8 col-xs-12 text-right">
             <input type="hidden" name="seall" value="?p=1&id=1&task_id=<?= $task->id ?>" />
-            <form action="" class="search-form form-inline mt-xs">
+            <form action="" class="search-form form-inline mt-1 mt-sm-0">
               <div class="form-group">
                   <input type="hidden" name="task_id" value="<?= $task->id ?>" />
                   <input type="hidden" name="p" value="1" />
@@ -237,9 +237,9 @@ else {
                 <?php } ?>
 
                 <div class="col-md-12">
-                  <div class="row vertical-align mt-xs" style="margin-bottom: 1em;">
+                  <div class="row vertical-align mt-1 mt-sm-0" style="margin-bottom: 1em;">
                     <div class="col-sm-4 col-xs-6">
-                      <h4 style="margin-top: 0px;">Annotation</h4>
+                      <h4 class="my-0">Annotation</h4>
                     </div>
                     <div class="col-sm-8 col-xs-6 text-right">
                       <a href="#" data-toggle="modal" data-target="#evaluation-help">
@@ -334,7 +334,7 @@ else {
 
       <div class="col-xs-12 col-md-12">
         <div class="row">
-          <div class="col-md-2 col-md-push-6 col-xs-2 pt-xs">
+          <div class="col-md-2 col-md-push-6 col-xs-2 pt-xs-1">
             <a class="btn btn-lg btn-previous <?= ($task_progress->current-1 == 0) ? "disabled" : "" ?>" style="padding-left: 0em;" href="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current-1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>" title="Go to the previous sentence"><span class="glyphicon glyphicon-arrow-left"></span> Previous</a>
           </div>
 
@@ -350,10 +350,10 @@ else {
             <?php } ?>
           </div>
 
-          <div class="col-md-6 col-md-pull-6 col-xs-12 mt-xs">
+          <div class="col-md-6 col-md-pull-6 col-xs-12 mt-4 mt-sm-0">
             <div class="row">
-              <div class="col-md-12 col-xs-12 mt-xs" style="display: flex; justify-content: center;">
-                <form id="gotoform" method="get" action="/sentences/evaluate.php" class="col-md-5">
+              <div class="col-md-12 col-xs-12 mt-1" style="display: flex; justify-content: center;">
+                <form id="gotoform" method="get" action="/sentences/evaluate.php" class="col-md-5 col-xs-12">
                   <input type="hidden" name="p" value="1">
                   <input type="hidden" name="task_id" value="<?= $task->id ?>">
                   
@@ -412,42 +412,42 @@ else {
                             <span class="number-container number-container-small">1</span>
                             <strong>Wrong Language Identification</strong>
                           </div>
-                          <div class="col-md-8 col-xs-11 mt-xs">The crawler tools failed in identifying the right language</div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">The crawler tools failed in identifying the right language</div>
                         </div>
                         <div class="row">
                           <div class="col-md-4 col-xs-12">
                             <span class="number-container number-container-small">2</span>
                             <strong>Incorrect Alignment</strong>
                           </div>
-                          <div class="col-md-8 col-xs-11 mt-xs">There are segments having different content due to wrong alignment</div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">There are segments having different content due to wrong alignment</div>
                         </div>
                         <div class="row">
                           <div class="col-md-4 col-xs-12">
                             <span class="number-container number-container-small">3</span>
                             <strong>Wrong Tokenization</strong>
                             </div>
-                          <div class="col-md-8 col-xs-11 mt-xs">The text has not been tokenized properly by the crawler tools (no separator between words)</div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">The text has not been tokenized properly by the crawler tools (no separator between words)</div>
                         </div>
                         <div class="row">
                           <div class="col-md-4 col-xs-12">
                               <span class="number-container number-container-small">4</span>
                               <strong>Mt-translated Content</strong>
                             </div>
-                          <div class="col-md-8 col-xs-11 mt-xs">Content identified as a translation through a Machine Translation system</div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">Content identified as a translation through a Machine Translation system</div>
                         </div>
                         <div class="row">
                           <div class="col-md-4 col-xs-12">
                             <span class="number-container number-container-small">5</span>
                             <strong>Translation Errors</strong>
                           </div>
-                          <div class="col-md-8 col-xs-11 mt-xs">Lexical mistakes, syntactic errors or poor use of language</div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">Lexical mistakes, syntactic errors or poor use of language</div>
                         </div>
                         <div class="row">
                           <div class="col-md-4 col-xs-12">
                             <span class="number-container number-container-small">6</span>
                             <strong>Free Translation</strong>
                           </div>
-                          <div class="col-md-8 col-xs-11 mt-xs">Non-literal translation, that is, the content is completely reformulated in one language</div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">Non-literal translation, that is, the content is completely reformulated in one language</div>
                         </div>
                       </div>
                     </div>

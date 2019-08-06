@@ -10,17 +10,8 @@ $(document).ready(function() {
       return;
     };
     
-    // Make active
-    $('.btn-annotation').removeClass('active');
-    $('.btn-annotation input').prop('checked', false);
-
-    $(this).addClass('active');
-    $(this).find('input').prop('checked', true);
-    
-    // Show annotation question
-    $('.question-column').addClass('d-none');
-    $('.question-column input').prop('checked', false);
-    $(this).closest('.row').find('.question-column').removeClass('d-none');
+    // Make active and show question
+    toggleAnnotation(this);
   });
 
   $("#evaluationform .btn-group .btn").on('click', function (e) {
@@ -72,7 +63,7 @@ $(document).ready(function() {
   /**
    * Evaluation shortcuts
    */
-
+  let annotations = $(".btn-annotation");
   $(document).on('keypress', (e) => {
     if ($(e.target).is('input, select, label, a, .btn') && e.which == 13) {
       $(e.target).find(".btn").trigger('click');
@@ -83,46 +74,31 @@ $(document).ready(function() {
         $("#evalutionsavebutton").trigger('click');
       } else {
         if ($("#evaluation-container").attr("data-done") == "1") return;
+        if (e.which < 49 || e.which > 56) return;
 
         $("#evaluationform :radio").removeAttr('checked');
         $("#evaluationform label.active").removeClass("active");
-
-        if (e.which == 76 || e.which == 108) {//L
-          $("#evaluationform label input[value='L']").parent().trigger('click');
-        }
-
-        if (e.which == 65 || e.which == 97) {//A
-          $("#evaluationform label input[value='A']").parent().trigger('click');
-        }
-
-        if (e.which == 84 || e.which == 116) {//T
-          $("#evaluationform label input[value='T']").parent().trigger('click');
-        }
-
-        if (e.which == 77 || e.which == 109) {//MT / M
-          $("#evaluationform label input[value='MT']").parent().trigger('click');
-        }
-
-        if (e.which == 69 || e.which == 101) {//E
-          $("#evaluationform label input[value='E']").parent().trigger('click');
-        }
-
-        if (e.which == 70 || e.which == 102) {//F
-          $("#evaluationform label input[value='F']").parent().trigger('click');
-        }
-
-        if (e.which == 86 || e.which == 118) {//V
-          $("#evaluationform label input[value='V']").parent().trigger('click');
-        };
         
-
-        if (e.which == 80 || e.which == 112) {//P
-          $("#evaluationform label input[value='P']").parent().trigger('click');
-        }
+        let annotation = annotations[e.which - 49];
+        toggleAnnotation(annotation);
       }
     }
   });
 });
+
+function toggleAnnotation(e) {
+  $('.btn-annotation').removeClass('active');
+  $('.btn-annotation input').prop('checked', false);
+
+  $(e).addClass('active');
+  $(e).find('input').prop('checked', true);
+
+  $('.question-column').addClass('d-none');
+  $('.question-column input').prop('checked', false);
+  $(e).closest('.row').find('.question-column').removeClass('d-none');
+
+  $(e).focus();
+}
 
 /*
 $(document).keypress(function (e) {
