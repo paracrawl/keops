@@ -1053,3 +1053,25 @@ a {
   background: #85bf85;
   border-color: #7dae7d;
 }
+
+/* List groups in columns */
+.list-group-columns .list-group-item {
+  border-left: 0px;
+  border-bottom: 0px;
+  border-top: 0px;
+}
+
+.list-group-columns .list-group-item:nth-child(3n) {
+  border-right: 0px;
+}
+
+.list-group-columns .list-group-item:first-child {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+@media screen and (max-width: 768px) {
+  .list-group-columns .list-group-item {
+    border: 0px;
+  }
+}

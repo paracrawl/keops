@@ -37,7 +37,8 @@ require_once(RESOURCES_PATH . "/session.php");
         <h1>Your projects</h1>
     </div>
 
-    <div class="col-xs-12 col-md-9">  
+    <div class="row">
+        <div class="col-xs-12 col-md-9">  
             <?php
                 $project_dao = new project_dao();
                 $task_dao = new task_dao();
@@ -92,160 +93,57 @@ require_once(RESOURCES_PATH . "/session.php");
                         </div>
                     </div>
                 </div>
-        
-
-            <?php
-                }
-
-                foreach ($projects as $project) {
-            ?>
-
-            <div class="col-xs-12 col-md-12" >
-                <div class="page-header row vertical-align" id="project<?= $project->id ?>">
-                    <div class="col-xs-10 col-md-10">
-                        <h3>Project #<?= $project->id ?> — <?= $project->name ?></h3>
-                    </div>
-
-                    <div class="col-xs-2 col-md-2 text-right">
-                        <a href="/tasks/task_new.php?p_id=<?= $project->id ?>" class="btn btn-link" title="Add task to this project"><span class="glyphicon glyphicon-plus"></span></a>
-                    </div>
-                </div>
-
-                <div id="stats-accordion">
-
                 <?php
-                    if (count($tasks[$project->id]) == 0) { ?>
-                        This project has no tasks, but you can <a href="/tasks/task_new.php?p_id=<?= $project->id ?>">add one</a>.
-                    <?php } ?>
+                    }
 
-                    <?php
-                    foreach ($tasks[$project->id] as $task) {
-                        $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id);      
+                    foreach ($projects as $project) {
+                        $done = 0;
+                        $total = count($tasks[$project->id]);
+                        foreach($tasks[$project->id] as $task) {
+                            $done += ($task->status == "DONE") ? 1 : 0;
+                        }
                 ?>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="<?php echo "#task-stats-" . $task->id ?>" aria-expanded="false" aria-controls="<?php echo "task-stats-" . $task->id ?>">
-                                <span class="glyphicon glyphicon-collapse-down"></span>Task #<?php echo $task->id; ?>
-                                <span class="card-label">
-                                    <?php if ($task->status == "DONE") { ?>
-                                        <span class="label label-success">Done</span>
-                                    <?php } else { ?>
-                                        <span class="label label-default">Pending</span>
-                                    <?php } ?>
-                                </span>
-                            </button>
+                <div class="col-xs-12 col-md-12" >
+                    <div class="page-header row mx-0 vertical-align" id="project<?= $project->id ?>">
+                        <div class="col-xs-12 col-md-8">
+                            <h3>Project #<?= $project->id ?> — <?= $project->name ?></h3>
                         </div>
-                        <div id="<?php echo "task-stats-" . $task->id ?>" class="collapse" data-parent="stats-accordion">
-                            <div class="card-body">
-                                <div class="container-evaluation col-md-12">
-                                    <div class="col-md-8">
-                                        <div class="table-responsive">
-                                            <table class="table table-striped table-bordered table-hover table-condensed">
-                                                <thead>
-                                                <tr>
-                                                    <th>Type</th>
-                                                    <th># of sentences</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <?php
-                                                $labels_chart_js = array();
-                                                $data_chart_js = array();
-                                                foreach (sentence_task_dto::$labels as $label) {
-                                                    $labels_chart_js[] = '"' . $label['value'] . '"';
-                                                    $data_chart_js[] = $task_stats_dto->array_type[$label['value']];
-                                                    ?>
-                                                    <tr>
-                                                    <td><?= $label['label'] ?> [<?= $label['value'] ?>]</td>
-                                                    <td class="text-right"><?= $task_stats_dto->array_type[$label['value']] ?></td>
-                                                    </tr>
-                                                <?php } ?>
-                                                </tbody>
 
-                                                <tfoot>
-                                                <tr>
-                                                    <th>Total</th>
-                                                    <th class="text-right"><?= $task_stats_dto->total ?></th>
-                                                </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <?php
-                                        if ($task->status == "DONE") {
-                                        ?>
-                                        <div class="panel panel-success">
-                                            <div class="panel-heading">
-                                            <h3 class="panel-title">Finished task</h3>
-                                            </div>
-                                            <div class="panel-body">
-                                            <p>Evaluator: <?php echo $task->username; ?><p>
-                                                <p>Creation date: <?php echo getFormattedDate($task->creation_date); ?> <br>
-                                                Assigned on: <?php echo getFormattedDate($task->assigned_date); ?>  <br>
-                                                Completion date: <?php echo getFormattedDate($task->completed_date); ?></p>
-                                                </p>
-                                                <a href="mailto:<?php echo $task->email; ?>">
-                                                <br><span class="glyphicon glyphicon-envelope"></span> Contact evaluator</a>
-                                                
-                                                <br>
-                                                <div>
-                                                <a href="/tasks/download_summary.php?task_id=<?php echo $task->id ?>">
-                                                    <span class="glyphicon glyphicon-download-alt"></span>
-                                                    <span>Download summary (CSV)</span>
-                                                </a>
-                                                </div>
-                                                <div>
-                                                <a href="/tasks/download_sentences.php?task_id=<?php echo $task->id ?>">
-                                                    <span class="glyphicon glyphicon-download-alt"></span>
-                                                    <span>Download annotated sentences (TSV)</span>
-                                                </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <?php
-                                        } else {
-                                        ?>
-                                        <div class="panel panel-warning">
-                                            <div class="panel-heading">
-                                            <h3 class="panel-title">Task in progress</h3>
-                                            </div>
-                                            <div class="panel-body">
-                                            <p>This task is still in progress.
-                                            <p>Evaluator: <?php echo $task->username; ?><p>
-                                            <p>Creation date: <?php echo getFormattedDate($task->creation_date); ?> <br>
-                                                Assigned on: <?php echo getFormattedDate($task->assigned_date); ?>  <br>
-                                        <!--                  Completion date: <?php echo getFormattedDate($task->completed_date); ?></p>-->
-                                            </p>
-                                            <a href="mailto:<?php echo $task->email; ?>">
-                                                <br><span class="glyphicon glyphicon-envelope"></span> Contact evaluator</a>
-                                            </div>
-                                        </div>
-                                        <?php
-                                        }?>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <canvas class="pie-charts" id="pie-chart-<?php echo $task->id; ?>" width="800" height="500"></canvas>
-                                        <script type="text/javascript">
-                                        var labels_pie_chart = [<?= implode(",", $labels_chart_js) ?>];
-                                        var data_pie_chart = [<?= implode(",", $data_chart_js) ?>];
-                                        chart = [];
-                                        chart["id"] = "pie-chart-<?php echo $task->id; ?>";
-                                        chart["labels"] = labels_pie_chart;
-                                        chart["data"] = data_pie_chart;
-                                        charts.push(chart);
-                                        </script>
-                                        </div>
-                                    </div>
-                            </div>
+                        <div class="col-xs-12 col-md-4 text-right">
+                            <span class="label label-default"><?= ($total - $done) ?> pending</span>
+                            <span class="label label-success mr-2"><?= $done ?> done</span>
+                            <a href="/tasks/task_new.php?p_id=<?= $project->id ?>" class="btn btn-link" title="Add task to this project"><span class="glyphicon glyphicon-plus"></span></a>
                         </div>
                     </div>
-                    <?php } ?>
+
+                    <ul class="list-group list-group-columns">
+
+                    <?php
+                        if (count($tasks[$project->id]) == 0) { ?>
+                            This project has no tasks, but you can <a href="/tasks/task_new.php?p_id=<?= $project->id ?>">add one</a>.
+                        <?php } ?>
+
+                        <?php
+                        foreach ($tasks[$project->id] as $task) {
+                            $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id);      
+                    ?>
+
+                        <a href="http://localhost/tasks/recap.php?id=<?= $task->id ?>" class="list-group-item col-sm-4">
+                            Task #<?php echo $task->id; ?>
+                            <div class="float-right">
+                                <?php if ($task->status == "DONE") { ?>
+                                    <span class="label label-success">Done</span>
+                                <?php } else { ?>
+                                    <span class="label label-default">Pending</span>
+                                <?php } ?>
+                            </div>
+                        </a>
+                        <?php } ?>
+                    </ul>
                 </div>
+                <?php } ?>
             </div>
-        <?php } ?>
-        </div>
         </div>
 
         <div class="col-md-3 visible-md visible-lg" style="position: sticky; top: 70px;">

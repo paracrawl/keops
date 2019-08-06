@@ -98,6 +98,18 @@ $(document).ready(function() {
         });
       }
     });
+
+    $('body').on('activate.bs.scrollspy', function (e) {
+      let active_e = e.target;
+      let active_top = $(active_e).offset().top;
+      let parent_top = $('#sidenav').offset().top;
+      let parent_height = $('#sidenav').height();
+      let distance = active_top - parent_top;
+
+      if (distance > parent_height || distance < 0) {
+        $('#sidenav ul').scrollTop(distance + $('#sidenav ul').scrollTop());
+      }
+    })
     
   /*
    * Users table (for "Users" tab)
