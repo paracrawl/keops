@@ -737,15 +737,6 @@ hr {
   }
 }
 
-@media screen and (min-width: 992px) {
-  .text-right-md {
-    text-align: right !important;
-  }
-
-  .mt-md {
-    margin-top: 2em;
-  }
-}
 
 @media screen and (max-width: 768px) {
   .search-form .form-control {
@@ -774,31 +765,14 @@ hr {
   .nav-tabs > li {
     float: none;
   }
-
-  .mb-xs {
-    margin-bottom: 1em;
-  }
-
-  .mt-xs {
-    margin-top: 0.25em;
-  }
-
-  .pt-xs {
-    padding-top: 0.25em;
-  }
-
+  
   .quickreference .row [class*="col-"]:nth-child(2) {
     margin-left: 2em;
   }
-}
 
-.mx-0 {
-  margin-left: 0;
-  margin-right: 0;
-}
-
-.mt-0 {
-  margin-top: 0;
+  .d-xs-none {
+    display: none;
+  }
 }
 
 .d-none {
@@ -1052,7 +1026,7 @@ a {
   border: solid #c2c8ce 1px;
   border-radius: 4px;
   line-height: 20px;
-  vertical-align: bottom;
+  vertical-align: top;
 }
 
 .checkbox-custom input:checked + .checkbox-control {
