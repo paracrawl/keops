@@ -151,14 +151,15 @@ else {
                   <input class="form-control" id="search-term" name="term" value="<?php if (isset($search_term)) { echo $search_term; } ?>" placeholder="Search through sentences" aria-label="Search through sentences">
 
                   <?php
-                      $labels = array("P", "L", "A", "T", "MT", "F", "V");
+                      $labelcodes = array("P", "L", "A", "T", "MT", "F", "V");
+                      $labels = array("Pending", "Language", "Alignment", "Tokenization", "Machine Translation", "Free translation", "Valid");
                   ?>
 
                   <select class="form-control" name="label" aria-label="Select label">
                     <option value="ALL">Everything</option>
                     <?php
-                        foreach ($labels as $labelcode) { ?>
-                            <option value="<?php echo $labelcode; ?>" <?php if (isset($filter_label) && $labelcode == $filter_label) { echo "selected"; } ?>><?php echo $labelcode; ?> label</option>
+                        for ($i = 0; $i < count($labelcodes); $i++) { $labelcode = $labelcodes[$i]; $label = $labels[$i]; ?>
+                            <option value="<?php echo $labelcode; ?>" <?php if (isset($filter_label) && $labelcode == $filter_label) { echo "selected"; } ?>><?php echo $label; ?></option>
                         <?php }
                     ?>
                   </select>
@@ -251,9 +252,9 @@ else {
                   <div class="col-md-12 col-xs-12 btn-group evaluation-btn-group">
                     <div class="row">  
                       <?php foreach (array_slice(sentence_task_dto::$labels, 0, 1) as $label) { ?>
-                      <div class="col-md-5 col-xs-12">  
+                      <div class="col-md-5 pr-sm-0 col-xs-12">  
                         <label class="btn btn-annotation outline btn-warning w-100 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
-                          <input type="radio" name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= underline($label['label'], $label['value']) ?>
+                          <input type="radio" name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
                         </label>
                       </div>
                       <?php } ?>
@@ -261,17 +262,17 @@ else {
                     <?php $comment_dao = new comment_dao(); ?>
                     <?php foreach (array_slice(sentence_task_dto::$labels, 1, count(sentence_task_dto::$labels) - 2) as $label) { ?>
                       <div class="row">
-                      <div class="col-md-5 col-xs-12">
+                      <div class="col-md-5 col-xs-12 pr-sm-0">
                         <label class="btn btn-annotation outline btn-primary w-100 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
-                          <input type="radio" name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= underline($label['label'], $label['value']) ?>
+                          <input type="radio" name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
                         </label>
                       </div>
-                      <div class="col-md-7 col-xs-12 d-none question-column">
+                      <div class="col-md-7 col-xs-12 question-column pr-sm-0 d-none">
                         <?php
                             if (array_key_exists($label['value'], $comments)) {
                             $comment = $comments[$label['value']];
                         ?>
-                        <div class="btn-group btn-group-justified w-100" data-toggle="buttons" data-single="<?= $comment["single_option"] ?>">
+                        <div class="btn-group btn-group-justified w-100 mb-3 mb-sm-0" data-toggle="buttons" data-single="<?= $comment["single_option"] ?>">
                           <?php foreach ($comment["options"] as $option) { ?>
                           <?php $comment_dto = $comment_dao->getCommentById($sentence->id, $option["name"]); ?>
                           <label class="btn btn-default <?= ($comment_dto) ? ($comment_dto->value == $option["value"] ? "active" : "") : "" ?>">
@@ -286,9 +287,9 @@ else {
 
                     <div class="row">
                       <?php foreach (array_slice(sentence_task_dto::$labels, -1, 1) as $label) { ?>
-                      <div class="col-md-5 col-xs-12">
+                      <div class="col-md-5 col-xs-12 pr-sm-0">
                         <label class="btn btn-annotation outline btn-success w-100 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
-                          <input type="radio" name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= underline($label['label'], $label['value']) ?>
+                          <input type="radio" name="evaluation" autocomplete="off" required <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
                         </label>
                       </div>
                       <?php } ?>

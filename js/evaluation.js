@@ -22,15 +22,15 @@ $(document).ready(function() {
   });
 
   $('.question-column .btn-group .btn').on('click', function(e) {
+    if ($(this).hasClass('active')) {
+      setTimeout(function() {
+        $(this).removeClass('active').removeClass('focus').find('input').prop('checked', false);
+      }.bind(this), 10);
+    }
+
     if ($(this).parent().attr('data-single') == '1') {
       $(this).parent().find('.btn').removeClass('active');
       $(this).parent().find('.btn input').prop('checked', false);
-    }
-
-    if ($(this).hasClass('active')) {
-      setTimeout(function() {
-        $(this).removeClass('active').find('input').prop('checked', false);
-      }.bind(this), 10);
     }
   });
 
@@ -95,7 +95,10 @@ function toggleAnnotation(e) {
 
   $('.question-column').addClass('d-none');
   $('.question-column input').prop('checked', false);
-  $(e).closest('.row').find('.question-column').removeClass('d-none');
+
+  if ($(e).closest('.row').find('.question-column').children().length > 0) {
+    $(e).closest('.row').find('.question-column').removeClass('d-none');
+  }
 
   $(e).focus();
 }
