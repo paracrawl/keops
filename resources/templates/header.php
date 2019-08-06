@@ -44,7 +44,7 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $USER->name ?><span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li class="dropdown-header">Support</li>
-                <li><a href="mailto:help@prompsit.com">Contact support</a></li>
+                <li><a href="/contact.php">Contact support</a></li>
                 <li class="dropdown-header">Account</li>
                 <li><a href="/users/user_logout.php">Sign out</a></li>
               </ul>

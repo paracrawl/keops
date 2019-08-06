@@ -9,13 +9,13 @@
                     </a>
                     <p>
                     <span class="glyphicon glyphicon-copyright-mark" aria-hidden="true"></span>&nbsp;2019 Prompsit Language Engineering S.L. <br />
-                    <a target="_blank" href="mailto:help@prompsit.com"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Contact</a>
+                    <a href="/contact.php"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Contact</a>
                     <!--Logo by icons8.com -->
                     </p>
                 </div>
             </div>
 
-            <div class="col-xs-12 col-md-8 text-right-md">
+            <div class="col-xs-12 col-md-8 text-md-right">
                 <div class="row">
                     <div class="col-xs-12 col-md-12">
                       <a href="http://paracrawl.eu/"  target="_blank" style="margin-right: 1em;"><img src="../img/paracrawl-logo135x62.png" alt="Paracrawl Project home"></a>
