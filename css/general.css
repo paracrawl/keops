@@ -231,8 +231,9 @@ footer .eu-logos img {
 }
 
 .evaluation-btn-group .btn {
-  margin: 0 0 0.5em 0;
+  /*margin: 0 0 0.5em 0;*/
   position: static;
+  white-space: normal;
 }
 
 .evaluation-btn-group .btn.active {
@@ -735,6 +736,10 @@ hr {
   .text-right-sm {
     text-align: right !important;
   }
+
+  .search-form {
+    padding-left: 6px;
+  }
 }
 
 
@@ -1027,6 +1032,20 @@ a {
   border-radius: 4px;
   line-height: 20px;
   vertical-align: top;
+}
+
+.checkbox-custom .checkbox-control:hover {
+  background-color: #eee;
+}
+
+.checkbox-custom input:checked + .checkbox-control:hover {
+  background-color: #47aa47;
+  border-color: #47aa47;
+}
+
+.checkbox-custom:not(.disabled) input:not(:checked) + .checkbox-control:active {
+  background-color: #ccc;
+  box-shadow: inset 0px 1px #bbb;
 }
 
 .checkbox-custom input:checked + .checkbox-control {

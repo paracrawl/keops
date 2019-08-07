@@ -38,7 +38,7 @@ require_once(RESOURCES_PATH . "/session.php");
     </div>
 
     <div class="row">
-        <div class="col-xs-12 col-md-9">  
+        <div class="col-xs-12 col-md-9">
             <?php
                 $project_dao = new project_dao();
                 $task_dao = new task_dao();
@@ -105,8 +105,9 @@ require_once(RESOURCES_PATH . "/session.php");
                 ?>
 
                 <div class="col-xs-12 col-md-12" >
-                    <div class="page-header row mx-0 vertical-align" id="project<?= $project->id ?>">
+                    <div class="page-header row mx-0 vertical-align">
                         <div class="col-xs-12 col-md-8">
+                            <div id="project<?= $project->id ?>" style="position: relative; top: -60px;"></div>
                             <h3>Project #<?= $project->id ?> — <?= $project->name ?></h3>
                         </div>
 
@@ -133,9 +134,9 @@ require_once(RESOURCES_PATH . "/session.php");
                             Task #<?php echo $task->id; ?>
                             <div class="float-right">
                                 <?php if ($task->status == "DONE") { ?>
-                                    <span class="label label-success">Done</span>
+                                    <span class="label label-success p-2" style="display: inline-block; width: 70px;">Done</span>
                                 <?php } else { ?>
-                                    <span class="label label-default">Pending</span>
+                                    <span class="label label-default p-2" style="display: inline-block; width: 70px;">Pending</span>
                                 <?php } ?>
                             </div>
                         </a>
