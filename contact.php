@@ -8,6 +8,12 @@
 
   $PAGETYPE = "public";
   require_once(RESOURCES_PATH . "/session.php");
+
+  $project_id = filter_input(INPUT_GET, 'p', FILTER_SANITIZE_STRING);
+  if ($project_id && !isSignedIn()) { 
+      header("Location: /signin.php"); 
+      exit();
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,15 +28,24 @@
         <div class="row">
             <div class="col-sm-8 col-sm-offset-2 col-xs-12">
                 <div class="page-header">
-                    <h1>Contact support</h1>
+                    <h1>
+                        <?php if ($project_id) { ?>
+                            Contact PM of Project #<?= $project_id ?>
+                        <?php } else { ?>
+                            Contact support
+                        <?php } ?>
+                    </h1>
                 </div>
-
 
                 <?php if($_SESSION["contacterror"]) { ?>
                     <div class="alert alert-danger" role="alert">We could not send your message. Please, try again later.</div>
                 <?php $_SESSION["contacterror"] = false; } ?>
 
                 <form action="/services/contact_service.php" method="post">
+                    <?php if ($project_id) { ?>
+                        <input type=hidden name="pm" value="<?= $project_id ?>" /> 
+                    <?php } ?>
+
                     <?php 
                         $user_dao = new user_dao();
                         $user = $user_dao->getUserById(getUserId());
@@ -59,9 +74,12 @@
                             Send me a copy
                         </label>
                     </div>
+                    <?php if (!isSignedIn()) { ?>
                     <div class="form-group">
                         <div class="g-recaptcha" data-sitekey="6LekjLEUAAAAAHmTjsaiYkiARjoXk_3G2affoyju"></div>
+                        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                     </div>
+                    <?php } ?>
                     <div class="form-group text-right">
                         <button type=submit class="btn btn-primary px-5">Submit</button>
                     </div>
@@ -72,6 +90,5 @@
 </div>
 
 <?php require_once(TEMPLATES_PATH . "/resources.php"); ?>
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>

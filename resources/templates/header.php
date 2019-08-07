@@ -37,7 +37,7 @@
           <ul class="nav navbar-nav navbar-right">
             <?php if (isset($project) && isset($project->owner_object)) { ?>
             <li>
-              <a href="mailto:<?= $project->owner_object->email  ?>" title="Contact Project Manager">Contact PM <span id="contact-mail-logo" class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
+              <a href="/contact.php?p=<?= $project->id  ?>" title="Contact Project Manager">Contact PM <span id="contact-mail-logo" class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
             </li>
             <?php } ?>
             <li class="dropdown">
