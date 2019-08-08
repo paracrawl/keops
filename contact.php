@@ -41,6 +41,10 @@
                     <div class="alert alert-danger" role="alert">We could not send your message. Please, try again later.</div>
                 <?php $_SESSION["contacterror"] = false; } ?>
 
+                <?php if($_SESSION["contactsuccess"]) { ?>
+                    <div class="alert alert-success" role="alert">Your message has been successfully sent!</div>
+                <?php $_SESSION["contactsuccess"] = false; } ?>
+
                 <form action="/services/contact_service.php" method="post">
                     <?php if ($project_id) { ?>
                         <input type=hidden name="pm" value="<?= $project_id ?>" /> 

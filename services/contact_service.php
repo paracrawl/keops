@@ -11,6 +11,7 @@
 
     if (count(checkPostParameters(["from", "subject", "message"])) != 0) {
         $_SESSION["contacterror"] = true;
+        $_SESSION["contactsuccess"] = false;
         header("Location: /contact.php");
         exit();
     } else {
@@ -44,6 +45,7 @@
 
             if ($recaptcha_verify == false || $recaptcha_verify->success == false) {
                 $_SESSION["contacterror"] = true;
+                $_SESSION["contactsuccess"] = false;
                 header("Location: /contact.php");
                 exit();
             }
@@ -62,6 +64,7 @@
         }
 
         $_SESSION["contacterror"] = false;
+        $_SESSION["contactsuccess"] = true;
         header("Location: /contact.php");
         exit();
     }
