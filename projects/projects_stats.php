@@ -114,7 +114,6 @@ require_once(RESOURCES_PATH . "/session.php");
                         <div class="col-xs-12 col-md-4 text-right">
                             <span class="label label-default"><?= ($total - $done) ?> pending</span>
                             <span class="label label-success mr-2"><?= $done ?> done</span>
-                            <a href="/tasks/task_new.php?p_id=<?= $project->id ?>" class="btn btn-link" title="Add task to this project"><span class="glyphicon glyphicon-plus"></span></a>
                         </div>
                     </div>
 

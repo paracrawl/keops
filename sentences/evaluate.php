@@ -32,8 +32,8 @@ $comments = [
   "MT" => [
     "single_option" => false,
     "options" => [
-      ["value" => "true", "text" => "[SOURCE] to [TARGET]", "name" => "MT_direction_source_to_target"],
-      ["value" => "true", "text" => "[TARGET] to [SOURCE]", "name" => "MT_direction_target_to_source"]
+      ["value" => "true", "text" => "[SOURCE]", "name" => "MT_source"],
+      ["value" => "true", "text" => "[TARGET]", "name" => "MT_target"]
     ]
   ],
   "F" =>[

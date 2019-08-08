@@ -46,7 +46,7 @@ class sentence_task_dto {
  */
 sentence_task_dto::$labels = array(
   array( 'value' => 'P', 'label' => 'Pending', 'title' => 'Don\'t take the decision now' ),
-  array( 'value' => 'L', 'label' => 'Wrong language identification', 'title' => '' ),
+  array( 'value' => 'L', 'label' => 'Wrong language id.', 'title' => '' ),
   array( 'value' => 'A', 'label' => 'Incorrect alignment', 'title' => '' ),
   array( 'value' => 'T', 'label' => 'Wrong tokenization', 'title' => '' ),
   array( 'value' => 'MT', 'label' => 'MT translation', 'title' => '' ),
