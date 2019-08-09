@@ -9,9 +9,20 @@ $(document).ready(function() {
       e.stopPropagation();
       return;
     };
+
+    if ($(this).hasClass('active')) {
+      setTimeout(function() {
+        $(this).removeClass('active').removeClass('focus').find('input').prop('checked', false);
+        
+        if ($(this).closest('.row').find('.question-column').children().length > 0) {
+          $(this).closest('.row').find('.question-column').addClass('d-none');
+        }
+      }.bind(this), 10);
+    } else {
+      // Make active and show question
+      toggleAnnotation(this);
+    }
     
-    // Make active and show question
-    toggleAnnotation(this);
   });
 
   $("#evaluationform .btn-group .btn").on('click', function (e) {
