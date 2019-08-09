@@ -27,12 +27,10 @@ class sentence_dao {
     try {
       $insert_values = array();
       foreach($data as $d){
-          $question_marks[] = '('  . rtrim(str_repeat('?,', sizeof($d) + 1), ",") . ', to_tsvector((select langname::regconfig from langs where id = ? limit 1), ?), to_tsvector((select langname::regconfig from langs where id = ? limit 1), ?) )'; // +3 for id
+          $question_marks[] = '('  . rtrim(str_repeat('?,', sizeof($d) + 1), ",") . ", to_tsvector('simple', ?), to_tsvector('simple', ?) )"; // +3 for id
           $insert_values[] = $corpus_id;
           $insert_values = array_merge($insert_values, array_values($d));
-          $insert_values[] = $source_lang;
           $insert_values[] = $d[0];
-          $insert_values[] = $target_lang;
           $insert_values[] = $d[1];
       }
 

@@ -117,3 +117,6 @@ GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA keopsdb TO keopsdb;
 
 insert into keopsdb.users (name, email, role, password) values ('admin', 'admin@admin.com', 'ADMIN', '$2y$10$dbba8ArdKTe9Uxt7rkGwKOrfX5EpI8SO2VheEnnfoYu4kmVFtQjW2');
 
+/* No stopwords 
+update pg_catalog.pg_ts_dict set dictinitoption = regexp_replace(dictinitoption, ', stopwords = ''(.*)''', ''); */
+CREATE TEXT SEARCH DICTIONARY public.simple_dict ( TEMPLATE = pg_catalog.simple );
