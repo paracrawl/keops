@@ -131,32 +131,34 @@ else {
         <li class="active">Task #<?= $task->id ?></li>
       </ul>
 
-      <div class="row">
-        <div class="col-md-12 page-header row mx-0 mt-0">
-          <div class="col-sm-4 col-xs-12">
-            <span class="h2">Task #<?php echo $task->id ?>
-            <?php if (!$filtered) { ?>
-              <small><?= round(($task_progress->completed / $task_progress->total) * 100, 2) ?>% done</small></span>
-            <?php } ?>
-          </div>
+      <div class="row" style="border-bottom: solid 1px #eee;">
+        <div class="col-md-12 row mx-0 mt-0 mb-4">
+          <div class="row">
+            <div class="col-md-4 col-sm-12 col-xs-12">
+              <span class="h2">Task #<?php echo $task->id ?>
+              <?php if (!$filtered) { ?>
+                <small><?= round(($task_progress->completed / $task_progress->total) * 100, 2) ?>% done</small></span>
+              <?php } ?>
+            </div>
 
-          <div class="col-sm-8 col-xs-12">
-            <input type="hidden" name="seall" value="?p=1&id=1&task_id=<?= $task->id ?>" />
-            <div class="row">
-              <form action="" class="col-md-8 col-md-offset-4 search-form form-inline mt-1 mt-sm-0">
-                <div class="form-group w-100">
-                    <input type="hidden" name="task_id" value="<?= $task->id ?>" />
-                    <input type="hidden" name="p" value="1" />
-                    <input type="hidden" name="id" value="1" />
+            <div class="col-md-8 col-sm-12 col-xs-12">
+              <input type="hidden" name="seall" value="?p=1&id=1&task_id=<?= $task->id ?>" />
+              <div class="row">
+                <form action="" class="form-inline col-sm-12 col-md-8 col-md-offset-4 search-form mt-1 mt-sm-0 pl-md-0">
+                  <input type="hidden" name="task_id" value="<?= $task->id ?>" />
+                  <input type="hidden" name="p" value="1" />
+                  <input type="hidden" name="id" value="1" />
 
-                    <input class="form-control" id="search-term" name="term" value="<?php if (isset($search_term)) { echo $search_term; } ?>" placeholder="Search through sentences" aria-label="Search through sentences">
+                  <div class="form-group w-100 pr-sm-4">
+                    <input class="form-control" style="width: 100%!important;" id="search-term" name="term" value="<?php if (isset($search_term)) { echo $search_term; } ?>" placeholder="Search through sentences" aria-label="Search through sentences">
+                  </div>
 
-                    <?php
-                        $labelcodes = array("P", "L", "A", "T", "MT", "F", "V");
-                        $labels = array("Pending", "Language", "Alignment", "Tokenization", "Machine Translation", "Free translation", "Valid");
-                    ?>
-
-                    <select class="form-control" name="label" aria-label="Select label">
+                  <?php
+                      $labelcodes = array("P", "L", "A", "T", "MT", "F", "V");
+                      $labels = array("Pending", "Language", "Alignment", "Tokenization", "Machine Translation", "Free translation", "Valid");
+                  ?>
+                  <div class="form-group w-100 pr-sm-4">
+                    <select class="form-control" style="width: 100%!important;" name="label" aria-label="Select label">
                       <option value="ALL">Everything</option>
                       <?php
                           for ($i = 0; $i < count($labelcodes); $i++) { $labelcode = $labelcodes[$i]; $label = $labels[$i]; ?>
@@ -164,19 +166,22 @@ else {
                           <?php }
                       ?>
                     </select>
+                  </div>
 
-                    <div class="btn-group float-right" role="group">
-                      <button type=submit class="btn btn-primary" id="search-term-button" style="padding-left: 20px; padding-right: 20px;">Search</button>
+                  <div class="form-group">
+                    <div class="btn-group float-right" role="group" style="display:flex;">
+                      <button type=submit class="btn btn-primary" id="search-term-button" title="Search" aria-label="Search"><i class="glyphicon glyphicon-search"></i></button>
                       <a class="btn <?= ($filtered) ? "btn-danger" : "btn-primary disabled" ?>" href="?p=1&id=1&task_id=<?= $task->id ?>" title="Clear search" aria-label="Clear search"><i class="glyphicon glyphicon-remove"></i></a>
                     </div>
-                </div>
-              </form>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="row">
+      <div class="row mt-4" id="evaluation-sentences">
         <?php if ($sentence->task_id == NULL && $filtered) { ?>
           <div class="col-xs-12 col-md-12">
             <div class="alert alert-danger" role="alert">
@@ -254,13 +259,17 @@ else {
                 </div>
                 <div class="row">
                   <div class="col-md-12 col-xs-12 btn-group evaluation-btn-group">
-                    <?php $comment_dao = new comment_dao(); ?>
+                    <?php $comment_dao = new comment_dao(); $count = 0; ?>
                     <?php foreach (array_slice(sentence_task_dto::$labels, 1, count(sentence_task_dto::$labels) - 2) as $label) { ?>
+                      <?php $count++; ?>
                       <div class="row">
                       <div class="col-md-5 col-xs-12">
-                        <label class="btn btn-annotation outline btn-primary w-100 mb-1 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
-                          <input type="radio" name="evaluation" autocomplete="off" <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
-                        </label>
+                        <div class="btn-group btn-group-annotation w-100 mb-1" role="group" style="display:flex;">
+                          <span class="btn btn-primary disabled outline col-md-2 col-xs-2 px-0"><?= $count ?></span>
+                          <label class="btn btn-annotation outline btn-primary col-md-10 col-xs-10 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                            <input type="radio" name="evaluation" autocomplete="off" <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
+                          </label>
+                        </div>
                       </div>
                       <div class="col-md-7 col-xs-12 question-column d-none">
                         <?php
@@ -283,9 +292,12 @@ else {
                     <div class="row">
                       <?php foreach (array_slice(sentence_task_dto::$labels, -1, 1) as $label) { ?>
                       <div class="col-md-5 col-xs-12">
-                        <label class="btn btn-annotation outline btn-success w-100 mb-1 px-0 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
-                          <input type="radio" name="evaluation" autocomplete="off" <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
-                        </label>
+                      <div class="btn-group w-100 mb-1" role="group" style="display:flex;">
+                          <span class="btn btn-success disabled outline col-md-2 col-xs-2 px-0"><?= $count + 1 ?></span>
+                          <label class="btn btn-annotation outline btn-success px-0 col-md-10 col-xs-10 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                            <input type="radio" name="evaluation" autocomplete="off" <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
+                          </label>
+                        </div>
                       </div>
                       <?php } ?>
                     </div>
@@ -394,10 +406,16 @@ else {
                         <p class="h4"><strong class="label label-info">Keep in mind</strong></p>
                         <ul class="arrow-list">
                           <li>
-                            Only one type of error should be attributed to each pair of sentences
+                            Only one type of error should be attributed to each pair of sentences.
                           </li>
                           <li>
-                            The given translation must receive the benefit of the doubt
+                            When more than one error is present, please follow the hierarchy to indicate just one.
+                          </li>
+                          <li>
+                            Sub-specifications for some errors are optional: mark them only if indicated by your PM.
+                          </li>
+                          <li>
+                            The given translation must receive the benefit of the doubt.
                           </li>
                         </ul>
                       </div>
@@ -408,42 +426,58 @@ else {
                             <span class="number-container number-container-small">1</span>
                             <strong>Wrong Language Identification</strong>
                           </div>
-                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">The crawler tools failed in identifying the right language</div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
+                            Automatic tools failed in identifying the right language or in providing a consistent encoding. <br />
+                            Sub-specification: mark if source, target or both languages are wrongly identified or encoded.
+                          </div>
                         </div>
                         <div class="row">
                           <div class="col-md-4 col-xs-12">
                             <span class="number-container number-container-small">2</span>
                             <strong>Incorrect Alignment</strong>
                           </div>
-                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">There are segments having different content due to wrong alignment</div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
+                            The segments have different content due to wrong alignment.
+                          </div>
                         </div>
                         <div class="row">
                           <div class="col-md-4 col-xs-12">
                             <span class="number-container number-container-small">3</span>
                             <strong>Wrong Tokenization</strong>
                             </div>
-                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">The text has not been tokenized properly by the crawler tools (no separator between words)</div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
+                            Text in sentences has not been properly rendered or segmented: no separator between words, extra spaces near punctuation, more than two sentences, etc. <br />
+                            Sub-specification: bad tokenized text can be found in source, target or both.
+                          </div>
                         </div>
                         <div class="row">
                           <div class="col-md-4 col-xs-12">
                               <span class="number-container number-container-small">4</span>
-                              <strong>Mt-translated Content</strong>
+                              <strong>MT-translated Content</strong>
                             </div>
-                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">Content identified as a translation through a Machine Translation system</div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
+                            Content identified as a translation through a machine translation system and wrongly translated. <br />
+                            Sub-specification: machine translated content is in source, target or both.
+                          </div>
                         </div>
                         <div class="row">
                           <div class="col-md-4 col-xs-12">
                             <span class="number-container number-container-small">5</span>
                             <strong>Translation Errors</strong>
                           </div>
-                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">Lexical mistakes, syntactic errors or poor use of language</div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
+                            Translation contains lexical mistakes, syntactic errors or poor use of language.
+                          </div>
                         </div>
                         <div class="row">
                           <div class="col-md-4 col-xs-12">
                             <span class="number-container number-container-small">6</span>
                             <strong>Free Translation</strong>
                           </div>
-                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">Non-literal translation, that is, the content is completely reformulated in one language</div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
+                            Non-literal translation, that is, the content is completely reformulated in one language. <br />
+                            Sub-specification: the sentence pairs should be kept or discarded from a parallel corpus.
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -459,11 +493,11 @@ else {
                       <div class="col-xs-12 col-md-12 row">
                         <p class="col-xs-12 col-md-6">
                           <strong>English</strong> <br />
-                          Even though his parents stood against God and his house was cursed, God still saved this child regardless of what his parents had done because the son was good.
+                          You have no items in your shopping cart.
                         </p>
                         <p class="col-xs-12 col-md-6">
                           <strong>Spanish</strong> <br />
-                          Очевидно, этот текст не на испанском. Он написан на на русском я языке, язык России, очень интересная страна.
+                          Нямате артикули в количката си.
                         </p>
                       </div>
                     </div>
@@ -474,11 +508,11 @@ else {
                       <div class="col-xs-12 col-md-12 row">
                         <p class="col-xs-12 col-md-6">
                           <strong>English</strong> <br />
-                          Thursday, 01 November 2012 03:55
+                          We have booked two rooms at your hotel on Dec 11 for four nights.
                         </p>
                         <p class="col-xs-12 col-md-6">
                           <strong>Spanish</strong> <br />
-                          Miércoles, 14 Noviembre 2012 06:16
+                          En diciembre, pueden reservar dos habitaciones dobles al precio de una (mínimo cuatro noches).
                         </p>
                       </div>
                     </div>
@@ -489,11 +523,11 @@ else {
                       <div class="col-xs-12 col-md-12 row">
                         <p class="col-xs-12 col-md-6">
                           <strong>English</strong> <br />
-                          The warranty is one year.It valid time start from the time you receive it.
+                          EnvironmentPleasant view, bright, in gated residential community.
                         </p>
                         <p class="col-xs-12 col-md-6">
                           <strong>Spanish</strong> <br />
-                          La garantía es de un año. El tiempo válido comienza desde el momento en que lo recibes.
+                          EntornoVista agradable , luminoso , en una urbanizaci ón cerrada.
                         </p>
                       </div>
                     </div>
@@ -519,11 +553,11 @@ else {
                       <div class="col-xs-12 col-md-12 row">
                         <p class="col-xs-12 col-md-6">
                           <strong>English</strong> <br />
-                          Since I lived near Orbea… and nowadays I have a horrible relationship with his family.
+                          The Centre for Human Rights publishes its annual report 
                         </p>
                         <p class="col-xs-12 col-md-6">
                           <strong>Spanish</strong> <br />
-                          Como vivía cerquita de Orbea… y hoy es el día en el que tengo una relación tremenda con su familia.
+                          El Centro de Derechos Umanos publica su banlace anual.
                         </p>
                       </div>
                     </div>
@@ -547,38 +581,18 @@ else {
                   <div class="row">
                       <div class="col-xs-12 col-md-12">
                         <p>
-                          <strong>Wrong language identification</strong> means the crawler tools failed in identifying the right language.
+                          Extra information is optional and you should only be taken into account if indicated by your PM. 
                         </p>
-
                         <p>
-                          <strong>Incorrect alignment</strong> refers to segments having a different content due to wrong alignment.
-                        </p>
-
-                        <p>
-                          <strong>Wrong tokenization</strong> means the text has not been tokenized properly by the crawler tools (no separator between words).
-                        </p>
-
-                        <p>
-                          <strong>MT translation</strong> refers to content identified as having been translated through a Machine Translation system. A few hints to detect if this is the case:
+                          Options:
                           <ul>
-                            <li>Grammar errors such as gender and number agreement</li>
-                            <li>Words that are not to be translated (trademarks for instance Nike Air => if ‘Air’ is translated in the target language instead of being kept unmodified)</li>
-                            <li>Inconsistencies (use of different words for referring to the same object/person)</li>
-                            <li>Translation errors showing there is no human behind</li>
+                            <li>
+                              <strong>Contains personal data:</strong> content includes proper names or other personal data that could be anonymised for data protection purposes.
+                            </li>
+                            <li>
+                              <strong>Contains inappropriate language:</strong> content includes profane language. 
+                            </li>
                           </ul>
-                        </p>
-
-                        <p>
-                          <strong>Translation error</strong> refers to:
-                          <ul>
-                            <li>Lexical errors (omitted/added words or wrong choice of lexical item, due to misinterpretation or mistranslation)</li>
-                            <li>Syntactic error (grammatical errors such as problems with verb tense, coreference and inflection, misinterpretation of the grammatical relationships among the words in the text)</li>
-                            <li>Poor usage of language (awkward, unidiomatic usage of the target language and failure to use commonly recognized titles and terms). It could be due to MT translation</li>
-                          </ul>
-                        </p>
-
-                        <p>
-                          <strong>Free translation</strong> means a non-literal translation in the sense of having the content completely reformulated in one language (for editorial purposes for instance). This is a correct translation but in a different style or form. This includes figures of speech such as metaphors, anaphors, etc. We consider it as important to tag such cases for data that will be used for training MT systems.
                         </p>
                       </div>
                     </div>

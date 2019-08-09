@@ -249,6 +249,12 @@ footer .eu-logos img {
   color: white;
 }
 
+.btn-group-annotation span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Invitations */
 .invitation_token .input-group-addon, .invitation_token input, .invitation-link  {
   cursor: pointer;
@@ -738,7 +744,8 @@ hr {
   }
 
   .search-form {
-    padding-left: 6px;
+    display: flex;
+    justify-content: space-between;
   }
 }
 
@@ -950,6 +957,10 @@ table.dataTable td:not(.actions) {
   font-size: 20px;
 }
 
+#evaluation-sentences a img {
+  width: 24px;
+}
+
 /* Outline buttons */
 .outline {
     background-color: transparent;
@@ -1020,6 +1031,10 @@ a {
 }
 
 /* Checkbox */
+.checkbox-custom {
+  font-weight: inherit;
+}
+
 .checkbox-custom input {
   display: none;
 }

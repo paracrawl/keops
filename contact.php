@@ -84,8 +84,14 @@
                         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                     </div>
                     <?php } ?>
-                    <div class="form-group text-right">
-                        <button type=submit class="btn btn-primary px-5">Submit</button>
+                    <div class="form-group row">
+                        <div class="col-md-6 col-xs-6">
+                            <a href="javascript:history.back();" class="btn btn-link px-0"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>
+                        </div>
+
+                        <div class="col-md-6 col-xs-6 text-right">
+                            <button type=submit class="btn btn-primary px-5">Submit</button>
+                        </div>
                     </div>
                 </form>
             </div>
