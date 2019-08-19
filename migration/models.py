@@ -23,7 +23,7 @@ sentences_tasks = Table('sentences_tasks', Base.metadata,
     Column('id', Integer, primary_key=True),
     Column('task_id', Integer, ForeignKey('tasks.id'), nullable=False),
     Column('sentence_id', Integer, ForeignKey('sentences.id'), nullable=False),
-    Column('evaluation', labelEnum, nullable=False, server_defalt='P'),
+    Column('evaluation', labelEnum, nullable=False, server_default='P'),
     Column('creation_date', TIMESTAMP, nullable=False, server_default=text('NOW()')),
     Column('completed_date', TIMESTAMP),
     Column('comments', String(5000))
@@ -68,7 +68,7 @@ class Projects(Base):
     owner = Column(Integer, ForeignKey('users.id'), nullable=False)
     name = Column(String(100), nullable=False)
     description = Column(String(500))
-    creation_date = Column(TIMESTAMP, nullable=False, server_defalt=text('NOW()'))
+    creation_date = Column(TIMESTAMP, nullable=False, server_default=text('NOW()'))
     active = Column(Boolean, nullable=False, server_default='True')
     tasks = relationship('Tasks')
 
@@ -79,7 +79,7 @@ class Corpora(Base):
     source_lang = Column(Integer, ForeignKey('langs.id'), nullable=False)
     target_lang = Column(Integer, ForeignKey('langs.id'), nullable=False)
     lines = Column(Integer)
-    creation_date = Column(TIMESTAMP, nullable=False, server_defalt=text('NOW()'))
+    creation_date = Column(TIMESTAMP, nullable=False, server_default=text('NOW()'))
     active = Column(Boolean, nullable=False, server_default='True')
     tasks = relationship('Tasks')
     sentences = relationship('Sentences')
@@ -92,7 +92,7 @@ class Tasks(Base):
     corpus_id = Column(Integer, ForeignKey('corpora.id'), nullable=False)
     source_lang = Column(String(5), ForeignKey('langs.langcode'), nullable=False)
     target_lang = Column(String(5), ForeignKey('langs.langcode'), nullable=False)
-    creation_date = Column(TIMESTAMP, nullable=False, server_defalt=text('NOW()'))
+    creation_date = Column(TIMESTAMP, nullable=False, server_default=text('NOW()'))
     assigned_date = Column(TIMESTAMP)
     completed_date = Column(TIMESTAMP)
 

@@ -28,7 +28,7 @@ In order for Alembic to connect to your database, you must change this line in `
 
     sqlalchemy.url = driver://user:pass@host:port/dbname
 
-To a valid URL which point to your database. You can consult how to build a valid URL [here](https://docs.sqlalchemy.org/en/13/core/engines.html#database-urls). This works for a local deployment of KEOPS:
+Change it to a valid URL which points to your database. You can read about valid URLs [here](https://docs.sqlalchemy.org/en/13/core/engines.html#database-urls). For example, this should work for a local deployment of KEOPS:
 
     sqlalchemy.url = postgres+psycopg2://keopsdb:@localhost/keopsdb
 
@@ -40,7 +40,7 @@ Now, we must configure Alembic to recognize the structure of our database. You n
     * env.py
     * versions/
 
-Then, replace the following line:
+Then, replace the following line in `env.py`:
 
     target_metadata = None
 
@@ -51,9 +51,9 @@ With this code:
     from models import Base
     target_metadata = Base.metadata
 
-You must also add `include_schemas=True` every time the context is configured. This happens on lines 46 and 68.
+You must also add `include_schemas=True` every time the context is configured. This happens near lines 46 and 68.
 
-Line 46:
+Near line 46:
 
     context.configure(
         url=url, target_metadata=target_metadata,
@@ -61,7 +61,7 @@ Line 46:
         include_schemas=True
     )
 
-Line 68:
+Near line 68:
 
     context.configure(
         connection=connection,
@@ -69,16 +69,16 @@ Line 68:
         include_schemas=True
     )
 
-We are ready to go! In the following steps, we will apply the corresponding migrations to the last version of KEOPS.
+We are ready to go! In the following steps, we will apply the corresponding migrations.
 
 ## Migrating
 Migrations are Python files which contain two functions: `upgrade()` and `downgrade()`. As you could guess, the first function performs actions when the database is upgraded to a new version, and the second one performs actions when the database is downgraded to a previous version.
 
-You can download this [set of migrations](migrations.zip) to migrate from the previous version of KEOPS to the current one. The compressed file contains a folder called _versions_. The Python files inside it must be extracted to the _versions_ folder created by Alembic.
-
-Then, you set the reference point of Alembic:
+Set the reference point of Alembic:
 
     alembic stamp head
+
+Then, you can download this [set of migrations](migrations.zip) to migrate from the previous version of KEOPS to the current one. The compressed file contains a folder called _versions_. The Python files inside it must be extracted to the _versions_ folder created by Alembic.
 
 If you run `alembic history`, you should get something like this:
 
