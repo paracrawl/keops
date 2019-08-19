@@ -88,12 +88,11 @@ CREATE TABLE keopsdb.SENTENCES_TASKS(
     SENTENCE_ID integer NOT NULL REFERENCES keopsdb.SENTENCES(ID),
     EVALUATION keopsdb.label NOT NULL DEFAULT 'P',
     CREATION_DATE timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    COMPLETED_DATE timestamp,
-    COMMENTS varchar(1000)
+    COMPLETED_DATE timestamp
 );
 
-create table comments (
-	pair integer references keopsdb.SENTENCES_TASKS(id) ,
+create table keopsdb.COMMENTS (
+	pair integer references keopsdb.SENTENCES_TASKS(id),
 	name varchar (140),
 	value varchar (255),
 	primary key (pair, name)
