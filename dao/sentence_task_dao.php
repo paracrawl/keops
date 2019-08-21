@@ -65,7 +65,7 @@ class sentence_task_dao {
     try {
       $sentence_task_dto = new sentence_task_dto();
 
-      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? and st.evaluation = 'P'::label order by st.id asc limit 1;");
+      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? and st.evaluation = 'P' order by st.id asc limit 1;");
       $query->bindParam(1, $task_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -242,7 +242,7 @@ class sentence_task_dao {
    * @return \sentence_task_dto Sentence object
    * @throws Exception
    */
-  function gotoSentenceByTaskAndFilters($sentence_id, $task_id, $search_term, $label) {
+  function gotoSentenceByTaskAndFilters($sentence_id, $task_id, $search_term, $label = "ALL") {
     try {
       if ($sentence_id == null || $sentence_id=="") {
         $sentence_id = 1;
@@ -371,7 +371,7 @@ class sentence_task_dao {
    * @return \task_progress_dto Task Progress object
    * @throws Exception
    */
-  function getCurrentProgressByIdAndTaskAndFilters($sentence_id, $task_id, $search_term, $label) {
+  function getCurrentProgressByIdAndTaskAndFilters($sentence_id, $task_id, $search_term, $label = "ALL") {
     try {
       $task_progress_dto = new task_progress_dto();
       $query = $this->conn->prepare("
@@ -415,14 +415,14 @@ class sentence_task_dao {
     try {
       $task_stats_dto = new task_stats_dto();
       $query = $this->conn->prepare("select count(*) as total,
-count(case when evaluation = 'L'::label then 1 end) as L,
-count(case when evaluation = 'A'::label then 1 end) as A,
-count(case when evaluation = 'T'::label then 1 end) as T,
-count(case when evaluation = 'MT'::label then 1 end) as MT,
-count(case when evaluation = 'E'::label then 1 end) as E,
-count(case when evaluation = 'F'::label then 1 end) as F,
-count(case when evaluation = 'P'::label then 1 end) as P,
-count(case when evaluation = 'V'::label then 1 end) as V
+count(case when evaluation = 'L' then 1 end) as L,
+count(case when evaluation = 'A' then 1 end) as A,
+count(case when evaluation = 'T' then 1 end) as T,
+count(case when evaluation = 'MT' then 1 end) as MT,
+count(case when evaluation = 'E' then 1 end) as E,
+count(case when evaluation = 'F' then 1 end) as F,
+count(case when evaluation = 'P' then 1 end) as P,
+count(case when evaluation = 'V' then 1 end) as V
 from sentences_tasks where task_id = ?;");
       $query->bindParam(1, $task_id);
       $query->execute();

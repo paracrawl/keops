@@ -31,6 +31,7 @@ if (count($failedparams) == 0){
   $task_dto->assigned_date = $datetime;
   $task_dto->source_lang = filter_input(INPUT_POST, "source_lang", FILTER_SANITIZE_STRING);
   $task_dto->target_lang = filter_input(INPUT_POST, "target_lang", FILTER_SANITIZE_STRING);
+  $task_dto->mode = filter_input(INPUT_POST, "mode", FILTER_SANITIZE_STRING);
 
   $result = false;
   $task_dao = new task_dao();

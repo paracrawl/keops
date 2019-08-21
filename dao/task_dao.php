@@ -51,6 +51,7 @@ class task_dao {
         $task->completed_date = $row['completed_date'];
         $task->source_lang = $row['source_lang'];
         $task->target_lang = $row['target_lang'];
+        $task->mode = $row['mode'];
 
         $task->source_lang_object = new stdClass();
         $task->target_lang_object = new stdClass();
@@ -78,13 +79,14 @@ class task_dao {
    */
   function insertTask($task_dto) {
     try {
-      $query = $this->conn->prepare("INSERT INTO tasks (project_id, assigned_user, corpus_id, assigned_date, source_lang, target_lang) VALUES (?, ?, ?, ?, ?, ?);");
+      $query = $this->conn->prepare("INSERT INTO tasks (project_id, assigned_user, corpus_id, assigned_date, source_lang, target_lang, mode) VALUES (?, ?, ?, ?, ?, ?, ?::mode);");
       $query->bindParam(1, $task_dto->project_id);
       $query->bindParam(2, $task_dto->assigned_user);
       $query->bindParam(3, $task_dto->corpus_id);      
       $query->bindParam(4, $task_dto->assigned_date);
       $query->bindParam(5, $task_dto->source_lang);
       $query->bindParam(6, $task_dto->target_lang);
+      $query->bindParam(7, $task_dto->mode);
 
       $query->execute();
       $task_dto->id = $this->conn->lastInsertId();
@@ -251,6 +253,7 @@ class task_dao {
         $task->email = $row['email'];
         $task->source_lang = $row['source_lang'];
         $task->target_lang = $row['target_lang'];
+        $task->mode = $row['mode'];
 
         $task->source_lang_object = new stdClass();
         $task->target_lang_object = new stdClass();
@@ -310,6 +313,7 @@ class task_dao {
         $task->email = $row['email'];
         $task->source_lang = $row['source_lang'];
         $task->target_lang = $row['target_lang'];
+        $task->mode = $row['mode'];
 
         $task->source_lang_object = new stdClass();
         $task->target_lang_object = new stdClass();
@@ -352,6 +356,41 @@ class task_dao {
       throw new Exception("Error in task_dao::getDatatablesTasks : " . $ex->getMessage());
     }
   }
+
+
+  /**
+   * Retrieves statistics for adequacy task. The returned array provides the
+   * evaluation mark and the amount of sentences with that mark.
+   * 
+   * @param int $sentence_id Current sentence ID
+   * @param type $task_id Task ID
+   * @return array Statistics
+   * @throws Exception
+   */
+  function getStatsForTask($task_id) {
+    try {
+      $statistics = array();
+      $query = $this->conn->prepare("
+        select round(evaluation::integer, -1) as evaluation, count(evaluation) as count
+        from sentences_tasks where task_id = ?
+        group by 1;
+      ");
+      $query->bindParam(1, $task_id);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+
+      while ($row = $query->fetch()) {
+        $statistics[$row['evaluation']] = $row["count"];
+      }
+
+      $this->conn->close_conn();
+      return $statistics;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in task_dao::getStatsForTask : " . $ex->getMessage());
+    }
+  }
+
 
   /**
      * Retrieves from the DB a list of tasks that use a given corpus, in a Datatables-friendly format
