@@ -12,6 +12,7 @@ Base.metadata.schema = 'keopsdb'
 roleEnum = Enum('ADMIN', 'STAFF', 'USER', name='role', create_type=True, schema='keopsdb')
 taskstatusEnum = Enum('PENDING', 'STARTED', 'DONE', name='taskstatus', create_type=True, schema='keopsdb')
 labelEnum = Enum('P','V','L','A','T','MT','E','F', name='label', create_type=True, schema='keopsdb')
+modeEnum = Enum('VAL', 'ADE', 'FLU', name='mode', create_type=True, schema='keopsdb')
 
 user_langs = Table('user_langs', Base.metadata,
     Column('id', Integer, primary_key=True),
@@ -90,11 +91,14 @@ class Tasks(Base):
     project_id = Column(Integer, ForeignKey('projects.id'), nullable=False)
     assigned_user = Column(Integer, ForeignKey('users.id'))
     corpus_id = Column(Integer, ForeignKey('corpora.id'), nullable=False)
+    size = Column(Integer)
+    status = Column(taskstatusEnum, nullable=False, server_default='PENDING')
     source_lang = Column(String(5), ForeignKey('langs.langcode'), nullable=False)
     target_lang = Column(String(5), ForeignKey('langs.langcode'), nullable=False)
     creation_date = Column(TIMESTAMP, nullable=False, server_default=text('NOW()'))
     assigned_date = Column(TIMESTAMP)
     completed_date = Column(TIMESTAMP)
+    mode = Column(modeEnum)
 
 class Sentences(Base):
     __tablename__ = 'sentences'
