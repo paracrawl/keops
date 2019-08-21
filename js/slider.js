@@ -77,7 +77,6 @@
   }
 
   function moveHandle(step = null) {
-    console.log('Move', step);
     if (step != null) {
       step = parseInt(step);
       offset = (step / 100) * (controllimit);
