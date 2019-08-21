@@ -61,6 +61,22 @@ body > .container {
   align-items: baseline;
 }
 
+@media screen and (min-width: 768px) {
+  .vertical-align-sm {
+    display: flex;
+    align-items: center;
+  }
+
+  .same-height-sm {
+    display: flex;
+  }
+
+  .same-height-sm .same-height-column {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 /* Dropzone */
 .dropzone-looks {
   background: #f9f9f9;
@@ -795,6 +811,10 @@ hr {
   width: 100%;
 }
 
+.h-100 {
+  height: 100%;
+}
+
 .number-container {
   background-color: #a8a6a6;
   width: 100%;
@@ -1108,4 +1128,34 @@ a {
   .list-group-columns .list-group-item {
     border: 0px;
   }
+}
+
+/* ADEQUACY EVALUATION */
+.slider-component > .slider::before {
+  content: "";
+  display: block;
+  border: solid #cdcdcd;
+  border-width: 0px 2px;
+  width: 25%;
+  height: 10px;
+  position: absolute;
+  left: calc(25% + 1px);
+  top: -15px;
+}
+
+.slider-component > .slider::after {
+  content: "";
+  display: block;
+  border: solid #cdcdcd;
+  border-width: 0px 0px 0px 2px;
+  width: 25%;
+  height: 10px;
+  position: absolute;
+  right: 0%;
+  top: -15px;
+}
+
+.ade_fill {
+  background: rgb(191,0,0);
+  background: linear-gradient(90deg, rgba(191,0,0,1) 0%, rgba(241,212,3,1) 50%, rgba(48,172,0,1) 100%); 
 }
