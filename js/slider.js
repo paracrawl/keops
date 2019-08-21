@@ -54,7 +54,7 @@
     window.addEventListener('resize', function() {
       controloffset = element.getBoundingClientRect().left;
       controllimit = element.getBoundingClientRect().right - controloffset - handle.offsetWidth;
-      moveHandle(element.querySelector('input').getAttribute('value'));
+      moveHandle(parent.querySelector('input').value);
     });
 
     return {
@@ -77,7 +77,9 @@
   }
 
   function moveHandle(step = null) {
+    console.log('Move', step);
     if (step != null) {
+      step = parseInt(step);
       offset = (step / 100) * (controllimit);
     }
 
