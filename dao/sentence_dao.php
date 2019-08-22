@@ -23,18 +23,23 @@ class sentence_dao {
    * @return boolean True if succeeded, otherwise false
    * @throws Exception
    */
-  function insertBatchSentences($corpus_id, $source_lang, $target_lang, $data) {
+  function insertBatchSentences($corpus_id, $source_lang, $target_lang, $data, $mode = "") {
     try {
       $insert_values = array();
       foreach($data as $d){
-          $question_marks[] = '('  . rtrim(str_repeat('?,', sizeof($d) + 1), ",") . ", to_tsvector('simple', ?), to_tsvector('simple', ?) )"; // +3 for id
-          $insert_values[] = $corpus_id;
-          $insert_values = array_merge($insert_values, array_values($d));
-          $insert_values[] = $d[0];
-          $insert_values[] = $d[1];
+        if ($mode == "ADE") {
+          $type = $d[1];
+          $d = $d[0];
+        }
+        $question_marks[] = '('  . rtrim(str_repeat('?,', sizeof($d) + 1), ",") . ", to_tsvector('simple', ?), to_tsvector('simple', ?), ? )"; // +3 for id
+        $insert_values[] = $corpus_id;
+        $insert_values = array_merge($insert_values, array_values($d));
+        $insert_values[] = $d[0];
+        $insert_values[] = $d[1];
+        $insert_values[] = $type;
       }
 
-      $query = $this->conn->prepare("INSERT INTO sentences (corpus_id, source_text, target_text, source_text_vector, target_text_vector) VALUES " . implode(',', $question_marks));
+      $query = $this->conn->prepare("INSERT INTO sentences (corpus_id, source_text, target_text, source_text_vector, target_text_vector, type) VALUES " . implode(',', $question_marks));
       $query->execute($insert_values);
       $this->conn->close_conn();
       return true;

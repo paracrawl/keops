@@ -142,10 +142,11 @@ class corpus_dao {
    */
   function insertCorpus($corpus_dto) {
     try {
-      $query = $this->conn->prepare("INSERT INTO corpora (name, source_lang, target_lang) VALUES (?, ?, ?);");
+      $query = $this->conn->prepare("INSERT INTO corpora (name, source_lang, target_lang, mode) VALUES (?, ?, ?, ?::mode);");
       $query->bindParam(1, $corpus_dto->name);
       $query->bindParam(2, $corpus_dto->source_lang);
       $query->bindParam(3, $corpus_dto->target_lang);
+      $query->bindParam(4, $corpus_dto->mode);
       $query->execute();
       $corpus_dto->id = $this->conn->lastInsertId();
       $this->conn->close_conn();

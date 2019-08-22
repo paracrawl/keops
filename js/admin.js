@@ -530,6 +530,22 @@ $(document).ready(function() {
     },
     stateSave: true
   });
+
+  /*
+   * Corpora table (for "Corpora" tab)
+   */
+  corpora_ade_table = $("#corpora-table-ade").DataTable({
+    columnDefs: [{
+        
+    }],
+    order: [[ 1, 'desc' ]],
+    processing: true,
+    serverSide: true,
+    ajax: "/corpora/corpus_list_ade.php",
+    stateSave: true
+  });
+  
+
   // Activate Bootstrap tab on loading or user click.
   
   if (location.hash) {
