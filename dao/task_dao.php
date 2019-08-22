@@ -360,7 +360,7 @@ class task_dao {
 
   /**
    * Retrieves statistics for adequacy task. The returned array provides the
-   * evaluation mark and the amount of sentences with that mark.
+   * evaluation score and the amount of sentences with that score.
    * 
    * @param int $sentence_id Current sentence ID
    * @param type $task_id Task ID
@@ -372,7 +372,7 @@ class task_dao {
       $statistics = array();
       $query = $this->conn->prepare("
         select round(evaluation::integer, -1) as evaluation, count(evaluation) as count
-        from sentences_tasks where task_id = ?
+        from sentences_tasks where task_id = ? and evaluation != 'P'
         group by 1;
       ");
       $query->bindParam(1, $task_id);
@@ -391,6 +391,46 @@ class task_dao {
     }
   }
 
+
+  /**
+   * Retrieves statistics for every task that uses the same corpus as
+   * the task given by parameter. The returned array provides the
+   * evaluation score and the amount of sentences with that score.
+   * 
+   * @param int $sentence_id Current sentence ID
+   * @param type $task_id Task ID
+   * @return array Statistics
+   * @throws Exception
+   */
+  function getInterStatsForTask($task_id, $mode = "ADE") {
+    try {
+      $statistics = array();
+      $query = $this->conn->prepare("
+        select t.id, st.evaluation, count(*) from tasks as t
+        join sentences_tasks as st on t.id = st.task_id
+        where t.mode = ? and t.corpus_id = (select corpus_id from tasks where id = ?)
+        group by 1,2;
+      ");
+      $query->bindParam(1, $mode);
+      $query->bindParam(2, $task_id);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+
+      while ($row = $query->fetch()) {
+        if($statistics[$row['id']]){
+          $statistics[$row['id']][$row['evaluation']] = $row['count'];
+        } else {
+          $statistics[$row['id']] = array($row['evaluation'] => $row['count']);
+        }
+      }
+
+      $this->conn->close_conn();
+      return $statistics;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in task_dao::getStatsForTask : " . $ex->getMessage());
+    }
+  }
 
   /**
      * Retrieves from the DB a list of tasks that use a given corpus, in a Datatables-friendly format
@@ -474,7 +514,8 @@ task_dao::$columns_user_tasks = array(
     array('t.status', 'status'),
     array('t.creation_date', 'creation_date'),
     array("count(case when st.evaluation!='P' then 1 end)", 'sentencescompleted'),
-    array('us.email', 'email')
+    array('us.email', 'email'),
+    array('t.mode', 'mode')
 );
 
 /**

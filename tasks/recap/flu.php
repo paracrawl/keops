@@ -20,7 +20,7 @@ if (isset($task_id)) {
   $task_dao = new task_dao();
   $user_dao = new user_dao();
   $task = $task_dao->getTaskById($task_id);
-  if ($task->id == $task_id && $task->mode == "ADE") {
+  if ($task->id == $task_id && $task->mode == "FLU") {
     $project_dao = new project_dao();
     $project = $project_dao->getProjectById($task->project_id);
     $assigned_user =  $user_dao->getUserById($task->assigned_user);
@@ -96,6 +96,32 @@ if (isset($task_id)) {
       </div>
 
       <div class="row">
+        <div class="col-md-4">
+          <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover table-condensed">
+              <thead>
+                <tr>
+                  <th>Evaluation</td>
+                  <th>Number of sentences</td>
+                </tr>
+              </thead>
+              <tbody>
+                <?php $stats = $task_dao->getStatsForTask($task_id); ?>
+                <?php for ($i = 0; $i < 101; $i += 10) { ?>
+                  <tr>
+                    <td><?= $i ?>%</td>
+                    <td><?= (array_key_exists($i, $stats)) ? $stats[$i] : 0 ?></td>
+                  </tr>
+                <?php } ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-md-8">
+          <canvas id="point-chart" class="w-100 h-100"></canvas>
+        </div>
+
         <div class="col-md-12">
           <?php
           if ($task->status == "DONE") {
@@ -217,18 +243,9 @@ if (isset($task_id)) {
                 </div>
                 <?php
               }
-            }
-          }
-          ?>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-6">
-          <canvas id="point-chart-intra" class="w-100 h-100"></canvas>
-        </div>
-        <div class="col-md-6">
-          <canvas id="point-chart-inter" class="w-100 h-100"></canvas>
+    }
+  }
+  ?>
         </div>
       </div>
     </div>
@@ -240,7 +257,45 @@ if (isset($task_id)) {
     require_once(TEMPLATES_PATH . "/resources.php");
     ?>
 
-    <input type=hidden id="task_id" value="<?= $task->id ?>" />
-    <script src="/js/recap_ade.js"></script>
+  <script>
+    $(document).ready(function() {
+      $.ajax({
+        method: "POST",
+        url: "/services/recap_ade.php",
+        data: {
+          service: "stats",
+          task_id: <?= $task->id ?>
+        },
+        success: (data_raw) => {
+          let data = JSON.parse(data_raw);
+          if (data.result == 200) {
+            let labels = []; for(let i = 0; i < 101; i += 10) labels.push(`${i}%`);
+            let graphdata = [];
+
+            for(let i = 0; i < 101; i += 10) {
+              graphdata.push((i in data.stats) ? data.stats[i] : 0);
+            }
+
+            let ctx = document.querySelector('#point-chart').getContext('2d');
+            let chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                  labels: labels,
+                  datasets: [{
+                    backgroundColor: 'rgba(0, 74, 122, .5)',
+                    data: graphdata
+                  }]
+                },
+                options: {
+                  legend: {
+                      display: false
+                  }
+                }
+            });
+          }
+        }
+      });
+    });
+    </script>
   </body>
 </html>
