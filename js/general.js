@@ -28,6 +28,23 @@ $(document).ready(function() {
     columnDefs: [
       {
         targets: 7,
+        searchable: true,
+        sortable: true,
+        render: function (data, type, row) {
+          switch (row[9]) {
+            case 'VAL':
+              return 'Validation';
+            
+            case 'ADE':
+              return 'Adequacy';
+
+            case 'FLU':
+              return 'Fluency';
+          }
+        }
+      },
+      {
+        targets: 8,
         searchable: false,
         sortable: false,
         responsivePriority: 1,
@@ -45,7 +62,7 @@ $(document).ready(function() {
         }
       },
       {
-        targets: 8,
+        targets: 9,
         className: "actions",
         sortable: false,
         searchable: false,

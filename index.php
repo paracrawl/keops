@@ -148,6 +148,7 @@ require_once(RESOURCES_PATH . "/session.php");
               <th>Size</th>
               <th>Status</th>
               <th>Creation date</th>
+              <th>Type</th>
               <th></th>
               <th></th>
             </tr>
@@ -163,6 +164,7 @@ require_once(RESOURCES_PATH . "/session.php");
               <th>Size</th>              
               <th>Status</th>
               <th>Creation date</th>
+              <th>Type</th>
               <th></th>
               <th></th>
             </tr>
