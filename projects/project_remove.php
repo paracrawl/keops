@@ -100,7 +100,7 @@
             <a style="width:100%; margin-bottom: 0.5em;" href="/projects/project_manage.php?id=<?php echo $project->id;?>" class="btn btn-default">Cancel</a>
           </div>  
           <div class="col-xs-12 col-md-2 col-md-offset-6">
-            <a style="width:100%; margin-bottom: 0.5em;" href="/projects/project_edit.php?id=<?=$project->id; ?>" class="btn btn-info" title="Keeps the project but prevents the creation of new tasks">Mark as inactive</a>
+            <a style="width:100%; margin-bottom: 0.5em;" href="/projects/project_edit.php?id=<?=$project->id; ?>" class="btn btn-info" title="Keeps the project but prevents the creation of new tasks">Tag as inactive</a>
           </div>
 
           <div class="col-xs-12 col-md-2">
