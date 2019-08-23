@@ -14,4 +14,5 @@ class sentence_dto {
   public $corpus_id;
   public $source_text;
   public $target_text;
+  public $type;
 }

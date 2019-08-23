@@ -10,6 +10,8 @@ require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/sentence_task_d
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/task_stats_dto.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/user_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/user_dto.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/utils/utils.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/sentence_dao.php");
 
 $PAGETYPE = "user";
 require_once(RESOURCES_PATH . "/session.php");
@@ -55,6 +57,8 @@ if (isset($task_id)) {
     <?php
     require_once(TEMPLATES_PATH . "/head.php");
     ?>
+
+    <link rel="stylesheet" href="/css/stars.css" />
   </head>
   <body>
     <div class="container evaluation">
@@ -64,28 +68,6 @@ if (isset($task_id)) {
         <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>"  title="Go to the first pending sentence">Evaluation of <?= $project->name ?></a></li>
         <li class="active">Recap of Task #<?= $task->id ?></li>
       </ul>
-      <!--<div class="col-md-12">
-        <div class="table-responsive">
-          <table class="table table-striped table-bordered table-hover table-condensed">
-            <thead>
-              <tr>
-                <th>Total</th>
-      <?php foreach (sentence_task_dto::$labels as $label) { ?>
-                      <th title="<?= $label['label'] ?>"><?= $label['value'] ?></th>
-      <?php } ?>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><?= $task_stats_dto->total ?></td>
-      <?php foreach (sentence_task_dto::$labels as $label) { ?>
-                      <td title="<?= $label['label'] ?>"><?= $task_stats_dto->array_type[$label['value']] ?></td>
-      <?php } ?>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>-->
 
       <div class="page-header">
           <div class="row">
@@ -96,10 +78,59 @@ if (isset($task_id)) {
       </div>
 
       <div class="row">
-        <div class="col-md-12">
           <?php
-          if ($task->status == "DONE") {
+        if ($task->status == "DONE") {
             ?>
+          
+        <div class="col-md-3">
+          <?php
+                $sentence_dao = new sentence_dao();
+                $sentences = $sentence_task_dao->getAnnotatedSentecesByTask($task->id);
+                $standard_scores = standarize($sentences);
+                $wrong = 0;
+                $repeated_sentences = array();
+                foreach($sentences as $sentence) {
+                    $sentence_data = $sentence_dao->getSentenceById($sentence->sentence_id);
+                    if ($sentence_data->type == "bad_ref") {
+                        if ($standard_scores[$sentence->sentence_id] > 1.5) $wrong++;
+                    } else if ($sentence_data->type == "ref") {
+                        if ($standard_scores[$sentence->sentence_id] < 1.5) $wrong++;
+                    } else if ($sentence_data->type == "rep") {
+                        $repeated_sentences[] = $sentence_task_dao->getSentenceByIdAndTask($sentence->id, $task->id);
+                    }
+                }
+
+                for ($i = 0; $i < count($repeated_sentences); $i++) {
+                    $found = false;
+                    $rep = $repeated_sentences[$i];
+
+                    foreach ($sentences as $sentence) {
+                        if ($found) break;
+                        if ($rep->source_text == $sentence->source_text) {
+                            if (abs(intval($rep->evaluation) - intval($sentence->evaluation)) > 10) $wrong++;
+                            $found = true;
+                        }
+                    }
+                }
+
+                $user_score = round(((count($sentences) - $wrong) * 10) / count($sentences), 2);
+          ?>
+
+          <div class="vertical-align">
+            <div class="stars" data-stars="<?= $user_score / 2; ?>"></div>
+            <div class="ml-2">
+              <span class="h3"><?= $user_score; ?></span>
+              <span class="h4">/10</span>
+            </div>
+          </div>
+
+          <p class="mt-2">
+              This is the Quality Score of the user in this task, computed using several
+              behaviour analyses.
+          </p>
+        </div>
+
+        <div class="col-md-8 col-md-offset-1">
             <div class="panel panel-success">
               <div class="panel-heading">
                 <h3 class="panel-title">Finished task</h3>
@@ -108,7 +139,7 @@ if (isset($task_id)) {
                 <p>This task has been marked as <b>DONE</b> and cannot be modified.</p>
                 <p>Thank you!</p>
                 <?php
-                if ($USER->id == $project->owner) {                
+                if ($USER->id == $project->owner) {
                   ?>
                   <div>
                     <p>Evaluator: <?php echo $assigned_user->name;?> </p>
@@ -145,8 +176,9 @@ if (isset($task_id)) {
               </div>
             </div>
             <?php
-          } else {
-            if ($USER->id != $task->assigned_user) {
+          } else { ?>
+            <div class="col-md-12">
+            <?php if ($USER->id != $task->assigned_user) {
               ?>
               <div class="panel panel-warning">
                 <div class="panel-heading">
@@ -242,5 +274,6 @@ if (isset($task_id)) {
 
     <input type=hidden id="task_id" value="<?= $task->id ?>" />
     <script src="/js/recap_ade.js"></script>
+    <script src="/js/stars.js"></script>
   </body>
 </html>

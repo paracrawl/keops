@@ -334,6 +334,68 @@ class task_dao {
     }
   }
 
+
+  
+  /**
+   * Retrieves from the DB a list of tasks from a given assigned user
+   * 
+   * @param int $project_id Project ID
+   * @return array List of Task objects
+   * @throws Exception
+   */
+  function getTasksByAsignedUser($user_id){
+    try {
+      $tasks_array = array();
+
+      $query = $this->conn->prepare("
+        select t.*, u.name, u.email, l1.id as source_langid, l1.langname as source_langname, l2.id as target_langid, l2.langname as target_langname 
+        FROM tasks as t 
+        left join users as u on u.id = t.assigned_user
+        left join langs as l1 on l1.langcode = t.source_lang
+        left join langs as l2 on l2.langcode = t.target_lang
+        WHERE assigned_user = ?
+        order by completed_date desc NULLS last, creation_date DESC;
+      ");
+      $query->bindParam(1, $user_id);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while ($row = $query->fetch()) {
+        $task = new task_dto();
+
+        $task->id = $row['id'];
+        $task->project_id = $row['project_id'];
+        $task->assigned_user = $row['assigned_user'];
+        $task->corpus_id = $row['corpus_id'];
+        $task->size = $row['size'];
+        $task->status = $row['status'];
+        $task->creation_date = $row['creation_date'];
+        $task->assigned_date = $row['assigned_date'];
+        $task->completed_date = $row['completed_date'];
+        $task->username = $row['name'];
+        $task->email = $row['email'];
+        $task->source_lang = $row['source_lang'];
+        $task->target_lang = $row['target_lang'];
+        $task->mode = $row['mode'];
+
+        $task->source_lang_object = new stdClass();
+        $task->target_lang_object = new stdClass();
+        $task->source_lang_object->id = $row['source_langid'];
+        $task->target_lang_object->id = $row['target_langid'];
+        $task->source_lang_object->langcode = $row['source_lang'];
+        $task->target_lang_object->langcode = $row['target_lang'];
+        $task->source_lang_object->langname = $row['source_langname'];
+        $task->target_lang_object->langname = $row['target_langname'];
+        
+        array_push($tasks_array, $task);
+      }
+      $this->conn->close_conn();
+      return $tasks_array;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in task_dao::getTasksByAsignedUser : " . $ex->getMessage());
+    }
+  }
+
   /**
    * Retrieves a task list from the DB, in a Datatables-friendly format
    * 

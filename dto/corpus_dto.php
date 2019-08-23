@@ -19,6 +19,7 @@ class corpus_dto {
   public $lines;
   public $creation_date;
   public $active;
+  public $mode;
 
   public function __construct() {
 

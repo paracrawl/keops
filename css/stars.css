@@ -1,0 +1,18 @@
+.stars .star {
+    display: inline-block;
+    font-size: 24px;
+    color: #afb42b;
+  }
+  
+  .stars .star-filled::before {
+    content: "★";
+  }
+  
+  .stars .star-empty::before {
+    content: "☆";
+  }
+  
+  .stars .rating {
+    display: inline-block;
+    margin-left: 0.5em;
+  }

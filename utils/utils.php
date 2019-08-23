@@ -60,3 +60,49 @@ function underline($label, $value){
   $formatted_string = preg_replace($regex, "<u>".$matching_char[0]."</u>", $label, 1);
   return $formatted_string;
 }
+
+
+// TODO: Docs
+
+function standarize($sentences) {
+  $standard_scores = array();
+  $mean = mean($sentences);
+  $deviation = standard_deviation($sentences);
+  
+  foreach ($sentences as $sentence) {
+      $a = intval($sentence->evaluation) - $mean;
+      $a = $a / $deviation;
+      $standard_scores[$sentence->sentence_id] = $a;
+  }
+
+  return $standard_scores;
+}
+
+function standard_deviation($sentences) {
+  $deviation = 1;
+  $sum = 0;
+  $mean = mean($sentences);
+  $count = 0;
+
+  foreach ($sentences as $sentence) {
+      $count++;
+      $sum += pow(intval($sentence->evaluation) - $mean, 2);
+  }
+
+  $deviation = $sum / $count;
+  $deviation = sqrt($deviation);
+
+  return $deviation;
+}
+
+function mean($sentences) {
+  $count = 0;
+  $mean = 0;
+
+  foreach ($sentences as $sentence) {
+      $count++;
+      $mean += intval($sentence->evaluation);
+  }
+
+  return $mean / $count;
+}
