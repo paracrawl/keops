@@ -246,6 +246,7 @@
                 <th title="Target language">TL</th>
                 <th title="Number of lines in the file">Lines</th>
                 <th>Creation date</th>
+                <th>Type</th>
                 <th>On?</th>
                 <th>Actions</th>
               </tr>
@@ -260,6 +261,7 @@
                 <th title="Target language">TL</th>
                 <th title="Number of lines in the file">Lines</th>
                 <th>Creation date</th>
+                <th>Type</th>
                 <th>On?</th>
                 <th>Actions</th>
               </tr>

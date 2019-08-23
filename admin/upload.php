@@ -40,7 +40,7 @@
       <div class="tab-pane active" id="corpora_validation">
         <div class="row">
           <div class="col-md-7 col-xs-12">
-            <form action="/corpora/corpus_upload.php" class="form-horizontal dropzone dropzone-looks dz-clickable" id="dropzone" method="post" enctype="multipart/form-data">
+            <form action="/corpora/corpus_upload.php" class="form-horizontal dropzone dropzone-looks dz-clickable" id="dropzone_val" method="post" enctype="multipart/form-data">
               <input type="hidden" name="mode" value="VAL" />
 
               <div class="text-left help-block with-errors ml-2">
@@ -114,7 +114,7 @@
       </div>
 
       <div class="tab-pane" id="corpora_adequacy">
-        <form action="/corpora/corpus_upload.php" class="form-horizontal dropzone dropzone-looks dz-clickable" id="dropzone" method="post" enctype="multipart/form-data">
+        <form action="/corpora/corpus_upload.php" class="form-horizontal dropzone dropzone-looks dz-clickable" id="dropzone_ade" method="post" enctype="multipart/form-data">
           <input type="hidden" name="mode" value="ADE" />
           <div class="row">
             <div class="col-md-6 col-xs-6">

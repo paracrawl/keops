@@ -350,6 +350,19 @@ $(document).ready(function() {
       },
       {
         targets: 6,
+        render: function (data, type, row) {
+          switch (row[9]) {
+            case "VAL":
+              return "Validation";
+            case "ADE":
+              return "Adequacy";
+            case "FLU":
+              return "Fluency";
+          }
+        }
+      },
+      {
+        targets: 7,
         className: "text-center",
         render: function (data, type, row) {
           if (row[6]) {
@@ -360,7 +373,7 @@ $(document).ready(function() {
         }
       },
       {
-      targets: 7,
+      targets: 8,
       className: "actions",
       responsivePriority: 1,
       searchable: false,
@@ -546,7 +559,7 @@ $(document).ready(function() {
       {
         targets: 3,
         render: function(data, type, row) {
-          switch (row[3]) {
+          switch (mode) {
             case "legit":
               return "Legit";
             case "ref":
@@ -555,6 +568,8 @@ $(document).ready(function() {
               return "Bad reference";
             case "rep":
               return "Repeated";
+            default:
+              return "";
           }
         }
       }

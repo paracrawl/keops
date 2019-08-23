@@ -326,5 +326,6 @@ corpus_dao::$columns = array(
     array('c.creation_date', 'creation_date'),
     array('c.active', 'active'),
     array('l1.langname', 'nsource_lang'),
-    array('l2.langname', 'ntarget_lang')
+    array('l2.langname', 'ntarget_lang'),
+    array('c.mode', 'mode')
 );
