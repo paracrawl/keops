@@ -119,7 +119,7 @@ try {
         }
 
         for ($i = 0; $i < $ref_total; $i++) {
-          $sentence = $values[0];
+          $sentence = $values[mt_rand(0, count($values) - 1)];
           $sentence[1] = $sentence[0];
           $ref_group[] = array($sentence, 'ref');
         }
