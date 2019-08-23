@@ -68,6 +68,7 @@ class corpus_dao {
         $corpus->lines = $row["lines"];
         $corpus->creation_date = $row["creation_date"];
         $corpus->active = $row["active"];
+        $corpus->mode = $row["mode"];
       }
       $this->conn->close_conn();
       return $corpus;
@@ -262,10 +263,15 @@ class corpus_dao {
   function getSentencesFromCorpus($corpus_id, $amount){
     $sentences = array();
     try {       
-      $query = $this->conn->prepare("select * from sentences where corpus_id = ? order by id limit ?;");
+      $query = $this->conn->prepare(
+        "select * from sentences where corpus_id = ? order by id"
+        . (isset($amount) ? " limit ?;" : ";")
+      );
+      
       $query->bindParam(1, $corpus_id);
-      $query->bindParam(2, $amount);
+      if (isset($amount)) $query->bindParam(2, $amount);
       $query->execute();
+
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while ($row = $query->fetch()) {
         $sentence = new sentence_dto();
@@ -273,6 +279,7 @@ class corpus_dao {
         $sentence->corpus_id = $row["corpus_id"];
         $sentence->source_text = $row["source_text"];
         $sentence->target_text = $row["target_text"];
+        $sentence->type = $row["type"];
         array_push($sentences, $sentence);
       }
       $this->conn->close_conn();
@@ -282,7 +289,7 @@ class corpus_dao {
       throw new Exception("Error in sentence_dao::getSentencesFromCorpus : " . $ex->getMessage());
     }
   }
-  
+
   /**
    * Updates in the DB the metadata of a given corpus
    * 

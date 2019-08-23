@@ -16,6 +16,11 @@ Dropzone.options.dropzone = { // camelized id
   init: function() {
     this.on("complete", function(file) {
       obj = this;
+      if ($(".tab-pane.active input[name='mode']").val() == "ADE") {
+        console.log(corpora_ade_table.ajax);
+        corpora_ade_table.ajax.url(`/services/corpora_service.php?service=ade_description&corpus_id=last`).load();
+      }
+
       setTimeout(function() {
         obj.removeFile(file);
         corpora_table.ajax.reload();
@@ -47,10 +52,10 @@ $(document).ready(function() {
     });
 
     let source_lang = target_lang = -1;
-    $(".new-task-form select[name$='_lang']").on('change', function() {
+    $(".new-task-form select[name$='_lang'], .new-task-form select[name='mode']").on('change', function() {
       if ($(this).attr('name') == "source_lang") {
         source_lang = $(this).val();
-      } else {
+      } else if($(this).attr('name') == "target_lang") {
         target_lang = $(this).val();
       }
 
@@ -77,7 +82,8 @@ $(document).ready(function() {
         });
 
         // We get corpora available for that language pair
-        $.getJSON(`/services/corpora_service.php?service=corporaByLanguage&source_lang=${source_lang}&target_lang=${target_lang}`, ({result, data}) => {
+        let mode = $("#mode").val();
+        $.getJSON(`/services/corpora_service.php?service=corporaByLanguage&source_lang=${source_lang}&target_lang=${target_lang}&mode=${mode}`, ({result, data}) => {
           if (result == 200) {
             $("#corpus option").remove();
 
@@ -534,16 +540,35 @@ $(document).ready(function() {
   /*
    * Corpora table (for "Corpora" tab)
    */
+  let order = 0;
   corpora_ade_table = $("#corpora-table-ade").DataTable({
-    columnDefs: [{
-        
-    }],
-    order: [[ 1, 'desc' ]],
+    columnDefs: [
+      {
+        targets: 3,
+        render: function(data, type, row) {
+          switch (row[3]) {
+            case "legit":
+              return "Legit";
+            case "ref":
+              return "Reference";
+            case "bad_ref":
+              return "Bad reference";
+            case "rep":
+              return "Repeated";
+          }
+        }
+      }
+    ],
+    order: [[ 0, 'asc' ]],
     processing: true,
     serverSide: true,
-    ajax: "/corpora/corpus_list_ade.php",
-    stateSave: true
+    stateSave: true,
+    deferLoading: 0
   });
+
+  if ($("input[name='corpus_id']").length > 0) {
+    corpora_ade_table.ajax.url(`/services/corpora_service.php?service=ade_description&corpus_id=${$("input[name='corpus_id']").val()}`).load();
+  }
   
 
   // Activate Bootstrap tab on loading or user click.

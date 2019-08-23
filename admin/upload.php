@@ -166,7 +166,6 @@
             <table id="corpora-table-ade" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" style="width:100%;">
               <thead>
                 <tr>
-                  <th>Order</th>
                   <th>ID</th>
                   <th>Reference</th>
                   <th>Candidate</th>
@@ -177,7 +176,6 @@
               </tbody>
               <tfoot>
                 <tr>
-                  <th>Order</th>
                   <th>ID</th>
                   <th>Reference</th>
                   <th>Candidate</th>

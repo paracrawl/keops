@@ -48,7 +48,7 @@
         <div class="form-group">
           <label for="corpus" class="control-label col-sm-2">Mode</label>
           <div class="col-sm-4">
-            <select class="form-control" required=""  name="mode" id="mode">
+            <select class="form-control" required="" name="mode" id="mode">
               <option value="VAL">Validation</option>
               <option value="ADE">Adequacy</option>
               <option value="FLU">Fluency</option>

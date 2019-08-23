@@ -68,7 +68,7 @@ try {
               $first_batch = false;
               $corpus_dao->insertCorpus($corpus_dto);
             }
-          $result = $sentence_dao->insertBatchSentences($corpus_dto->id, $values);
+            $result = $sentence_dao->insertBatchSentences($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $values);
           }
           if ($first_batch==false) {
             $corpus_dao->updateLinesInCorpus($corpus_dto->id);
@@ -89,8 +89,6 @@ try {
     } else if ($mode == "ADE") {
       // We compute the Quality Control sentences according to Cambridge Core paper and then we save
       // https://www.cambridge.org/core/journals/natural-language-engineering/article/can-machine-translation-systems-be-evaluated-by-the-crowd-alone/E29DA2BC8E6B99AA1481CC92FAB58462/core-reader
-
-
       try {
         $values = array();
         while (!feof($handle)) {
@@ -113,49 +111,31 @@ try {
         $ref_group = array();
         $ref_total = floor($total * 0.1);
         $ref_group_total = floor($total / 3) + $ref_total;
-        $ref_gpos = array(); for ($i = 0; $i < $ref_group_total; $i++) $ref_gpos[] = $i;
         $legit_in_ref = $ref_group_total - $ref_total;
 
         for ($i = 0; $i < $legit_in_ref; $i++) {
-          $r = mt_rand(0, count($ref_gpos) - 1);
-          $pos = $ref_gpos[$r];
-          array_splice($ref_gpos, $r, 1);
-
-          $ref_group[$pos] = array($values[0], 'legit');
+          $ref_group[] = array($values[0], 'legit');
           array_splice($values, 0, 1);
         }
 
         for ($i = 0; $i < $ref_total; $i++) {
-          $r = mt_rand(0, count($ref_gpos) - 1);
-          $pos = $ref_gpos[$r];
-          array_splice($ref_gpos, $r, 1);
-
           $sentence = $values[0];
           $sentence[1] = $sentence[0];
-          $ref_group[$pos] = array($sentence, 'ref');
+          $ref_group[] = array($sentence, 'ref');
         }
 
         // bad_reference sentences
         $bad_ref_group = array();
         $bad_ref_total = floor($total * 0.1);
         $bad_ref_group_total = floor($total / 3) + $bad_ref_total;
-        $bad_ref_gpos = array(); for ($i = 0; $i < $bad_ref_group_total; $i++) $bad_ref_gpos[] = $i;
         $legit_in_bad_ref = $bad_ref_group_total - $bad_ref_total;
 
         for ($i = 0; $i < $legit_in_bad_ref; $i++) {
-          $r = mt_rand(0, count($bad_ref_gpos) - 1);
-          $pos = $bad_ref_gpos[$r];
-          array_splice($bad_ref_gpos, $r, 1);
-
-          $bad_ref_group[$pos] = array($values[0], 'legit');
+          $bad_ref_group[] = array($values[0], 'legit');
           array_splice($values, 0, 1);
         }
 
         for ($i = 0; $i < $bad_ref_total; $i++) {
-          $r = mt_rand(0, count($bad_ref_gpos) - 1);
-          $pos = $bad_ref_gpos[$r];
-          array_splice($bad_ref_gpos, $r, 1);
-
           $sentence_pair = $values[0];
           $sentence = $sentence_pair[1];
           $words = explode(" ", $sentence);
@@ -168,39 +148,31 @@ try {
           }
 
           $sentence_pair[1] = implode(" ", $words);
-          $bad_ref_group[$pos] = array($sentence_pair, 'bad_ref');
+          $bad_ref_group[] = array($sentence_pair, 'bad_ref');
         }
 
         // repeated sentences
         $repeated_group = array();
         $repeated_total = floor($total * 0.1);
         $repeated_group_total = floor($total / 3) + $repeated_total + ceil($total % 3);
-        $repeated_gpos = array(); for ($i = 0; $i < $repeated_group_total; $i++) $repeated_gpos[] = $i;
         $legit_in_repeated = $repeated_group_total - $repeated_total;
 
         $added = array();
 
         for ($i = 0; $i < $legit_in_repeated; $i++) {
-          $r = mt_rand(0, count($repeated_gpos) - 1);
-          $pos = $repeated_gpos[$r];
-          array_splice($repeated_gpos, $r, 1);
-
-          $repeated_group[$pos] = array($values[0], 'legit');
+          $repeated_group[] = array($values[0], 'legit');
           $added[] = $values[0];
           array_splice($values, 0, 1);
         }
 
         for ($i = 0; $i < $repeated_total; $i++) {
-          $r = mt_rand(0, count($repeated_gpos) - 1);
-          $pos = $repeated_gpos[$r];
-          array_splice($repeated_gpos, $r, 1);
-
           $pos_added = mt_rand(0, count($added) - 1);
-          $repeated_group[$pos] = array($added[$pos_added], 'rep');
+          $repeated_group[] = array($added[$pos_added], 'rep');
           array_splice($added, $pos_added, 1);
         }
 
         // We are ready to save
+        shuffle($ref_group); shuffle($bad_ref_group); shuffle($repeated_group);
         $sentences = array_merge($ref_group, array_merge($bad_ref_group, $repeated_group));
         $corpus_dao->insertCorpus($corpus_dto);
         $result = $sentence_dao->insertBatchSentences($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $sentences, $mode);

@@ -99,16 +99,40 @@
       </div>
       
         <?php
-        foreach ($preview as $line){
-          ?>
-          <div class="row">
-            <div class="col-md-12 sentence-source"><?php echo $line->source_text;?></div>
-            <div class="col-md-12 sentence-target"><?php echo $line->target_text;?></div>
-          </div>
-        <hr>
-        <?php
-        }
+        if ($corpus->mode == "VAL") {
+          foreach ($preview as $line){
+            ?>
+            <div class="row">
+              <div class="col-md-12 sentence-source"><?php echo $line->source_text;?></div>
+              <div class="col-md-12 sentence-target"><?php echo $line->target_text;?></div>
+            </div>
+          <hr>
+          <?php
+          }
+        } else if ($corpus->mode == "ADE") {
         ?>
+          <input type="hidden" name="corpus_id" value="<?= $corpus->id ?>" />
+          <table id="corpora-table-ade" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" style="width:100%;">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Reference</th>
+                  <th>Candidate</th>
+                  <th>Type</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>ID</th>
+                  <th>Reference</th>
+                  <th>Candidate</th>
+                  <th>Type</th>
+                </tr>
+              </tfoot>
+            </table>
+        <?php } ?>
       </div>
     </div>
     <?php
