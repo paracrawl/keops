@@ -34,12 +34,12 @@ $(document).ready(function() {
           switch (row[9]) {
             case 'VAL':
               return 'Validation';
-            
             case 'ADE':
               return 'Adequacy';
-
             case 'FLU':
               return 'Fluency';
+            case 'RAN':
+              return 'Ranking';
           }
         }
       },

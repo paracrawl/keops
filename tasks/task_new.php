@@ -52,6 +52,7 @@
               <option value="VAL">Validation</option>
               <option value="ADE">Adequacy</option>
               <option value="FLU">Fluency</option>
+              <option value="RAN">Ranking</option>
             </select>
           </div>
         </div>

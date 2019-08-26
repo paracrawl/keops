@@ -85,6 +85,7 @@ $(document).ready(function() {
         $("#evalutionsavebutton").trigger('click');
       } else {
         if ($("#evaluation-container").attr("data-done") == "1") return;
+
         if (e.which < 49 || e.which > 56) return;
 
         $("#evaluationform :radio").removeAttr('checked');

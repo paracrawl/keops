@@ -1180,3 +1180,39 @@ a {
   background: transparent;
   padding: 20px 20px;
 }
+
+/* RANKING */
+.same-height {
+  display: flex;
+}
+
+.same-height-column {
+  display: flex;
+  direction: column;
+}
+
+.ranking-item.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.ranking-item.row > [class^="col-"], .ranking-item.row > [class*=" col-"] {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.ranking-text {
+  background: #f5f5f5;
+  border: solid 1px #e3e3e3;
+  align-items: center;
+}
+
+.ranking-text div {
+  padding-left: 1em;
+}
+
+.ranking-position input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  height: 100%;
+}

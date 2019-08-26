@@ -19,5 +19,8 @@
     case 'FLU':
       header("Location: /sentences/evaluate/flu.php?".$_SERVER['QUERY_STRING']);
       break;
+    case 'RAN':
+      header("Location: /sentences/evaluate/ran.php?".$_SERVER['QUERY_STRING']);
+      break;
   }
 ?>
