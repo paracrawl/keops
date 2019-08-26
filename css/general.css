@@ -75,6 +75,10 @@ body > .container {
     display: flex;
     flex-direction: column;
   }
+
+  .text-center-sm {
+    text-align: center;
+  }
 }
 
 /* Dropzone */
@@ -1158,4 +1162,21 @@ a {
 .ade_fill {
   background: rgb(191,0,0);
   background: linear-gradient(90deg, rgba(191,0,0,1) 0%, rgba(241,212,3,1) 50%, rgba(48,172,0,1) 100%); 
+}
+
+/* CORPUS UPLOAD */
+#corpus-upload-tabs.nav-tabs > li.active > a, #corpus-upload-tabs.nav-tabs > li.active > a:focus, #corpus-upload-tabs.nav-tabs > li.active > a:hover {
+  border-top-color: transparent;
+  border-top-right-radius: 0px;
+}
+
+#corpus-upload-tabs.nav-tabs > li > a {
+  border-radius: 0;
+}
+
+.dropzone.dropzone-previews {
+  min-height: auto;
+  border: none;
+  background: transparent;
+  padding: 20px 20px;
 }

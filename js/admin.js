@@ -16,10 +16,66 @@ Dropzone.options.dropzone = { // camelized id
   init: function() {
     this.on("complete", function(file) {
       obj = this;
-      if ($(".tab-pane.active input[name='mode']").val() == "ADE") {
-        console.log(corpora_ade_table.ajax);
-        corpora_ade_table.ajax.url(`/services/corpora_service.php?service=ade_description&corpus_id=last`).load();
-      }
+
+      setTimeout(function() {
+        obj.removeFile(file);
+        corpora_table.ajax.reload();
+      }, 10000);
+      corpora_table.ajax.reload();
+    });
+
+    this.on("canceled", function(file) {
+      this.removeFile(file);
+    });
+  },
+  sending: function(file, xhr, formData) {
+    formData.append("source_lang", $("#source_lang"));
+    formData.append("target_lang", $("#target_lang"));
+  },
+//  previewTemplate: document.querySelector('#custom-dz-template').innerHTML,
+  autoProcessQueue: true
+};
+
+Dropzone.options.dropzoneval = { // camelized id
+  paramName: "file",
+  maxFilesize: 10, // 10 MB
+  filesizeBase: 1000,
+  //acceptedFiles: "text/*,application/*",
+  //maxFiles: 40, // needed?
+  init: function() {
+    this.on("complete", function(file) {
+      obj = this;
+
+      setTimeout(function() {
+        obj.removeFile(file);
+        corpora_table.ajax.reload();
+      }, 10000);
+      corpora_table.ajax.reload();
+    });
+
+    this.on("canceled", function(file) {
+      this.removeFile(file);
+    });
+  },
+  sending: function(file, xhr, formData) {
+    formData.append("source_lang", $("#source_lang"));
+    formData.append("target_lang", $("#target_lang"));
+  },
+//  previewTemplate: document.querySelector('#custom-dz-template').innerHTML,
+  autoProcessQueue: true
+};
+
+Dropzone.options.dropzoneade = { // camelized id
+  paramName: "file",
+  maxFilesize: 10, // 10 MB
+  filesizeBase: 1000,
+  previewsContainer: ".dropzone-previews",
+  //acceptedFiles: "text/*,application/*",
+  //maxFiles: 40, // needed?
+  init: function() {
+    this.on("complete", function(file) {
+      obj = this;
+      corpora_ade_table.ajax.url(`/services/corpora_service.php?service=ade_description&corpus_id=last`).load();
 
       setTimeout(function() {
         obj.removeFile(file);
@@ -559,7 +615,7 @@ $(document).ready(function() {
       {
         targets: 3,
         render: function(data, type, row) {
-          switch (mode) {
+          switch (row[3]) {
             case "legit":
               return "Legit";
             case "ref":
