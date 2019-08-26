@@ -29,10 +29,11 @@ if ($service == "stats_ade") {
       }
     } else if ($type == "inter") {
       $task_id = filter_input(INPUT_POST, "task_id");
+      $mode = filter_input(INPUT_POST, "mode");
       $task_dao = new task_dao();
 
       try {
-          $stats = $task_dao->getInterStatsForTask($task_id);
+          $stats = $task_dao->getInterStatsForTask($task_id, $mode);
           echo json_encode(array("result" => 200, "stats" => $stats));
       } catch (Exception $e) {
           echo json_encode(array("result" => -1));

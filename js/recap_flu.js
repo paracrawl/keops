@@ -46,7 +46,7 @@ $(document).ready(function() {
         service: "stats_ade",
         type: "inter",
         task_id: task_id,
-        mode: "ADE"
+        mode: "FLU"
       },
       success: (data_raw) => {
         let data = JSON.parse(data_raw);

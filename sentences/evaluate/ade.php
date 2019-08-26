@@ -199,7 +199,7 @@ else {
                   <div class="col-md-6 my-3">
                     <div class="row">
                       <div class="col-md-12 col-xs-12 slider-component mt-3"> <!-- .slider-component -->
-                        <div class="custom-range slider">
+                        <div class="custom-range slider <?= ($task->status == "DONE") ? "disabled" : "" ?>">
                             <input type=range id="evaluation" name="evaluation" min="0" max="100" value="<?= ($sentence->evaluation == "P") ? 50 : $sentence->evaluation ?>" />
                             <div class="custom-range-control">
                               <div class="pre"></div>

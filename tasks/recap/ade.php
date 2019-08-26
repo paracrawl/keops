@@ -81,117 +81,121 @@ if (isset($task_id)) {
           <?php
         if ($task->status == "DONE") {
             ?>
-          
-        <div class="col-md-3">
-          <?php
-                $sentence_dao = new sentence_dao();
-                $sentences = $sentence_task_dao->getAnnotatedSentecesByTask($task->id);
-                $standard_scores = standarize($sentences);
-                $wrong = 0;
-                $repeated_sentences = array();
-                foreach($sentences as $sentence) {
-                    $sentence_data = $sentence_dao->getSentenceById($sentence->sentence_id);
-                    if ($sentence_data->type == "bad_ref") {
-                        if ($standard_scores[$sentence->sentence_id] > 1.5) $wrong++;
-                    } else if ($sentence_data->type == "ref") {
-                        if ($standard_scores[$sentence->sentence_id] < 1.5) $wrong++;
-                    } else if ($sentence_data->type == "rep") {
-                        $repeated_sentences[] = $sentence_task_dao->getSentenceByIdAndTask($sentence->id, $task->id);
-                    }
-                }
-
-                for ($i = 0; $i < count($repeated_sentences); $i++) {
-                    $found = false;
-                    $rep = $repeated_sentences[$i];
-
-                    foreach ($sentences as $sentence) {
-                        if ($found) break;
-                        if ($rep->source_text == $sentence->source_text) {
-                            if (abs(intval($rep->evaluation) - intval($sentence->evaluation)) > 10) $wrong++;
-                            $found = true;
-                        }
-                    }
-                }
-
-                $user_score = round(((count($sentences) - $wrong) * 10) / count($sentences), 2);
-          ?>
-
-          <div class="vertical-align">
-            <div class="stars" data-stars="<?= $user_score / 2; ?>"></div>
-            <div class="ml-2">
-              <span class="h3"><?= $user_score; ?></span>
-              <span class="h4">/10</span>
-            </div>
-          </div>
-
-          <p class="mt-2">
-              This is the Quality Score of the user in this task, computed using several
-              behaviour analyses.
-          </p>
-        </div>
-
-        <div class="col-md-8 col-md-offset-1">
+        <div class="col-md-12">
             <div class="panel panel-success">
               <div class="panel-heading">
                 <h3 class="panel-title">Finished task</h3>
               </div>
               <div class="panel-body">
-                <p>This task has been marked as <b>DONE</b> and cannot be modified.</p>
-                <p>Thank you!</p>
-                <?php
-                if ($USER->id == $project->owner) {
-                  ?>
-                  <div>
-                    <p>Evaluator: <?php echo $assigned_user->name;?> </p>
-                  <p>Creation date: <?php echo getFormattedDate($task->creation_date); ?> <br>
-                  Assigned on: <?php echo getFormattedDate($task->assigned_date); ?>  <br>
-                  Completion date: <?php echo getFormattedDate($task->completed_date); ?></p>
-                    <a href="mailto: <?php echo $assigned_user->email;?>">
-                      <br><span class="glyphicon glyphicon-envelope"></span> Contact evaluator</a>
+                <div class="row">
+                  <div class="col-md-6 col-xs-12">
+                    <p>This task has been marked as <b>DONE</b> and cannot be modified.</p>
+                    <p>Thank you!</p>
+                    <?php
+                    if ($USER->id == $project->owner) {
+                      ?>
+                      <div>
+                        <p>Evaluator: <?php echo $assigned_user->name;?> </p>
+                      <p>Creation date: <?php echo getFormattedDate($task->creation_date); ?> <br>
+                      Assigned on: <?php echo getFormattedDate($task->assigned_date); ?>  <br>
+                      Completion date: <?php echo getFormattedDate($task->completed_date); ?></p>
+                        <a href="mailto: <?php echo $assigned_user->email;?>">
+                          <br><span class="glyphicon glyphicon-envelope"></span> Contact evaluator</a>
+                      </div>
+                    <br>
+                      <?php
+                    }
+                    ?>
+                    <?php if ($USER->id == $task->assigned_user) { ?>
+                    <div>
+                    <a href="http://localhost/sentences/evaluate.php?review=1&task_id=<?= $task_id ?>">
+                      <span class="glyphicon glyphicon-info-sign"></span>
+                      <span>Check evaluation <span class="sr-only"> of task <?= $task_id ?></span>
+                    </a>
+                    </div>
+                    <?php } ?>
+                    <div>
+                        <a href="/tasks/download_summary.php?task_id=<?php echo $task_id ?>">
+                          <span class="glyphicon glyphicon-download-alt"></span>
+                          <span>Download summary (CSV)</span>
+                        </a>
+                      </div>
+                      <div>
+                        <a href="/tasks/download_sentences.php?task_id=<?php echo $task_id ?>">
+                          <span class="glyphicon glyphicon-download-alt"></span>
+                          <span>Download annotated sentences (TSV)</span>
+                        </a>
+                      </div>
                   </div>
-                <br>
+                  <div class="col-md-4 col-md-offset-2 col-xs-12 text-right-sm mt-4 mt-sm-0">
                   <?php
-                }
-                ?>
-                <?php if ($USER->id == $task->assigned_user) { ?>
-                <div>
-                <a href="http://localhost/sentences/evaluate.php?review=1&task_id=<?= $task_id ?>">
-                  <span class="glyphicon glyphicon-info-sign"></span>
-                  <span>Check evaluation <span class="sr-only"> of task <?= $task_id ?></span>
-                </a>
-                </div>
-                <?php } ?>
-                <div>
-                    <a href="/tasks/download_summary.php?task_id=<?php echo $task_id ?>">
-                      <span class="glyphicon glyphicon-download-alt"></span>
-                      <span>Download summary (CSV)</span>
-                    </a>
-                  </div>
-                  <div>
-                    <a href="/tasks/download_sentences.php?task_id=<?php echo $task_id ?>">
-                      <span class="glyphicon glyphicon-download-alt"></span>
-                      <span>Download annotated sentences (TSV)</span>
-                    </a>
-                  </div>
-              </div>
-            </div>
-            <?php
-          } else { ?>
-            <div class="col-md-12">
-            <?php if ($USER->id != $task->assigned_user) {
-              ?>
-              <div class="panel panel-warning">
-                <div class="panel-heading">
-                  <h3 class="panel-title">Task in progress</h3>
-                </div>
-                <div class="panel-body">
-                  <p>This task is still in progress.
-                  <p>Evaluator: <?php echo $assigned_user->name; ?></p>
-                  <p>Creation date: <?php echo getFormattedDate($task->creation_date); ?> <br>
-                  Assigned on: <?php echo getFormattedDate($task->assigned_date); ?>  <br>
-  <!--                Completion date: <?php echo getFormattedDate($task->completed_date); ?></p>-->
-                  <p><a href="mailto:<?php echo $assigned_user->email; ?>"><span class="glyphicon glyphicon-envelope"></span> Contact evaluator</a></p>
+                      $sentence_dao = new sentence_dao();
+                      $sentences = $sentence_task_dao->getAnnotatedSentecesByTask($task->id);
+                      $standard_scores = standarize($sentences);
+                      $wrong = 0;
+                      $control = 0;
+                      $repeated_sentences = array();
+                      foreach($sentences as $sentence) {
+                          $sentence_data = $sentence_dao->getSentenceById($sentence->sentence_id);
+                          if ($sentence_data->type == "bad_ref") {
+                              $control++;
+                              if ($standard_scores[$sentence->sentence_id] > 1.5) $wrong++;
+                          } else if ($sentence_data->type == "ref") {
+                              $control++;
+                              if ($standard_scores[$sentence->sentence_id] < 1.5) $wrong++;
+                          } else if ($sentence_data->type == "rep") {
+                              $control++;
+                              $repeated_sentences[] = $sentence_task_dao->getSentenceByIdAndTask($sentence->id, $task->id);
+                          }
+                      }
 
+                      for ($i = 0; $i < count($repeated_sentences); $i++) {
+                          $found = false;
+                          $rep = $repeated_sentences[$i];
+
+                          foreach ($sentences as $sentence) {
+                              if ($found) break;
+                              if ($rep->source_text == $sentence->source_text) {
+                                  if (abs(intval($rep->evaluation) - intval($sentence->evaluation)) > 10) $wrong++;
+                                  $found = true;
+                              }
+                          }
+                      }
+
+                      $user_score = round((($control - $wrong) * 10) / $control, 2);
+                    ?>
+
+                    <div class="stars" data-stars="<?= $user_score / 2; ?>" style="display: inline-block;"></div>
+                    <div class="ml-2" style="display: inline-block;">
+                      <span class="h3"><?= $user_score; ?></span>
+                      <span class="h4">/10</span>
+                    </div>
+
+                    <p class="mt-2">
+                        This is the Quality Score of the user in this task, computed by using several
+                        behaviour analyses.
+                    </p>
+                  </div>
+                </div>
+                <?php
+              } else { ?>
+                <div class="col-md-12">
+                <?php if ($USER->id != $task->assigned_user) {
+                  ?>
+                  <div class="panel panel-warning">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">Task in progress</h3>
+                    </div>
+                    <div class="panel-body">
+                      <p>This task is still in progress.
+                      <p>Evaluator: <?php echo $assigned_user->name; ?></p>
+                      <p>Creation date: <?php echo getFormattedDate($task->creation_date); ?> <br>
+                      Assigned on: <?php echo getFormattedDate($task->assigned_date); ?>  <br>
+      <!--                Completion date: <?php echo getFormattedDate($task->completed_date); ?></p>-->
+                      <p><a href="mailto:<?php echo $assigned_user->email; ?>"><span class="glyphicon glyphicon-envelope"></span> Contact evaluator</a></p>
+
+                    </div>
+                  </div>
                 </div>
               </div>
               <?php
