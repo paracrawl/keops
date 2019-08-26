@@ -15,6 +15,7 @@
     if (initstep) moveHandle(initstep);
 
     let handledown = (e) => {
+      if (parent.classList.contains("disabled")) return;
       if (e.target.nodeName !== 'INPUT') e.preventDefault()
       if (e.touches) e = e.touches[0];
 

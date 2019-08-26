@@ -1,43 +1,48 @@
 .custom-range input[type="range"] {
-    display: none;
-  }
-  
-  .custom-range-control {
-    width: 100%;
-    height: 15px;
-    position: relative;
-    background: rgb(191,0,0);
-    background: linear-gradient(90deg, rgba(122,0,0,1) 0%, rgba(241,212,3,1) 50%, rgba(0,122,0,1) 100%);
-    overflow: hidden;
-    transform: skewX(-20deg);
-  }
-  
-  .custom-range-control .handle {
-    width: 40px;
-    height: 100%;
-    position: absolute;
-    left: 0px;
-    background: #aaa;
-  }
+  display: none;
+}
 
-  .custom-range-control .handle:hover {
-    background-color: #bbb;
-  }
+.custom-range.disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
 
-  .custom-range-control .handle:active, .custom-range-control .handle.active {
-    background: #8c8c8c;
-  }
-  
-  .custom-range-control .pre {
-    position: absolute;
-    left: 0px;
-    height: 100%;
-  }
-  
-  .custom-range-control .post {
-    position: absolute;
-    right: 0px;
-    height: 100%;
-    background: #eee;
-    width: 100%;
-  }
+.custom-range-control {
+  width: 100%;
+  height: 15px;
+  position: relative;
+  background: rgb(191,0,0);
+  background: linear-gradient(90deg, rgba(122,0,0,1) 0%, rgba(241,212,3,1) 50%, rgba(0,122,0,1) 100%);
+  overflow: hidden;
+  transform: skewX(-20deg);
+}
+
+.custom-range-control .handle {
+  width: 40px;
+  height: 100%;
+  position: absolute;
+  left: 0px;
+  background: #aaa;
+}
+
+.custom-range-control .handle:hover {
+  background-color: #bbb;
+}
+
+.custom-range-control .handle:active, .custom-range-control .handle.active {
+  background: #8c8c8c;
+}
+
+.custom-range-control .pre {
+  position: absolute;
+  left: 0px;
+  height: 100%;
+}
+
+.custom-range-control .post {
+  position: absolute;
+  right: 0px;
+  height: 100%;
+  background: #eee;
+  width: 100%;
+}
