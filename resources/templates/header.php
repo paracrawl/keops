@@ -11,7 +11,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button> <?php } ?>
-           <div navbar-brand>
+           <div class="">
             <a href="/"><img class="navbar-logo" src="/img/tiny-pyramids-white.png" alt="KEOPS logo"></a>
             <a href="/" class="navbar-logo-brand">KEOPS</a>
           </div>

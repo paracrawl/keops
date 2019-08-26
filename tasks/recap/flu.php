@@ -256,19 +256,18 @@ if (isset($task_id)) {
             }
           }
           ?>
+        <div class="row">
+          <div class="col-md-6">
+            <canvas id="point-chart-intra" class="w-100 h-100"></canvas>
+          </div>
+          <div class="col-md-6">
+            <canvas id="point-chart-inter" class="w-100 h-100"></canvas>
+          </div>
         </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-6">
-          <canvas id="point-chart-intra" class="w-100 h-100"></canvas>
-        </div>
-        <div class="col-md-6">
-          <canvas id="point-chart-inter" class="w-100 h-100"></canvas>
         </div>
       </div>
     </div>
-</div>
+  </div>
         <?php
         require_once(TEMPLATES_PATH . "/footer.php");
         ?>

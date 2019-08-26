@@ -139,10 +139,10 @@ if (isset($task_id)) {
                           $sentence_data = $sentence_dao->getSentenceById($sentence->sentence_id);
                           if ($sentence_data->type == "bad_ref") {
                               $control++;
-                              if ($standard_scores[$sentence->sentence_id] > 1.5) $wrong++;
+                              if ($standard_scores[$sentence->sentence_id] > 1) $wrong++;
                           } else if ($sentence_data->type == "ref") {
                               $control++;
-                              if ($standard_scores[$sentence->sentence_id] < 1.5) $wrong++;
+                              if ($standard_scores[$sentence->sentence_id] < 1) $wrong++;
                           } else if ($sentence_data->type == "rep") {
                               $control++;
                               $repeated_sentences[] = $sentence_task_dao->getSentenceByIdAndTask($sentence->id, $task->id);
@@ -155,7 +155,7 @@ if (isset($task_id)) {
 
                           foreach ($sentences as $sentence) {
                               if ($found) break;
-                              if ($rep->source_text == $sentence->source_text) {
+                              if ($rep->source_text == $sentence->source_text && $rep->id != $sentence->id) {
                                   if (abs(intval($rep->evaluation) - intval($sentence->evaluation)) > 10) $wrong++;
                                   $found = true;
                               }

@@ -66,8 +66,8 @@ function underline($label, $value){
 
 function standarize($sentences) {
   $standard_scores = array();
-  $mean = mean($sentences);
-  $deviation = standard_deviation($sentences);
+  $mean = mean_sentences($sentences);
+  $deviation = standard_deviation_sentences($sentences);
   
   foreach ($sentences as $sentence) {
       $a = intval($sentence->evaluation) - $mean;
@@ -78,10 +78,10 @@ function standarize($sentences) {
   return $standard_scores;
 }
 
-function standard_deviation($sentences) {
+function standard_deviation_sentences($sentences) {
   $deviation = 1;
   $sum = 0;
-  $mean = mean($sentences);
+  $mean = mean_sentences($sentences);
   $count = 0;
 
   foreach ($sentences as $sentence) {
@@ -95,7 +95,7 @@ function standard_deviation($sentences) {
   return $deviation;
 }
 
-function mean($sentences) {
+function mean_sentences($sentences) {
   $count = 0;
   $mean = 0;
 
