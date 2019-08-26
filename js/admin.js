@@ -58,8 +58,8 @@ Dropzone.options.dropzoneval = { // camelized id
     });
   },
   sending: function(file, xhr, formData) {
-    formData.append("source_lang", $("#source_lang"));
-    formData.append("target_lang", $("#target_lang"));
+    formData.append("source_lang", $("#corpora_evaluation .source_lang"));
+    formData.append("target_lang", $("#corpora_evaluation .target_lang"));
   },
 //  previewTemplate: document.querySelector('#custom-dz-template').innerHTML,
   autoProcessQueue: true
@@ -89,8 +89,36 @@ Dropzone.options.dropzoneade = { // camelized id
     });
   },
   sending: function(file, xhr, formData) {
-    formData.append("source_lang", $("#source_lang"));
-    formData.append("target_lang", $("#target_lang"));
+    formData.append("source_lang", $("#corpora_adequacy .source_lang"));
+    formData.append("target_lang", $("#corpora_adequacy .target_lang"));
+  },
+//  previewTemplate: document.querySelector('#custom-dz-template').innerHTML,
+  autoProcessQueue: true
+};
+
+Dropzone.options.dropzoneflu = { // camelized id
+  paramName: "file",
+  maxFilesize: 10, // 10 MB
+  filesizeBase: 1000,
+  //acceptedFiles: "text/*,application/*",
+  //maxFiles: 40, // needed?
+  init: function() {
+    this.on("complete", function(file) {
+      obj = this;
+
+      setTimeout(function() {
+        obj.removeFile(file);
+        corpora_table.ajax.reload();
+      }, 10000);
+      corpora_table.ajax.reload();
+    });
+
+    this.on("canceled", function(file) {
+      this.removeFile(file);
+    });
+  },
+  sending: function(file, xhr, formData) {
+    formData.append("source_lang", $("#corpora_fluency .source_lang"));
   },
 //  previewTemplate: document.querySelector('#custom-dz-template').innerHTML,
   autoProcessQueue: true
@@ -115,9 +143,16 @@ $(document).ready(function() {
         target_lang = $(this).val();
       }
 
-      if (source_lang != -1 && target_lang != -1) {
+      let mode = $("#mode").val();
+      if (mode == "FLU") {
+        $("#target_lang_group").addClass("d-none");
+      } else {
+        $("#target_lang_group").removeClass("d-none");
+      }
+
+      if (source_lang != -1 && (target_lang != -1 || mode == "FLU")) {
         // We get available users for that language pair
-        $.getJSON(`/services/languages_service.php?service=usersByLanguage&source_lang=${source_lang}&target_lang=${target_lang}`, ({result, data}) => {
+        $.getJSON(`/services/languages_service.php?service=usersByLanguage&source_lang=${source_lang}&target_lang=${target_lang}&mode=${mode}`, ({result, data}) => {
           if (result == 200) {
             $("#assigned_user option").remove();
 
@@ -138,7 +173,6 @@ $(document).ready(function() {
         });
 
         // We get corpora available for that language pair
-        let mode = $("#mode").val();
         $.getJSON(`/services/corpora_service.php?service=corporaByLanguage&source_lang=${source_lang}&target_lang=${target_lang}&mode=${mode}`, ({result, data}) => {
           if (result == 200) {
             $("#corpus option").remove();
@@ -391,7 +425,7 @@ $(document).ready(function() {
    /*
    * Corpora table (for "Corpora" tab)
    */
-   corpora_table = $("#corpora-table").DataTable({
+   corpora_table = $("#corpora-table, .corpora-table").DataTable({
     columnDefs: [{
         targets: 1,
         render: function (data, type, row) {

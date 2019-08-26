@@ -79,13 +79,14 @@ class task_dao {
    */
   function insertTask($task_dto) {
     try {
+      $target_lang = ($task_dto->target_lang == "-1") ? NULL : $task_dto->target_lang;
       $query = $this->conn->prepare("INSERT INTO tasks (project_id, assigned_user, corpus_id, assigned_date, source_lang, target_lang, mode) VALUES (?, ?, ?, ?, ?, ?, ?::mode);");
       $query->bindParam(1, $task_dto->project_id);
       $query->bindParam(2, $task_dto->assigned_user);
       $query->bindParam(3, $task_dto->corpus_id);      
       $query->bindParam(4, $task_dto->assigned_date);
       $query->bindParam(5, $task_dto->source_lang);
-      $query->bindParam(6, $task_dto->target_lang);
+      $query->bindParam(6, $target_lang);
       $query->bindParam(7, $task_dto->mode);
 
       $query->execute();
@@ -174,14 +175,20 @@ class task_dao {
    */
   function removeTask($task_id){
     try{
-      //First  remove from sentences_tasks
-      $query1 = $this->conn->prepare("delete from sentences_tasks  where task_id = ?");
+      // First we remove the comments
+      $query1 = $this->conn->prepare("delete from comments as c using sentences_tasks as st where c.pair = st.id and st.task_id = ?;");
       $query1->bindParam(1, $task_id);
       $query1->execute();
-      //Then remove form tasks
-      $query2 = $this->conn->prepare("delete from tasks where id = ?");
+
+      //First  remove from sentences_tasks
+      $query2 = $this->conn->prepare("delete from sentences_tasks  where task_id = ?");
       $query2->bindParam(1, $task_id);
       $query2->execute();
+
+      //Then remove form tasks
+      $query3 = $this->conn->prepare("delete from tasks where id = ?");
+      $query3->bindParam(1, $task_id);
+      $query3->execute();
 
       $this->conn->close_conn();
       return true;

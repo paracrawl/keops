@@ -34,7 +34,7 @@ try {
       $sentence_dao = new sentence_dao();
       $first_batch = true;
       
-      if ($mode == "VAL") {
+      if ($mode == "VAL" || $mode == "FLU") {
         try{
           while (!feof($handle)) // Loop 'til end of file.
           {

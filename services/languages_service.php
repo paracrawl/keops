@@ -16,9 +16,11 @@ $service = filter_input(INPUT_GET, "service");
 if ($service == "usersByLanguage") {
   $source_lang = filter_input(INPUT_GET, "source_lang");
   $target_lang = filter_input(INPUT_GET, "target_lang");
+  $mode = filter_input(INPUT_GET, "mode");
 
   if (isset($source_lang) && isset($target_lang)){
     $user_langs_dao = new user_langs_dao();
+    $target_lang = ($mode == "FLU") ? $source_lang : $target_lang;
     $user_ids = $user_langs_dao->getUserIdsByLangcodePair($source_lang, $target_lang);
     if (!empty($user_ids)) {
         $user_dao = new user_dao();

@@ -73,7 +73,7 @@
             </select>
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="target_lang_group">
           <label for="target_lang" class="control-label col-sm-2">Target language</label>
           <div class="col-sm-4">
             <select class="form-control" required=""  name="target_lang" id="target_lang">
