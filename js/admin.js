@@ -575,6 +575,23 @@ $(document).ready(function() {
       },
       {
         targets: 10,
+        sortable: true,
+        searchable: true,
+        render: function (data, type, row) {
+          switch (row[15]) {
+            case 'VAL':
+              return 'Validation';
+            case 'ADE':
+              return 'Adequacy';
+            case 'FLU':
+              return 'Fluency';
+            case 'RAN':
+              return 'Ranking';
+          } 
+        }
+      },
+      {
+        targets: 11,
         className: "actions",
         sortable: false,
         searchable: false,

@@ -109,7 +109,7 @@ class task_dao {
    */
   function updateTaskSize($task_id) {
     try {
-      $query = $this->conn->prepare("with counted as (select count(task_id) as count from sentences_tasks where task_id = ? group by task_id) update tasks as t set size=s.count from counted as s where t.id = ?;");
+      $query = $this->conn->prepare("with counted as (select count(task_id) as count from sentences_tasks where task_id = ? and sentence_id not in (select id_2 from sentences_pairing) group by task_id) update tasks as t set size=s.count from counted as s where t.id = ?;");
       $query->bindParam(1, $task_id);
       $query->bindParam(2, $task_id);
       $query->execute();
@@ -542,7 +542,7 @@ class task_dao {
               . "left join sentences_tasks as st on t.id = st.task_id",
               $request,
               "t.id, p.name, source_lang, target_lang, us.email",
-              "t.assigned_user= ? ",
+              "t.assigned_user= ?",
               array($user_id)));
     } catch (Exception $ex) {
       throw new Exception("Error in task_dao::getDatatablesUserTasks : " . $ex->getMessage());
@@ -568,7 +568,8 @@ task_dao::$columns_project_tasks = array(
     array('u.id', 'u_id'),
     array("count(case when st.evaluation!='P' then 1 end)", 'completedsentences'),
     array('u.email', 'email'),
-    array('t.corpus_id', 'corpus_id')
+    array('t.corpus_id', 'corpus_id'),
+    array('t.mode', 'mode')
 );
 
 /**
@@ -599,5 +600,6 @@ task_dao::$columns_corpus_tasks = array(
     array('t.status', 'status'),
     array('t.creation_date', 'creation_date'),
     array('t.assigned_date', 'assigned_date'),
-    array('t.completed_date', 'completed_date')
+    array('t.completed_date', 'completed_date'),
+    array('t.mode', 'mode')
 );

@@ -128,6 +128,7 @@
             <th>Creation date</th>
             <th>Assigned date</th>
             <th>Completed date</th>
+            <th>Type</th>
             <th></th>
           </tr>
         </thead>
@@ -145,6 +146,7 @@
             <th>Creation date</th>
             <th>Assigned date</th>
             <th>Completed date</th>
+            <th>Type</th>
             <th></th>
           </tr>
         </tfoot>

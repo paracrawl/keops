@@ -31,7 +31,7 @@ class sentence_task_dao {
     try {
       $sentence_task_dto = new sentence_task_dto();
       // TODO We are assuming that sentence ids are consecutive
-      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.id = ? and st.task_id = ? limit 1;");
+      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, st.evaluation, st.creation_date, st.completed_date from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.id = ? and st.task_id = ? limit 1;");
       $query->bindParam(1, $sentence_id);
       $query->bindParam(2, $task_id);
       $query->execute();
@@ -41,7 +41,7 @@ class sentence_task_dao {
         $sentence_task_dto->task_id = $row['task_id'];
         $sentence_task_dto->sentence_id = $row['sentence_id'];
         $sentence_task_dto->source_text = $row['source_text'];
-        $sentence_task_dto->target_text = $row['target_text'];
+        $sentence_task_dto->target_text = array();
         $sentence_task_dto->evaluation = $row['evaluation'];
         $sentence_task_dto->creation_date = $row['creation_date'];
         $sentence_task_dto->completed_date = $row['completed_date'];
@@ -65,7 +65,7 @@ class sentence_task_dao {
     try {
       $sentence_task_dto = new sentence_task_dto();
 
-      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? and st.evaluation = 'P' order by st.id asc limit 1;");
+      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, st.evaluation, st.creation_date, st.completed_date from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? and st.evaluation = 'P' and st.sentence_id not in (select id_2 from sentences_pairing) order by st.id asc limit 1;");
       $query->bindParam(1, $task_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -74,11 +74,24 @@ class sentence_task_dao {
         $sentence_task_dto->task_id = $row['task_id'];
         $sentence_task_dto->sentence_id = $row['sentence_id'];
         $sentence_task_dto->source_text = $row['source_text'];
-        $sentence_task_dto->target_text = $row['target_text'];
+        $sentence_task_dto->target_text = array();
         $sentence_task_dto->evaluation = $row['evaluation'];
         $sentence_task_dto->creation_date = $row['creation_date'];
         $sentence_task_dto->completed_date = $row['completed_date'];
       }
+
+      $query = $this->conn->prepare("
+        select s.source_text as target_text from sentences as s
+        join sentences_pairing as sp on (s.id = sp.id_2)
+        where sp.id_1 = ?;
+      ");
+      $query->bindParam(1, $sentence_task_dto->sentence_id);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while ($row = $query->fetch()) {
+        $sentence_task_dto->target_text[] = $row['target_text'];
+      }
+
       $this->conn->close_conn();
       return $sentence_task_dto;
     } catch (Exception $ex) {
@@ -99,7 +112,7 @@ class sentence_task_dao {
     try {
       $sentence_task_dto = new sentence_task_dto();
       // TODO We are assuming that sentence ids are consecutive
-      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? order by st.sentence_id ASC limit 1;");
+      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, st.evaluation, st.creation_date, st.completed_date from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? order by st.sentence_id ASC limit 1;");
       $query->bindParam(1, $task_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -108,11 +121,24 @@ class sentence_task_dao {
         $sentence_task_dto->task_id = $row['task_id'];
         $sentence_task_dto->sentence_id = $row['sentence_id'];
         $sentence_task_dto->source_text = $row['source_text'];
-        $sentence_task_dto->target_text = $row['target_text'];
+        $sentence_task_dto->target_text = array();
         $sentence_task_dto->evaluation = $row['evaluation'];
         $sentence_task_dto->creation_date = $row['creation_date'];
         $sentence_task_dto->completed_date = $row['completed_date'];
       }
+
+      $query = $this->conn->prepare("
+        select s.source_text as target_text from sentences as s
+        join sentences_pairing as sp on (s.id = sp.id_2)
+        where sp.id_1 = ?;
+      ");
+      $query->bindParam(1, $sentence_task_dto->sentence_id);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while ($row = $query->fetch()) {
+        $sentence_task_dto->target_text[] = $row['target_text'];
+      }
+
       $this->conn->close_conn();
       return $sentence_task_dto;
     } catch (Exception $ex) {
@@ -208,7 +234,7 @@ class sentence_task_dao {
       }
       $sentence_task_dto = new sentence_task_dto();
       $offset = $sentence_id - 1;
-      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? order by st.id asc limit 1 offset ?;");
+      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, st.evaluation, st.creation_date, st.completed_date from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.task_id = ? and s.id not in (select id_2 from sentences_pairing) order by st.id asc limit 1 offset ?;");
       $query->bindParam(1, $task_id);
       $query->bindParam(2, $offset);
       $query->execute();
@@ -218,11 +244,24 @@ class sentence_task_dao {
         $sentence_task_dto->task_id = $row['task_id'];
         $sentence_task_dto->sentence_id = $row['sentence_id'];
         $sentence_task_dto->source_text = $row['source_text'];
-        $sentence_task_dto->target_text = $row['target_text'];
+        $sentence_task_dto->target_text = array();
         $sentence_task_dto->evaluation = $row['evaluation'];
         $sentence_task_dto->creation_date = $row['creation_date'];
         $sentence_task_dto->completed_date = $row['completed_date'];
       }
+
+      $query = $this->conn->prepare("
+        select s.source_text as target_text from sentences as s
+        join sentences_pairing as sp on (s.id = sp.id_2)
+        where sp.id_1 = ?;
+      ");
+      $query->bindParam(1, $sentence_task_dto->sentence_id);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while ($row = $query->fetch()) {
+        $sentence_task_dto->target_text[] = $row['target_text'];
+      }
+
       $this->conn->close_conn();
       return $sentence_task_dto;
     } catch (Exception $ex) {
@@ -250,12 +289,14 @@ class sentence_task_dao {
   
       $sentence_task_dto = new sentence_task_dto();
       $offset = $sentence_id - 1;
-      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, s.target_text, st.evaluation, st.creation_date, st.completed_date from sentences_tasks as st "
+      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, st.evaluation, st.creation_date, st.completed_date from sentences_tasks as st "
         . "left join sentences as s on st.sentence_id = s.id "
+        . "left join sentences_pairing as sp on (st.sentence_id = sp.id_1) "
+        . "left join sentences as s2 on (sp.id_2 = s2.id) "
         . "where st.task_id = :taskid "
         . (($label != "ALL") ? "and st.evaluation = :label " : "")
         . (($search_term != "") ? "and (s.source_text_vector @@ to_tsquery(:searchterm) " : "")
-        . (($search_term != "") ? "or s.target_text_vector @@ to_tsquery(:searchterm2))" : " ")
+        . (($search_term != "") ? "or s2.source_text_vector @@ to_tsquery(:searchterm2))" : " ")
         . "order by st.id asc limit 1 offset :offset;");
       
       $query->bindParam(':taskid', $task_id);
@@ -272,11 +313,24 @@ class sentence_task_dao {
         $sentence_task_dto->task_id = $row['task_id'];
         $sentence_task_dto->sentence_id = $row['sentence_id'];
         $sentence_task_dto->source_text = $row['source_text'];
-        $sentence_task_dto->target_text = $row['target_text'];
+        $sentence_task_dto->target_text = array();
         $sentence_task_dto->evaluation = $row['evaluation'];
         $sentence_task_dto->creation_date = $row['creation_date'];
         $sentence_task_dto->completed_date = $row['completed_date'];
       }
+
+      $query = $this->conn->prepare("
+        select s.source_text as target_text from sentences as s
+        join sentences_pairing as sp on (s.id = sp.id_2)
+        where sp.id_1 = ?;
+      ");
+      $query->bindParam(1, $sentence_task_dto->sentence_id);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while ($row = $query->fetch()) {
+        $sentence_task_dto->target_text[] = $row['target_text'];
+      }
+
       $this->conn->close_conn();
       return $sentence_task_dto;
     } catch (Exception $ex) {
@@ -342,7 +396,7 @@ class sentence_task_dao {
   function getCurrentProgressByIdAndTask($sentence_id, $task_id) {
     try {
       $task_progress_dto = new task_progress_dto();
-      $query = $this->conn->prepare("select count(case when id <= ? then 1 end) as current, count(*) as total, count(case when evaluation<>'P' then 1 end) as completed from sentences_tasks where task_id = ?;");
+      $query = $this->conn->prepare("select count(case when id <= ? then 1 end) as current, count(*) as total, count(case when evaluation<>'P' then 1 end) as completed from sentences_tasks where task_id = ? and sentence_id not in (select id_2 from sentences_pairing);");
       $query->bindParam(1, $sentence_id);
       $query->bindParam(2, $task_id);
       $query->execute();
@@ -375,11 +429,13 @@ class sentence_task_dao {
     try {
       $task_progress_dto = new task_progress_dto();
       $query = $this->conn->prepare("
-        select count(case when st.id <= :sentenceid then 1 end) as current, count(*) as total, count(case when evaluation<>'P' then 1 end) as completed from sentences_tasks as st left join sentences as s on (s.id = st.sentence_id)
-        where task_id = :taskid " 
+        select count(case when st.id <= :sentenceid then 1 end) as current, count(*) as total, count(case when evaluation<>'P' then 1 end) as completed from sentences_tasks as st left join sentences as s on (s.id = st.sentence_id) "
+        . "left join sentences_pairing as sp on (st.sentence_id = sp.id_1) "
+        . "left join sentences as s2 on (sp.id_2 = s2.id) "
+        . "where task_id = :taskid " 
         . (($label != "ALL") ? "and evaluation = :label " : "")
         . (($search_term != "") ? "and (s.source_text_vector @@ to_tsquery(:searchterm) " : "")
-        . (($search_term != "") ?" or s.target_text_vector @@ to_tsquery(:searchterm2))" : ";")
+        . (($search_term != "") ?" or s2.source_text_vector @@ to_tsquery(:searchterm2))" : ";")
       );
 
       $query->bindParam(':sentenceid', $sentence_id);
@@ -423,7 +479,7 @@ count(case when evaluation = 'E' then 1 end) as E,
 count(case when evaluation = 'F' then 1 end) as F,
 count(case when evaluation = 'P' then 1 end) as P,
 count(case when evaluation = 'V' then 1 end) as V
-from sentences_tasks where task_id = ?;");
+from sentences_tasks where task_id = ? and sentence_id not in (select id_2 from sentences_pairing);");
       $query->bindParam(1, $task_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -451,7 +507,7 @@ from sentences_tasks where task_id = ?;");
   function getAnnotatedSentecesByTask($task_id){ 
      try {
       $st_array = array();
-      $query = $this->conn->prepare("select st.id as pair, st.sentence_id, s.source_text, s.target_text, st.evaluation from sentences_tasks st left join sentences s  on s.id = st.sentence_id left join tasks t on t.id = st.task_id where st.task_id = ? order by s.id;");
+      $query = $this->conn->prepare("select st.id as pair, st.sentence_id, s.source_text, st.evaluation from sentences_tasks st left join sentences s  on s.id = st.sentence_id left join tasks t on t.id = st.task_id where st.task_id = ? order by s.id;");
       $query->bindParam(1, $task_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -459,10 +515,22 @@ from sentences_tasks where task_id = ?;");
         $sentence_task_dto = new sentence_task_dto();
         $sentence_task_dto->id = $row['pair'];
         $sentence_task_dto->source_text = $row['source_text'];
-        $sentence_task_dto->target_text = $row['target_text'];
+        $sentence_task_dto->target_text = array();
         $sentence_task_dto->evaluation = $row['evaluation'];
         $sentence_task_dto->evaluation = $row['evaluation'];
         $sentence_task_dto->sentence_id = $row['sentence_id'];
+
+        $query2 = $this->conn->prepare("
+          select s.source_text as target_text from sentences as s
+          join sentences_pairing as sp on (s.id = sp.id_2)
+          where sp.id_1 = ?;
+        ");
+        $query2->bindParam(1, $sentence_task_dto->sentence_id);
+        $query2->execute();
+        $query2->setFetchMode(PDO::FETCH_ASSOC);
+        while ($row2 = $query2->fetch()) {
+          $sentence_task_dto->target_text[] = $row2['target_text'];
+        }
 
         array_push($st_array, $sentence_task_dto);        
       }

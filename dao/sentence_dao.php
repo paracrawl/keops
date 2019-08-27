@@ -34,16 +34,22 @@ class sentence_dao {
           $type = "";
         }
 
-        $question_marks[] = '('  . rtrim(str_repeat('?,', sizeof($d) + 1), ",") . ", to_tsvector('simple', ?), to_tsvector('simple', ?), ? )"; // +3 for id
-        $insert_values[] = $corpus_id;
-        $insert_values = array_merge($insert_values, array_values($d));
-        $insert_values[] = $d[0];
-        $insert_values[] = $d[1];
-        $insert_values[] = $type;
+        foreach ($d as $sentence) {
+          $query = $this->conn->prepare("INSERT INTO sentences (corpus_id, source_text, source_text_vector, type) VALUES (?, ?, to_tsvector('simple', ?), ?)");
+          $query->bindParam(1, $corpus_id);
+          $query->bindParam(2, $sentence);
+          $query->bindParam(3, $sentence);
+          $query->bindParam(4, $type);
+
+          $query->execute();
+        }
+
+        $query = $this->conn->prepare("insert into sentences_pairing(id_1, id_2) select id[2], id[1] from 
+        (select array_agg(id) as id
+        from (select s.id as id from sentences as s order by s.id desc limit 2) as a) as b;");
+        $query->execute();
       }
 
-      $query = $this->conn->prepare("INSERT INTO sentences (corpus_id, source_text, target_text, source_text_vector, target_text_vector, type) VALUES " . implode(',', $question_marks));
-      $query->execute($insert_values);
       $this->conn->close_conn();
       return true;
     } catch (Exception $ex) {
@@ -52,6 +58,62 @@ class sentence_dao {
     }
     return false;
   }
+
+  /**
+   * Inserts  a sentence into the DB and associates them to the corpus they belong
+   * 
+   * @param int $corpus_id Corpus ID
+   * @param array $data Array containing the sentences
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
+  public function insertSentence($corpus_id, $source_lang, $target_lang, $text, $type = "") {
+    try {
+      $query = $this->conn->prepare("INSERT INTO sentences (corpus_id, source_text, source_text_vector, type) VALUES (?, ?, to_tsvector('simple', ?), ?) returning id");
+      $query->bindParam(1, $corpus_id);
+      $query->bindParam(2, $text);
+      $query->bindParam(3, $text);
+      $query->bindParam(4, $type);
+
+      $query->execute();
+
+      while($row = $query->fetch()){        
+        $id = $row['id'];        
+      }
+
+      $this->conn->close_conn();
+      return $id;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();      
+      throw new Exception("Error in sentence_dao::insertBatchSentences : " . $ex->getMessage());
+    }
+    return false;
+  }
+
+    /**
+   * Pairs two sentences in the DB
+   * 
+   * @param int $sentence1 ID of sentence 1
+   * @param int $sentence2 ID of sentence 2
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
+  public function pairSentences($sentence1, $sentence2) {
+    try {
+      $query = $this->conn->prepare("INSERT INTO sentences_pairing (id_1, id_2) values (?, ?)");
+      $query->bindParam(1, $sentence1);
+      $query->bindParam(2, $sentence2);
+      $query->execute();
+
+      $this->conn->close_conn();
+      return true;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();      
+      throw new Exception("Error in sentence_dao::insertBatchSentences : " . $ex->getMessage());
+    }
+    return false;
+  }
+
 
   /**
    * Gets a sentence given its ID
@@ -72,8 +134,20 @@ class sentence_dao {
         $sentence_dto->id = $row['id'];
         $sentence_dto->corpus_id = $row['corpus_id'];
         $sentence_dto->source_text = $row['source_text'];
-        $sentence_dto->target_text = $row['target_text'];
+        $sentence_dto->target_text = array();
         $sentence_dto->type = $row['type'];
+      }
+
+      $query = $this->conn->prepare("
+        select s.source_text as target_text from sentences as s
+        join sentences_pairing as sp on (s.id = sp.id_2)
+        where sp.id_1 = ?;
+      ");
+      $query->bindParam(1, $sentence_dto->id);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while ($row = $query->fetch()) {
+        $sentence_task_dto->target_text[] = $row['target_text'];
       }
 
       $this->conn->close_conn();

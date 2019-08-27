@@ -193,18 +193,23 @@ class corpus_dao {
   function removeCorpus($corpus_id){
       //Used when there are tasks associated to the corpus
     try {
-      //First remove from sentences_tasks
-      $query1 = $this->conn->prepare("delete from sentences_tasks using tasks where tasks.corpus_id = ? and sentences_tasks.task_id = tasks.id");
+      //First remove 
+      $query1 = $this->conn->prepare("delete from sentences_pairing as sp using sentences as s where (sp.id_1 = s.id or sp.id_2 = s.id) and s.corpus_id = ?;");
       $query1->bindParam(1, $corpus_id);
       $query1->execute();
-      //Then remove from sentences
-      $query2 = $this->conn->prepare("delete from sentences where corpus_id = ?");
+
+      //Then remove from sentences_tasks
+      $query2 = $this->conn->prepare("delete from sentences_tasks using tasks where tasks.corpus_id = ? and sentences_tasks.task_id = tasks.id");
       $query2->bindParam(1, $corpus_id);
       $query2->execute();
-      //Remove from tasks
-      $query3 = $this->conn->prepare("delete from tasks where corpus_id = ?");
+      //Then remove from sentences
+      $query3 = $this->conn->prepare("delete from sentences where corpus_id = ?");
       $query3->bindParam(1, $corpus_id);
       $query3->execute();
+      //Remove from tasks
+      $query4 = $this->conn->prepare("delete from tasks where corpus_id = ?");
+      $query4->bindParam(1, $corpus_id);
+      $query4->execute();
       //Finally delete corpus
       $query = $this->conn->prepare("DELETE FROM corpora WHERE id = ?;");
       $query->bindParam(1, $corpus_id);
@@ -228,7 +233,11 @@ class corpus_dao {
    */
   function updateLinesInCorpus($corpus_id) {
     try {
-      $query = $this->conn->prepare("with counted as (select count(corpus_id) as count from sentences where corpus_id = ? group by corpus_id) update corpora as c set lines = s.count from counted as s where c.id = ? returning lines;");
+      $query = $this->conn->prepare("
+        with counted as (select count(corpus_id) as count from sentences as s
+        where corpus_id = ? and s.id not in (select id_2 from sentences_pairing) group by corpus_id) 
+        update corpora as c set lines = s.count from counted as s where c.id = ? returning lines;
+      ");
       $query->bindParam(1, $corpus_id);
       $query->bindParam(2, $corpus_id);
       $query->execute();
@@ -264,7 +273,10 @@ class corpus_dao {
     $sentences = array();
     try {       
       $query = $this->conn->prepare(
-        "select * from sentences where corpus_id = ? order by id"
+        "select s1.* from sentences as s1
+        where s1.corpus_id = ? and s1.id not in (select id_2 from sentences_pairing)
+        order by s1.id    
+        "
         . (isset($amount) ? " limit ?;" : ";")
       );
       
@@ -278,8 +290,21 @@ class corpus_dao {
         $sentence->id = $row['id'];
         $sentence->corpus_id = $row["corpus_id"];
         $sentence->source_text = $row["source_text"];
-        $sentence->target_text = $row["target_text"];
+        $sentence->target_text = array();
         $sentence->type = $row["type"];
+
+        $query2 = $this->conn->prepare("
+          select s.source_text as target_text, s.type as type from sentences as s
+          join sentences_pairing as sp on (s.id = sp.id_2)
+          where sp.id_1 = ?;
+        ");
+        $query2->bindParam(1, $sentence->id);
+        $query2->execute();
+        $query2->setFetchMode(PDO::FETCH_ASSOC);
+        while ($row2 = $query2->fetch()) {
+          $sentence->target_text[] = array("text" => $row2['target_text'], "type" => $row2['type']);
+        }
+
         array_push($sentences, $sentence);
       }
       $this->conn->close_conn();

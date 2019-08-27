@@ -1,6 +1,23 @@
 $(document).ready(function() {
 
   /**
+   * Evaluation form
+   */
+  $("#evaluationform").on('submit', function(e) {
+    let ranking = [];
+    let done = true;
+    $(".ranking-item").each(function(i, el) {
+      done = done && ($(el).find(".ranking-position input").val() != "");
+      ranking[$(el).attr("data-sentence-id")] = $(el).find(".ranking-position input").val();
+    });
+
+    $("input[name='evaluation']").val((done) ? JSON.stringify(ranking) : "P");
+    
+    return true;
+  })
+
+
+  /**
    * Evaluation shortcuts
    */
   let ranking = $(".ranking input");
@@ -27,7 +44,9 @@ $(document).ready(function() {
             if ($(position).val() == value) $(position).val("");
         }
 
+        $(".ranking input").css("font-weight", "normal");
         $(ranking[iterator]).val(value);
+        $(ranking[iterator]).css("font-weight", "bold");
 
         iterator = (iterator + 1 == ranking.length) ? 0 : iterator + 1;
       }

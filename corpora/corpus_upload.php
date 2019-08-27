@@ -34,7 +34,7 @@ try {
       $sentence_dao = new sentence_dao();
       $first_batch = true;
       
-      if ($mode == "VAL" || $mode == "FLU" || $mode == "RAN") {
+      if ($mode == "VAL" || $mode == "FLU") {
         try{
           while (!feof($handle)) // Loop 'til end of file.
           {
@@ -187,6 +187,40 @@ try {
       fclose($handle);
       //header("HTTP/1.1 400 Bad Request");
       //echo "Ups error message";
+    } else if ($mode == "RAN") {
+      try {
+        $values = array();
+        while (!feof($handle)) {
+          $buffer = fgets($handle);
+          $data = explode("\t", $buffer);
+    
+          $data = array_slice($data, 0, 7);
+    
+          if (!empty(trim($buffer)) && count($data) == 7 && strlen($data[0]) <= 5000 && strlen($data[1]) <= 5000) {
+            $values[] = $data;
+          } else {
+            error_log("WARNING : The following line of the file " . $_FILES['file']['name'] . " is not allowed : '" . $buffer . "'");
+            continue;
+          }
+        }
+
+        // We are ready to save
+        $corpus_dao->insertCorpus($corpus_dto);
+        foreach ($values as $group) {
+          $source = $sentence_dao->insertSentence($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $group[0], "source");
+          $reference = $sentence_dao->insertSentence($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $group[1], "reference");
+          $sentence_dao->pairSentences($source, $reference);
+          for ($i = 2; $i < 7; $i++) {
+            $ranking = $sentence_dao->insertSentence($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $group[$i], "ranking");
+            $sentence_dao->pairSentences($source, $ranking);
+          }
+        }
+
+        $corpus_dao->updateLinesInCorpus($corpus_dto->id);
+
+      }  catch (Exception $ex) { 
+        throw $ex;
+      }
     }
   }
 } catch (CorpusException $ex){

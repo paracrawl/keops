@@ -165,7 +165,7 @@ if (isset($task_id)) {
                       $user_score = round((($control - $wrong) * 10) / $control, 2);
                     ?>
 
-                    <div class="stars" data-stars="<?= $user_score / 2; ?>" style="display: inline-block;"></div>
+                    <div class="stars" data-stars="<?= ceil($user_score / 2); ?>" style="display: inline-block;"></div>
                     <div class="ml-2" style="display: inline-block;">
                       <span class="h3"><?= $user_score; ?></span>
                       <span class="h4">/10</span>

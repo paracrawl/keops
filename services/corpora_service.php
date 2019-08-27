@@ -44,17 +44,23 @@ if ($service == "corporaByLanguage") {
 
     if ($corpus_id == "last") {
       $sentences = $dtProc->process(
-        array(array("id", "id"), array("source_text", "source_text"), array("target_text", "target_text"), array("type", "type")), 
-        "sentences", 
+        array(array("s.id", "id"), array("s.source_text", "source_text"), array("s2.source_text", "target_text"), array("s.type", "type")), 
+        "sentences as s 
+        left join sentences_pairing as sp on (sp.id_1 = s.id) 
+        join sentences as s2 on (sp.id_2 = s2.id)
+        ", 
         $_GET,
-        "", "corpus_id = (select id from corpora order by id desc limit 1)"
+        "", "s.corpus_id = (select id from corpora order by id desc limit 1)"
       );
     } else {
       $sentences = $dtProc->process(
-        array(array("id", "id"), array("source_text", "source_text"), array("target_text", "target_text"), array("type", "type")), 
-        "sentences", 
+        array(array("s.id", "id"), array("s.source_text", "source_text"), array("s2.source_text", "target_text"), array("s.type", "type")), 
+        "sentences as s 
+        left join sentences_pairing as sp on (sp.id_1 = s.id) 
+        join sentences as s2 on (sp.id_2 = s2.id)
+        ", 
         $_GET,
-        "", "corpus_id = ?", array($corpus_id)
+        "", "s.corpus_id = ?", array($corpus_id)
       );
     }
 

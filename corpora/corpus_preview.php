@@ -34,6 +34,17 @@
       $corpus_tl = $lang->langname;
     }
   }
+
+  function formatType($type) {
+    switch($type) {
+      case "reference":
+        return "Reference";
+      case "ranking":
+        return "Option";
+      default:
+        return "";
+    }
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -99,17 +110,21 @@
       </div>
       
         <?php
-        if ($corpus->mode == "VAL") {
+        if ($corpus->mode != "ADE") {
           foreach ($preview as $line){
             ?>
             <div class="row">
               <div class="col-md-12 sentence-source"><?php echo $line->source_text;?></div>
-              <div class="col-md-12 sentence-target"><?php echo $line->target_text;?></div>
+              <?php foreach ($line->target_text as $target_text) { ?>
+                <div class="col-md-12 sentence-target">
+                  <strong><?= formatType($target_text["type"]) ?></strong> <?= $target_text["text"] ?>
+                </div>
+              <?php } ?>
             </div>
           <hr>
           <?php
           }
-        } else if ($corpus->mode == "ADE") {
+        } else {
         ?>
           <input type="hidden" name="corpus_id" value="<?= $corpus->id ?>" />
           <table id="corpora-table-ade" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" style="width:100%;">

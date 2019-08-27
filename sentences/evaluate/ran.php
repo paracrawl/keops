@@ -159,6 +159,7 @@ else {
                   <input type="hidden" name="task_id" value="<?= $task->id ?>">
                   <input type="hidden" name="sentence_id" value="<?= $sentence->id ?>">
                   <input type="hidden" name="p_id" value="<?= $task_progress->current ?>">
+                  <input type="hidden" name="evaluation" value="P" />
 
                   <?php if ($filtered) { ?>
                   <input type="hidden" name="term" value="<?= $search_term ?>" />
@@ -172,7 +173,7 @@ else {
 
                   <div class="col-md-6 same-height-column">
                       <div class="text-increase mb-2">Reference</div>
-                      <div class="well h-100"><?= $sentence->target_text ?></div>
+                      <div class="well h-100"><?= $sentence->target_text[0] ?></div>
                   </div>
               </div>
 
@@ -182,14 +183,17 @@ else {
                 </div>
 
                 <div class="col-md-12 col-xs-12 ranking">
-                  <?php for ($i = 0; $i < 5; $i++) { ?>
-                  <div class="ranking-item mb-4 same-height row">
+                  <?php 
+                    $evaluation = json_decode($sentence->evaluation);
+                    for ($i = 0; $i < 5; $i++) { 
+                  ?>
+                  <div class="ranking-item mb-4 same-height row" data-sentence-id="<?= $i ?>">
                     <div class="ranking-position same-height-column col-md-1 col-xs-2">
-                      <input class="form-control ranking-position" type=number min="1" max="5" step="1" placeholder="#" />
+                      <input class="form-control" type=number value=<?= (isset($evaluation[$i]) ? $evaluation[$i] : "") ?> min="1" max="5" step="1" placeholder="#" />
                     </div>
                     <div class="ranking-text same-height-column col-md-11 col-xs-10">
-                      <div>
-                        <?= $sentence->target_text ?>
+                      <div class="p-3">
+                        <?= $sentence->target_text[$i + 1] ?>
                       </div>
                     </div>
                   </div> <?php } ?>
@@ -208,18 +212,13 @@ else {
         <div class="col-md-4 col-md-push-6 col-xs-10 text-right">
           <a href="/sentences/evaluate.php?task_id=<?= $task->id ?>" class="btn btn-link" title="Go to the first pending sentence">First pending</a>
 
-<!--
           <?php if ($task->status == "DONE") { ?>
             <button id="evalutionsavebutton" data-next="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current+1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" title="Go to the next sentence">
               Next <span class="glyphicon glyphicon-arrow-right"></span>
             </button>
           <?php } else { ?>
             <button id="evalutionsavebutton" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" title="Save this evaluation and go to the next sentence">Next <span class="glyphicon glyphicon-arrow-right"></span></button>
-          <?php } ?> -->
-
-          <button id="evalutionsavebutton" data-next="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current+1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" title="Go to the next sentence">
-              Next <span class="glyphicon glyphicon-arrow-right"></span>
-            </button>
+          <?php } ?>
         </div>
 
         <div class="col-md-6 col-md-pull-6 col-xs-12 mt-4 mt-sm-0">
@@ -252,6 +251,6 @@ else {
     require_once(TEMPLATES_PATH . "/resources.php");
     ?>
     <script type="text/javascript" src="/js/evaluation.js"></script>
-    <script type="text/javascript" src="/js/ran_keyboard.js"></script>
+    <script type="text/javascript" src="/js/ran_evaluation.js"></script>
   </body>
 </html>
