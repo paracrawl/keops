@@ -5,6 +5,7 @@
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/sentence_task_dao.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/sentence_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/utils/utils.php");
 
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/user_dao.php");
@@ -45,6 +46,49 @@ if ($task_dto->assigned_user == $USER->id) {
     $template = new MailTemplate();
     $mail->prepare($template, $params);
     $mail->send($owner->email, $owner->name);
+
+    if ($task_dto->mode == "ADE") {
+      // We compute the Quality Control sentences according to Cambridge Core paper and then we save
+      // https://www.cambridge.org/core/journals/natural-language-engineering/article/can-machine-translation-systems-be-evaluated-by-the-crowd-alone/E29DA2BC8E6B99AA1481CC92FAB58462/core-reader
+      $sentence_dao = new sentence_dao();
+      $sentence_task_dao = new sentence_task_dao();
+
+      $sentences = $sentence_task_dao->getAnnotatedSentecesByTask($task_dto->id);
+      $standard_scores = standarize($sentences);
+      $wrong = 0;
+      $control = 0;
+      $repeated_sentences = array();
+      foreach($sentences as $sentence) {
+          $sentence_data = $sentence_dao->getSentenceById($sentence->sentence_id);
+          if ($sentence_data->type == "bad_ref") {
+              $control++;
+              if ($standard_scores[$sentence->sentence_id] > 1) $wrong++;
+          } else if ($sentence_data->type == "ref") {
+              $control++;
+              if ($standard_scores[$sentence->sentence_id] < 1) $wrong++;
+          } else if ($sentence_data->type == "rep") {
+              $control++;
+              $repeated_sentences[] = $sentence_task_dao->getSentenceByIdAndTask($sentence->id, $task_dto->id);
+          }
+      }
+
+      for ($i = 0; $i < count($repeated_sentences); $i++) {
+          $found = false;
+          $rep = $repeated_sentences[$i];
+
+          foreach ($sentences as $sentence) {
+              if ($found) break;
+              if ($rep->source_text == $sentence->source_text && $rep->id != $sentence->id) {
+                  if (abs(intval($rep->evaluation) - intval($sentence->evaluation)) > 10) $wrong++;
+                  $found = true;
+              }
+          }
+      }
+
+      $user_score = round((($control - $wrong) * 10) / $control, 2);
+
+      $task_dao->setTaskScore($task_dto->id, $user_score);
+    }
 
     header("Location: /index.php");
   } else {

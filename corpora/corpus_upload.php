@@ -16,10 +16,6 @@ try {
       $mode = filter_input(INPUT_POST, "mode");
 
       $tempFile = $_FILES['file']['tmp_name'];
-//      error_log($tempFile);
-//      error_log(implode(", ", $_FILES['file']));
-//      error_log(filter_input(INPUT_POST, "source_lang"));
-//      error_log(filter_input(INPUT_POST, "target_lang"));
       $corpus_dto = new corpus_dto();
       $corpus_dto->name = $_FILES['file']['name'];
       $corpus_dto->source_lang = filter_input(INPUT_POST, "source_lang");
@@ -87,8 +83,6 @@ try {
         throw new CorpusException("Invalid format of corpus uploaded.");
       }
     } else if ($mode == "ADE") {
-      // We compute the Quality Control sentences according to Cambridge Core paper and then we save
-      // https://www.cambridge.org/core/journals/natural-language-engineering/article/can-machine-translation-systems-be-evaluated-by-the-crowd-alone/E29DA2BC8E6B99AA1481CC92FAB58462/core-reader
       try {
         $values = array();
         while (!feof($handle)) {

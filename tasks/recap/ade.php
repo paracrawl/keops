@@ -128,41 +128,8 @@ if (isset($task_id)) {
                       </div>
                   </div>
                   <div class="col-md-4 col-md-offset-2 col-xs-12 text-right-sm mt-4 mt-sm-0">
-                  <?php
-                      $sentence_dao = new sentence_dao();
-                      $sentences = $sentence_task_dao->getAnnotatedSentecesByTask($task->id);
-                      $standard_scores = standarize($sentences);
-                      $wrong = 0;
-                      $control = 0;
-                      $repeated_sentences = array();
-                      foreach($sentences as $sentence) {
-                          $sentence_data = $sentence_dao->getSentenceById($sentence->sentence_id);
-                          if ($sentence_data->type == "bad_ref") {
-                              $control++;
-                              if ($standard_scores[$sentence->sentence_id] > 1) $wrong++;
-                          } else if ($sentence_data->type == "ref") {
-                              $control++;
-                              if ($standard_scores[$sentence->sentence_id] < 1) $wrong++;
-                          } else if ($sentence_data->type == "rep") {
-                              $control++;
-                              $repeated_sentences[] = $sentence_task_dao->getSentenceByIdAndTask($sentence->id, $task->id);
-                          }
-                      }
-
-                      for ($i = 0; $i < count($repeated_sentences); $i++) {
-                          $found = false;
-                          $rep = $repeated_sentences[$i];
-
-                          foreach ($sentences as $sentence) {
-                              if ($found) break;
-                              if ($rep->source_text == $sentence->source_text && $rep->id != $sentence->id) {
-                                  if (abs(intval($rep->evaluation) - intval($sentence->evaluation)) > 10) $wrong++;
-                                  $found = true;
-                              }
-                          }
-                      }
-
-                      $user_score = round((($control - $wrong) * 10) / $control, 2);
+                    <?php
+                      $user_score = $task_dao->getTaskScore($task_id);
                     ?>
 
                     <div class="stars" data-stars="<?= ceil($user_score / 2); ?>" style="display: inline-block;"></div>

@@ -52,6 +52,7 @@ class task_dao {
         $task->source_lang = $row['source_lang'];
         $task->target_lang = $row['target_lang'];
         $task->mode = $row['mode'];
+        $task->score = $row['score'];
 
         $task->source_lang_object = new stdClass();
         $task->target_lang_object = new stdClass();
@@ -261,6 +262,7 @@ class task_dao {
         $task->source_lang = $row['source_lang'];
         $task->target_lang = $row['target_lang'];
         $task->mode = $row['mode'];
+        $task->score = $row['score'];
 
         $task->source_lang_object = new stdClass();
         $task->target_lang_object = new stdClass();
@@ -321,6 +323,7 @@ class task_dao {
         $task->source_lang = $row['source_lang'];
         $task->target_lang = $row['target_lang'];
         $task->mode = $row['mode'];
+        $task->score = $row['score'];
 
         $task->source_lang_object = new stdClass();
         $task->target_lang_object = new stdClass();
@@ -383,6 +386,7 @@ class task_dao {
         $task->source_lang = $row['source_lang'];
         $task->target_lang = $row['target_lang'];
         $task->mode = $row['mode'];
+        $task->score = $row['score'];
 
         $task->source_lang_object = new stdClass();
         $task->target_lang_object = new stdClass();
@@ -401,6 +405,58 @@ class task_dao {
       $this->conn->close_conn();
       throw new Exception("Error in task_dao::getTasksByAsignedUser : " . $ex->getMessage());
     }
+  }
+
+  /**
+   * Updates the score of a task
+   * 
+   * @param int $task_id Task ID
+   * @param int $score Score of the task
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
+  public function setTaskScore($task_id, $score) {
+    try {
+      $query = $this->conn->prepare("UPDATE TASKS set score = ? where id = ?;");
+      $query->bindParam(1, $score);
+      $query->bindParam(2, $task_id);
+      $query->execute();
+
+      $this->conn->close_conn();
+      return true;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in task_dao::setTaskScore : " . $ex->getMessage());
+    }
+    return false;
+  }
+
+  /**
+   * Gets the score of a task
+   * 
+   * @param int $task_id Task ID
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
+  public function getTaskScore($task_id) {
+    try {
+      $query = $this->conn->prepare("select score from tasks where id = ?");
+      $query->bindParam(1, $task_id);
+      $query->execute();
+
+      $score = -1;
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while ($row = $query->fetch()) {
+        $score = $row['score'];
+      }
+
+      $this->conn->close_conn();
+      return $score;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in task_dao::getTaskScore : " . $ex->getMessage());
+    }
+    return false;
   }
 
   /**
