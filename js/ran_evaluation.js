@@ -23,7 +23,6 @@ $(document).ready(function() {
   let ranking = $(".ranking input");
   let iterator = 0;
   $(document).on('keypress', (e) => {
-      console.log(e.which);
     if ($(e.target).is('input, select, label, a, .btn') && e.which == 13) {
       $(e.target).find(".btn").trigger('click');
     } else if ($(e.target).is('input, select, label')) {
@@ -51,5 +50,19 @@ $(document).ready(function() {
         iterator = (iterator + 1 == ranking.length) ? 0 : iterator + 1;
       }
     }
+  });
+
+  let clickcount = 1;
+  $(".ranking-text").on('click', function() {
+    $(".ranking input").css("font-weight", "normal");
+    $(".ranking input").each(function(i, e) {
+      if ($(e).val() == clickcount) $(e).val("")
+    });
+
+    $(this).siblings('.ranking-position').find('input').css("font-weight", "bold");
+    $(this).siblings('.ranking-position').find('input').val(clickcount);
+
+    clickcount = (clickcount + 1 > ranking.length) ? 1 : clickcount + 1;
+    iterator = clickcount;
   });
 })

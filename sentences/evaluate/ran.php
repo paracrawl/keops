@@ -189,7 +189,7 @@ else {
                   ?>
                   <div class="ranking-item mb-4 same-height row" data-sentence-id="<?= $i ?>">
                     <div class="ranking-position same-height-column col-md-1 col-xs-2">
-                      <input class="form-control" type=number value=<?= (isset($evaluation[$i]) ? $evaluation[$i] : "") ?> min="1" max="5" step="1" placeholder="#" />
+                      <input class="form-control" type=number value="<?= (isset($evaluation[$i]) ? $evaluation[$i] : "") ?>" min="1" max="5" step="1" placeholder="#" />
                     </div>
                     <div class="ranking-text same-height-column col-md-11 col-xs-10">
                       <div class="p-3">
