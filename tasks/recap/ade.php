@@ -70,10 +70,28 @@ if (isset($task_id)) {
       </ul>
 
       <div class="page-header">
-          <div class="row">
-            <div class="col-sm-8">
+          <div class="row mr-sm-0 vertical-align-sm">
+            <div class="col-sm-8 col-xs-12">
               <span class="h1">Recap of Task #<?php echo $task->id ?></span>
             </div>
+            <?php if($task->status == "DONE") { ?>
+            <div class="col-sm-4 col-xs-12 text-right-sm mt-4 mt-sm-0">
+              <?php
+                $user_score = $task_dao->getTaskScore($task_id);
+              ?>
+
+              <div class="stars" data-stars="<?= ceil($user_score / 2); ?>" style="display: inline-block;" title="<?= round($user_score, 2); ?> out of 10" aria-label="<?= round($user_score, 2); ?> out of 10"></div>
+              <div class="ml-2" style="display: inline-block;">
+                <span class="h3"><?= round($user_score, 2); ?></span>
+                <span class="h4">/10</span>
+              </div>
+
+              <p class="mt-2">
+                  This is the Quality Score of the evaluator in this task, computed by using several
+                  behaviour analyses.
+              </p>
+            </div>
+            <?php } ?>
           </div>
       </div>
 
@@ -127,22 +145,6 @@ if (isset($task_id)) {
                         </a>
                       </div>
                   </div>
-                  <div class="col-md-4 col-md-offset-2 col-xs-12 text-right-sm mt-4 mt-sm-0">
-                    <?php
-                      $user_score = $task_dao->getTaskScore($task_id);
-                    ?>
-
-                    <div class="stars" data-stars="<?= ceil($user_score / 2); ?>" style="display: inline-block;"></div>
-                    <div class="ml-2" style="display: inline-block;">
-                      <span class="h3"><?= $user_score; ?></span>
-                      <span class="h4">/10</span>
-                    </div>
-
-                    <p class="mt-2">
-                        This is the Quality Score of the user in this task, computed by using several
-                        behaviour analyses.
-                    </p>
-                  </div>
                 </div>
                 <?php
               } else { ?>
@@ -163,8 +165,6 @@ if (isset($task_id)) {
 
                     </div>
                   </div>
-                </div>
-              </div>
               <?php
             } else {
               if ($task_stats_dto->array_type["P"] == 0) {
@@ -235,6 +235,7 @@ if (isset($task_id)) {
         </div>
       </div>
     </div>
+  </div>
 </div>
         <?php
         require_once(TEMPLATES_PATH . "/footer.php");

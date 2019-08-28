@@ -46,8 +46,8 @@
               <input type="hidden" name="mode" value="VAL" />
 
               <div class="row">
-                <div class="col-md-6 col-xs-6">
-                  <div class="text-center-sm help-block with-errors ml-2">
+                <div class="col-md-6 col-xs-12">
+                  <div class="text-center-sm help-block with-errors">
                     1. Select your languages
                   </div>
                   <?php
@@ -71,7 +71,7 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-md-6 col-xs-6">
+                <div class="col-md-6 col-xs-12">
                   <div class="text-center-sm help-block with-errors">
                     2. Select your TSV files for this language pair
                   </div>
@@ -206,8 +206,8 @@
               <input type="hidden" name="mode" value="FLU" />
 
               <div class="row">
-                <div class="col-md-6 col-xs-6">
-                  <div class="text-center-sm help-block with-errors ml-2">
+                <div class="col-md-6 col-xs-12">
+                  <div class="text-center-sm help-block with-errors">
                     1. Select your language
                   </div>
                   <?php
@@ -223,7 +223,7 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-md-6 col-xs-6">
+                <div class="col-md-6 col-xs-12">
                   <div class="text-center-sm help-block with-errors">
                     2. Select your TSV files for this language pair
                   </div>
@@ -272,15 +272,15 @@
         </div>
       </div>
 
-      <div class="tab-pane active" id="corpora_ranking">
+      <div class="tab-pane" id="corpora_ranking">
         <div class="row">
           <div class="col-md-12 col-xs-12">
             <form action="/corpora/corpus_upload.php" class="form-horizontal dropzone dropzone-looks dz-clickable" id="dropzoneran" method="post" enctype="multipart/form-data">
               <input type="hidden" name="mode" value="RAN" />
 
               <div class="row">
-                <div class="col-md-6 col-xs-6">
-                  <div class="text-center-sm help-block with-errors ml-2">
+                <div class="col-md-6 col-xs-12">
+                  <div class="text-center-sm help-block with-errors">
                     1. Select your languages
                   </div>
                   <?php
@@ -304,7 +304,7 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-md-6 col-xs-6">
+                <div class="col-md-6 col-xs-12">
                   <div class="text-center-sm help-block with-errors">
                     2. Select your TSV files for this language pair
                   </div>
