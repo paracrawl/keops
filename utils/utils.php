@@ -106,3 +106,20 @@ function mean_sentences($sentences) {
 
   return $mean / $count;
 }
+
+function mean($values) {
+  if (count($values) == 0) return 0;
+
+  $mean = 0;
+  foreach ($values as $value) $mean += $value;
+  return ($mean/count($values));
+}
+
+function variance($values) {
+  $mean = mean($values);
+  $variance = 0;
+  foreach ($values as $value) {
+      $variance += pow(($value - $mean), 2);
+  }
+  return ($variance / (count($values) - 1));
+}

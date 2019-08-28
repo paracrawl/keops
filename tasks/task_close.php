@@ -62,31 +62,65 @@ if ($task_dto->assigned_user == $USER->id) {
           $sentence_data = $sentence_dao->getSentenceById($sentence->sentence_id);
           if ($sentence_data->type == "bad_ref") {
               $control++;
+              $control_scores["bad_ref"][] = $standard_scores[$sentence->sentence_id];
               if ($standard_scores[$sentence->sentence_id] > 1) $wrong++;
           } else if ($sentence_data->type == "ref") {
               $control++;
+              $control_scores["ref"][] = $standard_scores[$sentence->sentence_id];
               if ($standard_scores[$sentence->sentence_id] < 1) $wrong++;
           } else if ($sentence_data->type == "rep") {
               $control++;
               $repeated_sentences[] = $sentence_task_dao->getSentenceByIdAndTask($sentence->id, $task_dto->id);
           }
       }
-
+  
       for ($i = 0; $i < count($repeated_sentences); $i++) {
           $found = false;
           $rep = $repeated_sentences[$i];
-
+  
           foreach ($sentences as $sentence) {
               if ($found) break;
               if ($rep->source_text == $sentence->source_text && $rep->id != $sentence->id) {
+                  $control_scores["rep"][] = $standard_scores[$rep->sentence_id];
                   if (abs(intval($rep->evaluation) - intval($sentence->evaluation)) > 10) $wrong++;
                   $found = true;
               }
           }
       }
-
-      $user_score = round((($control - $wrong) * 10) / $control, 2);
-
+  
+      $user_score_base = round((($control - $wrong) * 10) / $control, 2);
+      $penalty = 0;
+  
+      // Detect extremely close mean scores
+      $means = array();
+      $keys = array_keys($control_scores);
+      for ($i = 0; $i < count($keys); $i++) {
+          $means[] = mean($control_scores[$keys[$i]]);
+      }
+      if(variance($means) < 0.05) $penalty += 0.1;
+  
+      // Score sequences with low variation
+      $scores = array_values($standard_scores);
+      $zone = array($scores[0]);
+      $zone_start = 0;
+      $zones = array();
+      for ($i = 1; $i < count($scores); $i++) {
+          $zone[] = $scores[$i];
+          if (count($zone) > 1 && variance($zone) > 1) {
+              $zones[] = array("start" => $zone_start, "values" => $zone);
+              $zone_start = $i + 1;
+              $zone = array();
+          }
+      }
+      
+      $large_zones = 0;
+      foreach ($zones as $zone) {
+          if (count($zone["values"]) > (count($sentences) * 0.15)) $large_zones++;
+      }
+  
+      $penalty += (($large_zones / count($zones)) * 0.1);
+    
+      $user_score = (1 - $penalty) * $user_score_base;
       $task_dao->setTaskScore($task_dto->id, $user_score);
     }
 

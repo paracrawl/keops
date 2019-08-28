@@ -507,7 +507,7 @@ from sentences_tasks where task_id = ? and sentence_id not in (select id_2 from 
   function getAnnotatedSentecesByTask($task_id){ 
      try {
       $st_array = array();
-      $query = $this->conn->prepare("select st.id as pair, st.sentence_id, s.source_text, st.evaluation from sentences_tasks st left join sentences s  on s.id = st.sentence_id left join tasks t on t.id = st.task_id where st.task_id = ? order by s.id;");
+      $query = $this->conn->prepare("select st.id as pair, st.sentence_id, s.source_text, st.evaluation from sentences_tasks st left join sentences s  on s.id = st.sentence_id left join tasks t on t.id = st.task_id where st.task_id = ? and st.sentence_id not in (select id_2 from sentences_pairing) order by s.id;");
       $query->bindParam(1, $task_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
