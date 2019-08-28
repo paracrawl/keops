@@ -1190,9 +1190,10 @@ a {
   display: flex;
 }
 
-.same-height-column {
+.same-height .same-height-column {
   display: flex;
-  direction: column;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .ranking-item.row {

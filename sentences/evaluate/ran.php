@@ -166,14 +166,14 @@ else {
                   <input type="hidden" name="label" value="<?= $filter_label ?>" />
                   <?php } ?>
 
-                  <div class="col-md-6 same-height-column">
+                  <div class="col-sm-6 same-height-column">
                         <div class="text-increase mb-2">Source</div>
-                        <div class="well h-100"><?=  $sentence->source_text ?></div>
+                        <div class="well w-100 h-100"><?=  $sentence->source_text ?></div>
                     </div>
 
-                  <div class="col-md-6 same-height-column">
+                  <div class="col-sm-6 same-height-column">
                       <div class="text-increase mb-2">Reference</div>
-                      <div class="well h-100"><?= $sentence->target_text[0] ?></div>
+                      <div class="well w-100 h-100"><?= $sentence->target_text[0] ?></div>
                   </div>
               </div>
 
