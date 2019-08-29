@@ -189,12 +189,12 @@ else {
                   <input type="hidden" name="label" value="<?= $filter_label ?>" />
                   <?php } ?>
 
-                  <div class="col-md-6">
+                  <div class="col-sm-6">
                         <div class="text-increase mb-2 ">This text is fluent <?= $task->source_lang_object->langname ?></div>
                         <div class="well"><?=  $sentence->source_text ?></div>
                     </div>
 
-                  <div class="col-md-6 my-3">
+                  <div class="col-sm-6 my-3">
                     <div class="row">
                       <div class="col-md-12 col-xs-12 slider-component mt-3"> <!-- .slider-component -->
                         <div class="custom-range slider">
