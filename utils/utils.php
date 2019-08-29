@@ -64,6 +64,14 @@ function underline($label, $value){
 
 // TODO: Docs
 
+/**
+ * Given a set of sentences, calculates the z-value
+ * of their evaluation. The sentences must belong to a
+ * task that uses numerical evaluations (like Adequacy)
+ * 
+ * @param array $sentences Array of \sentence_task_dto
+ * @return array Array of z-values
+ */
 function standarize($sentences) {
   $standard_scores = array();
   $mean = mean_sentences($sentences);
@@ -78,6 +86,15 @@ function standarize($sentences) {
   return $standard_scores;
 }
 
+
+/**
+ * Given a set of sentences, calculates the standard
+ * deviation of their evaluation scores. Sentences must belong
+ * to a task that uses numerical evaluation (like Adequacy)
+ * 
+ * @param array $sentences Array of \sentence_task_dto
+ * @return float Standard deviation
+ */
 function standard_deviation_sentences($sentences) {
   $deviation = 1;
   $sum = 0;
@@ -95,6 +112,16 @@ function standard_deviation_sentences($sentences) {
   return $deviation;
 }
 
+
+/**
+ * Given a set of sentences, calculates the mean
+ * of their evaluation. The sentences must belong to a
+ * task that uses numeric evaluations (like Adequacy)
+ * 
+ * @param array $sentences Array of \sentence_task_dto
+ * @return float Mean of the scores
+ */
+
 function mean_sentences($sentences) {
   $count = 0;
   $mean = 0;
@@ -107,6 +134,12 @@ function mean_sentences($sentences) {
   return $mean / $count;
 }
 
+/**
+ * Given a set of numbers, calculates their mean.
+ * 
+ * @param array $values Array of numbers
+ * @return float Mean
+ */
 function mean($values) {
   if (count($values) == 0) return 0;
 
@@ -115,6 +148,12 @@ function mean($values) {
   return ($mean/count($values));
 }
 
+/**
+ * Given a set of numbers, calculates their variance.
+ * 
+ * @param array $values Array of numbers
+ * @return float Variance
+ */
 function variance($values) {
   $mean = mean($values);
   $variance = 0;
