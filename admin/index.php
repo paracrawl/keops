@@ -64,7 +64,7 @@
               <h3>Projects</h3>
             </div>
             <div class="col-xs-6 col-md-6 text-right">
-              <a href="/projects/projects_stats.php" class="btn btn-link" title="Recap of all the tasks which belong to your projects">
+              <a href="/projects/projects_stats.php" class="btn btn-link mr-4" title="Recap of all the tasks which belong to your projects">
                 <span class="glyphicon glyphicon-stats"></span>
                 <span class="col-xs-12">Recap all</span>
               </a>

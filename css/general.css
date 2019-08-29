@@ -61,7 +61,7 @@ body > .container {
   align-items: baseline;
 }
 
-.page-header .glyphicon {
+.page-header .glyphicon, .title-container .glyphicon {
   display: block;
 }
 

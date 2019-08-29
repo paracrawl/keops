@@ -105,15 +105,15 @@ require_once(RESOURCES_PATH . "/session.php");
                 ?>
 
                 <div class="col-xs-12 col-md-12" >
-                    <div class="page-header row mx-0 vertical-align">
-                        <div class="col-xs-12 col-md-8">
-                            <div id="project<?= $project->id ?>" style="position: relative; top: -60px;"></div>
-                            <h3>Project #<?= $project->id ?> — <?= $project->name ?></h3>
-                        </div>
-
-                        <div class="col-xs-12 col-md-4 text-right">
+                    <div class="page-header row vertical-align-sm">
+                        <div class="col-xs-12 col-md-4 col-md-push-8 text-right-sm">
                             <span class="label label-default"><?= ($total - $done) ?> pending</span>
                             <span class="label label-success mr-2"><?= $done ?> done</span>
+                        </div>
+
+                        <div class="col-xs-12 col-md-8 col-md-pull-4">
+                            <div id="project<?= $project->id ?>" style="position: relative; top: -60px;"></div>
+                            <h3>Project #<?= $project->id ?> — <?= $project->name ?></h3>
                         </div>
                     </div>
 
@@ -127,7 +127,7 @@ require_once(RESOURCES_PATH . "/session.php");
                         <?php
                         foreach ($tasks[$project->id] as $task) {
                             $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id);      
-                    ?>
+                        ?>
 
                         <a href="http://localhost/tasks/recap.php?id=<?= $task->id ?>" class="list-group-item col-sm-4">
                             Task #<?php echo $task->id; ?>
