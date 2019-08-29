@@ -3,17 +3,16 @@ $(document).ready(function() {
 
     $(document).on('keypress', (e) => {
         if ($(e.target).is('input, select, label, a, .btn')) return
-        
         switch(e.which) {
-            case 106:
+            case 45:
                 slider.back(10)
                 break;
 
-            case 107:
+            case 46:
                 slider.move(50);
                 break;
 
-            case 108:
+            case 43:
                 slider.forward(10);
                 break;
         }

@@ -33,36 +33,67 @@ $(document).ready(function() {
       } else {
         if ($("#evaluation-container").attr("data-done") == "1") return;
 
+        if (e.which == 45) { // -
+          iterator = (iterator - 1 < 0) ? 0 : iterator - 1;
+          $(".ranking input").css("border-color", "#ccc");
+          $(ranking[iterator]).css("border-color", "#66afe9");
+          return;
+        }
+
+        if (e.which == 43) { // +
+          iterator = (iterator + 1 == ranking.length) ? 0 : iterator + 1;
+          $(".ranking input").css("border-color", "#ccc");
+          $(ranking[iterator]).css("border-color", "#66afe9");
+          return;
+        }
+
+        if (e.which == 127) { // supr
+          $(ranking[iterator]).val("");
+          return;
+        }
+
+        if (e.which == 46) { // .
+          iterator = 0;
+          $(".ranking input").css("border-color", "#ccc");
+          $(ranking[iterator]).css("border-color", "#66afe9");
+          return;
+        }
+
         if (e.which < 49 || e.which > 53) return;
 
         $("#evaluationform :radio").removeAttr('checked');
         $("#evaluationform label.active").removeClass("active");
         
         let value = e.which - 48;
-        for (position of ranking) {
-            if ($(position).val() == value) $(position).val("");
-        }
+        let jump;
+        ranking.each(function (i, position) {
+          if ($(position).val() == value) {
+            $(position).val("");
+            jump = (i != iterator) ? i : undefined;
+          }
+        });
 
-        $(".ranking input").css("font-weight", "normal");
         $(ranking[iterator]).val(value);
-        $(ranking[iterator]).css("font-weight", "bold");
 
-        iterator = (iterator + 1 == ranking.length) ? 0 : iterator + 1;
+        iterator = (jump != undefined) ? jump : (iterator + 1 == ranking.length) ? 0 : iterator + 1;
+
+        $(".ranking input").css("border-color", "#ccc");
+        $(ranking[iterator]).css("border-color", "#66afe9");
       }
     }
   });
 
-  let clickcount = 1;
+  let clickcount = 0;
   $(".ranking-text").on('click', function() {
-    $(".ranking input").css("font-weight", "normal");
-    $(".ranking input").each(function(i, e) {
-      if ($(e).val() == clickcount) $(e).val("")
+    ranking.each(function (i, position) {
+      if ($(position).val() == (clickcount + 1)) {
+        $(position).val("");
+      }
     });
 
-    $(this).siblings('.ranking-position').find('input').css("font-weight", "bold");
-    $(this).siblings('.ranking-position').find('input').val(clickcount);
+    $(this).siblings('.ranking-position').find('input').val(clickcount + 1);
 
-    clickcount = (clickcount + 1 > ranking.length) ? 1 : clickcount + 1;
+    clickcount = (clickcount + 1 == ranking.length) ? 0 : clickcount + 1;
     iterator = clickcount;
   });
 })
