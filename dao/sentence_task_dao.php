@@ -429,10 +429,10 @@ class sentence_task_dao {
     try {
       $task_progress_dto = new task_progress_dto();
       $query = $this->conn->prepare("
-        select count(case when st.id <= :sentenceid then 1 end) as current, count(*) as total, count(case when evaluation<>'P' then 1 end) as completed from sentences_tasks as st left join sentences as s on (s.id = st.sentence_id) "
-        . "left join sentences_pairing as sp on (st.sentence_id = sp.id_1) "
-        . "left join sentences as s2 on (sp.id_2 = s2.id) "
-        . "where task_id = :taskid and st.sentence_id not in (select id_2 from sentences_pairing) " 
+        select count(case when st.id <= :sentenceid then 1 end) as current, count(distinct st.id) as total, count(case when evaluation<>'P' then 1 end) as completed from sentences_tasks as st left join sentences as s on (s.id = st.sentence_id) "
+        . "join sentences_pairing as sp on (st.sentence_id = sp.id_1) "
+        . "join sentences as s2 on (sp.id_2 = s2.id) "
+        . "where task_id = :taskid " 
         . (($label != "ALL") ? "and evaluation = :label " : "")
         . (($search_term != "") ? "and (s.source_text_vector @@ to_tsquery(:searchterm) " : "")
         . (($search_term != "") ?" or s2.source_text_vector @@ to_tsquery(:searchterm2))" : ";")
