@@ -4,6 +4,7 @@
  */
 require_once(DB_CONNECTION);
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/sentence_task_dto.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/sentence_dto.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/task_progress_dto.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/task_stats_dto.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/utils/datatables_helper.class.php' );
@@ -46,6 +47,25 @@ class sentence_task_dao {
         $sentence_task_dto->creation_date = $row['creation_date'];
         $sentence_task_dto->completed_date = $row['completed_date'];
       }
+
+      $query = $this->conn->prepare("
+        select * from sentences as s
+        join sentences_pairing as sp on (s.id = sp.id_2)
+        where sp.id_1 = ?;
+      ");
+      $query->bindParam(1, $sentence_task_dto->sentence_id);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while ($row = $query->fetch()) {
+        $sentence_dto = new sentence_dto();
+        $sentence_dto->id = $row['id'];
+        $sentence_dto->corpus_id = $row['corpus_id'];
+        $sentence_dto->source_text = $row['source_text'];
+        $sentence_dto->type = $row['type'];
+
+        $sentence_task_dto->target_text[] = $sentence_dto;
+      }
+
       $this->conn->close_conn();
       return $sentence_task_dto;
     } catch (Exception $ex) {
@@ -81,7 +101,7 @@ class sentence_task_dao {
       }
 
       $query = $this->conn->prepare("
-        select s.source_text as target_text from sentences as s
+        select * from sentences as s
         join sentences_pairing as sp on (s.id = sp.id_2)
         where sp.id_1 = ?;
       ");
@@ -89,7 +109,13 @@ class sentence_task_dao {
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while ($row = $query->fetch()) {
-        $sentence_task_dto->target_text[] = $row['target_text'];
+        $sentence_dto = new sentence_dto();
+        $sentence_dto->id = $row['id'];
+        $sentence_dto->corpus_id = $row['corpus_id'];
+        $sentence_dto->source_text = $row['source_text'];
+        $sentence_dto->type = $row['type'];
+
+        $sentence_task_dto->target_text[] = $sentence_dto;
       }
 
       $this->conn->close_conn();
@@ -128,7 +154,7 @@ class sentence_task_dao {
       }
 
       $query = $this->conn->prepare("
-        select s.source_text as target_text from sentences as s
+        select * from sentences as s
         join sentences_pairing as sp on (s.id = sp.id_2)
         where sp.id_1 = ?;
       ");
@@ -136,7 +162,13 @@ class sentence_task_dao {
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while ($row = $query->fetch()) {
-        $sentence_task_dto->target_text[] = $row['target_text'];
+        $sentence_dto = new sentence_dto();
+        $sentence_dto->id = $row['id'];
+        $sentence_dto->corpus_id = $row['corpus_id'];
+        $sentence_dto->source_text = $row['source_text'];
+        $sentence_dto->type = $row['type'];
+
+        $sentence_task_dto->target_text[] = $sentence_dto;
       }
 
       $this->conn->close_conn();
@@ -251,7 +283,7 @@ class sentence_task_dao {
       }
 
       $query = $this->conn->prepare("
-        select s.source_text as target_text from sentences as s
+        select * from sentences as s
         join sentences_pairing as sp on (s.id = sp.id_2)
         where sp.id_1 = ?;
       ");
@@ -259,7 +291,13 @@ class sentence_task_dao {
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while ($row = $query->fetch()) {
-        $sentence_task_dto->target_text[] = $row['target_text'];
+        $sentence_dto = new sentence_dto();
+        $sentence_dto->id = $row['id'];
+        $sentence_dto->corpus_id = $row['corpus_id'];
+        $sentence_dto->source_text = $row['source_text'];
+        $sentence_dto->type = $row['type'];
+
+        $sentence_task_dto->target_text[] = $sentence_dto;
       }
 
       $this->conn->close_conn();
@@ -320,7 +358,7 @@ class sentence_task_dao {
       }
 
       $query = $this->conn->prepare("
-        select s.source_text as target_text from sentences as s
+        select * from sentences as s
         join sentences_pairing as sp on (s.id = sp.id_2)
         where sp.id_1 = ?;
       ");
@@ -328,7 +366,13 @@ class sentence_task_dao {
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while ($row = $query->fetch()) {
-        $sentence_task_dto->target_text[] = $row['target_text'];
+        $sentence_dto = new sentence_dto();
+        $sentence_dto->id = $row['id'];
+        $sentence_dto->corpus_id = $row['corpus_id'];
+        $sentence_dto->source_text = $row['source_text'];
+        $sentence_dto->type = $row['type'];
+
+        $sentence_task_dto->target_text[] = $sentence_dto;
       }
 
       $this->conn->close_conn();

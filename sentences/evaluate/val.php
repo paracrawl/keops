@@ -222,12 +222,12 @@ else {
                     <?= $task->target_lang_object->langname ?>
                   </div>
                   <div class="col-xs-6 col-md-6 text-right">
-                    <a href="https://translate.google.com/?op=translate&sl=<?= $task->target_lang_object->langcode?>&tl=<?=$task->source_lang_object->langcode?>&text=<?=$sentence->target_text[0] ?>"  title="Translate target sentence with Google" target="_blank"><img alt="Translate target sentence with Google" src="/img/googletranslate.png" /></a>
+                    <a href="https://translate.google.com/?op=translate&sl=<?= $task->target_lang_object->langcode?>&tl=<?=$task->source_lang_object->langcode?>&text=<?=$sentence->target_text[0]->source_text ?>"  title="Translate target sentence with Google" target="_blank"><img alt="Translate target sentence with Google" src="/img/googletranslate.png" /></a>
                   </div>
                 </div>
               </div>
               <div class="col-xs-12 col-md-12">
-                <div class="well"><?= $sentence->target_text[0] ?></div>
+                <div class="well"><?= $sentence->target_text[0]->source_text ?></div>
               </div>
             </div>
           </div>

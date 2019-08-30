@@ -230,7 +230,7 @@ else {
 
                 <div class="col-md-6 same-height-column">
                     <div class="text-increase mb-2">Candidate translation</div>
-                    <div class="well h-100"><?=  $sentence->target_text[0] ?></div>
+                    <div class="well h-100"><?=  $sentence->target_text[0]->source_text ?></div>
                 </div>
             </div>
         </div>
