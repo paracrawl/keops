@@ -40,6 +40,7 @@ try {
               $data = array_slice($data, 0, 2);
 
               if (!empty(trim($buffer)) && count($data) == 2 && strlen($data[0]) <= 5000 && strlen($data[1]) <= 5000) {
+                if ($mode == "FLU") array_pop($data);
                 $values[] = $data;// save values
               }
               else {
@@ -100,6 +101,8 @@ try {
         }
 
         $total = count($values);
+
+        if ($total == 0) throw new CorpusException("Invalid format of corpus uploaded.");
         
         // Reference sentences
         $ref_group = array();
@@ -179,8 +182,6 @@ try {
       }
 
       fclose($handle);
-      //header("HTTP/1.1 400 Bad Request");
-      //echo "Ups error message";
     } else if ($mode == "RAN") {
       try {
         $values = array();
@@ -199,19 +200,22 @@ try {
         }
 
         // We are ready to save
-        $corpus_dao->insertCorpus($corpus_dto);
-        foreach ($values as $group) {
-          $source = $sentence_dao->insertSentence($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $group[0], "source");
-          $reference = $sentence_dao->insertSentence($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $group[1], "reference");
-          $sentence_dao->pairSentences($source, $reference);
-          for ($i = 2; $i < 7; $i++) {
-            $ranking = $sentence_dao->insertSentence($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $group[$i], "ranking");
-            $sentence_dao->pairSentences($source, $ranking);
+        if (count($values) > 0) {
+          $corpus_dao->insertCorpus($corpus_dto);
+          foreach ($values as $group) {
+            $source = $sentence_dao->insertSentence($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $group[0], "source");
+            $reference = $sentence_dao->insertSentence($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $group[1], "reference");
+            $sentence_dao->pairSentences($source, $reference);
+            for ($i = 2; $i < 7; $i++) {
+              $ranking = $sentence_dao->insertSentence($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $group[$i], "ranking");
+              $sentence_dao->pairSentences($source, $ranking);
+            }
           }
+
+          $corpus_dao->updateLinesInCorpus($corpus_dto->id);
+        } else {
+          throw new CorpusException("Invalid format of corpus uploaded.");
         }
-
-        $corpus_dao->updateLinesInCorpus($corpus_dto->id);
-
       }  catch (Exception $ex) { 
         throw $ex;
       }

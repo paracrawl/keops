@@ -44,10 +44,12 @@ class sentence_dao {
           $query->execute();
         }
 
-        $query = $this->conn->prepare("insert into sentences_pairing(id_1, id_2) select id[2], id[1] from 
-        (select array_agg(id) as id
-        from (select s.id as id from sentences as s order by s.id desc limit 2) as a) as b;");
-        $query->execute();
+        if (count($d) > 1) {
+          $query = $this->conn->prepare("insert into sentences_pairing(id_1, id_2) select id[2], id[1] from 
+          (select array_agg(id) as id
+          from (select s.id as id from sentences as s order by s.id desc limit 2) as a) as b;");
+          $query->execute();
+        }
       }
 
       $this->conn->close_conn();
