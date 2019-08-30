@@ -4,7 +4,7 @@ $(document).ready(function() {
    * Evaluation form
    */
   $("#evaluationform").on('submit', function(e) {
-    let ranking = [];
+    let ranking = {};
     let done = true;
     $(".ranking-item").each(function(i, el) {
       done = done && ($(el).find(".ranking-position input").val() != "");
@@ -12,7 +12,7 @@ $(document).ready(function() {
     });
 
     $("input[name='evaluation']").val((done) ? JSON.stringify(ranking) : "P");
-    
+
     return true;
   })
 

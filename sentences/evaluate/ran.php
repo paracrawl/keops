@@ -173,7 +173,7 @@ else {
 
                   <div class="col-sm-6 same-height-column">
                       <div class="text-increase mb-2">Reference</div>
-                      <div class="well w-100 h-100"><?= $sentence->target_text[0] ?></div>
+                      <div class="well w-100 h-100"><?= $sentence->target_text[0]->source_text ?></div>
                   </div>
               </div>
 
@@ -184,16 +184,16 @@ else {
 
                 <div class="col-md-12 col-xs-12 ranking">
                   <?php 
-                    $evaluation = json_decode($sentence->evaluation);
-                    for ($i = 0; $i < 5; $i++) { 
+                    $evaluation = json_decode($sentence->evaluation, true);
+                    foreach (array_slice($sentence->target_text, 1) as $option) {
                   ?>
-                  <div class="ranking-item mb-4 same-height row" data-sentence-id="<?= $i ?>">
+                  <div class="ranking-item mb-4 same-height row" data-sentence-id="<?= $option->id ?>">
                     <div class="ranking-position same-height-column col-md-1 col-xs-2">
-                      <input class="form-control" type=number value="<?= (isset($evaluation[$i]) ? $evaluation[$i] : "") ?>" min="1" max="5" step="1" placeholder="#" />
+                      <input class="form-control" type=number value="<?= (isset($evaluation[$option->id]) ? $evaluation[$option->id] : "") ?>" min="1" max="5" step="1" placeholder="#" />
                     </div>
                     <div class="ranking-text same-height-column col-md-11 col-xs-10">
                       <div class="p-3">
-                        <?= $sentence->target_text[$i + 1] ?>
+                        <?= $option->source_text ?>
                       </div>
                     </div>
                   </div> <?php } ?>
