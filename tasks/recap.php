@@ -19,5 +19,9 @@
     case 'FLU':
       header("Location: /tasks/recap/flu.php?".$_SERVER['QUERY_STRING']);
       break;
+    case 'RAN':
+      header("Location: /tasks/recap/ran.php?".$_SERVER['QUERY_STRING']);
+      break;
+
   }
 ?>
