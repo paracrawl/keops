@@ -110,21 +110,21 @@
       </div>
       
         <?php
-        if ($corpus->mode != "ADE") {
+        if ($corpus->mode == "VAL" || $corpus->mode == "FLU") {
           foreach ($preview as $line){
             ?>
             <div class="row">
               <div class="col-md-12 sentence-source"><?php echo $line->source_text;?></div>
               <?php foreach ($line->target_text as $target_text) { ?>
                 <div class="col-md-12 sentence-target">
-                  <strong><?= formatType($target_text["type"]) ?></strong> <?= $target_text["text"] ?>
+                  <?= $target_text["text"] ?>
                 </div>
               <?php } ?>
             </div>
           <hr>
           <?php
           }
-        } else {
+        } else if ($corpus->mode == "ADE") {
         ?>
           <input type="hidden" name="corpus_id" value="<?= $corpus->id ?>" />
           <table id="corpora-table-ade" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" style="width:100%;">
@@ -147,6 +147,43 @@
                 </tr>
               </tfoot>
             </table>
+        <?php } else if ($corpus->mode == "RAN") { ?>
+          <div class="ran-preview">
+            <?php foreach ($preview as $line) { ?>
+              <div class="row same-height-sm">
+                <div class="col-sm-6 same-height-column ran-preview-item">
+                  <div class="row p-3">
+                    <div class="col-sm-12 col-xs-12">
+                      <div class="text-increase">Source</div>
+                      <p>
+                        <?= $line->source_text ?>
+                      </p>
+                    </div>
+
+                    <div class="col-sm-12 col-xs-12">
+                      <div class="text-increase">Target</div>
+                      <p>
+                        <?= $line->target_text[0]["text"] ?>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 same-height-column">
+                  <div class="row p-3">
+                    <div class="col-sm-12 col-xs-12">
+                      <div class="text-increase">Options</div>
+                    </div>
+
+                    <?php for($i = 1; $i < count($line->target_text); $i++) { ?>
+                      <div class="col-sm-12 col-xs-12 mb-2">
+                        <?= $line->target_text[$i]["text"]; ?>
+                      </div>
+                    <?php } ?>
+                  </div>
+                </div>
+              </div>
+            <?php } ?>
+          </div>
         <?php } ?>
       </div>
     </div>
