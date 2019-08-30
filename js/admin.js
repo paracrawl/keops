@@ -696,6 +696,14 @@ $(document).ready(function() {
   corpora_ade_table = $("#corpora-table-ade").DataTable({
     columnDefs: [
       {
+        targets: 1,
+        class: "multiline"
+      },
+      {
+        targets: 2,
+        class: "multiline"
+      },
+      {
         targets: 3,
         render: function(data, type, row) {
           switch (row[3]) {

@@ -905,6 +905,10 @@ table.dataTable td:not(.actions) {
   text-overflow: ellipsis;
 }
 
+table.dataTable td.multiline:not(.actions) {
+  white-space: normal;
+}
+
 /* Buttons */
 
 .btn-link.disabled, .btn-link-lg.disabled {
@@ -1224,4 +1228,13 @@ a {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   height: 100%;
+}
+
+/* RANKING PREVIEW */
+.ran-preview .ran-preview-item {
+  border-right: solid 1px #ddd;
+}
+
+.ran-preview .row:nth-child(2n) {
+  background-color: #eee;
 }

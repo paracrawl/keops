@@ -34,7 +34,7 @@ $(document).ready(function() {
         if ($("#evaluation-container").attr("data-done") == "1") return;
 
         if (e.which == 45) { // -
-          iterator = (iterator - 1 < 0) ? 0 : iterator - 1;
+          iterator = (iterator - 1 < 0) ? ranking.length - 1 : iterator - 1;
           $(".ranking input").css("border-color", "#ccc");
           $(ranking[iterator]).css("border-color", "#66afe9");
           return;
