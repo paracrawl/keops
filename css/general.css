@@ -815,6 +815,10 @@ hr {
   display: none;
 }
 
+.d-block {
+  display: block;
+}
+
 .w-100 {
   width: 100%;
 }
@@ -1237,4 +1241,22 @@ a {
 
 .ran-preview .row:nth-child(2n) {
   background-color: #eee;
+}
+
+/* FEEDBACK */
+.feedback {
+  background-color: #e5e5e5;
+  padding: 1em;
+  box-shadow: inset 0px 0px 20px #ccc;
+}
+
+.feedback label img {
+  width: 32px;
+  height: 32px;
+}
+
+.feedback textarea {
+  resize: vertical;
+  min-height: 32px;
+  height: 64px;
 }
