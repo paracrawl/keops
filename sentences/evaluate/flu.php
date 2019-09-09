@@ -274,6 +274,8 @@ else {
     <?php
     require_once(TEMPLATES_PATH . "/resources.php");
     ?>
+    
+    <script type="text/javascript" src="/js/timer.js"></script>
     <script type="text/javascript" src="/js/evaluation.js"></script>
     <script type="text/javascript" src="/js/slider.js"></script>
     <script type="text/javascript" src="/js/slider_keyboard.js"></script>

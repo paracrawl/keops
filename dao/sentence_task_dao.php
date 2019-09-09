@@ -415,10 +415,11 @@ class sentence_task_dao {
    */
   function updateSentence($sentence_task_dto) {
     try {
-      $query = $this->conn->prepare("UPDATE sentences_tasks SET evaluation = ?, completed_date = ? WHERE id = ?;");
+      $query = $this->conn->prepare("UPDATE sentences_tasks SET evaluation = ?, completed_date = ?, time = ? WHERE id = ?;");
       $query->bindParam(1, $sentence_task_dto->evaluation);
       $query->bindParam(2, $sentence_task_dto->completed_date);
-      $query->bindParam(3, $sentence_task_dto->id);
+      $query->bindParam(3, $sentence_task_dto->time);
+      $query->bindParam(4, $sentence_task_dto->id);
       $query->execute();
       $this->conn->close_conn();
       return true;

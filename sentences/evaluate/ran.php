@@ -250,6 +250,8 @@ else {
     <?php
     require_once(TEMPLATES_PATH . "/resources.php");
     ?>
+
+    <script type="text/javascript" src="/js/timer.js"></script>
     <script type="text/javascript" src="/js/evaluation.js"></script>
     <script type="text/javascript" src="/js/ran_evaluation.js"></script>
   </body>
