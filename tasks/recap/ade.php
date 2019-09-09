@@ -231,6 +231,12 @@ if (isset($task_id)) {
         </div>
         <?php } ?>
       </div>
+
+      <div class="row">
+        <div class="col-sm-6 col-xs-12">
+        <?php require_once(TEMPLATES_PATH . "/feedback.php"); ?>
+        </div>
+      </div>
     </div>
 
     <?php
@@ -243,5 +249,27 @@ if (isset($task_id)) {
     <input type=hidden id="task_id" value="<?= $task->id ?>" />
     <script src="/js/recap_ade.js"></script>
     <script src="/js/stars.js"></script>
+
+    <script>
+      $(document).ready(function() {
+        $("#feedbackBtn").on('click', function() {
+          $.ajax({
+              url: "/services/feedback_service.php",
+              data: {
+                  feedback_score: $("input[name='feedback_score']:checked").val(),
+                  feedback_comments: $("textarea[name='feedback_comments']").val()
+              },
+              type: "POST",
+              success: function(json) {
+                  let response = JSON.parse(json);
+                  if (response.result == 200) {
+                    $("#feedback-success-label").removeClass("d-none");
+                    $("#feedback-success-label").addClass("d-block");
+                  }
+              }
+          })
+        });
+      })
+    </script>
   </body>
 </html>
