@@ -35,7 +35,7 @@ class sentence_dao {
         }
 
         foreach ($d as $sentence) {
-          $query = $this->conn->prepare("INSERT INTO sentences (corpus_id, source_text, source_text_vector, type) VALUES (?, ?, to_tsvector('simple', ?), ?)");
+          $query = $this->conn->prepare("INSERT INTO sentences (corpus_id, source_text, source_text_vector, type, is_source) VALUES (?, ?, to_tsvector('simple', ?), ?, false)");
           $query->bindParam(1, $corpus_id);
           $query->bindParam(2, $sentence);
           $query->bindParam(3, $sentence);
@@ -48,6 +48,13 @@ class sentence_dao {
           $query = $this->conn->prepare("insert into sentences_pairing(id_1, id_2) select id[2], id[1] from 
           (select array_agg(id) as id
           from (select s.id as id from sentences as s order by s.id desc limit 2) as a) as b;");
+          $query->execute();
+
+          $query = $this->conn->prepare("update sentences set is_source = true from
+          (select id[2] as source from
+           (select array_agg(id) as id
+           from (select s.id as id from sentences as s order by s.id desc limit 2) as a) as b) as c
+          where id = c.source;");
           $query->execute();
         }
       }
@@ -105,6 +112,14 @@ class sentence_dao {
       $query = $this->conn->prepare("INSERT INTO sentences_pairing (id_1, id_2) values (?, ?)");
       $query->bindParam(1, $sentence1);
       $query->bindParam(2, $sentence2);
+      $query->execute();
+
+      $query = $this->conn->prepare("update sentences set is_source = true where id = ?");
+      $query->bindParam(1, $sentence1);
+      $query->execute();
+
+      $query = $this->conn->prepare("update sentences set is_source = false where id = ?");
+      $query->bindParam(1, $sentence2);
       $query->execute();
 
       $this->conn->close_conn();

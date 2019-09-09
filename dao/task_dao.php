@@ -110,7 +110,7 @@ class task_dao {
    */
   function updateTaskSize($task_id) {
     try {
-      $query = $this->conn->prepare("with counted as (select count(task_id) as count from sentences_tasks where task_id = ? and sentence_id not in (select id_2 from sentences_pairing) group by task_id) update tasks as t set size=s.count from counted as s where t.id = ?;");
+      $query = $this->conn->prepare("with counted as (select count(task_id) as count from sentences_tasks, sentences as s where task_id = ? and sentence_id = s.id and s.is_source = true group by task_id) update tasks as t set size=s.count from counted as s where t.id = ?;");
       $query->bindParam(1, $task_id);
       $query->bindParam(2, $task_id);
       $query->execute();

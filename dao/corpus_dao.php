@@ -235,7 +235,7 @@ class corpus_dao {
     try {
       $query = $this->conn->prepare("
         with counted as (select count(corpus_id) as count from sentences as s
-        where corpus_id = ? and s.id not in (select id_2 from sentences_pairing) group by corpus_id) 
+        where corpus_id = ? and s.is_source = true group by corpus_id) 
         update corpora as c set lines = s.count from counted as s where c.id = ? returning lines;
       ");
       $query->bindParam(1, $corpus_id);
@@ -274,7 +274,7 @@ class corpus_dao {
     try {       
       $query = $this->conn->prepare(
         "select s1.* from sentences as s1
-        where s1.corpus_id = ? and s1.id not in (select id_2 from sentences_pairing)
+        where s1.corpus_id = ? and s.is_source = true
         order by s1.id    
         "
         . (isset($amount) ? " limit ?;" : ";")
