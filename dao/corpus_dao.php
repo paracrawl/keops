@@ -274,7 +274,7 @@ class corpus_dao {
     try {       
       $query = $this->conn->prepare(
         "select s1.* from sentences as s1
-        where s1.corpus_id = ? and s.is_source = true
+        where s1.corpus_id = ? and s1.is_source = true
         order by s1.id    
         "
         . (isset($amount) ? " limit ?;" : ";")
