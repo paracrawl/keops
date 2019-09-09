@@ -463,6 +463,12 @@ $(document).ready(function() {
         }
       },
       {
+        targets: 3,
+        render: function (data, type, row) {
+          return (row[3] ? row[3] : "—");
+        }
+      },
+      {
         targets: 5,
         render: function (data, type, row) {
           return formatDate(row[5]);

@@ -61,9 +61,6 @@ function underline($label, $value){
   return $formatted_string;
 }
 
-
-// TODO: Docs
-
 /**
  * Given a set of sentences, calculates the z-value
  * of their evaluation. The sentences must belong to a

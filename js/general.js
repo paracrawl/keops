@@ -27,6 +27,15 @@ $(document).ready(function() {
   var user_tasks_table = $("#user-tasks-table").DataTable({
     columnDefs: [
       {
+        targets: 3,
+        render: function (data, type, row) {
+          return (row[3]) ? row[3] : '—';
+        },
+        createdCell: function(td, cellData, rowData, row, col) {
+          td.setAttribute('title', (row[3]) ? '' : 'This task has no target language because it evaluates fluency');
+        }
+      },
+      {
         targets: 7,
         searchable: true,
         sortable: true,
