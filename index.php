@@ -34,7 +34,7 @@ require_once(RESOURCES_PATH . "/session.php");
 
               <div class="col-xs-10 col-md-10" style="padding-top: 4em;">
                 <a href="/signin.php" class="btn btn-default outline inverted">Sign in</a>
-                <a href="/signup.php" class="btn btn-link inverted">Sign up with a token</a>
+                <a href="/signup.php" class="btn btn-link inverted px-3">Sign up with a token</a>
               </div>
             </div>
           </div>
