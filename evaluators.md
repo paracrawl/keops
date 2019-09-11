@@ -27,6 +27,7 @@ Fill the required fields and click on _Sign up_. This will create your evaluator
 
 ## Your tasks
 ![Tasks screen](/screenshots/guide/tasks.png)
+
 Once you are signed in, you will see a list of tasks assigned to you. Whenever you are assigned a new one, you will be notified via email. This list provides the following information about each task:
 
 * __ID__: identification of the task. You can use it, for example, to refer to a task when contacting support.
@@ -38,7 +39,7 @@ Once you are signed in, you will see a list of tasks assigned to you. Whenever y
 * __Type__: defines the way this task should be evaluated. Please refer to the [Modes section](#modes) for more information.
 * __Start button__: use it to start evaluating. When the task is done, it will change into an Information button.
 * __Information button__: use it to review an evaluation which is already finished. You will not be able to change it.
-* __Options button__: groups several tasks, such as:
+* __Options button__: groups several tasks, such as
     * __Recap button__: shows a sum-up of the task
     * __Contact button__: lets you get in touch with the Project administator.
 
@@ -68,7 +69,7 @@ A task has always an evaluation mode. This will change the way you evalute the s
 #### Validation
 ![Validation screen](/screenshots/guide/validation.png)
 
-This mode is used to classify pairs of sentences using the European Language Resource Coordination (ELRC) validation guidelines. These guidelines define a set of labels to classify sentences:
+This mode is used to classify pairs of sentences using the [European Language Resource Coordination (ELRC)](http://www.lr-coordination.eu/) validation guidelines. These guidelines define a set of labels to classify sentences:
 
 1. Wrong language identification
 2. Incorrect alignment
@@ -91,11 +92,10 @@ Please note that this additional information is completely optional to provide.
 
 Moreover, KEOPS can be also used to flag sentences which contain personal data or inappropriate language. This is done by using the checkboxes on the bottom right of the screen. 
 
-    A pair of sentences contains personal data when the content includes proper names or other personal data that could be anonymised for data protection purposes.
+* A pair of sentences contains personal data when the content includes proper names or other personal data that could be anonymised for data protection purposes.
+* A pair of sentences contains inappropriate language when it includes profane expressions.
 
-    A pair of sentences contains inappropriate language when it includes profane expressions.
-
-Finally, some keyboard shortcuts are available. Tap the key corresponding to the number of the label to select it. Tap <kbd>Enter</kbd> to save the evaluation and go to the next sentence.
+Finally, some keyboard shortcuts are available. Press the key corresponding to the number of the label to select it. Press <kbd>Enter</kbd> to save the evaluation and go to the next sentence.
 
 <a name="adequacy"></a>
 
@@ -136,17 +136,17 @@ You can order the translations using the mouse or the keyboard:
 
 __Mouse__
 
-    Click on each translation in the desired order to set that ranking. 
+Click on each translation in the desired order to set that ranking. 
 
 __Keyboard__
 
-    Tap the numbers of the keyboard to order the translations. When you tap the first number, the first sentence will be assigned to that position. 
+Press the numbers of the keyboard to order the translations. When you Press the first number, the first sentence will be assigned to that position. 
 
-    Then, you will automatically jump to the next translation. Keep on tapping numbers to assign a position to every translation. 
-    
-    If you ever need to move to a translation manually, use the + and - keys. Press Enter to save the ranking and go to the next sentence.
+Then, you will automatically jump to the next translation. Keep on Pressing numbers to assign a position to every translation. 
 
-    Alternatively, type the sentence position in the field on its left.
+If you ever need to move to a translation manually, use the + and - keys. Press Enter to save the ranking and go to the next sentence.
+
+Alternatively, type the sentence position in the field on its left.
 
 Label filtering is not available in this mode, since labels are not used.
 
