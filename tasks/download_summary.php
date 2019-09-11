@@ -19,30 +19,56 @@ if (isset($task_id)) {
   $project_dao = new project_dao();
   $project = $project_dao->getProjectById($task->project_id);
 
-  //  if ((($project->owner == $USER->id) || ($task->assigned_user == $USER->id)) && ($task->status == "DONE")) {
   if ($task->status == "DONE") {
-    $sentence_task_dao = new sentence_task_dao();
-    $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id);
-
-// output headers so that the file is downloaded rather than displayed
+    // output headers so that the file is downloaded rather than displayed
     header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment; filename=task_' . $task->id . '-summary.csv');
-
-    $csv_header = array("Label", "Description", "Count");
-// create a file pointer connected to the output stream
     $output = fopen('php://output', 'w');
-    //excel header
-    fputs($output, $bom = ( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
-// output the column headings
-    //fputcsv($output, $labels);
-// loop over the rows, outputting them
-    fputs($output, implode($csv_header, ",") . "\n");
-    foreach (sentence_task_dto::$labels as $label) {
-      $array = array($label["value"], $label["label"], $task_stats_dto->array_type[$label['value']]);
-      fputs($output, implode($array, ",") . "\n");
+    fputs($output, $bom = ( chr(0xEF) . chr(0xBB) . chr(0xBF) )); //excel header
+
+    if ($task->mode == "VAL") {
+      $sentence_task_dao = new sentence_task_dao();
+      $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id);
+
+      $csv_header = array("Label", "Description", "Count");
+      fputs($output, implode($csv_header, ",") . "\n");
+      foreach (sentence_task_dto::$labels as $label) {
+        $array = array($label["value"], $label["label"], $task_stats_dto->array_type[$label['value']]);
+        fputs($output, implode($array, ",") . "\n");
+      }
+      $total_row = array("Total", "Total", $task_stats_dto->total);
+      fputs($output, implode($total_row, ",") . "\n");
+    } else if ($task->mode == "ADE" || $task->mode == "FLU") {
+      $stats = $task_dao->getStatsForTask($task_id);
+
+      $csv_header = array("Percentage", "# of sentences");
+      fputs($output, implode($csv_header, ",") . "\n");
+      for ($i = 0; $i < 110; $i += 10) {
+        $amount = (array_key_exists($i, $stats)) ? $stats[$i] : 0;
+        $array = array($i, $amount);
+        fputs($output, implode($array, ",") . "\n");
+      }
+    } else if ($task->mode == "RAN") {
+      $sentence_task_dao = new sentence_task_dao();
+      $sentences = $sentence_task_dao->getAnnotatedSentecesByTask($task->id);
+      $scores = array();
+
+      foreach ($sentences as $sentence) {
+        $ranking = json_decode($sentence->evaluation, true);
+        $systems = array_keys($ranking);
+        foreach ($systems as $system) {
+          if (array_key_exists($system, $scores)) {
+            $scores[$system] += ($ranking[$system] == 1) ? 1 : 0;;
+          } else {
+            $scores[$system] = ($ranking[$system] == 1) ? 1 : 0;
+          }
+        }
+      }
+
+      foreach ($systems as $system) {
+        fputs($output, implode(array($system, $scores[$system]), ",") . "\n");
+      }
     }
-    $total_row = array("Total", "Total", $task_stats_dto->total);
-    fputs($output, implode($total_row, ",") . "\n");
   } else {
     //The task is not done
   }

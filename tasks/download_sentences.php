@@ -36,7 +36,20 @@ if (isset($task_id)) {
     $output = fopen('php://output', 'w');
 
     $delimiter = chr(9);
-    $headers  = array("Source", "Target", "Source lang", "Target lang", "Evaluation", "Description", "Evaluation details");
+    $sample = (count($st_array) > 0) ? $st_array[0] : null;
+
+    if (!isset($sample)) return;
+
+    $headers  = array("Source");
+    if ((isset($task->target_lang))) {
+      for ($i = 0; $i < count($sample->target_text); $i++) {
+        $headers[] = "Target " . ($i + 1);
+      }
+    }
+
+    $headers[] = "Source lang";
+    if (isset($task->target_lang)) $headers[] = "Target lang";
+    $headers = array_merge($headers, array("Evaluation", "Description", "Evaluation details"));
 
     fputs($output, $bom = ( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
 
@@ -49,12 +62,16 @@ if (isset($task_id)) {
       $source_text = $st->source_text;
       $target_text = $st->target_text;
 
+      $source_text = preg_replace("/\r|\n/", "", $source_text);
       if (preg_match('/(.*)("|\t|\')(.*)/', $source_text)) {
         $source_text = '"' . $source_text . '"';
       }
 
-      if (preg_match('/(.*)("|\t|\')(.*)/', $target_text)) {
-        $target_text = '"' . $target_text . '"';
+      for ($i = 0; $i < count($target_text); $i++) {
+        $target_text[$i] = preg_replace( "/\r|\n/", "", $target_text[$i]);
+        if (preg_match('/(.*)("|\t|\')(.*)/', $target_text[$i])) {
+          $target_text[$i] = '"' . $target_text[$i] . '"';
+        }
       }
 
       // Comments
@@ -64,8 +81,16 @@ if (isset($task_id)) {
         $sentence_comment[] = $stc->name . ": " . $stc->value;
       }
 
-      $row = array($source_text, $target_text, $task->source_lang, $task->target_lang, $st->evaluation, $sentence_task_dto->getLabel($st->evaluation), implode($sentence_comment, "; "));
-      $str = implode($row, $delimiter)."\n";
+      $row = array($source_text);
+      if ((isset($task->target_lang))) {
+        foreach($target_text as $text) {
+          $row[] = $text;
+        }
+      }
+
+      $row[] = $task->source_lang;
+      if (isset($task->target_lang)) $row[] = $task->target_lang;
+      $row = array_merge($row, array($st->evaluation, $sentence_task_dto->getLabel($st->evaluation), implode($sentence_comment, "; ")));
       fputs($output,  implode($row, $delimiter)."\n");
     }
   }
