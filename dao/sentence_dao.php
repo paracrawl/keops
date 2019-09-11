@@ -34,12 +34,15 @@ class sentence_dao {
           $type = "";
         }
 
+        $is_source = ($mode == "FLU") ? "true" : "false";
+
         foreach ($d as $sentence) {
-          $query = $this->conn->prepare("INSERT INTO sentences (corpus_id, source_text, source_text_vector, type, is_source) VALUES (?, ?, to_tsvector('simple', ?), ?, false)");
+          $query = $this->conn->prepare("INSERT INTO sentences (corpus_id, source_text, source_text_vector, type, is_source) VALUES (?, ?, to_tsvector('simple', ?), ?, ?)");
           $query->bindParam(1, $corpus_id);
           $query->bindParam(2, $sentence);
           $query->bindParam(3, $sentence);
           $query->bindParam(4, $type);
+          $query->bindParam(5, $is_source);
 
           $query->execute();
         }
@@ -76,13 +79,14 @@ class sentence_dao {
    * @return boolean True if succeeded, otherwise false
    * @throws Exception
    */
-  public function insertSentence($corpus_id, $source_lang, $target_lang, $text, $type = "") {
+  public function insertSentence($corpus_id, $source_lang, $target_lang, $text, $type = "", $system = null) {
     try {
-      $query = $this->conn->prepare("INSERT INTO sentences (corpus_id, source_text, source_text_vector, type) VALUES (?, ?, to_tsvector('simple', ?), ?) returning id");
+      $query = $this->conn->prepare("INSERT INTO sentences (corpus_id, source_text, source_text_vector, type, system) VALUES (?, ?, to_tsvector('simple', ?), ?, ?) returning id");
       $query->bindParam(1, $corpus_id);
       $query->bindParam(2, $text);
       $query->bindParam(3, $text);
       $query->bindParam(4, $type);
+      $query->bindParam(5, $system);
 
       $query->execute();
 

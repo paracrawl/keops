@@ -15,4 +15,5 @@ class sentence_dto {
   public $source_text;
   public $target_text;
   public $type;
+  public $system;
 }

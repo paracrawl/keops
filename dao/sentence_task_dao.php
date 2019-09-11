@@ -62,6 +62,7 @@ class sentence_task_dao {
         $sentence_dto->corpus_id = $row['corpus_id'];
         $sentence_dto->source_text = $row['source_text'];
         $sentence_dto->type = $row['type'];
+        $sentence_dto->system = $row['system'];
 
         $sentence_task_dto->target_text[] = $sentence_dto;
       }
@@ -114,6 +115,7 @@ class sentence_task_dao {
         $sentence_dto->corpus_id = $row['corpus_id'];
         $sentence_dto->source_text = $row['source_text'];
         $sentence_dto->type = $row['type'];
+        $sentence_dto->system = $row['system'];
 
         $sentence_task_dto->target_text[] = $sentence_dto;
       }
@@ -167,6 +169,7 @@ class sentence_task_dao {
         $sentence_dto->corpus_id = $row['corpus_id'];
         $sentence_dto->source_text = $row['source_text'];
         $sentence_dto->type = $row['type'];
+        $sentence_dto->system = $row['system'];
 
         $sentence_task_dto->target_text[] = $sentence_dto;
       }
@@ -296,6 +299,7 @@ class sentence_task_dao {
         $sentence_dto->corpus_id = $row['corpus_id'];
         $sentence_dto->source_text = $row['source_text'];
         $sentence_dto->type = $row['type'];
+        $sentence_dto->system = $row['system'];
 
         $sentence_task_dto->target_text[] = $sentence_dto;
       }
@@ -371,6 +375,7 @@ class sentence_task_dao {
         $sentence_dto->corpus_id = $row['corpus_id'];
         $sentence_dto->source_text = $row['source_text'];
         $sentence_dto->type = $row['type'];
+        $sentence_dto->system = $row['system'];
 
         $sentence_task_dto->target_text[] = $sentence_dto;
       }
@@ -559,7 +564,7 @@ from sentences_tasks, sentences as s where task_id = ? and sentence_id = s.id an
   function getAnnotatedSentecesByTask($task_id){ 
      try {
       $st_array = array();
-      $query = $this->conn->prepare("select st.id as pair, st.sentence_id, s.source_text, st.evaluation from sentences_tasks st left join sentences s  on s.id = st.sentence_id left join tasks t on t.id = st.task_id where st.task_id = ? and s.is_souce = true order by s.id;");
+      $query = $this->conn->prepare("select st.id as pair, st.sentence_id, s.source_text, st.evaluation from sentences_tasks st left join sentences s on s.id = st.sentence_id left join tasks t on t.id = st.task_id where st.task_id = ? and s.is_source = true order by s.id;");
       $query->bindParam(1, $task_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
