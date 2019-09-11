@@ -8,7 +8,7 @@ $(document).ready(function() {
     let done = true;
     $(".ranking-item").each(function(i, el) {
       done = done && ($(el).find(".ranking-position input").val() != "");
-      ranking[$(el).attr("data-sentence-id")] = $(el).find(".ranking-position input").val();
+      ranking[$(el).attr("data-sentence-system")] = $(el).find(".ranking-position input").val();
     });
 
     $("input[name='evaluation']").val((done) ? JSON.stringify(ranking) : "P");
@@ -85,6 +85,8 @@ $(document).ready(function() {
 
   let clickcount = 0;
   $(".ranking-text").on('click', function() {
+    if ($("#evaluation-container").attr("data-done") == "1") return;
+
     ranking.each(function (i, position) {
       if ($(position).val() == (clickcount + 1)) {
         $(position).val("");

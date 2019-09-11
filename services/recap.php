@@ -6,6 +6,7 @@
  */
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/task_dao.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/sentence_task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/utils/utils.php");
 $PAGETYPE = "user";
 require_once(RESOURCES_PATH . "/session.php");
@@ -44,6 +45,31 @@ if ($service == "stats_ade") {
   } else {
     echo json_encode(array("result" => -1));
   }
+} else if ($service = "stats_ran") {
+  $failedparams = checkPostParameters(["task_id"]);
+  if (count($failedparams) > 0) {
+    echo json_encode(array("result" => -1));
+    return;
+  }
+
+  $task_id = filter_input(INPUT_POST, "task_id");
+  $sentence_task_dao = new sentence_task_dao();
+  $sentences = $sentence_task_dao->getAnnotatedSentecesByTask($task_id);
+  $scores = array();
+
+  foreach ($sentences as $sentence) {
+    $ranking = json_decode($sentence->evaluation, true);
+    $systems = array_keys($ranking);
+    foreach ($systems as $system) {
+      if (array_key_exists($system, $scores)) {
+        $scores[$system] += ($ranking[$system] == 1) ? 1 : 0;;
+      } else {
+        $scores[$system] = ($ranking[$system] == 1) ? 1 : 0;
+      }
+    }
+  }
+
+  echo json_encode(array("result" => 200, "stats" => $scores));
 } else {
   echo json_encode(array("result" => -1));
 }
