@@ -96,10 +96,10 @@ if (isset($task_id)) {
       </div>
 
       <div class="row">
-        <?php
-        if ($task->status == "DONE") {
-        ?>
-        <div class="col-md-12">
+      <?php
+      if ($task->status == "DONE") {
+      ?>
+        <div class="col-sm-6 col-xs-12">
           <div class="panel panel-success">
             <div class="panel-heading">
               <h3 class="panel-title">Finished task</h3>
@@ -123,33 +123,34 @@ if (isset($task_id)) {
                   <br>
                   <?php
                   }
-              ?>
-              <?php if ($USER->id == $task->assigned_user) { ?>
+                  ?>
+                  <?php if ($USER->id == $task->assigned_user) { ?>
                   <div>
                     <a href="/sentences/evaluate.php?review=1&task_id=<?= $task_id ?>">
                       <span class="glyphicon glyphicon-info-sign"></span>
                       <span>Check evaluation <span class="sr-only"> of task <?= $task_id ?></span>
                     </a>
                   </div>
-              <?php } ?>
+                  <?php } ?>
                   <div>
                     <a href="/tasks/download_summary.php?task_id=<?php echo $task_id ?>">
                       <span class="glyphicon glyphicon-download-alt"></span>
                       <span>Download summary (TSV)</span>
                     </a>
                   </div>
-                <div>
-                  <a href="/tasks/download_sentences.php?task_id=<?php echo $task_id ?>">
-                    <span class="glyphicon glyphicon-download-alt"></span>
-                    <span>Download annotated sentences (TSV)</span>
-                  </a>
+                  <div>
+                    <a href="/tasks/download_sentences.php?task_id=<?php echo $task_id ?>">
+                      <span class="glyphicon glyphicon-download-alt"></span>
+                      <span>Download annotated sentences (TSV)</span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <?php
-        } else { ?>
+      <?php
+      } else { ?>
         <div class="col-md-6">
         <?php if ($USER->id != $task->assigned_user) { ?>
           <div class="panel panel-warning">
@@ -222,6 +223,44 @@ if (isset($task_id)) {
         <?php } ?>
         </div>
 
+        <div class="col-sm-6 col-xs-12">
+          <?php
+            $sentences = $sentence_task_dao->getAnnotatedSentecesByTask($task->id);
+            $max = $sentences[0]->time;
+            $min = $sentences[0]->time;
+            $mean = 0;
+
+            for ($i = 1; $i < count($sentences); $i++) {
+              if ($sentences[$i]->time < $min) $min = $sentences[$i]->time;
+              if ($sentences[$i]->time > $max) $max = $sentences[$i]->time;
+              $mean += $sentences[$i]->time;
+            }
+
+            $mean = $mean / count($sentences);
+          ?>
+          <div class="h3 mt-0 vertical-align">
+            <span class="glyphicon glyphicon-time mr-3"></span> Timing
+          </div>
+
+          <table class="table table-striped table-bordered table-hover table-condensed" cellspacing="0" width="100%">
+            <tbody>
+              <tr>
+                <td>Maximum time elapsed in a sentence</td>
+                <td><?= round($max, 2) ?> seconds</td>
+              </tr>
+              <tr>
+                <td>Minimum time elapsed in a sentence</td>
+                <td><?= round($min, 2) ?> seconds</td>
+              </tr>
+              <tr>
+                <td>Mean time elapsed in a sentence</td>
+                <td><?= round($mean, 2) ?> seconds</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row">
         <div class="col-md-6">
           <canvas id="point-chart-intra" class="w-100 h-100"></canvas>
         </div>
@@ -229,10 +268,30 @@ if (isset($task_id)) {
         <div class="col-md-6">
           <canvas id="point-chart-inter" class="w-100 h-100"></canvas>
         </div>
-        <?php } ?>
+      <?php } ?>
       </div>
 
+      <hr />
+
       <div class="row">
+        <div class="col-sm-6 col-xs-12 text-justify">
+          <div class="h3">It would be great to hear from you</div>
+          <p>
+            Your thoughts on KEOPS let us build a better platform
+            for you. If you have a moment, please fill the feedback
+            form. It only takes a few seconds!
+          </p>
+
+          <p>
+            The feedback form should be used to tell us about your experience
+            and the suggestions you may have. For specific issues you may run into,
+            please use the <a href="/contact.php">contact form</a>.
+          </p>
+
+          <p>
+            Thanks!
+          </p>
+        </div>
         <div class="col-sm-6 col-xs-12">
         <?php require_once(TEMPLATES_PATH . "/feedback.php"); ?>
         </div>
