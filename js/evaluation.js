@@ -3,7 +3,7 @@ $(document).ready(function() {
   timer.start();
 
   $('.btn-annotation.active').closest('.row').find('.question-column').removeClass('d-none');
-
+  $('.btn-annotation.active').closest('.row').find('.question-column').addClass('active-question')
   $(".btn-annotation").on('click', function (e) {
     e.preventDefault();
 
@@ -31,6 +31,12 @@ $(document).ready(function() {
     if ($(this).hasClass("disabled")) {
       e.stopPropagation();
       return;
+    }
+  });
+
+  $(document).on('keypress', (e) => {
+    if (e.which == 13) { // Intro
+      $("#evalutionsavebutton").trigger('click');
     }
   });
 

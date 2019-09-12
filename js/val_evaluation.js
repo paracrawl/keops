@@ -5,9 +5,9 @@ $(document).ready(function() {
   let annotations = $(".btn-annotation");
   $(document).on('keypress', (e) => {
       console.log(e.which);
-    if ($(e.target).is('input, select, label, a, .btn') && e.which == 13) {
+    if ($(e.target).is('input[type=text], input[type=number], select, label') && e.which == 13) {
       $(e.target).find(".btn").trigger('click');
-    } else if ($(e.target).is('input[type=text], input[type=number] select, label')) {
+    } else if ($(e.target).is('input[type=text], input[type=number], select, label')) {
       return;
     } else {
       if (e.which == 13) { // Intro
