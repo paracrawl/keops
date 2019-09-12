@@ -64,7 +64,7 @@
         $assigned_user = $user_dao->getUserById($task->assigned_user);
 
         $user_langs_dao = new user_langs_dao();
-        $user_ids= $user_langs_dao->getUserIdsByLangcodePair($task->source_lang, $task->target_lang);
+        $user_ids= $user_langs_dao->getUserIdsByLangcodePair(($task->mode != "FLU" ? $task->source_lang : $task->target_lang), $task->target_lang);
         
         if (!empty($user_ids)) {
           $users = $user_dao->getUsersByIds($user_ids);
