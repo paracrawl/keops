@@ -120,7 +120,7 @@ $tasks = $task_dao->getTasksByProject($project_id);
                 $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id);      
             ?>
 
-            <a href="http://localhost/tasks/recap.php?id=<?= $task->id ?>" class="list-group-item col-sm-4">
+            <a href="/tasks/recap.php?id=<?= $task->id ?>" class="list-group-item col-sm-4">
                 Task #<?php echo $task->id; ?>
                 <div class="float-right">
                     <?php if ($task->status == "DONE") { ?>
