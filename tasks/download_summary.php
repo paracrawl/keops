@@ -6,6 +6,7 @@ require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.ph
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/project_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/sentence_task_dao.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/utils/TSVWriter.class.php");
 
 $PAGETYPE = "user";
 require_once(RESOURCES_PATH . "/session.php");
@@ -20,33 +21,26 @@ if (isset($task_id)) {
   $project = $project_dao->getProjectById($task->project_id);
 
   if ($task->status == "DONE") {
-    // output headers so that the file is downloaded rather than displayed
-    header('Content-Type: text/csv; charset=utf-8');
-    header('Content-Disposition: attachment; filename=task_' . $task->id . '-summary.csv');
-    $output = fopen('php://output', 'w');
-    fputs($output, $bom = ( chr(0xEF) . chr(0xBB) . chr(0xBF) )); //excel header
+    $rows = array();
 
     if ($task->mode == "VAL") {
       $sentence_task_dao = new sentence_task_dao();
       $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id);
 
-      $csv_header = array("Label", "Description", "Count");
-      fputs($output, implode($csv_header, ",") . "\n");
+      $rows[] = array("Label", "Description", "Count");
+
       foreach (sentence_task_dto::$labels as $label) {
-        $array = array($label["value"], $label["label"], $task_stats_dto->array_type[$label['value']]);
-        fputs($output, implode($array, ",") . "\n");
+        $rows[] = array($label["value"], $label["label"], $task_stats_dto->array_type[$label['value']]);
       }
-      $total_row = array("Total", "Total", $task_stats_dto->total);
-      fputs($output, implode($total_row, ",") . "\n");
+
+      $rows[] = array("Total", "Total", $task_stats_dto->total);
     } else if ($task->mode == "ADE" || $task->mode == "FLU") {
       $stats = $task_dao->getStatsForTask($task_id);
 
-      $csv_header = array("Percentage", "# of sentences");
-      fputs($output, implode($csv_header, ",") . "\n");
+      $rows[] = array("Percentage", "# of sentences");
       for ($i = 0; $i < 110; $i += 10) {
         $amount = (array_key_exists($i, $stats)) ? $stats[$i] : 0;
-        $array = array($i, $amount);
-        fputs($output, implode($array, ",") . "\n");
+        $rows[] = array($i, $amount);
       }
     } else if ($task->mode == "RAN") {
       $sentence_task_dao = new sentence_task_dao();
@@ -66,9 +60,16 @@ if (isset($task_id)) {
       }
 
       foreach ($systems as $system) {
-        fputs($output, implode(array($system, $scores[$system]), ",") . "\n");
+        $rows[] = array($system, $scores[$system]);
       }
     }
+
+    // output headers so that the file is downloaded rather than displayed
+    header('Content-Encoding: UTF-8');
+    header('Content-Type: text/tab-separated-values; charset=utf-8');
+    header('Content-Disposition: attachment; filename=task_' . $task->id . '-summary.tsv');
+    $tsv_writer = new TSVWriter();
+    $tsv_writer->write($rows);
   } else {
     //The task is not done
   }

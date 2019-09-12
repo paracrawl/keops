@@ -117,7 +117,7 @@ if (isset($task_id)) {
                   <div>
                     <a href="/tasks/download_summary.php?task_id=<?php echo $task_id ?>">
                       <span class="glyphicon glyphicon-download-alt"></span>
-                      <span>Download summary (CSV)</span>
+                      <span>Download summary (TSV)</span>
                     </a>
                   </div>
                 <div>
