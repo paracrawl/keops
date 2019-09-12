@@ -20,7 +20,7 @@ if ($service == "usersByLanguage") {
 
   if (isset($source_lang) && isset($target_lang)){
     $user_langs_dao = new user_langs_dao();
-    $target_lang = ($mode == "FLU") ? $source_lang : $target_lang;
+    $source_lang = ($mode == "FLU") ? $target_lang : $source_lang;
     $user_ids = $user_langs_dao->getUserIdsByLangcodePair($source_lang, $target_lang);
     if (!empty($user_ids)) {
         $user_dao = new user_dao();

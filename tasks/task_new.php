@@ -56,7 +56,7 @@
             </select>
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="source_lang_group">
           <label for="source_lang" class="control-label col-sm-2">Source language</label>
           <div class="col-sm-4">
             <select class="form-control" required=""  name="source_lang" id="source_lang">
@@ -74,7 +74,7 @@
             </select>
           </div>
         </div>
-        <div class="form-group" id="target_lang_group">
+        <div class="form-group">
           <label for="target_lang" class="control-label col-sm-2">Target language</label>
           <div class="col-sm-4">
             <select class="form-control" required=""  name="target_lang" id="target_lang">

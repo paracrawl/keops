@@ -124,7 +124,6 @@
         <form action="/corpora/corpus_upload.php" class="form-horizontal dropzone dropzone-looks dz-clickable" id="dropzoneade" method="post" enctype="multipart/form-data">
           <div class="row">
             <input type="hidden" name="mode" value="ADE" />
-
             <div class="col-md-6 col-xs-12">
               <div class="text-center-sm help-block with-errors">
                 1. Select your languages
@@ -204,6 +203,7 @@
           <div class="col-md-12 col-xs-12">
             <form action="/corpora/corpus_upload.php" class="form-horizontal dropzone dropzone-looks dz-clickable" id="dropzoneflu" method="post" enctype="multipart/form-data">
               <input type="hidden" name="mode" value="FLU" />
+              <input type="hidden" name="source_lang" value="NULL" />
 
               <div class="row">
                 <div class="col-md-6 col-xs-12">
@@ -215,8 +215,8 @@
                   $languages = $language_dao->getLanguages();
                   ?>
                   <div class="form-group mx-0">
-                    <label for="source_lang" class="control-label">Source language</label>
-                    <select class="form-control source_lang" name="source_lang">
+                    <label for="target_lang" class="control-label">Target language</label>
+                    <select class="form-control target_lang" name="target_lang">
                       <?php foreach ($languages as $lang) { ?>
                       <option value="<?= $lang->id?>"><?= $lang->langcode . " - " . $lang->langname ?></option>
                       <?php } ?>

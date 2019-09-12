@@ -145,7 +145,7 @@ class corpus_dao {
     try {
       $query = $this->conn->prepare("INSERT INTO corpora (name, source_lang, target_lang, mode) VALUES (?, ?, ?, ?::mode);");
       $query->bindParam(1, $corpus_dto->name);
-      $query->bindParam(2, $corpus_dto->source_lang);
+      $query->bindValue(2, ($corpus_dto->source_lang != "NULL" ? $corpus_dto->source_lang : NULL));
       $query->bindParam(3, $corpus_dto->target_lang);
       $query->bindParam(4, $corpus_dto->mode);
       $query->execute();

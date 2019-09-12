@@ -21,30 +21,6 @@ $filter_label = filter_input(INPUT_GET, "label");
 
 $filtered = isset($search_term);
 
-$comments = [
-  "L" => [
-    "single_option" => false,
-    "options" => [
-      ["value" => "true", "text" => "[SOURCE]", "name" => "L_sentence_source"],
-      ["value" => "true", "text" => "[TARGET]", "name" => "L_sentence_target"]
-    ]
-  ],
-  "MT" => [
-    "single_option" => false,
-    "options" => [
-      ["value" => "true", "text" => "[SOURCE]", "name" => "MT_source"],
-      ["value" => "true", "text" => "[TARGET]", "name" => "MT_target"]
-    ]
-  ],
-  "F" =>[
-    "single_option" => true,
-    "options" => [
-      ["value" => "keep", "text" => "Keep", "name" => "F_keep"],
-      ["value" => "discard", "text" => "Discard", "name" => "F_keep"]
-    ]
-  ]
-];
-
 if (isset($task_id)) {
   $task_dao = new task_dao();
   $task = $task_dao->getTaskById($task_id);
@@ -190,9 +166,9 @@ else {
                   <?php } ?>
 
                   <div class="col-sm-6">
-                        <div class="text-increase mb-2 ">This text is fluent <?= $task->source_lang_object->langname ?></div>
-                        <div class="well"><?=  $sentence->source_text ?></div>
-                    </div>
+                      <div class="text-increase mb-2 ">This text is fluent <?= $task->target_lang_object->langname ?></div>
+                      <div class="well"><?=  $sentence->source_text ?></div>
+                  </div>
 
                   <div class="col-sm-6 my-3">
                     <div class="row">

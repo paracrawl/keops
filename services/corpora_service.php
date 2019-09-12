@@ -20,14 +20,14 @@ if ($service == "corporaByLanguage") {
   if (isset($source_lang) && isset($target_lang) && isset($mode)){
     $language_dao = new language_dao();
 
-    $source_lang_object = $language_dao->getLangByLangCode($source_lang);
+    $target_lang_object = $language_dao->getLangByLangCode($source_lang);
 
     $corpus_dao = new corpus_dao();
     $corpora_filters = array('active' => 'true', 'source_lang' => $source_lang_object->id, 'mode' => "'".$mode."'::mode");
     
     if ($mode != "FLU") {
-      $target_lang_object = $language_dao->getLangByLangCode($target_lang);
-      $corpora_filters['target_lang'] = $target_lang_object->id;
+      $source_lang_object = $language_dao->getLangByLangCode($source_lang);
+      $corpora_filters['source_lang'] = $source_lang_object->id;
     }
 
     $corpora = $corpus_dao->getFilteredCorpora($corpora_filters);
