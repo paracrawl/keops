@@ -64,29 +64,6 @@ if (isset($task_id)) {
         <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>"  title="Go to the first pending sentence">Evaluation of <?= $project->name ?></a></li>
         <li class="active">Recap of Task #<?= $task->id ?></li>
       </ul>
-      <!--<div class="col-md-12">
-        <div class="table-responsive">
-          <table class="table table-striped table-bordered table-hover table-condensed">
-            <thead>
-              <tr>
-                <th>Total</th>
-      <?php foreach (sentence_task_dto::$labels as $label) { ?>
-                      <th title="<?= $label['label'] ?>"><?= $label['value'] ?></th>
-      <?php } ?>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><?= $task_stats_dto->total ?></td>
-      <?php foreach (sentence_task_dto::$labels as $label) { ?>
-                      <td title="<?= $label['label'] ?>"><?= $task_stats_dto->array_type[$label['value']] ?></td>
-      <?php } ?>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>-->
-
       <div class="page-header">
           <div class="row">
             <div class="col-sm-8">
@@ -115,7 +92,11 @@ if (isset($task_id)) {
                 $data_chart_js[] = $task_stats_dto->array_type[$label['value']];
                 ?>
                 <tr>
-                  <td><?= $label['label'] ?> [<?= $label['value'] ?>]</td>
+                  <td>
+                    <a href="/sentences/evaluate/val.php?task_id=<?= $task->id ?>&term=&p=1&id=1&label=<?= $label['value'] ?>">
+                      <?= $label['label'] ?> [<?= $label['value'] ?>]
+                    </a>
+                  </td>
                   <td class="text-right"><?= $task_stats_dto->array_type[$label['value']] ?></td>
                 </tr>
               <?php } ?>
