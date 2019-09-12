@@ -4,7 +4,7 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-6 col-sm-offset-3 col-xs-12">
+        <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-xs-12">
             <div class="feedback-area">
                 <div class="btn-group-vertical w-100 mb-3" data-toggle="buttons">
                     <label class="btn btn-default text-left">
@@ -26,6 +26,9 @@
             </div>
             <div id="feedback-success-label" class="label label-success w-100 mt-3 p-2 d-none">
                 <span class="glyphicon glyphicon-ok"></span> Thanks for your feedback!
+            </div>
+            <div class="small mt-2 mt-sm-0">
+            For specific issues, use the <a href="/contact.php">contact form</a>.
             </div>
         </div>
     </div>

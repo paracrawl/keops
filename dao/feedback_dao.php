@@ -17,6 +17,12 @@ class feedback_dao {
 
   }
 
+  /**
+   * Saves feedback from a user in the database
+   * 
+   * @param \object $feedback_dto Feedback data
+   * @return boolean True if success, error otherwise
+   */
   public function insertFeedback($feedback_dto) {
     try {
         $query = $this->conn->prepare("
@@ -34,5 +40,32 @@ class feedback_dao {
         $this->conn->close_conn();
         throw new Exception("Error in user_dao::newUser : " . $ex->getMessage());
       }
+  }
+
+  /**
+   * Checks if a user has sent feedback about a given task
+   * 
+   * @param int $user_id ID of the user
+   * @param int $task_id ID of the task
+   * 
+   * @return boolean True if the user has sent feedback about the task, false otherwise
+   */
+  public function hasOpinion($user_id, $task_id) {
+    $statistics = array();
+    $query = $this->conn->prepare("
+      select count(id) as count from feedback as f where f.user_id = ? and f.task_id = ?;
+    ");
+    $query->bindParam(1, $user_id);
+    $query->bindParam(2, $task_id);
+    $query->execute();
+    $query->setFetchMode(PDO::FETCH_ASSOC);
+
+    $count = 0;
+    while ($row = $query->fetch()) {
+      $count = $row['count'];
+    }
+    $this->conn->close_conn();
+
+    return ($count > 0);
   }
 }
