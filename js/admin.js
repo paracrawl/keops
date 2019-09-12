@@ -175,12 +175,12 @@ $(document).ready(function() {
 
       let mode = $("#mode").val();
       if (mode == "FLU") {
-        $("#target_lang_group").addClass("d-none");
+        $("#source_lang_group").addClass("d-none");
       } else {
-        $("#target_lang_group").removeClass("d-none");
+        $("#source_lang_group").removeClass("d-none");
       }
 
-      if (source_lang != -1 && (target_lang != -1 || mode == "FLU")) {
+      if (target_lang != -1 && (source_lang != -1 || mode == "FLU")) {
         // We get available users for that language pair
         $.getJSON(`/services/languages_service.php?service=usersByLanguage&source_lang=${source_lang}&target_lang=${target_lang}&mode=${mode}`, ({result, data}) => {
           if (result == 200) {
@@ -463,9 +463,12 @@ $(document).ready(function() {
         }
       },
       {
-        targets: 3,
+        targets: 2,
         render: function (data, type, row) {
-          return (row[3] ? row[3] : "—");
+          return (row[2] ? row[2] : "—");
+        },
+        createdCell: function(td, cellData, rowData, row, col) {
+          td.setAttribute('title', (row[2]) ? '' : 'This corpus has no source language because it evaluates fluency');
         }
       },
       {
@@ -544,6 +547,15 @@ $(document).ready(function() {
     }],*/
     columnDefs:[
       {
+        targets: 2,
+        render: function (data, type, row) {
+          return (row[2]) ? row[2] : '—';
+        },
+        createdCell: function(td, cellData, rowData, row, col) {
+          td.setAttribute('title', (row[2]) ? '' : 'This task has no source language because it evaluates fluency');
+        }
+      },
+      {
         targets: 5,
         render: function(data, type, row) {
           return '<a href="/corpora/corpus_preview.php?id='+row[14]+'" title="Preview corpus">'+row[5]+'</a>';
@@ -584,7 +596,7 @@ $(document).ready(function() {
         sortable: true,
         searchable: true,
         render: function (data, type, row) {
-          switch (row[15]) {
+          switch (row[10]) {
             case 'VAL':
               return 'Validation';
             case 'ADE':

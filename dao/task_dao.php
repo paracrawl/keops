@@ -620,12 +620,12 @@ task_dao::$columns_project_tasks = array(
     array('t.creation_date', 'creation_date'),
     array('t.assigned_date', 'assigned_date'),
     array('t.completed_date', 'completed_date'),
+    array('t.mode', 'mode'),
     array('p.id', 'p_id'),
     array('u.id', 'u_id'),
     array("count(case when st.evaluation!='P' then 1 end)", 'completedsentences'),
     array('u.email', 'email'),
     array('t.corpus_id', 'corpus_id'),
-    array('t.mode', 'mode')
 );
 
 /**
