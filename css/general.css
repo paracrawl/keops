@@ -26,6 +26,7 @@ body > .container {
 .home-body{
   margin-top: 0px;
   margin-bottom: 0px;
+  height: 100vh;
 }
 
 .home-body > .container {
@@ -373,10 +374,7 @@ table .progress span, #evaluate-percent {
 /*  clear: both;*/
   position: relative;
   padding-top: 30px;
-  margin-left: 5%;
-  margin-right: 5%;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  padding-bottom: 30px;
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
@@ -415,6 +413,7 @@ table .progress span, #evaluate-percent {
   background-size: cover;
   min-height: 350px;
   position: relative;
+  flex-grow: 1;
 }
 
 .login-form {

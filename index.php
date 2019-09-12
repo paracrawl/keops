@@ -40,7 +40,8 @@ require_once(RESOURCES_PATH . "/session.php");
           </div>
       </div>
 
-      <div class="grey-background container">
+      <div class="grey-background">
+        <div class="container">
           <div class="card-container row">         
             <div class="col-md-3">
               <div class="card text-center  ">
@@ -82,6 +83,7 @@ require_once(RESOURCES_PATH . "/session.php");
             </div>
           </div>
         </div>
+      </div>
         <?php
       }else{
         
