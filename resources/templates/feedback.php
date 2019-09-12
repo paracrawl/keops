@@ -19,8 +19,9 @@
                 </div>
 
                 If you wish, tell us more
-                <textarea name="feedback_comments" class="form-control w-100"></textarea>
+                <textarea name="feedback_comments" class="form-control w-100" maxlength="240" placeholder="Max. 240 characters"></textarea>
 
+                <input type=hidden name="feedback_task_id" value="<?= $task->id ?>" />
                 <button id="feedbackBtn" class="btn btn-primary w-100 mt-3">Send</button>
             </div>
             <div id="feedback-success-label" class="label label-success w-100 mt-3 p-2 d-none">

@@ -257,7 +257,8 @@ if (isset($task_id)) {
               url: "/services/feedback_service.php",
               data: {
                   feedback_score: $("input[name='feedback_score']:checked").val(),
-                  feedback_comments: $("textarea[name='feedback_comments']").val()
+                  feedback_comments: $("textarea[name='feedback_comments']").val(),
+                  feedback_task_id: $("input[name='feedback_task_id']").val()
               },
               type: "POST",
               success: function(json) {
