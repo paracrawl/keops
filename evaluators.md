@@ -95,7 +95,7 @@ Moreover, KEOPS can be also used to flag sentences which contain personal data o
 * A pair of sentences contains personal data when the content includes proper names or other personal data that could be anonymised for data protection purposes.
 * A pair of sentences contains inappropriate language when it includes profane expressions.
 
-Finally, some keyboard shortcuts are available. Press the key corresponding to the number of the label to select it. Press <kbd>Enter</kbd> to save the evaluation and go to the next sentence.
+Finally, some keyboard shortcuts are available. Press the key corresponding to the number of the label to select it. If an optional question is available, you can answer using <kbd>,</kbd> or <kbd>.</kbd>. Press <kbd>Enter</kbd> to save the evaluation and go to the next sentence.
 
 <a name="adequacy"></a>
 

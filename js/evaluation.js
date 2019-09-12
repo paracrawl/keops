@@ -80,47 +80,4 @@ $(document).ready(function() {
       $(this).closest('form').submit();
     })
   });
-
-  /**
-   * Evaluation shortcuts
-   */
-  let annotations = $(".btn-annotation");
-  $(document).on('keypress', (e) => {
-    if ($(e.target).is('input, select, label, a, .btn') && e.which == 13) {
-      $(e.target).find(".btn").trigger('click');
-    } else if ($(e.target).is('input, select, label')) {
-      return;
-    } else {
-      if (e.which == 13) { // Intro
-        $("#evalutionsavebutton").trigger('click');
-      } else {
-        if ($("#evaluation-container").attr("data-done") == "1") return;
-
-        if (e.which < 49 || e.which > 56) return;
-
-        $("#evaluationform :radio").removeAttr('checked');
-        $("#evaluationform label.active").removeClass("active");
-        
-        let annotation = annotations[e.which - 49];
-        toggleAnnotation(annotation);
-      }
-    }
-  });
 });
-
-function toggleAnnotation(e) {
-  $('.btn-annotation').removeClass('active');
-  $('.btn-annotation input').prop('checked', false);
-
-  $(e).addClass('active');
-  $(e).find('input').prop('checked', true);
-
-  $('.question-column').addClass('d-none');
-  $('.question-column input').prop('checked', false);
-
-  if ($(e).closest('.row').find('.question-column').children().length > 0) {
-    $(e).closest('.row').find('.question-column').removeClass('d-none');
-  }
-
-  $(e).focus();
-}

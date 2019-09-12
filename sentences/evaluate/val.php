@@ -619,5 +619,6 @@ else {
     
     <script type="text/javascript" src="/js/timer.js"></script>
     <script type="text/javascript" src="/js/evaluation.js"></script>
+    <script type="text/javascript" src="/js/val_evaluation.js"></script>
   </body>
 </html>
