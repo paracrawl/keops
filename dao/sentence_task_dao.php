@@ -191,68 +191,41 @@ class sentence_task_dao {
      * @throws Exception
      */
     function getSentenceIdByTermAndTask($task_id, $search_term) {
-    $sentence_id = 0;
+      try {
+        $sentence_id = 0;
+        $search_term = preg_replace('/(\S*)\s(\S*)/', '$1 & $2', $search_term);
+    
+        $sentence_task_dto = new sentence_task_dto();
+        $query = $this->conn->prepare("select st.sentence_id from sentences_tasks as st "
+          . "left join sentences as s on st.sentence_id = s.id "
+          . "left join sentences_pairing as sp on (st.sentence_id = sp.id_1) "
+          . "left join sentences as s2 on (sp.id_2 = s2.id) "
+          . "where st.task_id = :taskid and s.is_source = true "
+          . (($label != "ALL") ? "and st.evaluation = :label " : "")
+          . (($search_term != "") ? "and (s.source_text @@ to_tsquery(:searchterm) " : "")
+          . (($search_term != "") ? "or s2.source_text @@ to_tsquery(:searchterm2))" : " ")
+          . "order by st.id asc limit 1;");
+        
+        $query->bindParam(':taskid', $task_id);
+        $query->bindParam(':offset', $offset);
+  
+        if ($search_term != "") $query->bindParam(':searchterm', $search_term);
+        if ($search_term != "") $query->bindParam(':searchterm2', $search_term);
+        if ($label != "ALL") { $query->bindParam(':label', $label); }
+  
+        $query->execute();
+        $query->setFetchMode(PDO::FETCH_ASSOC);
+        while ($row = $query->fetch()) {
+          $sentence_id = $row['sentence_id'];
+        }
 
-    /*
-      TODO: When quotes are used in the search term, the query fails.
-      This could happen because quotes used in the corpora are not the same
-      as the ones input by keyboard.
-      This could be fixed by replacing the other types of quotes with the
-      ones written with the keyboard: --> " <--
-      This replacement should be temporal and can be done directly in the query:
-        translate(s.target_text, '“”', '""')
-
-      Another solution would be to add an ILIKE statement that replaces,
-      in the search filter, the quotes with an underscore (_). That underscore
-      will match any character (and that, besides a solution, can be a problem).
-      For example:
-        Search term: "compañia"
-        Search filter: %_compañía_%
-
-      This affects other functions related to search
-    */
-
-    $endinginspace = "%".$search_term." %";
-    $endingincomma = "%".$search_term.",%";
-    $endingincolon = "%".$search_term.":%";
-    $enginginfullstop =  "%".$search_term.";%";
-    $enginginsemicolon =  "%".$search_term.".%";
-    $startingwithspace = "% ".$search_term."%";
-    try {
-      $query = $this->conn->prepare("select st.id as sentence_id from sentences_tasks as st left join sentences as s on st.sentence_id = s.id "
-              . "where (s.source_text ILIKE ? or s.target_text ILIKE ? "
-               . "or s.source_text ILIKE ? or s.target_text ILIKE ? "
-               . "or s.source_text ILIKE ? or s.target_text ILIKE ? "
-               . "or s.source_text ILIKE ? or s.target_text ILIKE ? "
-               . "or s.source_text ILIKE ? or s.target_text ILIKE ? "
-               . "or s.source_text ILIKE ? or s.target_text ILIKE ? ) "
-              . " and st.task_id = ? limit 1;");
-      $query->bindParam(1, $endinginspace);
-      $query->bindParam(2, $endinginspace);
-      $query->bindParam(3, $endingincomma);
-      $query->bindParam(4, $endingincomma);
-      $query->bindParam(5, $endingincolon);
-      $query->bindParam(6, $endingincolon);
-      $query->bindParam(7, $enginginfullstop);
-      $query->bindParam(8, $enginginfullstop);
-      $query->bindParam(9, $enginginsemicolon);
-      $query->bindParam(10, $enginginsemicolon);
-      $query->bindParam(11, $startingwithspace);
-      $query->bindParam(12, $startingwithspace);
-      $query->bindParam(13, $task_id);
-      $query->execute();
-      $query->setFetchMode(PDO::FETCH_ASSOC);
-
-      while ($row = $query->fetch()) {        
-       $sentence_id = $row['sentence_id'];
+        $this->conn->close_conn();
+        return $sentence_id;
+      } catch (Exception $ex) {
+        $this->conn->close_conn();
+        throw new Exception("Error in sentence_task_dao::gotoSentenceByTask : " . $ex->getMessage());
       }
-      $this->conn->close_conn();
-      return $sentence_id;
-    } catch (Exception $ex) {
-      $this->conn->close_conn();
-      throw new Exception("Error in sentence_task_dao::getSentenceById : " . $ex->getMessage());
     }
-  }
 
   /**
    * Retrieves a sentence from the DB, given the ID of the previous one and the task ID
@@ -328,6 +301,8 @@ class sentence_task_dao {
       if ($sentence_id == null || $sentence_id=="") {
         $sentence_id = 1;
       }
+
+      $search_term = preg_replace('/(\S*)\s(\S*)/', '$1 & $2', $search_term);
   
       $sentence_task_dto = new sentence_task_dto();
       $offset = $sentence_id - 1;
@@ -497,6 +472,8 @@ class sentence_task_dao {
 
       $query->bindParam(':sentenceid', $sentence_id);
       $query->bindParam(':taskid', $task_id);
+
+      $search_term = preg_replace('/(\S*)\s(\S*)/', '$1 & $2', $search_term);
 
       if ($search_term != "") $query->bindParam(':searchterm', $search_term);
       if ($search_term != "") $query->bindParam(':searchterm2', $search_term);
