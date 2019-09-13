@@ -318,7 +318,7 @@ if (isset($task_id)) {
       $(document).ready(function() {
         $("#feedbackBtn").on('click', function() {
           $.ajax({
-              url: "/services/feedback_service.php",
+              url: "/services/feedback_service.php?service=post",
               data: {
                   feedback_score: $("input[name='feedback_score']:checked").val(),
                   feedback_comments: $("textarea[name='feedback_comments']").val(),

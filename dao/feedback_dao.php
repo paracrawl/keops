@@ -51,7 +51,6 @@ class feedback_dao {
    * @return boolean True if the user has sent feedback about the task, false otherwise
    */
   public function hasOpinion($user_id, $task_id) {
-    $statistics = array();
     $query = $this->conn->prepare("
       select count(id) as count from feedback as f where f.user_id = ? and f.task_id = ?;
     ");
@@ -63,6 +62,35 @@ class feedback_dao {
     $count = 0;
     while ($row = $query->fetch()) {
       $count = $row['count'];
+    }
+    $this->conn->close_conn();
+
+    return ($count > 0);
+  }
+
+  /**
+   * Retrieves feedback information given its ID
+   * 
+   * @param int $feedback_id ID of the feedback
+   * 
+   * @return \object Feedback object
+   */
+  public function getById($feedback_id) {
+    $statistics = array();
+    $query = $this->conn->prepare(
+      "select f.* from feedback as f" . (($feedback_id == "ALL") ? ";" : " where f.id = ?;")
+    );
+    if ($feedback_id != "ALL") $query->bindParam(1, $feedback_id);
+    $query->execute();
+    $query->setFetchMode(PDO::FETCH_ASSOC);
+
+    $feedback_dto = new feedback_dto();
+    while ($row = $query->fetch()) {
+      $feedback_dto->score = $row['score'];
+      $feedback_dto->comments = $row['comments'];
+      $feedback_dto->user_id = $row['user_id'];
+      $feedback_dto->task_id = $row['task_id'];
+      $feedback_dto->created = $row['created'];
     }
     $this->conn->close_conn();
 

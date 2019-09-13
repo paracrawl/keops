@@ -27,6 +27,7 @@
         <li><a data-toggle="tab" href="#languages">Languages</a></li>
         <li><a data-toggle="tab" href="#invitations">Invitations</a></li>
         <li><a data-toggle="tab" href="#corpora">Corpora</a></li>
+        <li><a data-toggle="tab" href="#feedback">Feedback</a></li>
       </ul>
 
       <div class="tab-content">
@@ -264,6 +265,37 @@
                 <th>Type</th>
                 <th>On?</th>
                 <th>Actions</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <div id="feedback" class="tab-pane fade">
+          <div class="title-container row vertical-align">
+            <div class="col-xs-6 col-md-6">
+              <h3>Feedback</h3>
+            </div>
+          </div>
+          <hr>
+          <table id="feedback-table" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" style="width:100%;">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Task</th>
+                <th>Score</th>
+                <th>Comments</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Task</th>
+                <th>Score</th>
+                <th>Comments</th>
               </tr>
             </tfoot>
           </table>

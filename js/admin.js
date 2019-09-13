@@ -746,6 +746,53 @@ $(document).ready(function() {
     deferLoading: 0
   });
 
+
+  /*
+   * Feedback table (for "Feedback" tab)
+   */
+  let feedback_table = $("#feedback-table").DataTable({
+    columnDefs: [
+      {
+        targets: 1,
+        render: function (data, type, row) {
+          return `<a href="/admin/user_edit.php?id=${row[5]}">${row[1]}</a>`;
+        }
+      },
+      {
+        targets: 3,
+        render: function (data, type, row) {
+          let mood = '';
+          let mood_desc = '';
+          switch (row[3]) {
+            case 3:
+              mood = 'incredible'; mood_desc = 'Awesome'; break;
+            case 2:
+              mood = 'happy'; mood_desc = 'Good'; break;
+            case 1:
+              mood = 'sad'; mood_desc = 'Bad'; break;
+          }
+
+          return `<img alt="${mood_desc}" style="width:24px; height:24px;" src="/img/feedback_${mood}.png" /> ${mood_desc}`;
+        }
+      },
+      {
+        targets: 4,
+        class: "multiline"
+      }
+    ],
+    order: [[ 0, 'asc' ]],
+    processing: true,
+    serverSide: true,
+    stateSave: true,
+    ajax: {
+      url: "/services/feedback_service.php",
+      data: function (d) {
+        d.service = "get";
+        d.id = "ALL";
+      }
+    }
+  });
+
   if ($("input[name='corpus_id']").length > 0) {
     corpora_ade_table.ajax.url(`/services/corpora_service.php?service=ade_description&corpus_id=${$("input[name='corpus_id']").val()}`).load();
   }
