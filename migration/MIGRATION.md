@@ -95,3 +95,14 @@ Finally, you migrate to the new version of KEOPS with:
     alembic upgrade HEAD
 
 Please note that this only upgrades the database. You must download the new code from the repository in order to have a functional deployment.
+
+### ⚠️ Permission issues
+If you have any issues related to permissions after migrating, these lines restore the corresponding permissions to the database:
+
+    REVOKE CONNECT ON DATABASE keopsdb FROM PUBLIC;
+    GRANT CONNECT ON DATABASE keopsdb TO keopsdb;
+    ALTER DEFAULT PRIVILEGES FOR USER keopsdb IN SCHEMA keopsdb GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO keopsdb;
+    GRANT USAGE ON SCHEMA keopsdb TO keopsdb;
+    ALTER DEFAULT PRIVILEGES GRANT ALL ON SEQUENCES TO keopsdb;
+    GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA keopsdb TO keopsdb; 
+    GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA keopsdb TO keopsdb;

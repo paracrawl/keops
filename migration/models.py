@@ -1,13 +1,21 @@
 import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Table, Column, Integer, String, Enum, ForeignKey
-from sqlalchemy.types import TIMESTAMP, Boolean
+from sqlalchemy.types import TIMESTAMP, Boolean, Numeric
 from sqlalchemy.dialects.postgresql import TSVECTOR
 from sqlalchemy.sql.expression import text
 from sqlalchemy.orm import relationship
+from sqlalchemy.schema import MetaData
 
-Base = declarative_base()
-Base.metadata.schema = 'keopsdb'
+meta = MetaData(naming_convention = {
+    "ix": 'ix_%(column_0_label)s',
+    "uq": "%(table_name)s_%(column_0_name)s_key",
+    "ck": "ck_%(table_name)s_%(column_0_name)s",
+    "fk": "%(table_name)s_%(column_0_name)s_fkey",
+    "pk": "pk_%(table_name)s"
+}, schema = 'keopsdb')
+
+Base = declarative_base(metadata=meta)
 
 roleEnum = Enum('ADMIN', 'STAFF', 'USER', name='role', create_type=True, schema='keopsdb')
 taskstatusEnum = Enum('PENDING', 'STARTED', 'DONE', name='taskstatus', create_type=True, schema='keopsdb')
@@ -16,8 +24,8 @@ modeEnum = Enum('VAL', 'ADE', 'FLU', name='mode', create_type=True, schema='keop
 
 user_langs = Table('user_langs', Base.metadata,
     Column('id', Integer, primary_key=True),
-    Column('user_id', Integer, ForeignKey('users.id'), nullable=False, unique=True),
-    Column('lang_id', Integer, ForeignKey('langs.id'), nullable=False, unique=True)
+    Column('user_id', Integer, ForeignKey('users.id'), nullable=False),
+    Column('lang_id', Integer, ForeignKey('langs.id'), nullable=False)
 )
 
 sentences_tasks = Table('sentences_tasks', Base.metadata,
@@ -27,7 +35,12 @@ sentences_tasks = Table('sentences_tasks', Base.metadata,
     Column('evaluation', labelEnum, nullable=False, server_default='P'),
     Column('creation_date', TIMESTAMP, nullable=False, server_default=text('NOW()')),
     Column('completed_date', TIMESTAMP),
-    Column('comments', String(5000))
+    Column('time', Numeric)
+)
+
+sentences_pairing = Table('sentences_pairing', Base.metadata,
+    Column('id_1', Integer, ForeignKey('sentences.id'), primary_key=True),
+    Column('id_2', Integer, ForeignKey('sentences.id'), primary_key=True)
 )
 
 class Users(Base):
@@ -77,11 +90,12 @@ class Corpora(Base):
     __tablename__ = 'corpora'
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False)
-    source_lang = Column(Integer, ForeignKey('langs.id'), nullable=False)
+    source_lang = Column(Integer, ForeignKey('langs.id'), nullable=True)
     target_lang = Column(Integer, ForeignKey('langs.id'), nullable=False)
     lines = Column(Integer)
     creation_date = Column(TIMESTAMP, nullable=False, server_default=text('NOW()'))
     active = Column(Boolean, nullable=False, server_default='True')
+    mode = Column(modeEnum, nullable=False, server_default='VAL')
     tasks = relationship('Tasks')
     sentences = relationship('Sentences')
 
@@ -98,16 +112,19 @@ class Tasks(Base):
     creation_date = Column(TIMESTAMP, nullable=False, server_default=text('NOW()'))
     assigned_date = Column(TIMESTAMP)
     completed_date = Column(TIMESTAMP)
-    mode = Column(modeEnum)
+    mode = Column(modeEnum),
+    mode = Column(modeEnum, server_default='VAL', nullable=False)
+    score = Column(Numeric, nullable=True)
 
 class Sentences(Base):
     __tablename__ = 'sentences'
     id = Column(Integer, primary_key=True)
     corpus_id = Column(Integer, ForeignKey('corpora.id'), nullable=False)
     source_text = Column(String(5000), nullable=False)
-    target_text = Column(String(5000), nullable=False)
     source_text_vector = Column(TSVECTOR)
-    target_text_vector = Column(TSVECTOR)
+    type = Column(String)
+    is_source = Column(Boolean)
+    system = Column(String)
     tasks = relationship('Tasks', secondary=sentences_tasks, backref='tasks')
 
 class Comments(Base):
@@ -115,3 +132,12 @@ class Comments(Base):
     pair = Column(Integer, ForeignKey('sentences_tasks.id'), primary_key=True)
     name = Column(String, primary_key=True)
     value = Column(String)
+
+class Feedback(Base):
+    __tablename__ = 'feedback'
+    id = Column(Integer, primary_key=True)
+    score = Column(Integer)
+    comments = Column(String(240))
+    created = Column(TIMESTAMP)
+    user_id = relationship('Users')
+    task_id = relationship('Tasks')
