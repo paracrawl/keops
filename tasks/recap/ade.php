@@ -144,7 +144,6 @@ if (isset($task_id)) {
                       <span>Download annotated sentences (TSV)</span>
                     </a>
                   </div>
-                </div>
               </div>
             </div>
           </div>
@@ -260,12 +259,18 @@ if (isset($task_id)) {
           </table>
         </div>
       </div>
+
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-sm-12 col-xs-12">
+            <div class="page-header h3 mt-0 vertical-align">
+              <span class="glyphicon glyphicon-stats mr-3"></span> Statistics
+            </div>
+        </div>
+        <div class="col-sm-6 col-xs-12">
           <canvas id="point-chart-intra" class="w-100 h-100"></canvas>
         </div>
         <?php if ($task->status == "DONE") { ?>
-        <div class="col-md-6">
+        <div class="col-sm-6 col-xs-12">
           <canvas id="point-chart-inter" class="w-100 h-100"></canvas>
         </div>
       <?php } ?>
