@@ -28,7 +28,18 @@
     </ul>
 
     <div class="page-header mb-0 mt-2">
-      <span class="h3">Upload corpora</span>
+      <div class="row">
+      <div class="col-sm-4 col-sm-push-8 col-xs-12 text-right-sm">
+          <a href="#" class="btn btn-link" data-toggle="modal" data-target="#upload_help_modal">
+            <span class="glyphicon glyphicon-question-sign d-inline"></span> 
+            First time uploading corpora?
+          </a>
+        </div>
+
+        <div class="col-sm-8 col-sm-pull-4 col-xs-12">
+          <span class="h3">Upload corpora</span>
+        </div>
+      </div>
     </div>
 
     <ul class="nav nav-tabs" role="tablist" id="corpus-upload-tabs">
@@ -350,6 +361,170 @@
               </tfoot>
             </table>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="upload_help_modal" tabindex="-1" role="dialog" aria-labelledby="upload_help_modalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="upload_help_modalLabel">Uploading corpora</h4>
+        </div>
+        <div class="modal-body" id="examples">
+          <p>
+            Corpora is uploaded to KEOPS in TSV format. This format uses one line per record, and a tab character to
+            separate fields.
+          </p>
+          <p>
+            The specific format of the TSV file is explained below for each one of the evaluation modes.
+            You can also download a template of this TSV file and replace it with your data.
+          </p>
+
+          <div class="row">
+            <div class="col-xs-12 col-md-12 h5 px-inherit py-3">
+              Validation
+              <a href="/corpora/templates/validation.tsv" class="pull-right"><span class="glyphicon glyphicon-download"></span> Template (.tsv)</a>
+            </div>
+            <div class="col-xs-12 col-md-12 px-inherit py-3">
+              <table class="table table-no-left-padding">
+                <thead>
+                  <tr>
+                    <th>Source text</th>
+                    <th><kbd>Tab</kbd></th>
+                    <th>Target text</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>You can contact our customer service department using the form below.</td>
+                    <td><kbd>Tab</kbd></td>
+                    <td>Puedes ponerte en contacto con nuestro departamento de servicio al cliente mediante el siguiente formulario.</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <p>You should only include one target text for each source text.</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12 col-md-12 h5 px-inherit py-3">
+              Adequacy
+              <a href="/corpora/templates/adequacy.tsv" class="pull-right"><span class="glyphicon glyphicon-download"></span> Template (.tsv)</a>
+            </div>
+            <div class="col-xs-12 col-md-12 px-inherit py-3">
+              <table class="table table-no-left-padding">
+                <thead>
+                  <tr>
+                    <th>Source text</th>
+                    <th><kbd>Tab</kbd></th>
+                    <th>Candidate translation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>You can contact our customer service department using the form below.</td>
+                    <td><kbd>Tab</kbd></td>
+                    <td>Puedes ponerte en contacto con nuestro departamento de servicio al cliente mediante el siguiente formulario.</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <p>You should only include one candidate translation for each source text.</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12 col-md-12 h5 px-inherit py-3">
+              Fluency
+              <a href="/corpora/templates/fluency.tsv" class="pull-right"><span class="glyphicon glyphicon-download"></span> Template (.tsv)</a>
+            </div>
+            <div class="col-xs-12 col-md-12 px-inherit py-3">
+              <table class="table table-no-left-padding">
+                <thead>
+                  <tr>
+                    <th>Source text</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>You can contact our customer service department using the form below.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12 col-md-12 h5 px-inherit py-3">
+              Ranking
+              <a href="/corpora/templates/ranking.tsv" class="pull-right"><span class="glyphicon glyphicon-download"></span> Template (.tsv)</a>
+            </div>
+            <div class="col-xs-12 col-md-12 px-inherit py-3">
+              <div class="h4">First line</div>
+
+              <div class="table-responsive w-100" style="border: 0;">
+                <table class="table table-no-left-padding mb-0">
+                  <thead>
+                    <tr>
+                      <th colspan="7">Involved systems</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Google Translate</td>
+                      <td><kbd>Tab</kbd></td>
+                      <td>Bing</td>
+                      <td><kbd>Tab</kbd></td>
+                      <td>DeepL</td>
+                      <td><kbd>Tab</kbd></td>
+                      <td>...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <p>Include as many systems as you want.</p>
+
+              <div class="h4 mt-5">Rest of lines</div>
+              <div class="table-responsive w-100" style="border: 0;">
+                <table class="table table-no-left-padding">
+                  <thead>
+                    <tr>
+                      <th>Source text</th>
+                      <th><kbd>Tab</kbd></th>
+                      <th>Reference text</th>
+                      <th><kbd>Tab</kbd></th>
+                      <th>Candidate</th>
+                      <td><kbd>Tab</kbd></td>
+                      <th>...</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Use and maintenance manual</td>
+                      <td><kbd>Tab</kbd></td>
+                      <td>Manual de uso y mantenimiento</td>
+                      <td><kbd>Tab</kbd></td>
+                      <td>Manual de empleo y manutención</td>
+                      <td><kbd>Tab</kbd></td>
+                      <td>...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <p>
+                Include as many candidates as you want, always <strong>in the same order</strong> as the involved systems.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
