@@ -195,6 +195,9 @@ $(document).ready(function() {
                 option.textContent = user.name;
                 $("#assigned_user").append(option);
               }
+
+              $(`#assigned_user option[value=${$("#assigned_user").attr("data-assigned")}]`).prop('selected', true)
+              $(`#corpus option[value=${$("#corpus").attr("data-corpus")}]`).prop('selected', true)      
             } else {
               $("#assigned_user").attr("disabled", "");
               $("#helpUsers").removeClass("d-none");
@@ -217,6 +220,9 @@ $(document).ready(function() {
                 option.textContent = `${corpus.name} (${formatDate(corpus.creation_date)})`;
                 $("#corpus").append(option);
               }
+
+              $(`#assigned_user option[value=${$("#assigned_user").attr("data-assigned")}]`).prop('selected', true)
+              $(`#corpus option[value=${$("#corpus").attr("data-corpus")}]`).prop('selected', true)      
             } else {
               $("#corpus").attr("disabled", "");
               $("#helpCorpus").removeClass("d-none");
@@ -617,12 +623,14 @@ $(document).ready(function() {
         responsivePriority: 1,
         render: function (data, type, row) {
             var actions_str = "";
-            actions_str += '<li><a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Recap of the task</a></li>';
-            actions_str += '<li><a href="mailto:' + row[13] + '" title="Contact assigned user"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Contact assigned user</a></li>';
-            
+                        
             if (document.getElementById("input_isowner") && document.getElementById("input_isowner").value == "1") {
               actions_str += '<li><a href="/tasks/change_assigned_user.php?task_id=' + row[0] + '" title="Change assigned user"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Change assigned user</a></li>';
+              actions_str += `<li><a href="/tasks/task_dup.php?id=${row[0]}"><span class="glyphicon glyphicon-duplicate"></span> Duplicate task</a></li>`;
             }
+
+            actions_str += '<li><a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Recap of the task</a></li>';
+            actions_str += '<li><a href="mailto:' + row[13] + '" title="Contact assigned user"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Contact assigned user</a></li>';
             actions_str += '<li>' + getRemoveTaskCode(row[0], row[1]) + '</li>';
             
             return `<div class="btn-group">
