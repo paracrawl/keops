@@ -298,7 +298,7 @@ class corpus_dao {
         $sentence->type = $row["type"];
 
         $query2 = $this->conn->prepare("
-          select s.source_text as target_text, s.type as type from sentences as s
+          select s.* from sentences as s
           join sentences_pairing as sp on (s.id = sp.id_2)
           where sp.id_1 = ?;
         ");
@@ -306,7 +306,14 @@ class corpus_dao {
         $query2->execute();
         $query2->setFetchMode(PDO::FETCH_ASSOC);
         while ($row2 = $query2->fetch()) {
-          $sentence->target_text[] = array("text" => $row2['target_text'], "type" => $row2['type']);
+          $sentence_dto = new sentence_dto();
+          $sentence_dto->id = $row2['id'];
+          $sentence_dto->corpus_id = $row2['corpus_id'];
+          $sentence_dto->source_text = $row2['source_text'];
+          $sentence_dto->type = $row2['type'];
+          $sentence_dto->system = $row2['system'];
+  
+          $sentence->target_text[] = $sentence_dto;
         }
 
         array_push($sentences, $sentence);
