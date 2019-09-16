@@ -46,7 +46,7 @@ if (count($failedparams) == 0){
     $user_dao = new user_dao();
     $user = $user_dao->getUserById($assigned_user);
     $mail = new MailHelper();
-    $template = new MailTemplate();
+    $template = new AssignedTaskTemplate();
     $mail->prepare($template, $task_dto);
     $mail->send($user->email, $user->name);
 

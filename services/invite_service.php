@@ -13,7 +13,7 @@
         echo json_encode(array("result" => false));
     } else {
         $mail = new MailHelper();
-        $mail->prepare(new MailTemplate(), (object) ["token_url" => $token_url]);
+        $mail->prepare(new InvitationTemplate(), (object) ["token_url" => $token_url]);
 
         $result = $mail->send($to);
 

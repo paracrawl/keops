@@ -1,6 +1,6 @@
 <?php
     require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/utils/mail_template.interface.php");
-    class MailTemplate implements MailTemplateI {
+    class ClosedTaskTemplate implements MailTemplateI {
         public function getSubject($params = null) {
             return "Task #" . $params->task_id . " is done!";
         }

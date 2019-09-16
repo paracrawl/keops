@@ -1,6 +1,6 @@
 <?php
     require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/utils/mail_template.interface.php");
-    class MailTemplate implements MailTemplateI {
+    class ContactFormTemplate implements MailTemplateI {
         public function getSubject($params = null) {
             return "Support - " . $params->user->name . ': "'. $params->subject .'"';
         }

@@ -39,7 +39,7 @@ if (isset($_POST["id"]) && isset($_POST["action"]) && $_POST["action"] == "remov
     $user_dao = new user_dao();
     $user = $user_dao->getUserById($assigned_user);
     $mail = new MailHelper();
-    $template = new MailTemplate();
+    $template = new AssignedTaskTemplate();
     $task = $task_dao->getTaskById($task_id);
     $mail->prepare($template, $task);
     $mail->send($user->email, $user->name);

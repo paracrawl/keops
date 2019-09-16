@@ -43,7 +43,7 @@ if ($task_dto->assigned_user == $USER->id) {
     $owner = $user_dao->getUserById($project_dto->owner);
 
     $mail = new MailHelper();
-    $template = new MailTemplate();
+    $template = new ClosedTaskTemplate();
     $mail->prepare($template, $params);
     $mail->send($owner->email, $owner->name);
 
