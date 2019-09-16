@@ -187,11 +187,23 @@ else {
                     $evaluation = json_decode($sentence->evaluation, true);
                     $options = array_slice($sentence->target_text, 1);
                     $keys = array_keys($options);
-                    for ($i = 0; $i < count($options); $i++) {
-                      $pos = rand(0, count($keys) - 1);
-                      $option = $options[$keys[$pos]];
-                      array_splice($keys, $pos, 1);
+                    $systems = (isset($evaluation)) ?  array_keys($evaluation) : null;
 
+                    for ($i = 0; $i < count($options); $i++) {
+                      if (isset($evaluation) && count($evaluation) > 0) {
+                        $pos = -1;
+                        for ($j = 0; $pos == -1 && $j < count($evaluation); $j++) {
+                          if ($options[$j]->system == $systems[$i]) {
+                            $pos = $j;
+                            $option = $options[$j];
+                          }
+                        }
+                      } else {
+                        $pos = rand(0, count($keys) - 1);
+                        $option = $options[$keys[$pos]];
+                      }
+
+                      array_splice($keys, $pos, 1);
                   ?>
                   <div class="ranking-item mb-4 same-height row" data-sentence-id="<?= $option->id ?>" data-sentence-system="<?= $option->system ?>">
                     <div class="ranking-position same-height-column col-md-1 col-xs-2">
