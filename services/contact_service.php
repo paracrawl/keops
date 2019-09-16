@@ -2,6 +2,7 @@
     require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/utils/utils.php");
     require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
     require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dto/user_dto.php");
+    require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/user_dao.php");
     require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/project_dao.php");
     require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/utils/mail_helper.class.php");
     require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/templates/mail/contactform.php");
@@ -22,12 +23,17 @@
         $copy = filter_input(INPUT_POST, "copy", FILTER_SANITIZE_STRING);
         $recaptcha = filter_input(INPUT_POST, "g-recaptcha-response");
         $pm = filter_input(INPUT_POST, "pm");
+        $u = filter_input(INPUT_POST, "u");
 
         $to = "support@prompsit.com";
         if ($pm) {
             $project_dao = new project_dao();
             $project = $project_dao->getProjectById($pm);
             $to = $project->owner_object->email;
+        } else if ($u) {
+            $user_dao = new user_dao();
+            $user = $user_dao->getUserById($u);
+            $to = $user->email;
         }
 
         if (!isSignedIn()) {
@@ -56,7 +62,7 @@
         $user->name = $name;
         
         $mail = new MailHelper();
-        $mail->prepare(new MailTemplate(), (object) ["subject" => $subject, "message" => $message, "user" => $user]);
+        $mail->prepare(new ContactFormTemplate(), (object) ["subject" => $subject, "message" => $message, "user" => $user]);
         $result = $mail->send($to);
 
         if ($copy == "on") {

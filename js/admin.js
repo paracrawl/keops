@@ -630,7 +630,7 @@ $(document).ready(function() {
             }
 
             actions_str += '<li><a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Recap of the task</a></li>';
-            actions_str += '<li><a href="mailto:' + row[13] + '" title="Contact assigned user"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Contact assigned user</a></li>';
+            actions_str += '<li><a href="/contact.php?u='+ row[12] +'" title="Contact assigned user"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Contact assigned user</a></li>';
             actions_str += '<li>' + getRemoveTaskCode(row[0], row[1]) + '</li>';
             
             return `<div class="btn-group">

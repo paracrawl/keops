@@ -10,10 +10,20 @@
   require_once(RESOURCES_PATH . "/session.php");
 
   $project_id = filter_input(INPUT_GET, 'p', FILTER_SANITIZE_STRING);
-  if ($project_id && !isSignedIn()) { 
-      header("Location: /signin.php"); 
+  $user_id = filter_input(INPUT_GET, 'u', FILTER_SANITIZE_STRING);
+  if (($project_id || $user_id) && !isSignedIn()) { 
+      header("Location: /signin.php");
       exit();
   }
+
+    $user_dao = new user_dao();
+    if ($user_id) {
+        $user = $user_dao->getUserById($user_id);
+        if (!$user) {
+            header("Location: /signin.php");
+            exit();
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,6 +41,8 @@
                     <h1>
                         <?php if ($project_id) { ?>
                             Contact PM of Project #<?= $project_id ?>
+                        <?php } else if ($user) { ?>
+                            Contact <?= $user->name ?>
                         <?php } else { ?>
                             Contact support
                         <?php } ?>
@@ -49,9 +61,11 @@
                     <?php if ($project_id) { ?>
                         <input type=hidden name="pm" value="<?= $project_id ?>" /> 
                     <?php } ?>
+                    <?php if ($user_id) { ?>
+                        <input type=hidden name="u" value="<?= $user_id ?>" /> 
+                    <?php } ?>
 
                     <?php 
-                        $user_dao = new user_dao();
                         $user = $user_dao->getUserById(getUserId());
                     ?>
 
