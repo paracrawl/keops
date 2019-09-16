@@ -44,9 +44,7 @@ Once you are signed in, you will see a list of tasks assigned to you. Whenever y
     * __Contact button__: lets you get in touch with the Project administator.
 
 ## Evaluating
-To start evaluating a task, click on the _Start_ button. Depending on the evaluation mode, this will take you to different screens.
-
-However, they all have something in common. To navigate through the task, use the buttons available on the bottom of the page.
+To start evaluating a task, click on the _Start_ button. Depending on the evaluation mode, this will take you to different screens. However, they all have something in common. To navigate through the task, use the buttons available on the bottom of the page.
 
 ![Navigation in evaluation](screenshots/guide/evaluation-navigation.png)
 
@@ -95,7 +93,7 @@ Moreover, KEOPS can be also used to flag sentences which contain personal data o
 * A pair of sentences contains personal data when the content includes proper names or other personal data that could be anonymised for data protection purposes.
 * A pair of sentences contains inappropriate language when it includes profane expressions.
 
-Finally, some keyboard shortcuts are available. Press the key corresponding to the number of the label to select it. If an optional question is available, you can answer using <kbd>,</kbd> or <kbd>.</kbd>. Press <kbd>Enter</kbd> to save the evaluation and go to the next sentence.
+Finally, some keyboard shortcuts are available. Press the key corresponding to the number of the label to select it. If an optional question is available, you can answer using <kbd>←</kbd> or <kbd>→</kbd>. Press <kbd>Enter</kbd> to save the evaluation and go to the next sentence.
 
 <a name="adequacy"></a>
 
@@ -110,7 +108,7 @@ Use the slider control on the right to evaluate the adequacy of the candidate tr
 
 You can control the slider using the keyboard. Use <kbd>+</kbd> to increase the rating, <kbd>-</kbd> to decrease it and <kbd>.</kbd> to set it to a half.
 
-Label filtering is not available in this mode, since labels are not used.
+Please note that label filtering is not available in this mode, since labels are not used.
 
 <a name="fluency"></a>
 
@@ -132,6 +130,8 @@ Label filtering is not available in this mode, since labels are not used.
 
 When performing this kind of evaluation, a source text and a reference translation is presented to you. Then, you must rank a set of candidate translations. The first position belongs to the best translation and, the last position, to the worst one.
 
+When you search in this mode, please note that label filtering is not available because labels are not used.
+
 You can order the translations using the mouse or the keyboard:
 
 __Mouse__
@@ -140,15 +140,9 @@ Click on each translation in the desired order to set that ranking.
 
 __Keyboard__
 
-Press the numbers of the keyboard to order the translations. When you Press the first number, the first sentence will be assigned to that position. 
+Press the numbers of the keyboard to order the translations. When you press the first number, the first sentence will be assigned to that position. 
 
-Then, you will automatically jump to the next translation. Keep on Pressing numbers to assign a position to every translation. 
-
-If you ever need to move to a translation manually, use the + and - keys. Press Enter to save the ranking and go to the next sentence.
-
-Alternatively, type the sentence position in the field on its left.
-
-Label filtering is not available in this mode, since labels are not used.
+Then, you will automatically jump to the next translation. Keep on pressing numbers to assign a position to every translation. If you ever need to move to a translation manually, use the + and - keys. Press Enter to save the ranking and go to the next sentence. Alternatively, you can type the sentence position in the field on its left.
 
 ## Once you're done
 The Project Manager will be notified via mail when you finish a task.
@@ -164,8 +158,8 @@ If you finish an adequacy task, you will see two charts. The one on the left rep
 ![Adequacy recap](screenshots/guide/recap-ade.png)
 
 Your evaluation is also available for __download__:
-* A summary of the task can be downloaded as a CSV file (comma-separated values). 
-* A detailed list of the evaluation of each sentence can be downloaded as a TSV file (tab-separated values).
+* A summary of the task can be downloaded as a TSV file (tab-separated values). 
+* A detailed list of the evaluation of each sentence can be downloaded as a TSV file.
 
 ## Getting in touch
 Whenever you run into a problem, an issue or you just have a doubt, you can get support using the contact form.
@@ -175,4 +169,4 @@ Click on the _Contact PM_ link on the top of the evaluation screen to get in tou
 Click on the _Contact_ link on the footer to contact support. Use this option for any other subjects (platform-related errors, doubts about how to use KEOPS...)
 
 ## Let us know what you think
-If you wish to give your opinion about this product, we'll be happy to hear from you by filling the form available at the end of a task evaluation.
+If you wish to share your thoughts about this product, we'll be happy to hear from you by filling the form available at the end of a task evaluation.
