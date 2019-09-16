@@ -41,7 +41,7 @@ if ($service == "post") {
         echo json_encode(
             $dtProc->process(array(
                 array("f.id"),
-                array("u.email"),
+                array("u.name"),
                 array("f.task_id"),
                 array("f.score"),
                 array("f.comments"),
