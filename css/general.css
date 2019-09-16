@@ -1238,7 +1238,7 @@ a {
   border-right: solid 1px #ddd;
 }
 
-.ran-preview .row:nth-child(2n) {
+.ran-preview > .row:nth-child(2n) {
   background-color: #eee;
 }
 

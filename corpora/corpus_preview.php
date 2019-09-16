@@ -150,9 +150,9 @@
         <?php } else if ($corpus->mode == "RAN") { ?>
           <div class="ran-preview">
             <?php foreach ($preview as $line) { ?>
-              <div class="row same-height-sm">
+              <div class="row same-height-sm py-3">
                 <div class="col-sm-6 same-height-column ran-preview-item">
-                  <div class="row p-3">
+                  <div class="row">
                     <div class="col-sm-12 col-xs-12">
                       <div class="text-increase">Source</div>
                       <p>
@@ -163,23 +163,25 @@
                     <div class="col-sm-12 col-xs-12">
                       <div class="text-increase">Target</div>
                       <p>
-                        <?= $line->target_text[0]["text"] ?>
+                        <?= $line->target_text[0]->source_text ?>
                       </p>
                     </div>
                   </div>
                 </div>
                 <div class="col-sm-6 same-height-column">
-                  <div class="row p-3">
-                    <div class="col-sm-12 col-xs-12">
-                      <div class="text-increase">Options</div>
+                  <div class="text-increase mb-2">Options</div>
+
+                  <?php for($i = 1; $i < count($line->target_text); $i++) { ?>
+                  <div class="row mb-4">
+                    <div class="col-sm-2 col-xs-4">
+                      <span class="label label-default w-100 d-block" style="line-height: inherit;"><?= $line->target_text[$i]->system ?></span>
                     </div>
 
-                    <?php for($i = 1; $i < count($line->target_text); $i++) { ?>
-                      <div class="col-sm-12 col-xs-12 mb-2">
-                        <?= $line->target_text[$i]["text"]; ?>
-                      </div>
-                    <?php } ?>
+                    <div class="col-sm-10 col-xs-12">
+                      <?= $line->target_text[$i]->source_text; ?>
+                    </div>
                   </div>
+                  <?php } ?>
                 </div>
               </div>
             <?php } ?>
