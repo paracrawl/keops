@@ -559,7 +559,7 @@ $(document).ready(function() {
       {
         targets: 5,
         render: function(data, type, row) {
-          return '<a href="/corpora/corpus_preview.php?id='+row[14]+'" title="Preview corpus">'+row[5]+'</a>';
+          return '<a href="/corpora/corpus_preview.php?id='+row[15]+'" title="Preview corpus">'+row[5]+'</a>';
         }
       },
       {
