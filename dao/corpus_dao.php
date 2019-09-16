@@ -87,7 +87,7 @@ class corpus_dao {
    */
   function getFilteredCorpora($filters) {
     try {
-      $sql = "SELECT id, name, source_lang, target_lang FROM corpora";
+      $sql = "SELECT * FROM corpora";
       if (count($filters) > 0) {
         $where = array();
         foreach ($filters as $key => $value) {
@@ -102,10 +102,14 @@ class corpus_dao {
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while($row = $query->fetch()){
         $corpus = new corpus_dto();
-        $corpus->id = $row['id'];
-        $corpus->name = $row['name'];
-        $corpus->source_lang = $row['source_lang'];
-        $corpus->target_lang = $row['target_lang'];
+        $corpus->id = $row["id"];
+        $corpus->name = $row["name"];
+        $corpus->source_lang = $row["source_lang"];
+        $corpus->target_lang = $row["target_lang"];
+        $corpus->lines = $row["lines"];
+        $corpus->creation_date = $row["creation_date"];
+        $corpus->active = $row["active"];
+        $corpus->mode = $row["mode"];
         $corpora[] = $corpus;
       }
       $this->conn->close_conn();
@@ -349,8 +353,9 @@ corpus_dao::$columns = array(
     array('l2.langcode', 'target_lang'),
     array('c.lines', 'lines'),
     array('c.creation_date', 'creation_date'),
+    array('c.mode', 'mode'),
     array('c.active', 'active'),
     array('l1.langname', 'nsource_lang'),
-    array('l2.langname', 'ntarget_lang'),
-    array('c.mode', 'mode')
+    array('l2.langname', 'ntarget_lang')
+
 );
