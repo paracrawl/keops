@@ -150,7 +150,7 @@ if (isset($task_id)) {
         </div>
       <?php
       } else { ?>
-        <div class="col-md-6">
+        <div class="col-sm-6">
         <?php if ($USER->id != $task->assigned_user) { ?>
           <div class="panel panel-warning">
             <div class="panel-heading">
@@ -241,22 +241,20 @@ if (isset($task_id)) {
             <span class="glyphicon glyphicon-time mr-3"></span> Timing
           </div>
 
-          <table class="table table-striped table-bordered table-hover table-condensed" cellspacing="0" width="100%">
-            <tbody>
-              <tr>
-                <td>Maximum time elapsed in a sentence</td>
-                <td><?= round($max, 2) ?> seconds</td>
-              </tr>
-              <tr>
-                <td>Minimum time elapsed in a sentence</td>
-                <td><?= round($min, 2) ?> seconds</td>
-              </tr>
-              <tr>
-                <td>Mean time elapsed in a sentence</td>
-                <td><?= round($mean, 2) ?> seconds</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="row text-center mb-2 mb-sm-0">
+            <div class="col-sm-4 col-xs-4">
+              <div class="h3"><?= round($min, 2) ?><small>s</small></div>
+              <p>Minimum time <br /> elapsed in a sentence</p>
+            </div>
+            <div class="col-sm-4 col-xs-4">
+              <div class="h3"><?= round($mean, 2) ?><small>s</small></div>
+              <p>Mean time <br /> elapsed in a sentence</p>
+            </div>
+            <div class="col-sm-4 col-xs-4">
+              <div class="h3"><?= round($max, 2) ?><small>s</small></div>
+              <p>Maximum time <br /> elapsed in a sentence</p>
+            </div>
+          </div>
         </div>
       </div>
 
