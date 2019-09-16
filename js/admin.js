@@ -210,10 +210,11 @@ $(document).ready(function() {
             if (data.length > 0) {
               $("#corpus").removeAttr("disabled");
               $("#helpCorpus").addClass("d-none");
-              for (user of data) {
+              for (corpus of data) {
+                console.log(corpus);
                 let option = document.createElement('option');
-                option.setAttribute('value', user.id);
-                option.textContent = user.name;
+                option.setAttribute('value', corpus.id);
+                option.textContent = `${corpus.name} (${formatDate(corpus.creation_date)})`;
                 $("#corpus").append(option);
               }
             } else {
@@ -480,7 +481,7 @@ $(document).ready(function() {
       {
         targets: 6,
         render: function (data, type, row) {
-          switch (row[9]) {
+          switch (row[6]) {
             case "VAL":
               return "Validation";
             case "ADE":
@@ -496,7 +497,7 @@ $(document).ready(function() {
         targets: 7,
         className: "text-center",
         render: function (data, type, row) {
-          if (row[6]) {
+          if (row[7]) {
             return '<span class="glyphicon glyphicon-ok green" aria-hidden="true"></span>';
           } else {
             return '<span class="glyphicon glyphicon-remove red" aria-hidden="true"></span>';
