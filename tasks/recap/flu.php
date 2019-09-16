@@ -88,7 +88,7 @@ if (isset($task_id)) {
             </div>
             <div class="panel-body">
               <div class="row">
-                <div class="col-md-6 col-xs-12">
+                <div class="col-md-7 col-xs-12">
                   <p>This task has been marked as <b>DONE</b> and cannot be modified.</p>
                   <p>Thank you!</p>
                   <?php
