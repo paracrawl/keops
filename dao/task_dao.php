@@ -639,9 +639,9 @@ task_dao::$columns_user_tasks = array(
     array('size'),
     array('t.status', 'status'),
     array('t.creation_date', 'creation_date'),
+    array('t.mode', 'mode'),
     array("count(case when st.evaluation!='P' then 1 end)", 'sentencescompleted'),
-    array('us.email', 'email'),
-    array('t.mode', 'mode')
+    array('us.email', 'email')
 );
 
 /**

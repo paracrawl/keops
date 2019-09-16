@@ -565,11 +565,11 @@ $(document).ready(function() {
       {
         targets:6,
         render: function (data, type, row) {
-          var completed = (parseInt(row[12])/parseInt(row[4])) * 100;        
-          return '<a href="/tasks/recap.php?id=' + row[0] + '"><div title="'+row[12]+' of '+row[4]+' sentences evaluated" class="progress">' +
+          var completed = (parseInt(row[13])/parseInt(row[4])) * 100;        
+          return '<a href="/tasks/recap.php?id=' + row[0] + '"><div title="'+row[13]+' of '+row[4]+' sentences evaluated" class="progress">' +
             '<div   class="progress-bar" role="progressbar" aria-valuenow="' + completed +'"' +
             'aria-valuemin="0" aria-valuemax="100" style="width:' + completed +'%">' +
-            '<span>'+row[12] +' of '+ row[4]+'</span></div>' +
+            '<span>'+row[13] +' of '+ row[4]+'</span></div>' +
             '</div></a>';
         }
       },

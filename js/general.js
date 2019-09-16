@@ -40,7 +40,7 @@ $(document).ready(function() {
         searchable: true,
         sortable: true,
         render: function (data, type, row) {
-          switch (row[9]) {
+          switch (row[7]) {
             case 'VAL':
               return 'Validation';
             case 'ADE':
@@ -100,12 +100,12 @@ $(document).ready(function() {
           if (row[4] == null || row[5] == "DONE")
             return row[5];
           
-          var completed = (parseInt(row[7]) / parseInt(row[4])) * 100;
+          var completed = (parseInt(row[8]) / parseInt(row[4])) * 100;
           
-          return '<div  title="'+row[7]+' of '+row[4]+' sentences evaluated" class="progress">' +
+          return '<div  title="'+row[8]+' of '+row[4]+' sentences evaluated" class="progress">' +
                   '<div class="progress-bar" role="progressbar" aria-valuenow="' + completed + '"' +
                   'aria-valuemin="0" aria-valuemax="100" style="width:' + completed + '%">' +
-                  '<span>' + row[7] + ' of ' + row[4] + '</span></div>' +
+                  '<span>' + row[8] + ' of ' + row[4] + '</span></div>' +
                 '</div>';
         }
       },
