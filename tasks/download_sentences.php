@@ -35,7 +35,7 @@ if (isset($task_id)) {
     $headers  = array("Source");
     if ((isset($task->target_lang))) {
       for ($i = 0; $i < count($sample->target_text); $i++) {
-        $headers[] = "Target " . ($i + 1);
+        $headers[] = (isset($sample->target_text[$i]->system) ? $sample->target_text[$i]->system : "Target " . ($i + 1));
       }
     }
 
@@ -61,7 +61,7 @@ if (isset($task_id)) {
       $row = array($source_text);
       if ((isset($task->target_lang))) {
         foreach($target_text as $text) {
-          $row[] = $text;
+          $row[] = $text->source_text;
         }
       }
 

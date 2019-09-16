@@ -556,16 +556,23 @@ from sentences_tasks, sentences as s where task_id = ? and sentence_id = s.id an
         $sentence_task_dto->time = $row['time'];
 
         $query2 = $this->conn->prepare("
-          select s.source_text as target_text from sentences as s
+          select s.* as target_text from sentences as s
           join sentences_pairing as sp on (s.id = sp.id_2)
           where sp.id_1 = ?;
         ");
         $query2->bindParam(1, $sentence_task_dto->sentence_id);
         $query2->execute();
         $query2->setFetchMode(PDO::FETCH_ASSOC);
-        while ($row2 = $query2->fetch()) {
-          $sentence_task_dto->target_text[] = $row2['target_text'];
-        }
+        while ($row = $query2->fetch()) {
+          $sentence_dto = new sentence_dto();
+          $sentence_dto->id = $row['id'];
+          $sentence_dto->corpus_id = $row['corpus_id'];
+          $sentence_dto->source_text = $row['source_text'];
+          $sentence_dto->type = $row['type'];
+          $sentence_dto->system = $row['system'];
+  
+          $sentence_task_dto->target_text[] = $sentence_dto;
+        }  
 
         array_push($st_array, $sentence_task_dto);        
       }
