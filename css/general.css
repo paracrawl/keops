@@ -771,7 +771,7 @@ hr {
   margin-right: 0.5em;
 }
 
-.title-container .btn-link, .title-container .col-xs-12, .title-container .col-sm-12, .page-header .btn-link {
+.title-container .btn-link, .title-container a .col-xs-12, .title-container .col-sm-12, .page-header .btn-link {
   margin: 0;
   padding: 0;
 }

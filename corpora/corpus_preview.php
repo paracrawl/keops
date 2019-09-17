@@ -63,21 +63,21 @@
         <li><a href="/admin/index.php#corpora">Corpora</a></li>
         <li class="active"><?= $corpus->name?></a></li>
       </ul>
-      <div class="page-header row vertical-align">
-        <div class="col-xs-6 col-md-6">
-          <h1><?= $corpus->name?></h1>
-        </div>
-        <div class="col-xs-6 col-md-6 text-right">
-          <a href="/corpora/corpus_edit.php?id=<?php echo $corpus->id;?>" type="submit" title="Edit corpus" class="btn btn-link">
+      <div class="title-container row vertical-align-sm">
+        <div class="col-xs-12 col-sm-6 col-md-push-6 text-right-sm">
+          <a href="/corpora/corpus_edit.php?id=<?php echo $corpus->id;?>" type="submit" title="Edit corpus" class="btn btn-link mr-4 mr-sm-0">
             <span class="glyphicon glyphicon-edit"></span>
             <span class="col-xs-12">Edit</span>
           </a> 
-          <a href="/corpora/corpus_remove.php?id=<?php echo $corpus->id;?>" type="submit" title="Remove corpus" class="btn btn-link">
+          <a href="/corpora/corpus_remove.php?id=<?php echo $corpus->id;?>" type="submit" title="Remove corpus" class="btn btn-link ml-sm-4">
             <span class="text-danger">
               <span class="glyphicon glyphicon-trash"></span>
               <span class="col-xs-12">Remove</span>
             </span>
           </a>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-pull-6">
+          <h1><?= $corpus->name?></h1>
         </div>
       </div>
       <div class="row">
