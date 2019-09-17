@@ -559,7 +559,9 @@ $(document).ready(function() {
           return (row[2]) ? row[2] : '—';
         },
         createdCell: function(td, cellData, rowData, row, col) {
-          td.setAttribute('title', (row[2]) ? '' : 'This task has no source language because it evaluates fluency');
+          if (rowData[10] == "FLU") {
+            td.setAttribute('title','This task has no source language because it evaluates fluency');
+          }
         }
       },
       {
@@ -587,7 +589,6 @@ $(document).ready(function() {
       {
         targets: 7,
         render: function (data, type, row) {
-          console.log(row);
           return formatDate(row[7]);
         }
       },
@@ -792,6 +793,12 @@ $(document).ready(function() {
       {
         targets: 4,
         class: "multiline"
+      },
+      {
+        targets: 5,
+        render: function (data, type, row) {
+          return `<a href="/contact.php?u=${row[5]}"><span class="glyphicon glyphicon-envelope"></span> Contact</a>`;
+        }
       }
     ],
     order: [[ 0, 'asc' ]],

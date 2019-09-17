@@ -80,7 +80,7 @@ class task_dao {
    */
   function insertTask($task_dto) {
     try {
-      $source_lang = ($task_dto->source_lang == "-1") ? NULL : $task_dto->target_lang;
+      $source_lang = ($task_dto->source_lang == "-1") ? NULL : $task_dto->source_lang;
       $query = $this->conn->prepare("INSERT INTO tasks (project_id, assigned_user, corpus_id, assigned_date, source_lang, target_lang, mode) VALUES (?, ?, ?, ?, ?, ?, ?::mode);");
       $query->bindParam(1, $task_dto->project_id);
       $query->bindParam(2, $task_dto->assigned_user);
