@@ -97,7 +97,7 @@
           </div>
           <div class="col-md-12 col-xs-12">
             <div class="h3 my-4">Uploaded corpora</div>
-            <table class="corpora-table table table-striped table-bordered display responsive nowrap" cellspacing="0" style="width:100%;">
+            <table id="corpora-table-val" class="corpora-table table table-striped table-bordered display responsive nowrap" cellspacing="0" style="width:100%;">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -249,7 +249,7 @@
           </div>
           <div class="col-md-12 col-xs-12">
             <div class="h3 my-4">Uploaded corpora</div>
-            <table class="corpora-table table table-striped table-bordered display responsive nowrap" cellspacing="0" style="width:100%;">
+            <table id="corpora-table-flu" class="corpora-table table table-striped table-bordered display responsive nowrap" cellspacing="0" style="width:100%;">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -330,7 +330,7 @@
           </div>
           <div class="col-md-12 col-xs-12">
             <div class="h3 my-4">Uploaded corpora</div>
-            <table class="corpora-table table table-striped table-bordered display responsive nowrap" cellspacing="0" style="width:100%;">
+            <table id="corpora-table-ran" class="corpora-table table table-striped table-bordered display responsive nowrap" cellspacing="0" style="width:100%;">
               <thead>
                 <tr>
                   <th>ID</th>

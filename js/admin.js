@@ -48,9 +48,9 @@ Dropzone.options.dropzoneval = { // camelized id
 
       setTimeout(function() {
         obj.removeFile(file);
-        corpora_table.ajax.reload();
+        $('#corpora-table-val').DataTable().ajax.reload();
       }, 10000);
-      corpora_table.ajax.reload();
+      $('#corpora-table-val').DataTable().ajax.reload();
     });
 
     this.on("canceled", function(file) {
@@ -75,13 +75,13 @@ Dropzone.options.dropzoneade = { // camelized id
   init: function() {
     this.on("complete", function(file) {
       obj = this;
-      corpora_ade_table.ajax.url(`/services/corpora_service.php?service=ade_description&corpus_id=last`).load();
+      $('#corpora-table-ade').DataTable().ajax.url(`/services/corpora_service.php?service=ade_description&corpus_id=last`).load();
 
       setTimeout(function() {
         obj.removeFile(file);
-        corpora_table.ajax.reload();
+        $('#corpora-table-ade').DataTable().ajax.reload();
       }, 10000);
-      corpora_table.ajax.reload();
+      $('#corpora-table-ade').DataTable().ajax.reload();
     });
 
     this.on("canceled", function(file) {
@@ -108,9 +108,9 @@ Dropzone.options.dropzoneflu = { // camelized id
 
       setTimeout(function() {
         obj.removeFile(file);
-        corpora_table.ajax.reload();
+        $('#corpora-table-flu').DataTable().ajax.reload();
       }, 10000);
-      corpora_table.ajax.reload();
+      $('#corpora-table-flu').DataTable().ajax.reload();
     });
 
     this.on("canceled", function(file) {
@@ -136,9 +136,9 @@ Dropzone.options.dropzoneran = { // camelized id
 
       setTimeout(function() {
         obj.removeFile(file);
-        corpora_table.ajax.reload();
+        $('#corpora-table-ran').DataTable().ajax.reload();
       }, 10000);
-      corpora_table.ajax.reload();
+      $('#corpora-table-ran').DataTable().ajax.reload();
     });
 
     this.on("canceled", function(file) {
