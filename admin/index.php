@@ -285,6 +285,7 @@
                 <th>Task</th>
                 <th>Score</th>
                 <th>Comments</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -296,6 +297,7 @@
                 <th>Task</th>
                 <th>Score</th>
                 <th>Comments</th>
+                <th></th>
               </tr>
             </tfoot>
           </table>
