@@ -43,7 +43,7 @@
         <li class="active">New task</li> 
       </ul>
       <div class="page-header">
-        <h1>Duplicate of task <?= $task_id ?> for project "<?= $project->name ?>" project</h1>
+        <h1>Duplicate of task <?= $task_id ?> for "<?= $project->name ?>" project</h1>
         <p>The task will be created for this project. To create a task for another project, create it using the "New task" button existing on that page.</p>
       </div>
       <form class="form-horizontal new-task-form" action="/tasks/task_save.php" role="form" method="post" data-toggle="validator">

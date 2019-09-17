@@ -785,6 +785,10 @@ hr {
     display: flex;
     justify-content: space-between;
   }
+
+  #upload_help_modal .modal-dialog {
+    width: 700px;
+  }
 }
 
 
