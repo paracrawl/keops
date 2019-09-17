@@ -117,7 +117,7 @@
               <div class="col-md-12 sentence-source"><?php echo $line->source_text;?></div>
               <?php foreach ($line->target_text as $target_text) { ?>
                 <div class="col-md-12 sentence-target">
-                  <?= $target_text["text"] ?>
+                  <?= $target_text->source_text ?>
                 </div>
               <?php } ?>
             </div>
@@ -150,8 +150,8 @@
         <?php } else if ($corpus->mode == "RAN") { ?>
           <div class="ran-preview">
             <?php foreach ($preview as $line) { ?>
-              <div class="row same-height-sm py-3">
-                <div class="col-sm-6 same-height-column ran-preview-item">
+              <div class="row same-height-sm">
+                <div class="col-sm-6 same-height-column py-3 ran-preview-item">
                   <div class="row">
                     <div class="col-sm-12 col-xs-12">
                       <div class="text-increase">Source</div>
@@ -161,23 +161,23 @@
                     </div>
 
                     <div class="col-sm-12 col-xs-12">
-                      <div class="text-increase">Target</div>
+                      <div class="text-increase">Reference</div>
                       <p>
                         <?= $line->target_text[0]->source_text ?>
                       </p>
                     </div>
                   </div>
                 </div>
-                <div class="col-sm-6 same-height-column">
-                  <div class="text-increase mb-2">Options</div>
+                <div class="col-sm-6 same-height-column py-3">
+                  <div class="text-increase mb-2">Candidates</div>
 
                   <?php for($i = 1; $i < count($line->target_text); $i++) { ?>
                   <div class="row mb-4">
                     <div class="col-sm-2 col-xs-4">
-                      <span class="label label-default w-100 d-block" style="line-height: inherit;"><?= $line->target_text[$i]->system ?></span>
+                      <span class="label label-default w-100 d-block" style="line-height: inherit; white-space: normal;"><?= $line->target_text[$i]->system ?></span>
                     </div>
 
-                    <div class="col-sm-10 col-xs-12">
+                    <div class="col-sm-10 col-xs-12 pl-sm-0">
                       <?= $line->target_text[$i]->source_text; ?>
                     </div>
                   </div>
