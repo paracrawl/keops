@@ -36,18 +36,19 @@ try {
 
   if ($mode == "VAL" || $mode == "FLU") {
     file_reader($tempFile, ($mode == "VAL") ? 2 : 1, function($values) use ($sentence_dao, $corpus_dto, $corpus_dao, $mode) {
-      $result = $sentence_dao->insertBatchSentences($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $values, $mode);
+      $result = $sentence_dao->insertBatchSentences($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $values, $mode, ($mode == "VAL") ? 2 : 1);
       $corpus_dao->updateLinesInCorpus($corpus_dto->id);
-    }, 1000);
+    }, 1000, true);
   } else if ($mode == "ADE") {
     file_reader($tempFile, 2, function($values) use ($corpus_dto, $corpus_dao, $sentence_dao, $mode) {
       $total = count($values);
 
       if ($total == 0) throw new CorpusException("Invalid format of corpus uploaded.");
-      
+      $final_total = (100/70) * $total;
+
       // Reference sentences
       $ref_group = array();
-      $ref_total = floor($total * 0.1);
+      $ref_total = floor($final_total * 0.1);
       $ref_group_total = floor($total / 3) + $ref_total;
       $legit_in_ref = $ref_group_total - $ref_total;
 
@@ -64,7 +65,7 @@ try {
 
       // bad_reference sentences
       $bad_ref_group = array();
-      $bad_ref_total = floor($total * 0.1);
+      $bad_ref_total = floor($final_total * 0.1);
       $bad_ref_group_total = floor($total / 3) + $bad_ref_total;
       $legit_in_bad_ref = $bad_ref_group_total - $bad_ref_total;
 
@@ -91,7 +92,7 @@ try {
 
       // repeated sentences
       $repeated_group = array();
-      $repeated_total = floor($total * 0.1);
+      $repeated_total = floor($final_total * 0.1);
       $repeated_group_total = floor($total / 3) + $repeated_total + ceil($total % 3);
       $legit_in_repeated = $repeated_group_total - $repeated_total;
 
@@ -116,22 +117,25 @@ try {
       if ($result) {
         $corpus_dao->updateLinesInCorpus($corpus_dto->id);
       }
-    });
+    }, null, true);
   } else if ($mode == "RAN") {
-    file_reader($tempFile, -1, function($values, $headers) use ($sentence_dao, $corpus_dao, $corpus_dto) {
+    file_reader($tempFile, -1, function($values, $headers, $count) use ($sentence_dao, $corpus_dao, $corpus_dto, $mode) {
       // We are ready to save
       if (count($values) > 0) {
+        $data = array();
         foreach ($values as $group) {
-          $source = $sentence_dao->insertSentence($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $group[0], "source");
-          $reference = $sentence_dao->insertSentence($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $group[1], "reference");
-          $sentence_dao->pairSentences($source, $reference);
+          $data[] = array(array($group[0]), "source");
+          $data[] = array(array($group[1]), "reference");
+
           for ($i = 2; $i < count($group); $i++) {
-            $ranking = $sentence_dao->insertSentence($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $group[$i], "ranking", $headers[$i - 2]);
-            $sentence_dao->pairSentences($source, $ranking);
+            $data[] = array(array($group[$i]), "ranking", $headers[$i]);
           }
         }
 
-        $corpus_dao->updateLinesInCorpus($corpus_dto->id);
+        $result = $sentence_dao->insertBatchSentences($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $data, $mode, $count);
+        if ($result) {
+          $corpus_dao->updateLinesInCorpus($corpus_dto->id);
+        }
       } else {
         throw new CorpusException("Invalid format of corpus uploaded.");
       }
@@ -190,12 +194,12 @@ function file_reader($filename, $count, $callback, $batch_size = null, $has_head
       }
 
       if (isset($batch_size) && count($values) >= $batch_size) {
-        $callback($values, $headers);
+        $callback($values, $headers, $count);
         $values = array();
       }
     }
 
-    if (count($values) > 0) $callback($values, $headers);
+    if (count($values) > 0) $callback($values, $headers, $count);
   } catch (Exception $e) {
     return [];
   } finally {

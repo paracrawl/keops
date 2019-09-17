@@ -23,43 +23,93 @@ class sentence_dao {
    * @return boolean True if succeeded, otherwise false
    * @throws Exception
    */
-  function insertBatchSentences($corpus_id, $source_lang, $target_lang, $data, $mode = "") {
+  function insertBatchSentences($corpus_id, $source_lang, $target_lang, $data, $mode = "", $count = 2) {
     try {
       $insert_values = array();
-      foreach($data as $d){
-        if ($mode == "ADE") {
-          $type = $d[1];
-          $d = $d[0];
-        } else {
-          $type = "";
+      $batch_size = 1000;
+      $batches = ceil(count($data) / 1000);
+      $group_size = 0;
+
+      $pairs = array();
+      for ($i = 0; $i < $batches; $i++) {
+        $batch = array_slice($data, $i * $batch_size, ($i + 1) * $batch_size);
+        $paramvalues = array();
+
+        $query_str = "INSERT INTO sentences (corpus_id, source_text, source_text_vector, type, is_source, system) VALUES ";
+        foreach($batch as $d) {
+          if ($mode == "ADE" || $mode == "RAN") {
+            $_d = $d;
+            $type = $d[1];
+            $d = $d[0];
+          } else {
+            $type = "";
+          }
+  
+          $is_source = ($mode == "FLU") ? "true" : "false";
+
+          $pair = array();
+          foreach ($d as $sentence) {
+            $query_str = $query_str . "(?, ?, to_tsvector('simple', ?), ?, ?, ?),";
+            $paramvalues[] = $corpus_id;
+            $paramvalues[] = $sentence;
+            $paramvalues[] = $sentence;
+            $paramvalues[] = $type;
+            $paramvalues[] = $is_source;
+            $paramvalues[] = ($type == "ranking") ? $_d[2] : "null";
+          }
         }
 
-        $is_source = ($mode == "FLU") ? "true" : "false";
+        $query = $this->conn->prepare(substr_replace($query_str, "RETURNING id", -1));
+        $query->execute($paramvalues);
+        
+        if ($mode == "RAN") {
+          while($row = $query->fetch()){        
+            $pair[] = $row['id'];
+          }
 
-        foreach ($d as $sentence) {
-          $query = $this->conn->prepare("INSERT INTO sentences (corpus_id, source_text, source_text_vector, type, is_source) VALUES (?, ?, to_tsvector('simple', ?), ?, ?)");
-          $query->bindParam(1, $corpus_id);
-          $query->bindParam(2, $sentence);
-          $query->bindParam(3, $sentence);
-          $query->bindParam(4, $type);
-          $query->bindParam(5, $is_source);
+          if (count($pair) > 1) $pairs = array_merge($pairs, $pair);
 
-          $query->execute();
+        } else if ($mode != "FLU") {
+          while($row = $query->fetch()){        
+            $pair[] = $row['id'];
+          }
+
+          if (count($pair) > 1) $pairs = array_merge($pairs, $pair);
+        }
+      }
+
+      $batches = ceil(count($pairs) / 1000);
+      for ($i = 0; $i < $batches; $i++) {
+        $batch_data =  array_slice($pairs, $i * $batch_size, ($i + 1) * $batch_size);
+
+        $query1_str = "insert into sentences_pairing(id_1, id_2) values ";
+        $query1_values = array();
+        
+        $query2_str = "update sentences set is_source = true where ";
+        $query2_values = array();
+
+        for ($j = 0; $j < count($batch_data); $j += $count) {
+          if ($mode == "RAN") {
+            for ($k = $j + 1; $k < ($j + $count); $k++) {
+              $query1_str = $query1_str . ("(?, ?),");
+              $query1_values[] = $batch_data[$j];
+              $query1_values[] = $batch_data[$k];
+            }
+          } else {
+            $query1_str = $query1_str . ("(?, ?),");
+            $query1_values[] = $batch_data[$j];
+            $query1_values[] = $batch_data[$j + 1];
+          }
+
+          $query2_str = $query2_str . "id = ? or ";
+          $query2_values[] = $batch_data[$j];
         }
 
-        if (count($d) > 1) {
-          $query = $this->conn->prepare("insert into sentences_pairing(id_1, id_2) select id[2], id[1] from 
-          (select array_agg(id) as id
-          from (select s.id as id from sentences as s order by s.id desc limit 2) as a) as b;");
-          $query->execute();
+        $query1 = $this->conn->prepare(substr_replace($query1_str, "", -1));
+        $query1->execute($query1_values);
 
-          $query = $this->conn->prepare("update sentences set is_source = true from
-          (select id[2] as source from
-           (select array_agg(id) as id
-           from (select s.id as id from sentences as s order by s.id desc limit 2) as a) as b) as c
-          where id = c.source;");
-          $query->execute();
-        }
+        $query2 = $this->conn->prepare(substr_replace($query2_str, "", -4));
+        $query2->execute($query2_values);
       }
 
       $this->conn->close_conn();
