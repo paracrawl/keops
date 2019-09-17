@@ -19,7 +19,12 @@ class sentence_dao {
    * Inserts into the DB a batch of sentences, and associates them to the corpus they belong
    * 
    * @param int $corpus_id Corpus ID
+   * $source_lang, $target_lang, $data, $mode = "", $count = 2
+   * @param int $source_lang  ID of the source lang
+   * @param int $target_lang  ID of the target lang
    * @param array $data Array containing the sentences
+   * @param string  $mode The mode of the uploaded corpus (ADE, FLU, VAL or RAN)
+   * @param string  $count  Amount of columns 
    * @return boolean True if succeeded, otherwise false
    * @throws Exception
    */
@@ -89,18 +94,12 @@ class sentence_dao {
         $query2_values = array();
 
         for ($j = 0; $j < count($batch_data); $j += $count) {
-          if ($mode == "RAN") {
-            for ($k = $j + 1; $k < ($j + $count); $k++) {
-              $query1_str = $query1_str . ("(?, ?),");
-              $query1_values[] = $batch_data[$j];
-              $query1_values[] = $batch_data[$k];
-            }
-          } else {
+          for ($k = $j + 1; $k < ($j + $count); $k++) {
             $query1_str = $query1_str . ("(?, ?),");
             $query1_values[] = $batch_data[$j];
-            $query1_values[] = $batch_data[$j + 1];
+            $query1_values[] = $batch_data[$k];
           }
-
+          
           $query2_str = $query2_str . "id = ? or ";
           $query2_values[] = $batch_data[$j];
         }
