@@ -32,7 +32,14 @@ $(document).ready(function() {
               options: {
                 legend: {
                     display: false
-                }
+                },
+                scales: {
+                  yAxes: [{
+                     ticks: {
+                        stepSize: 1
+                     }
+                  }]
+               }
               }
           });
         }
@@ -72,6 +79,13 @@ $(document).ready(function() {
                 datasets: datasets
               },
               options: {
+                scales: {
+                  yAxes: [{
+                     ticks: {
+                        stepSize: 1
+                     }
+                  }]
+               }
               }
           });
         }
