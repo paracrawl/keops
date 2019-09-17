@@ -571,6 +571,11 @@ $(document).ready(function() {
       {
         targets:6,
         render: function (data, type, row) {
+          if (row[4] == null || row[6] == "PENDING")
+            return row[6];
+          if (row[4] == null || row[6] == "DONE")
+            return row[6];
+
           var completed = (parseInt(row[13])/parseInt(row[4])) * 100;        
           return '<a href="/tasks/recap.php?id=' + row[0] + '"><div title="'+row[13]+' of '+row[4]+' sentences evaluated" class="progress">' +
             '<div   class="progress-bar" role="progressbar" aria-valuenow="' + completed +'"' +
