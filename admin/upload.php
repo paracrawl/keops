@@ -29,7 +29,7 @@
 
     <div class="page-header mb-0 mt-2">
       <div class="row">
-      <div class="col-sm-4 col-sm-push-8 col-xs-12 text-right-sm">
+      <div class="col-sm-4 col-sm-push-8 col-xs-12 text-right-sm mb-4 mb-sm-0">
           <a href="#" class="btn btn-link" data-toggle="modal" data-target="#upload_help_modal">
             <span class="glyphicon glyphicon-question-sign d-inline"></span> 
             First time uploading corpora?
@@ -375,12 +375,12 @@
         </div>
         <div class="modal-body" id="examples">
           <p>
-            Corpora is uploaded to KEOPS in TSV format. This format uses one line per record, and a tab character to
+            Corpora is uploaded to KEOPS in TSV format. This format uses one line per record and a tab character to
             separate fields.
           </p>
           <p>
-            The specific format of the TSV file is explained below for each one of the evaluation modes.
-            You can also download a template of this TSV file and replace it with your data.
+            The specific format of the TSV file is explained below for each of the evaluation modes.
+            You can also download a template and use it to upload your data.
           </p>
 
           <div class="row">
@@ -446,7 +446,7 @@
               <table class="table table-no-left-padding">
                 <thead>
                   <tr>
-                    <th>Source text</th>
+                    <th>Target text</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -464,31 +464,6 @@
               <a href="/corpora/templates/ranking.tsv" class="pull-right"><span class="glyphicon glyphicon-download"></span> Template (.tsv)</a>
             </div>
             <div class="col-xs-12 col-md-12 px-inherit py-3">
-              <div class="h4">First line</div>
-
-              <div class="table-responsive w-100" style="border: 0;">
-                <table class="table table-no-left-padding mb-0">
-                  <thead>
-                    <tr>
-                      <th colspan="7">Involved systems</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Google Translate</td>
-                      <td><kbd>Tab</kbd></td>
-                      <td>Bing</td>
-                      <td><kbd>Tab</kbd></td>
-                      <td>DeepL</td>
-                      <td><kbd>Tab</kbd></td>
-                      <td>...</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <p>Include as many systems as you want.</p>
-
               <div class="h4 mt-5">Rest of lines</div>
               <div class="table-responsive w-100" style="border: 0;">
                 <table class="table table-no-left-padding">
@@ -498,8 +473,10 @@
                       <th><kbd>Tab</kbd></th>
                       <th>Reference text</th>
                       <th><kbd>Tab</kbd></th>
-                      <th>Candidate</th>
-                      <td><kbd>Tab</kbd></td>
+                      <th>Name of system 1</th>
+                      <th style="vertical-align:bottom;"><kbd>Tab</kbd></th>
+                      <th>Name of system 2</th>
+                      <th style="vertical-align:bottom;"><kbd>Tab</kbd></th>
                       <th>...</th>
                     </tr>
                   </thead>
@@ -511,15 +488,15 @@
                       <td><kbd>Tab</kbd></td>
                       <td>Manual de empleo y manutención</td>
                       <td><kbd>Tab</kbd></td>
+                      <td>Manual de empleo y manutención</td>
+                      <td><kbd>Tab</kbd></td>
                       <td>...</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
 
-              <p>
-                Include as many candidates as you want, always <strong>in the same order</strong> as the involved systems.
-              </p>
+              <p>Include as many systems as you want.</p>
             </div>
           </div>
         </div>

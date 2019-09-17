@@ -1,3 +1,1 @@
-System 1	System 2	System 3
-Source text	Target text	Reference translation	System 1 translation	System 2 translation	System 3 translation
-Source text	Target text	Reference translation	System 1 translation	System 2 translation	System 3 translation
+Source text	Reference translation	System 1 name	System 2 name	System 3 name
