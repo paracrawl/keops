@@ -94,6 +94,7 @@ class corpus_dao {
           $where[] = $key . "=" . $value . " ";
         }
         $sql .= " where " . implode(" AND ", $where);
+        $sql .= " order by creation_date desc";
       }
       
       $corpora = array();
