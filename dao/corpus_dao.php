@@ -280,7 +280,7 @@ class corpus_dao {
       $query = $this->conn->prepare(
         "select s1.* from sentences as s1
         where s1.corpus_id = ? and s1.is_source = true
-        order by s1.id    
+        order by s1.id asc
         "
         . (isset($amount) ? " limit ?;" : ";")
       );
@@ -301,7 +301,7 @@ class corpus_dao {
         $query2 = $this->conn->prepare("
           select s.* from sentences as s
           join sentences_pairing as sp on (s.id = sp.id_2)
-          where sp.id_1 = ?;
+          where sp.id_1 = ? order by id asc;
         ");
         $query2->bindParam(1, $sentence->id);
         $query2->execute();

@@ -34,17 +34,6 @@
       $corpus_tl = $lang->langname;
     }
   }
-
-  function formatType($type) {
-    switch($type) {
-      case "reference":
-        return "Reference";
-      case "ranking":
-        return "Option";
-      default:
-        return "";
-    }
-  }
 ?>
 <!DOCTYPE html>
 <html lang="en">

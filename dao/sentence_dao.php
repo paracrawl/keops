@@ -60,7 +60,7 @@ class sentence_dao {
             $paramvalues[] = $sentence;
             $paramvalues[] = $type;
             $paramvalues[] = $is_source;
-            $paramvalues[] = ($type == "ranking") ? $_d[2] : "null";
+            $paramvalues[] = ($type == "ranking") ? $_d[2] : NULL;
           }
         }
 
