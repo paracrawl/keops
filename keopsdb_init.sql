@@ -4,6 +4,7 @@ CREATE SCHEMA keopsdb;
 CREATE TYPE keopsdb.role AS ENUM ('ADMIN', 'STAFF', 'USER');
 CREATE TYPE keopsdb.taskstatus AS ENUM ('PENDING', 'STARTED', 'DONE');
 CREATE TYPE keopsdb.label AS ENUM ('P','V','L','A','T','MT','E','F');
+CREATE TYPE keopsdb.mode AS ENUM ('VAL', 'ADE', 'FLU', 'RAN');
 
 CREATE TABLE keopsdb.USERS (
     ID serial PRIMARY KEY,
@@ -51,11 +52,12 @@ CREATE TABLE keopsdb.PROJECTS(
 CREATE TABLE keopsdb.CORPORA(
     ID serial PRIMARY KEY,
     NAME varchar(100) NOT NULL,
-    SOURCE_LANG integer NOT NULL REFERENCES keopsdb.LANGS(ID),
+    SOURCE_LANG integer REFERENCES keopsdb.LANGS(ID),
     TARGET_LANG integer NOT NULL REFERENCES keopsdb.LANGS(ID),
     LINES integer,
     CREATION_DATE timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    ACTIVE boolean NOT NULL DEFAULT TRUE
+    ACTIVE boolean NOT NULL DEFAULT TRUE,
+    MODE keopsdb.mode NOT NULL DEFAULT 'VAL'
 );
 
 
@@ -69,26 +71,36 @@ CREATE TABLE keopsdb.TASKS(
     CREATION_DATE timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     ASSIGNED_DATE timestamp,
     COMPLETED_DATE timestamp,
-    SOURCE_LANG VARCHAR(5) NOT NULL REFERENCES keopsdb.LANGS(langcode),
-    TARGET_LANG VARCHAR(5) NOT NULL REFERENCES keopsdb.LANGS(langcode)
+    SOURCE_LANG VARCHAR(5) REFERENCES keopsdb.LANGS(langcode),
+    TARGET_LANG VARCHAR(5) NOT NULL REFERENCES keopsdb.LANGS(langcode),
+    MODE keopsdb.mode NOT NULL DEFAULT 'VAL',
+    SCORE NUMERIC
 );
 
 CREATE TABLE keopsdb.SENTENCES(
     ID serial PRIMARY KEY,
     CORPUS_ID integer NOT NULL REFERENCES keopsdb.CORPORA(ID),
     SOURCE_TEXT varchar (5000) NOT NULL,
-    TARGET_TEXT varchar (5000) NOT NULL,
     SOURCE_TEXT_VECTOR tsvector NOT NULL,
-    TARGET_TEXT_VECTOR tsvector NOT NULL
+    TYPE varchar(140),
+    IS_SOURCE boolean,
+    SYSTEM VARCHAR(140)
 );
 
 CREATE TABLE keopsdb.SENTENCES_TASKS(
     ID serial PRIMARY KEY,
     TASK_ID integer NOT NULL REFERENCES keopsdb.TASKS(ID),
     SENTENCE_ID integer NOT NULL REFERENCES keopsdb.SENTENCES(ID),
-    EVALUATION keopsdb.label NOT NULL DEFAULT 'P',
+    EVALUATION varchar(140) NOT NULL DEFAULT 'P',
     CREATION_DATE timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    COMPLETED_DATE timestamp
+    COMPLETED_DATE timestamp,
+    TIME numeric
+);
+
+CREATE TABLE keopsdb.SENTENCES_PAIRING (
+    id_1 integer NOT NULL REFERENCES keopsdb.sentences(id),
+    id_2 integer NOT NULL REFERENCES keopsdb.sentences(id),
+    PRIMARY KEY (id_1, id_2)
 );
 
 create table keopsdb.COMMENTS (
@@ -96,6 +108,16 @@ create table keopsdb.COMMENTS (
 	name varchar (140),
 	value varchar (255),
 	primary key (pair, name)
+);
+
+CREATE TABLE keopsdb.FEEDBACK (
+	id serial NOT NULL,
+	score integer NOT NULL,
+	"comments" varchar(240) NULL,
+	created timestamp NOT NULL DEFAULT NOW(),
+	task_id integer NOT NULL references keopsdb.TASKS(id),
+	user_id integer NOT NULL references keopsdb.USERS(id),
+	PRIMARY KEY (id)
 );
 
 insert INTO keopsdb.langs (langcode, langname) values ('bg','Bulgarian'), ('cs', 'Czech'), ('ca', 'Catalan'),  ('da', 'Danish'), ('de', 'German'), 
@@ -119,3 +141,6 @@ insert into keopsdb.users (name, email, role, password) values ('admin', 'admin@
 /* No stopwords 
 update pg_catalog.pg_ts_dict set dictinitoption = regexp_replace(dictinitoption, ', stopwords = ''(.*)''', ''); */
 CREATE TEXT SEARCH DICTIONARY public.simple_dict ( TEMPLATE = pg_catalog.simple );
+
+alter role keopsdb set search_path to keopsdb, public;
+set search_path = keopsdb, public;
