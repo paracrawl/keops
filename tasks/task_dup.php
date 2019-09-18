@@ -23,6 +23,13 @@
   
   $project_dao = new project_dao();
   $project = $project_dao->getProjectById($task->project_id);
+
+  $modes = [
+    ["code" => "VAL", "name" => "Validation"],
+    ["code" => "ADE", "name" => "Adequacy"],
+    ["code" => "FLU", "name" => "Fluency"],
+    ["code" => "RAN", "name" => "Ranking"]
+  ];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,10 +60,9 @@
           <label for="corpus" class="control-label col-sm-2">Mode</label>
           <div class="col-sm-4">
             <select class="form-control" required="" name="mode" id="mode">
-              <option value="VAL" <?= ($task->mode == "VAL") ? "selected" : "" ?>>Validation</option>
-              <option value="ADE" <?= ($task->mode == "ADE") ? "selected" : "" ?>>Adequacy</option>
-              <option value="FLU" <?= ($task->mode == "FLU") ? "selected" : "" ?>>Fluency</option>
-              <option value="RAN" <?= ($task->mode == "RAN") ? "selected" : "" ?>>Ranking</option>
+              <?php foreach ($modes as $mode) { ?>
+              <option value="<?= $mode["code"] ?>" <?= ($task->mode == $mode["code"]) ? "selected" : "" ?>><?= $mode["name"] ?></option>
+              <?php } ?>
             </select>
           </div>
         </div>
