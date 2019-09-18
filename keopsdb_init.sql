@@ -4,7 +4,7 @@ CREATE SCHEMA keopsdb;
 CREATE TYPE keopsdb.role AS ENUM ('ADMIN', 'STAFF', 'USER');
 CREATE TYPE keopsdb.taskstatus AS ENUM ('PENDING', 'STARTED', 'DONE');
 CREATE TYPE keopsdb.label AS ENUM ('P','V','L','A','T','MT','E','F');
-CREATE TYPE keopsdb.mode AS ENUM ('VAL', 'ADE', 'FLU', 'RAN');
+CREATE TYPE keopsdb.evalmode AS ENUM ('VAL', 'ADE', 'FLU', 'RAN');
 
 CREATE TABLE keopsdb.USERS (
     ID serial PRIMARY KEY,
@@ -57,7 +57,7 @@ CREATE TABLE keopsdb.CORPORA(
     LINES integer,
     CREATION_DATE timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     ACTIVE boolean NOT NULL DEFAULT TRUE,
-    MODE keopsdb.mode NOT NULL DEFAULT 'VAL'
+    EVALMODE keopsdb.evalmode NOT NULL DEFAULT 'VAL'
 );
 
 
@@ -73,7 +73,7 @@ CREATE TABLE keopsdb.TASKS(
     COMPLETED_DATE timestamp,
     SOURCE_LANG VARCHAR(5) REFERENCES keopsdb.LANGS(langcode),
     TARGET_LANG VARCHAR(5) NOT NULL REFERENCES keopsdb.LANGS(langcode),
-    MODE keopsdb.mode NOT NULL DEFAULT 'VAL',
+    EVALMODE keopsdb.evalmode NOT NULL DEFAULT 'VAL',
     SCORE NUMERIC
 );
 
