@@ -51,7 +51,7 @@ class task_dao {
         $task->completed_date = $row['completed_date'];
         $task->source_lang = $row['source_lang'];
         $task->target_lang = $row['target_lang'];
-        $task->mode = $row['mode'];
+        $task->mode = $row['evalmode'];
         $task->score = $row['score'];
 
         $task->source_lang_object = new stdClass();
@@ -81,7 +81,7 @@ class task_dao {
   function insertTask($task_dto) {
     try {
       $source_lang = ($task_dto->source_lang == "-1") ? NULL : $task_dto->source_lang;
-      $query = $this->conn->prepare("INSERT INTO tasks (project_id, assigned_user, corpus_id, assigned_date, source_lang, target_lang, mode) VALUES (?, ?, ?, ?, ?, ?, ?::mode);");
+      $query = $this->conn->prepare("INSERT INTO tasks (project_id, assigned_user, corpus_id, assigned_date, source_lang, target_lang, evalmode) VALUES (?, ?, ?, ?, ?, ?, ?::evalmode);");
       $query->bindParam(1, $task_dto->project_id);
       $query->bindParam(2, $task_dto->assigned_user);
       $query->bindParam(3, $task_dto->corpus_id);      
@@ -261,7 +261,7 @@ class task_dao {
         $task->email = $row['email'];
         $task->source_lang = $row['source_lang'];
         $task->target_lang = $row['target_lang'];
-        $task->mode = $row['mode'];
+        $task->mode = $row['evalmode'];
         $task->score = $row['score'];
 
         $task->source_lang_object = new stdClass();
@@ -322,7 +322,7 @@ class task_dao {
         $task->email = $row['email'];
         $task->source_lang = $row['source_lang'];
         $task->target_lang = $row['target_lang'];
-        $task->mode = $row['mode'];
+        $task->mode = $row['evalmode'];
         $task->score = $row['score'];
 
         $task->source_lang_object = new stdClass();
@@ -385,7 +385,7 @@ class task_dao {
         $task->email = $row['email'];
         $task->source_lang = $row['source_lang'];
         $task->target_lang = $row['target_lang'];
-        $task->mode = $row['mode'];
+        $task->mode = $row['evalmode'];
         $task->score = $row['score'];
 
         $task->source_lang_object = new stdClass();
@@ -533,7 +533,7 @@ class task_dao {
       $query = $this->conn->prepare("
         select t.id, st.evaluation, count(*) from tasks as t
         join sentences_tasks as st on t.id = st.task_id
-        where t.mode = ? and t.corpus_id = (select corpus_id from tasks where id = ?)
+        where t.evalmode = ? and t.corpus_id = (select corpus_id from tasks where id = ?)
         group by 1,2;
       ");
       $query->bindParam(1, $mode);
@@ -620,7 +620,7 @@ task_dao::$columns_project_tasks = array(
     array('t.creation_date', 'creation_date'),
     array('t.assigned_date', 'assigned_date'),
     array('t.completed_date', 'completed_date'),
-    array('t.mode', 'mode'),
+    array('t.evalmode', 'mode'),
     array('p.id', 'p_id'),
     array('u.id', 'u_id'),
     array("count(case when st.evaluation!='P' then 1 end)", 'completedsentences'),
@@ -639,7 +639,7 @@ task_dao::$columns_user_tasks = array(
     array('size'),
     array('t.status', 'status'),
     array('t.creation_date', 'creation_date'),
-    array('t.mode', 'mode'),
+    array('t.evalmode', 'mode'),
     array("count(case when st.evaluation!='P' then 1 end)", 'sentencescompleted'),
     array('us.email', 'email')
 );
@@ -657,5 +657,5 @@ task_dao::$columns_corpus_tasks = array(
     array('t.creation_date', 'creation_date'),
     array('t.assigned_date', 'assigned_date'),
     array('t.completed_date', 'completed_date'),
-    array('t.mode', 'mode')
+    array('t.evalmode', 'mode')
 );

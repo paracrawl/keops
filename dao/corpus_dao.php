@@ -68,7 +68,7 @@ class corpus_dao {
         $corpus->lines = $row["lines"];
         $corpus->creation_date = $row["creation_date"];
         $corpus->active = $row["active"];
-        $corpus->mode = $row["mode"];
+        $corpus->mode = $row["evalmode"];
       }
       $this->conn->close_conn();
       return $corpus;
@@ -110,7 +110,7 @@ class corpus_dao {
         $corpus->lines = $row["lines"];
         $corpus->creation_date = $row["creation_date"];
         $corpus->active = $row["active"];
-        $corpus->mode = $row["mode"];
+        $corpus->mode = $row["evalmode"];
         $corpora[] = $corpus;
       }
       $this->conn->close_conn();
@@ -148,7 +148,7 @@ class corpus_dao {
    */
   function insertCorpus($corpus_dto) {
     try {
-      $query = $this->conn->prepare("INSERT INTO corpora (name, source_lang, target_lang, mode) VALUES (?, ?, ?, ?::mode);");
+      $query = $this->conn->prepare("INSERT INTO corpora (name, source_lang, target_lang, evalmode) VALUES (?, ?, ?, ?::evalmode);");
       $query->bindParam(1, $corpus_dto->name);
       $query->bindValue(2, ($corpus_dto->source_lang != "NULL" ? $corpus_dto->source_lang : NULL));
       $query->bindParam(3, $corpus_dto->target_lang);
@@ -361,7 +361,7 @@ corpus_dao::$columns = array(
     array('l2.langcode', 'target_lang'),
     array('c.lines', 'lines'),
     array('c.creation_date', 'creation_date'),
-    array('c.mode', 'mode'),
+    array('c.evalmode', 'mode'),
     array('c.active', 'active'),
     array('l1.langname', 'nsource_lang'),
     array('l2.langname', 'ntarget_lang')

@@ -464,7 +464,6 @@
               <a href="/corpora/templates/ranking.tsv" class="pull-right"><span class="glyphicon glyphicon-download"></span> Template (.tsv)</a>
             </div>
             <div class="col-xs-12 col-md-12 px-inherit py-3">
-              <div class="h4 mt-5">Rest of lines</div>
               <div class="table-responsive w-100" style="border: 0;">
                 <table class="table table-no-left-padding">
                   <thead>
