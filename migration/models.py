@@ -8,11 +8,11 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.schema import MetaData
 
 meta = MetaData(naming_convention = {
-    "ix": 'ix_%(column_0_label)s',
+    "ix": "%(table_name)s_%(column_0_name)s_idx",
     "uq": "%(table_name)s_%(column_0_name)s_key",
-    "ck": "ck_%(table_name)s_%(column_0_name)s",
+    "ck": "%(table_name)s_%(constraint_name)s_check",
     "fk": "%(table_name)s_%(column_0_name)s_fkey",
-    "pk": "pk_%(table_name)s"
+    "pk": "%(table_name)s_pkey"
 }, schema = 'keopsdb')
 
 Base = declarative_base(metadata=meta)
@@ -20,20 +20,20 @@ Base = declarative_base(metadata=meta)
 roleEnum = Enum('ADMIN', 'STAFF', 'USER', name='role', create_type=True, schema='keopsdb')
 taskstatusEnum = Enum('PENDING', 'STARTED', 'DONE', name='taskstatus', create_type=True, schema='keopsdb')
 labelEnum = Enum('P','V','L','A','T','MT','E','F', name='label', create_type=True, schema='keopsdb')
-modeEnum = Enum('VAL', 'ADE', 'FLU', name='mode', create_type=True, schema='keopsdb')
+modeEnum = Enum('VAL', 'ADE', 'FLU', 'RAN', name='evalmode', create_type=True, schema='keopsdb')
 
 user_langs = Table('user_langs', Base.metadata,
-    Column('id', Integer, primary_key=True),
+    Column('id', Integer, primary_key = True),
     Column('user_id', Integer, ForeignKey('users.id'), nullable=False),
-    Column('lang_id', Integer, ForeignKey('langs.id'), nullable=False)
+    Column('lang_id', Integer, ForeignKey('langs.id'))
 )
 
 sentences_tasks = Table('sentences_tasks', Base.metadata,
-    Column('id', Integer, primary_key=True),
+    Column('id', Integer, primary_key = True),
     Column('task_id', Integer, ForeignKey('tasks.id'), nullable=False),
     Column('sentence_id', Integer, ForeignKey('sentences.id'), nullable=False),
-    Column('evaluation', labelEnum, nullable=False, server_default='P'),
-    Column('creation_date', TIMESTAMP, nullable=False, server_default=text('NOW()')),
+    Column('evaluation', String(140), nullable=False, server_default='P'),
+    Column('creation_date', TIMESTAMP, nullable=False, server_default='CURRENT_TIMESTAMP'),
     Column('completed_date', TIMESTAMP),
     Column('time', Numeric)
 )
@@ -47,34 +47,39 @@ class Users(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     name = Column(String(200), nullable=False)
-    email = Column(String(200), nullable=False, unique=True)
-    creation_date = Column(TIMESTAMP, nullable=False, server_default=text('NOW()'))
+    email = Column(String(200), unique=True, nullable=False)
+    creation_date = Column(TIMESTAMP, nullable=False, server_default='CURRENT_TIMESTAMP')
     role = Column(roleEnum, nullable=False, server_default='USER')
     password = Column(String(200), nullable=False)
-    active = Column(Boolean, nullable=False, server_default='True')
-    tokens = relationship('Tokens')
-    langs = relationship('Langs', secondary=user_langs, backref='users')
-    projects = relationship('Projects', secondary=user_langs, backref='users')
-    tasks = relationship('Tasks')
+    active = Column(Boolean, nullable=False, server_default='TRUE')
+
+    tokens_rel = relationship("Tokens", back_populates="users_rel")
+    langs_rel = relationship("Langs", secondary=user_langs, back_populates="users_rel")
+    projects_rel = relationship('Projects', back_populates='users_rel')
+    tasks_rel = relationship('Tasks', back_populates='users_rel')
 
 class Tokens(Base):
     __tablename__ = 'tokens'
     id = Column(Integer, primary_key=True)
     admin = Column(Integer, ForeignKey('users.id'), nullable=False)
-    token = Column(String(200), nullable=False, unique=True)
-    email = Column(String(200), nullable=False, unique=True)
-    date_sent = Column(TIMESTAMP, nullable=False, server_default=text('NOW()'))
+    token = Column(String(200), unique=True, nullable=False)
+    email = Column(String(200), unique=True, nullable=False)
+    date_sent = Column(TIMESTAMP, nullable=False, server_default='CURRENT_TIMESTAMP')
     date_used = Column(TIMESTAMP)
+
+    users_rel = relationship("Users", back_populates="tokens_rel")
 
 class Langs(Base):
     __tablename__ = 'langs'
     id = Column(Integer, primary_key=True)
-    langcode = Column(String(5), nullable=False, unique=True)
-    langname = Column(String(50), nullable=False, unique=True)
-    corpora_source = relationship('Corpora')
-    corpora_target = relationship('Corpora')
-    tasks_source = relationship('Tasks')
-    tasks_target = relationship('Tasks')
+    langcode = Column(String(5), unique=True, nullable=False)
+    langname = Column(String(50), unique=True, nullable=False)
+
+    users_rel = relationship("Users", secondary=user_langs, back_populates="langs_rel")
+    tasks_rel_1 = relationship("Tasks", back_populates="langs_rel_1")
+    tasks_rel_2 = relationship("Tasks", back_populates="langs_rel_2")
+    corpora_rel_1 = relationship("Corpora", back_populates="langs_rel_1")
+    corpora_rel_2 = relationship("Corpora", back_populates="langs_rel_2")
 
 class Projects(Base):
     __tablename__ = 'projects'
@@ -82,9 +87,11 @@ class Projects(Base):
     owner = Column(Integer, ForeignKey('users.id'), nullable=False)
     name = Column(String(100), nullable=False)
     description = Column(String(500))
-    creation_date = Column(TIMESTAMP, nullable=False, server_default=text('NOW()'))
-    active = Column(Boolean, nullable=False, server_default='True')
-    tasks = relationship('Tasks')
+    creation_date = Column(TIMESTAMP, nullable=False, server_default='CURRENT_TIMESTAMP')
+    active = Column(Boolean, nullable=False, server_default='TRUE')
+
+    users_rel = relationship('Users', back_populates='projects_rel')
+    tasks_rel = relationship('Tasks', back_populates='projects_rel')
 
 class Corpora(Base):
     __tablename__ = 'corpora'
@@ -93,11 +100,14 @@ class Corpora(Base):
     source_lang = Column(Integer, ForeignKey('langs.id'), nullable=True)
     target_lang = Column(Integer, ForeignKey('langs.id'), nullable=False)
     lines = Column(Integer)
-    creation_date = Column(TIMESTAMP, nullable=False, server_default=text('NOW()'))
-    active = Column(Boolean, nullable=False, server_default='True')
-    mode = Column(modeEnum, nullable=False, server_default='VAL')
-    tasks = relationship('Tasks')
-    sentences = relationship('Sentences')
+    creation_date = Column(TIMESTAMP, nullable=False, server_default='CURRENT_TIMESTAMP')
+    active = Column(Boolean, nullable=False, server_default='TRUE')
+    evalmode = Column(modeEnum, nullable=False, server_default='VAL'),
+
+    langs_rel_1 = relationship('Langs', back_populates='corpora_rel_1')
+    langs_rel_2 = relationship('Langs', back_populates='corpora_rel_2')
+    tasks_rel = relationship('Tasks', back_populates='corpora_rel')
+    sentences_rel = relationship('Sentences', back_populates='corpora_rel')
 
 class Tasks(Base):
     __tablename__ = 'tasks'
@@ -107,14 +117,21 @@ class Tasks(Base):
     corpus_id = Column(Integer, ForeignKey('corpora.id'), nullable=False)
     size = Column(Integer)
     status = Column(taskstatusEnum, nullable=False, server_default='PENDING')
-    source_lang = Column(String(5), ForeignKey('langs.langcode'), nullable=False)
-    target_lang = Column(String(5), ForeignKey('langs.langcode'), nullable=False)
-    creation_date = Column(TIMESTAMP, nullable=False, server_default=text('NOW()'))
+    creation_date = Column(TIMESTAMP, nullable=False, server_default='CURRENT_TIMESTAMP')
     assigned_date = Column(TIMESTAMP)
     completed_date = Column(TIMESTAMP)
-    mode = Column(modeEnum),
-    mode = Column(modeEnum, server_default='VAL', nullable=False)
-    score = Column(Numeric, nullable=True)
+    source_lang = Column(String(5), ForeignKey('langs.langcode'), nullable=True)
+    target_lang = Column(String(5), ForeignKey('langs.langcode'), nullable=False)
+    evalmode = Column(modeEnum, nullable=False, server_default='VAL'),
+    score = Column(Numeric)
+
+    projects_rel = relationship('Projects', back_populates='tasks_rel')
+    users_rel = relationship('Users', back_populates='tasks_rel')
+    corpora_rel = relationship('Corpora', back_populates='tasks_rel')
+    sentences_rel = relationship("Sentences", secondary=sentences_tasks, back_populates="tasks_rel")
+    langs_rel_1 = relationship('Langs', back_populates='tasks_rel_1')
+    langs_rel_2 = relationship('Langs', back_populates='tasks_rel_2')
+
 
 class Sentences(Base):
     __tablename__ = 'sentences'
@@ -122,22 +139,19 @@ class Sentences(Base):
     corpus_id = Column(Integer, ForeignKey('corpora.id'), nullable=False)
     source_text = Column(String(5000), nullable=False)
     source_text_vector = Column(TSVECTOR)
-    type = Column(String)
+    type = Column(String(140))
     is_source = Column(Boolean)
-    system = Column(String)
-    tasks = relationship('Tasks', secondary=sentences_tasks, backref='tasks')
+    system = Column(String(140))
+
+    corpora_rel = relationship('Corpora', back_populates='sentences_rel')
+    tasks_rel = relationship("Tasks", secondary=sentences_tasks, back_populates="sentences_rel")
+    sentences_pairing_rel_1 = relationship("Sentences", secondary=sentences_tasks, back_populates="sentences_pairing_rel_2")
+    sentences_pairing_rel_2 = relationship("Sentences", secondary=sentences_tasks, back_populates="sentences_pairing_rel_1")
 
 class Comments(Base):
     __tablename__ = 'comments'
     pair = Column(Integer, ForeignKey('sentences_tasks.id'), primary_key=True)
-    name = Column(String, primary_key=True)
-    value = Column(String)
+    name = Column(String(140), primary_key=True)
+    value = Column(String(255))
 
-class Feedback(Base):
-    __tablename__ = 'feedback'
-    id = Column(Integer, primary_key=True)
-    score = Column(Integer)
-    comments = Column(String(240))
-    created = Column(TIMESTAMP)
-    user_id = relationship('Users')
-    task_id = relationship('Tasks')
+    sentences_tasks_rel = relationship('sentences_tasks')
