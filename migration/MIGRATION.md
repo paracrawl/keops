@@ -30,7 +30,7 @@ In order for Alembic to connect to your database, you must change this line in `
 
 Change it to a valid URL which points to your database. You can read about valid URLs [here](https://docs.sqlalchemy.org/en/13/core/engines.html#database-urls). For example, this should work for a local deployment of KEOPS:
 
-    sqlalchemy.url = postgres+psycopg2://keopsdb:@localhost/keopsdb
+    sqlalchemy.url = postgres+psycopg2://keopsdb:PASWORD@localhost/keopsdb
 
 Now, we must configure Alembic to recognize the structure of our database. You need to [download a model of the database](models.py). Place it in the root of the directory where you initilized Alembic. Now, you should have the following file structure:
 
@@ -51,7 +51,7 @@ With this code:
     from models import Base
     target_metadata = Base.metadata
 
-You must also add `include_schemas=True` every time the context is configured. This happens near lines 46 and 68.
+You must also add `include_schemas=True` every time the context is configured (the function `context.configure` is called). This happens near lines 46 and 68.
 
 Near line 46:
 
@@ -74,7 +74,7 @@ We are ready to go! In the following steps, we will apply the corresponding migr
 ## Migrating
 Migrations are Python files which contain two functions: `upgrade()` and `downgrade()`. As you could guess, the first function performs actions when the database is upgraded to a new version, and the second one performs actions when the database is downgraded to a previous version.
 
-Set the reference point of Alembic:
+First, set the reference point of Alembic:
 
     alembic stamp head
 
@@ -82,13 +82,21 @@ Then, you can download this [set of migrations](migrations.zip) to migrate from 
 
 If you run `alembic history`, you should get something like this:
 
-    9a12a31e8cc2 -> 55f3d231b630 (head), Remove languages from Projects
-    8fe0f67a2fad -> 9a12a31e8cc2, Move language data to tasks
-    2313323396dd -> 8fe0f67a2fad, Add language columns to task
-    0c404977b0b9 -> 2313323396dd, Add sentences vectors
-    b3501b4c1a59 -> 0c404977b0b9, Fill comments table
-    ce2dd22be7de -> b3501b4c1a59, Add and fill comments table
-    <base> -> ce2dd22be7de, Init
+    64d08233eefa -> 84c03f89212d (head), Add feedback table
+    4674a545b1b0 -> 64d08233eefa, Set null evalmodes to VAL
+    ee294d2ae5e3 -> 4674a545b1b0, Delete comments
+    7aef4d0260ec -> ee294d2ae5e3, Adjust null values
+    c0f84decbdac -> 7aef4d0260ec, Change evaluation to varchar
+    b8bec0892316 -> c0f84decbdac, Add time column
+    1ec316af4a8f -> b8bec0892316, Add corpora information
+    241a1d4de4e1 -> 1ec316af4a8f, Add tasks information
+    bea5d762a752 -> 241a1d4de4e1, Add sentence information
+    552fb76000a5 -> bea5d762a752, Add vector
+    c2116e8b1149 -> 552fb76000a5, Drop target text column
+    f5ba8fc1c5da -> c2116e8b1149, Create sentences_pairing table
+    9e93ad2ab9f9 -> f5ba8fc1c5da, Move languages to Tasks
+    39f0aae0582b -> 9e93ad2ab9f9, Add Comments table
+    <base> -> 39f0aae0582b, The begining
 
 Finally, you migrate to the new version of KEOPS with:
 
