@@ -32,14 +32,14 @@ Once you are signed in, you will see a list of tasks assigned to you. Whenever y
 
 * __ID__: identification of the task. You can use it, for example, to refer to a task when contacting support.
 * __Project__: when several tasks are related, they are usually grouped in the same project.
-* __SL__: Code of the source language of the task.
-* __TL__: Code of the target language of the task. For certain kinds of evaluation, this will be empty.
+* __SL__: Code of the source language of the task. For certain kinds of evaluation, this will be empty.
+* __TL__: Code of the target language of the task. 
 * __Status__: progress of the task. When you are not done yet with the task, it will show how many sentences are left to evaluate.
-* __Creation__ date: the date when the task was created.
+* __Creation date__: the date when the task was created.
 * __Type__: defines the way this task should be evaluated. Please refer to the [Modes section](#modes) for more information.
 * __Start button__: use it to start evaluating. When the task is done, it will change into an Information button.
 * __Information button__: use it to review an evaluation which is already finished. You will not be able to change it.
-* __Options button__: groups several tasks, such as
+* __Options button__: groups several actions, such as
     * __Recap button__: shows a sum-up of the task
     * __Contact button__: lets you get in touch with the Project administator.
 
@@ -48,7 +48,7 @@ To start evaluating a task, click on the _Start_ button. Depending on the evalua
 
 ![Navigation in evaluation](screenshots/guide/evaluation-navigation.png)
 
-The control on the left lets you jump to a certain sentence. The controls on the right are:
+Use the control on the left to jump to a certain sentence. The controls on the right are:
 * Previous: shows the previous sentence.
 * Next: shows the next sentence.
 * First pending: shows the first sentence which has not been yet evaluated.
@@ -77,7 +77,7 @@ This mode is used to classify pairs of sentences using the [European Language Re
 6. Free translation
 7. Valid translation
 
-More information about these labels is available on KEOPS (clicking on _Validation guidelines_). You can also refer to the [ELRC Validation Guidelines document](http://www.lr-coordination.eu/sites/default/files/common/Validation_guidelines_CEF-AT_v6.2_20180720.pdf).
+More information about these labels is available on KEOPS (clicking on _Validation guidelines_). You may also refer to the [ELRC Validation Guidelines document](http://www.lr-coordination.eu/sites/default/files/common/Validation_guidelines_CEF-AT_v6.2_20180720.pdf).
 
 If you don't select a label, the sentence will be __pending__.
 
