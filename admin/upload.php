@@ -181,17 +181,22 @@
 
         <div class="row mt-4">
           <div class="col-xs-12 col-md-12">
-            <strong class="h3">HIT description</strong>
+            <strong class="h3">Uploaded corpora</strong>
           </div>
 
           <div class="col-xs-12 col-md-12 mt-4">
-            <table id="corpora-table-ade" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" style="width:100%;">
+          <table id="corpora-table-ade" class="corpora-table table table-striped table-bordered display responsive nowrap" cellspacing="0" style="width:100%;">
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Reference</th>
-                  <th>Candidate</th>
+                  <th>Name</th>
+                  <th title="Source language">SL</th>
+                  <th title="Target language">TL</th>
+                  <th title="Number of lines in the file">Lines</th>
+                  <th>Creation date</th>
                   <th>Type</th>
+                  <th>On?</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -199,9 +204,14 @@
               <tfoot>
                 <tr>
                   <th>ID</th>
-                  <th>Reference</th>
-                  <th>Candidate</th>
+                  <th>Name</th>
+                  <th title="Source language">SL</th>
+                  <th title="Target language">TL</th>
+                  <th title="Number of lines in the file">Lines</th>
+                  <th>Creation date</th>
                   <th>Type</th>
+                  <th>On?</th>
+                  <th>Actions</th>
                 </tr>
               </tfoot>
             </table>

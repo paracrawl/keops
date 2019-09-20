@@ -75,7 +75,6 @@ Dropzone.options.dropzoneade = { // camelized id
   init: function() {
     this.on("complete", function(file) {
       obj = this;
-      $('#corpora-table-ade').DataTable().ajax.url(`/services/corpora_service.php?service=ade_description&corpus_id=last`).load();
 
       setTimeout(function() {
         obj.removeFile(file);
@@ -721,46 +720,6 @@ $(document).ready(function() {
     },
     stateSave: true
   });
-
-  /*
-   * Corpora table (for "Corpora" tab)
-   */
-  let order = 0;
-  corpora_ade_table = $("#corpora-table-ade").DataTable({
-    columnDefs: [
-      {
-        targets: 1,
-        class: "multiline"
-      },
-      {
-        targets: 2,
-        class: "multiline"
-      },
-      {
-        targets: 3,
-        render: function(data, type, row) {
-          switch (row[3]) {
-            case "legit":
-              return "Legit";
-            case "ref":
-              return "Reference";
-            case "bad_ref":
-              return "Bad reference";
-            case "rep":
-              return "Repeated";
-            default:
-              return "";
-          }
-        }
-      }
-    ],
-    order: [[ 0, 'asc' ]],
-    processing: true,
-    serverSide: true,
-    stateSave: true,
-    deferLoading: 0
-  });
-
 
   /*
    * Feedback table (for "Feedback" tab)
