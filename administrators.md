@@ -18,6 +18,8 @@ The parallel sentences are organized in tasks. A task defines a group of sentenc
 
 As an administrator, your mission is to create tasks, assign them to evaluators and track their progress. 
 
+Even if you are an administrator, you can be assigned tasks. For more information about how to evaluate tasks, please refer to the [evaluators guide](evaluators.md).
+
 <a name="started"></a>
 
 ## Getting started
@@ -35,14 +37,20 @@ This will take you to the _Sign in_ screen, where you just have to fill the fiel
 ### Sign up
 When you are invited to KEOPS, you will get an invitation link. If you follow that link, you will be able to sign up.
 
-Fill the required fields and click on _Sign up_. This will create your evaluator account. From now on, you can sign in using your email and password
+Fill the required fields and click on _Sign up_. This will create your evaluator account. From now on, you can sign in using your email and password.
+
+Instead of an invitation link, you could get an invitation token. This token will look like this:
+
+    5d4404fb9f66a
+
+On the Sign up screen, fill the _Access Token_ field with this token.
 
 ![Sign up screen](screenshots/guide/signup.png)
 
 <a name="tasks"></a>
 
 ## Managing tasks and projects
-Projects group tasks which are somehow related. A task must __always__ belong to a project, so projects may contain only one task, if there is no related ones. When creating a project, you will be asked for a name and a description. Use this information to correctly identify your projects.
+Projects group tasks which are somehow related. A task must __always__ belong to a project, so projects may contain only one task. When creating a project, you will be asked for a name and a description. Use this information to correctly identify your projects.
 
 Tasks group sentences which should be evaluated in the same way. You can create tasks once you create the project they belong to. When creating a task, you will be asked for:
 * __Mode__: the way this task should be evaluated. Refer to the [modes](#modes) section for more information.
@@ -98,9 +106,11 @@ The source text is presented to evaluators on the left of the screen and, the ca
 
 <a name="qualitycontrol"></a>
 
-Adequacy mode adds __quality control sentences__ to the corpus. These sentences can be previewed at any time, and their creation is based on [the research of Cambridge Core](https://www.cambridge.org/core/journals/natural-language-engineering/article/can-machine-translation-systems-be-evaluated-by-the-crowd-alone/E29DA2BC8E6B99AA1481CC92FAB58462). 
+<img alt="Detective" width="32" height="32" src="https://xn--i-7iq.ws/emoji-image/🕵️‍♀️.png?format=emojione&ar=1x1" style="vertical-align:middle; margin-right: 6px;" /> __Quality control__
 
-Once the evaluator is done with the task, a score is computed assessing their performance on the control sentences. This score may be mediocre even for good evaluators, since the used metrics are strict. We do not recommend to ban an evaluator because of this score as the only reason. The score may be used as an illustrative measure of the performance of the user on that task, but administrators should always corroborate the score.
+Adequacy mode adds quality control sentences to the corpus. These sentences can be previewed at any time, and their creation is based on [the research of Cambridge Core](https://www.cambridge.org/core/journals/natural-language-engineering/article/can-machine-translation-systems-be-evaluated-by-the-crowd-alone/E29DA2BC8E6B99AA1481CC92FAB58462). 
+
+Once the evaluator is done with the task, a score is computed assessing their performance on the control sentences. This score may be mediocre even for good evaluators, since the used metrics are strict. __We do not recommend to ban an evaluator because of this score as the only reason__. The score may be used as an illustrative measure of the performance of the user on that task, but administrators should always corroborate the score.
 
 <a name="fluency"></a>
 
@@ -114,12 +124,12 @@ When evaluating fluency, evaluators must assess that the presented text is fluen
 #### Ranking
 ![Ranking screen](/screenshots/guide/ranking.png)
 
-When performing this kind of evaluation, a source text and a reference translation is presented to you. Then, evaluators must rank a set of candidate translations. The first position belongs to the best translation and, the last position, to the worst one.
+When performing this kind of evaluation, a source text and a reference translation is presented to the evaluator. Then, evaluators must rank a set of candidate translations. The first position belongs to the best translation and, the last position, to the worst one.
 
 <a name="corpora"></a>
 
 ## Managing corpora
-A set of sentences is called a corpus. A corpus may have different structures depending on the evaluation mode they are meant to be used in.
+A set of sentences is called a corpus. Corpora may have a different structure depending on the evaluation mode they are meant to be used in.
 
 KEOPS lets you upload, preview and assign corpora for evaluation. 
 
@@ -133,8 +143,6 @@ The specific format of the TSV file is explained below for each of the evaluatio
 * [Adequacy template](/corpora/templates/adequacy.tsv)
 * [Fluency template](/corpora/templates/fluency.tsv)
 * [Ranking template](/corpora/templates/ranking.tsv)
-
-> ⚠️ Due to quality control sentences, uploading corpora for adequacy mode will result in a corpus 30% bigger than its original size. Learn more about quality control [here](#qualitycontrol)
 
 #### Corpora for validation
 | Source text | Tab | Target text |
@@ -150,10 +158,18 @@ You should only include one target text for each source text.
 
 You should only include one candidate translation for each source text.
 
+---
+
+⚠️ Due to quality control sentences, uploading corpora for adequacy will result in a corpus __30% bigger__ than its original size. Learn more about quality control [here](#qualitycontrol)
+
+---
+
 #### Corpora for fluency
 | Candidate translation |
 |-----------------------|
 Puedes ponerte en contacto con nuestro departamento de servicio al cliente mediante el siguiente formulario |
+
+Corpora for fluency evaluation consist only on one column because they are monolingual tasks.
 
 #### Corpora for ranking
 | Source text | Tab | Reference text | Tab | Name of system 1 | Tab | Name of system 2 | Tab | ... |
@@ -176,7 +192,7 @@ Once the user accepts the invitation and signs up, you can modify their informat
 * __Email__: the email address of the user.
 * __Languages__: the languages which the user has knowledge of.
 * __Role__: whether this user is an evaluator or an administrator.
-* __Active__: whether the user may sign in.
+* __Active__: whether the user can sign in.
 
 <a name="languages"></a>
 
