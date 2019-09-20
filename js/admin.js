@@ -963,7 +963,7 @@ function getInviteToken(email){
             success: (response) => {
               console.log(response);
               if (response.result == true) {
-                $("#tokenHelp").html(`We have sent an email with this invite link to <strong>${email}</strong>`);
+                $("#tokenHelp").html(`<span class='glyphicon glyphicon-envelope'></span> We have sent an email with this invite link to <strong>${email}</strong>`);
                 $("#invitation_url_controls").addClass("has-success");
               } else {
                 $("#tokenHelp").html(`We could not send an email to <strong>${email}</strong>. You can copy the URL above and send it manually.`);

@@ -62,12 +62,22 @@ body > .container {
   align-items: baseline;
 }
 
+.vertical-align-center {
+  display: flex;
+  align-items: center;
+}
+
 .page-header .glyphicon:not(.d-inline), .title-container .glyphicon:not(.d-inline) {
   display: block;
 }
 
 @media screen and (min-width: 768px) {
   .vertical-align-sm {
+    display: flex;
+    align-items: baseline;
+  }
+
+  .vertical-align-center-sm {
     display: flex;
     align-items: center;
   }
