@@ -16,6 +16,7 @@ RUN apt-get update -q --fix-missing && \
 			php7.2-pgsql \
 			php7.2-fpm \
 			nginx \ 
+			ca-certificates \
 			sudo && \
     apt-get autoremove -y && \
     apt-get autoclean
