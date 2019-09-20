@@ -86,12 +86,18 @@ class corpus_dao {
    * @throws Exception
    */
   function getFilteredCorpora($filters) {
-    try {
+    $whitelist = array("id", "name", "source_lang", "target_lang", "lines", "creation_date", "active", "mode");
+    
+    try {      
       $sql = "SELECT * FROM corpora";
+      $values = array();
       if (count($filters) > 0) {
         $where = array();
         foreach ($filters as $key => $value) {
-          $where[] = $key . "=" . $value . " ";
+          if (in_array($key, $whitelist) == false) throw new Exception();
+
+          $where[] = $key . "= ? ";
+          $values[] = $value;
         }
         $sql .= " where " . implode(" AND ", $where);
         $sql .= " order by creation_date desc";
@@ -99,7 +105,7 @@ class corpus_dao {
       
       $corpora = array();
       $query = $this->conn->prepare($sql);
-      $query->execute();
+      $query->execute($values);
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while($row = $query->fetch()){
         $corpus = new corpus_dto();
