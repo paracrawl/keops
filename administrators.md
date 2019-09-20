@@ -79,7 +79,7 @@ This mode is used to classify pairs of sentences using the [European Language Re
 6. Free translation
 7. Valid translation
 
-More information about these labels is available on KEOPS (clicking on _Validation guidelines_). You may also refer to the [ELRC Validation Guidelines document](http://www.lr-coordination.eu/sites/default/files/common/Validation_guidelines_CEF-AT_v6.2_20180720.pdf).
+You may refer to the [ELRC Validation Guidelines document](http://www.lr-coordination.eu/sites/default/files/common/Validation_guidelines_CEF-AT_v6.2_20180720.pdf) for more information about these labels.
 
 If a label is not selected, the sentence will be __pending__.
 
