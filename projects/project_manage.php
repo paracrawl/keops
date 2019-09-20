@@ -36,14 +36,14 @@
         <li><a href="/projects/project_manage.php?id=<?php echo $project->id; ?>"><?= $project->name?></a></li>
         <li class="active">Manage project</li> 
       </ul>
-      <div class="page-header">
+      <div class="title-container">
         <div class="row vertical-align">
           <div class="col-xs-6 col-md-6">
             <h1 style="margin-top: 0;"><?= $project->name ?></h1>
           </div>
 
           <div class="col-xs-6 col-md-6 text-right">
-            <a href="/projects/project_edit.php?id=<?php echo $project->id;?>" type="submit" title="Edit project" class="btn btn-link">
+            <a href="/projects/project_edit.php?id=<?php echo $project->id;?>" type="submit" title="Edit project" class="btn btn-link mr-3">
               <span class="glyphicon glyphicon-edit"></span>
               <span class="col-xs-12">Edit</span>
             </a> 
