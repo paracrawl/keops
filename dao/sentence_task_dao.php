@@ -32,7 +32,7 @@ class sentence_task_dao {
     try {
       $sentence_task_dto = new sentence_task_dto();
       // TODO We are assuming that sentence ids are consecutive
-      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, st.evaluation, st.creation_date, st.completed_date from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.id = ? and st.task_id = ? limit 1 order by s.id asc;");
+      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, st.evaluation, st.creation_date, st.completed_date from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.id = ? and st.task_id = ? order by s.id asc limit 1;");
       $query->bindParam(1, $sentence_id);
       $query->bindParam(2, $task_id);
       $query->execute();
