@@ -79,7 +79,7 @@ $(document).ready(function() {
         render: function (data, type, row) {
           var actions_str = "";
           actions_str += '<li><a href="/tasks/recap.php?id=' + row[0] + '" title="Recap of the task"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Recap of the task</a></li>';
-          actions_str += '<li><a href="mailto:' + row[8] + '" title="Contact project manager"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Contact project manager</a></li>';
+          actions_str += '<li><a href="/contact.php?p='+ row[9] + '" title="Contact project manager"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Contact project manager</a></li>';
 
           return `<div class="btn-group">
                   <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-label="Toggle actions" aria-haspopup="true" aria-expanded="false">

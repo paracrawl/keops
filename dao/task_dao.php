@@ -531,10 +531,10 @@ class task_dao {
     try {
       $statistics = array();
       $query = $this->conn->prepare("
-        select t.id, st.evaluation, count(*) from tasks as t
+        select t.id, round(st.evaluation::integer, -1) as evaluation, count(*) from tasks as t
         join sentences_tasks as st on t.id = st.task_id
         where t.evalmode = ? and t.corpus_id = (select corpus_id from tasks where id = ?)
-        group by 1,2;
+        and st.evaluation != 'P' group by 1,2;
       ");
       $query->bindParam(1, $mode);
       $query->bindParam(2, $task_id);
@@ -549,8 +549,25 @@ class task_dao {
         }
       }
 
+      $combined_stats = array('other' => array(), ("".$task_id."") => array());
+      $keys = array_keys($statistics);
+      for ($i = 0; $i < count($keys); $i++) {
+        if ($keys[$i] != $task_id) {
+          $task_keys = array_keys($statistics[$keys[$i]]);
+          for ($j = 0; $j < count($task_keys); $j++) {
+            if($combined_stats['other'][$task_keys[$j]]){
+              $combined_stats['other'][$task_keys[$j]] += $statistics[$keys[$i]][$task_keys[$j]];
+            } else {
+              $combined_stats['other'][$task_keys[$j]] = $statistics[$keys[$i]][$task_keys[$j]];
+            }
+          }
+        } else {
+          $combined_stats[$task_id] = $statistics[$keys[$i]];
+        }
+      }
+
       $this->conn->close_conn();
-      return $statistics;
+      return $combined_stats;
     } catch (Exception $ex) {
       $this->conn->close_conn();
       throw new Exception("Error in task_dao::getStatsForTask : " . $ex->getMessage());
@@ -597,7 +614,7 @@ class task_dao {
               . "left join users as us on us.id = p.owner "
               . "left join sentences_tasks as st on t.id = st.task_id",
               $request,
-              "t.id, p.name, source_lang, target_lang, us.email",
+              "t.id, p.name, source_lang, target_lang, p.id",
               "t.assigned_user= ?",
               array($user_id)));
     } catch (Exception $ex) {
@@ -641,7 +658,7 @@ task_dao::$columns_user_tasks = array(
     array('t.creation_date', 'creation_date'),
     array('t.evalmode', 'mode'),
     array("count(case when st.evaluation!='P' then 1 end)", 'sentencescompleted'),
-    array('us.email', 'email')
+    array('p.id', 'p_id')
 );
 
 /**
