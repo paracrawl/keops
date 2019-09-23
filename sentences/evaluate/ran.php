@@ -207,7 +207,7 @@ else {
                   ?>
                   <div class="ranking-item mb-4 same-height row" data-sentence-id="<?= $option->id ?>" data-sentence-system="<?= $option->system ?>">
                     <div class="ranking-position same-height-column col-md-1 col-xs-2">
-                      <input class="form-control" type=number value="<?= (isset($evaluation[$option->system]) ? $evaluation[$option->system] : "") ?>" min="1" max="5" step="1" placeholder="#" <?= ($task->status == "DONE") ? "disabled" : "" ?> />
+                      <input class="form-control" type=number value="<?= (isset($evaluation[$option->system]) ? $evaluation[$option->system] : "") ?>" min="1" max="<?= count($options) ?>" step="1" placeholder="#" <?= ($task->status == "DONE") ? "disabled" : "" ?> />
                     </div>
                     <div class="ranking-text same-height-column col-md-11 col-xs-10">
                       <div class="p-3">

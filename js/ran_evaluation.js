@@ -10,12 +10,23 @@ $(document).ready(function() {
       done = done && ($(el).find(".ranking-position input").val() != "");
       ranking[$(el).attr("data-sentence-system")] = $(el).find(".ranking-position input").val();
     });
-
     $("input[name='evaluation']").val((done) ? JSON.stringify(ranking) : "P");
 
     return true;
-  })
+  });
 
+  $(".ranking-position input").on('change', function(e) {
+    let value = $(this).val();
+    if (value < parseInt($(this).attr('min')) || value > parseInt($(this).attr('max'))) {
+      $(this).val("");
+    } else {
+      for (let option of $(".ranking-position input").not(this)) {
+        if ($(option).val() == value) {
+          $(this).val("");
+        }
+      }
+    }
+  });
 
   /**
    * Evaluation shortcuts
