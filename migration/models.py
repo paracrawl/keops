@@ -17,7 +17,7 @@ meta = MetaData(naming_convention = {
 
 Base = declarative_base(metadata=meta)
 
-roleEnum = ENUM('ADMIN', 'PM', 'USER', name='role', create_type=True, schema='keopsdb')
+roleEnum = Enum('ADMIN', 'PM', 'USER', name='role', create_type=True, schema='keopsdb')
 taskstatusEnum = Enum('PENDING', 'STARTED', 'DONE', name='taskstatus', create_type=True, schema='keopsdb')
 labelEnum = Enum('P','V','L','A','T','MT','E','F', name='label', create_type=True, schema='keopsdb')
 modeEnum = Enum('VAL', 'ADE', 'FLU', 'RAN', name='evalmode', create_type=True, schema='keopsdb')
