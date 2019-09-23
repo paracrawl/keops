@@ -12,6 +12,12 @@
     header("Location: /index.php");
     exit();
   }
+
+  $given_token = filter_input(INPUT_GET, 'token');
+
+  if (!$given_token) {
+    header("Location: /index.php");
+  }
 ?>
 
 <!DOCTYPE html>
@@ -37,12 +43,11 @@
             <p>
             <?php
               switch ($_SESSION["error"]) {
-                case "notregistered":     
                 case "wrongpassword":
                   echo "Email and password do not match. Please, try again.";
                   break;
-                case "missingdata":
-                  echo "You should specify your email and password. Please, try again.";
+                case "expired":
+                  echo "The token has expired.";
                   break;
                 case "unknownerror":
                 default:
@@ -57,21 +62,23 @@
         }
         ?>
 
-        <form class="form-signin <?= (isset($_SESSION["error"])) ? "form-signin-error" : "" ?>" role="form" data-toggle="validator" action="users/user_login.php" method="post">
+        <form class="form-signin <?= (isset($_SESSION["error"])) ? "form-signin-error" : "" ?>" role="form" data-toggle="validator" action="users/renew_password.php" method="post">
+          <input type=hidden name="token" value="<?= $given_token ?>" />
+          <input type=hidden name="service" value="renew" />
+
           <div class="signin-title">
             <img src="img/pyramids-icon.png" alt="" />
-            <div class="h3">Sign in</div>
+            <div class="h3">Reset your password</div>
           </div>
           <div class="form-group">
-            <label for="email" class="sr-only control-label">Email address</label>
-            <input type="email" name="email" id="email" class="form-control" placeholder="Email address" required="" autofocus="">
-            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-            <div class="help-block with-errors">Type your email address</div>
+            <label for="password" class="sr-only control-label">New password</label>
+            <input type="password" name="password" id="password" class="form-control" data-minlength="6" placeholder="New password" required="">
+            <div class="help-block with-errors">Minimum of 6 characters</div>
           </div>
           <div class="form-group">
-            <label for="password" class="sr-only control-label">Password</label>
-            <input type="password" name="password" id="password" class="form-control" placeholder="Password" required="">
-            <div class="help-block with-errors">Type your password</div>
+            <label for="password2" class="sr-only control-label">Repeat your new password</label>
+            <input type="password" name="password2" id="password2" class="form-control" data-minlength="6" placeholder="Repeat your new password" required="">
+            <div class="help-block with-errors">Minimum of 6 characters</div>
           </div>
           <div class="form-group">
             <div class="row vertical-align">
@@ -79,22 +86,10 @@
                 <a href="/signup.php" class="btn btn-lg btn-signup btn-link">Sign up</a>
               </div>
               <div class="col-sm-6 col-xs-6 text-right">
-                <button class="btn btn-primary" type="submit">Sign in</button>
+                <button class="btn btn-primary" type="submit">Save</button>
               </div>
             </div>
           </div>
-
-          <?php if ($_SESSION["resetpassword"] == true) { ?>
-          <div class="form-group">
-            <span class="label label-success">
-              <span class="glyphicon glyphicon-ok"></span> Done!
-            </span>
-
-            <p class="mt-3">
-              From now on, you can sign in with your new password.
-            </p>
-          </div>
-          <?php } ?>
         </form>
     </div>
     
@@ -105,18 +100,12 @@
             <img src="http://www.prompsit.com/wp-content/themes/prompsit-theme/images/logotipo-prompsit.png" alt="Prompsit home" />
           </a>
       </div>
-      <div class="pull-right">
-        <a href="/forgot_password.php" class="btn btn-link" style="margin-top: 10px;">
-          I forgot my password
-        </a>
-      </div>
     </footer>
   </div>
       
     <?php
     $_SESSION["error"] = null;
     $_SESSION["userinfo"] = null;
-    $_SESSION["resetpassword"] = null;
 
     require_once(TEMPLATES_PATH . "/resources.php");
     ?>

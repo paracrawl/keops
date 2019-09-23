@@ -7,6 +7,7 @@
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/user_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/user_langs_dao.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/password_renew_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/utils/utils.php");
 
 $PAGETYPE = "public";
@@ -37,6 +38,10 @@ if (count($failedparams) == 0){
       $user_langs_dao = new user_langs_dao();
       $userinfo->langs = $user_langs_dao->getUserLangs($userinfo->id);
       $_SESSION['userinfo'] = $userinfo;
+
+      $password_renew_dao = new password_renew_dao();
+      $password_renew_dao->revokeTokenbyUserId($userinfo->id);
+
       header("Location: /index.php");
     die();
     } else {

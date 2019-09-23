@@ -77,6 +77,38 @@ class user_dao {
       throw new Exception("Error in user_dao::getUserById : " . $ex->getMessage());
     }
   }
+
+    /**
+   * Retrieves from the DB all the information for a given user, given its email
+   * 
+   * @param int $email Email address
+   * @return \user_dto User object
+   * @throws Exception
+   */
+  function getUserByEmail($email) {
+    try {
+      $user = new user_dto();
+      
+      $query = $this->conn->prepare("SELECT * FROM USERS WHERE email = ?;");
+      $query->bindParam(1, $email);
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while($row = $query->fetch()){
+        $user->id = $row['id'];
+        $user->name = $row['name'];
+        $user->email = $row['email'];
+        $user->creation_date = $row['creation_date'];
+        $user->role = $row['role'];
+        $user->active = $row['active'];
+      }
+      $this->conn->close_conn();
+      return $user;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in user_dao::getUserById : " . $ex->getMessage());
+    }
+  }
+
   
   /**
    * Retrieves from the DB a list of users, given their IDs
@@ -211,6 +243,27 @@ class user_dao {
       $query->bindParam(3, $user_dto->role);
       $query->bindParam(4, $user_dto->active);
       $query->bindParam(5, $user_dto->id);   
+      $query->execute();
+      $this->conn->close_conn();
+      return true;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in user_dao::updateUser : " . $ex->getMessage());
+    }
+  }
+
+    /**
+   * Updates in the DB the password of a given user
+   * 
+   * @param string $password The password of the user
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+   */
+  function updateUserPassword($id, $password) {
+    try {
+      $query = $this->conn->prepare("UPDATE USERS SET password = ? WHERE id = ?;");
+      $query->bindParam(1, $password);
+      $query->bindParam(2, $id);
       $query->execute();
       $this->conn->close_conn();
       return true;
