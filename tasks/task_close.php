@@ -124,7 +124,7 @@ if ($task_dto->assigned_user == $USER->id) {
       $task_dao->setTaskScore($task_dto->id, $user_score);
     }
 
-    header("Location: /index.php");
+    header("Location: /tasks/recap.php?id=" . $task_dto->id);
   } else {
     // TODO Better to have an array with error => 0 and message => "..."
     //$_SESSION['error'] = ERROR_CREATE_TASK;
