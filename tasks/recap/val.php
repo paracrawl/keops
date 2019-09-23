@@ -176,6 +176,7 @@ if (isset($task_id)) {
                         </div>
                       </div>
                     </div>
+                  </div>
                 </div>
                 <?php
               } else {
@@ -242,6 +243,7 @@ if (isset($task_id)) {
                 <tr>
                   <th>Type</th>
                   <th># of sentences</th>
+                  <th>Percentage</th>
                 </tr>
               </thead>
               <tbody>
@@ -259,6 +261,9 @@ if (isset($task_id)) {
                       </a>
                     </td>
                     <td class="text-right"><?= $task_stats_dto->array_type[$label['value']] ?></td>
+                    <td class="text-right">
+                      <?= (($task_stats_dto->array_type[$label['value']]) / $task_stats_dto->total) * 100 ?>%
+                    </td>
                   </tr>
                 <?php } ?>
               </tbody>
@@ -267,6 +272,7 @@ if (isset($task_id)) {
                 <tr>
                   <th>Total</th>
                   <th class="text-right"><?= $task_stats_dto->total ?></th>
+                  <th class="text-right">100%</th>
                 </tr>
               </tfoot>
             </table>
@@ -277,6 +283,15 @@ if (isset($task_id)) {
           <script type="text/javascript">
             var labels_pie_chart = [<?= implode(",", $labels_chart_js) ?>];
             var data_pie_chart = [<?= implode(",", $data_chart_js) ?>];
+
+            let pos = labels_pie_chart.indexOf("V");
+            let tmp = data_pie_chart[0];
+            data_pie_chart[0] = data_pie_chart[pos];
+            data_pie_chart[pos] = tmp;
+
+            tmp = labels_pie_chart[0];
+            labels_pie_chart[0] = labels_pie_chart[pos];
+            labels_pie_chart[pos] = tmp;
           </script>
         </div>
       </div>

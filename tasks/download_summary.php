@@ -27,10 +27,10 @@ if (isset($task_id)) {
       $sentence_task_dao = new sentence_task_dao();
       $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id);
 
-      $rows[] = array("Label", "Description", "Count");
+      $rows[] = array("Label", "Description", "Count", "Percentage");
 
       foreach (sentence_task_dto::$labels as $label) {
-        $rows[] = array($label["value"], $label["label"], $task_stats_dto->array_type[$label['value']]);
+        $rows[] = array($label["value"], $label["label"], $task_stats_dto->array_type[$label['value']], (($task_stats_dto->array_type[$label['value']]) / $task_stats_dto->total) * 100);
       }
 
       $rows[] = array("Total", "Total", $task_stats_dto->total);
