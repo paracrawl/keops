@@ -1,6 +1,6 @@
 import datetime
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Table, Column, Integer, String, Enum, ForeignKey
+from sqlalchemy import Table, Column, Integer, String, Enum, ForeignKey, func
 from sqlalchemy.types import TIMESTAMP, Boolean, Numeric
 from sqlalchemy.dialects.postgresql import TSVECTOR
 from sqlalchemy.sql.expression import text
@@ -17,7 +17,7 @@ meta = MetaData(naming_convention = {
 
 Base = declarative_base(metadata=meta)
 
-roleEnum = Enum('ADMIN', 'STAFF', 'USER', name='role', create_type=True, schema='keopsdb')
+roleEnum = ENUM('ADMIN', 'PM', 'USER', name='role', create_type=True, schema='keopsdb')
 taskstatusEnum = Enum('PENDING', 'STARTED', 'DONE', name='taskstatus', create_type=True, schema='keopsdb')
 labelEnum = Enum('P','V','L','A','T','MT','E','F', name='label', create_type=True, schema='keopsdb')
 modeEnum = Enum('VAL', 'ADE', 'FLU', 'RAN', name='evalmode', create_type=True, schema='keopsdb')
@@ -57,6 +57,7 @@ class Users(Base):
     langs_rel = relationship("Langs", secondary=user_langs, back_populates="users_rel")
     projects_rel = relationship('Projects', back_populates='users_rel')
     tasks_rel = relationship('Tasks', back_populates='users_rel')
+    feedback_rel = relationship('Tasks', back_populates='users_rel')
 
 class Tokens(Base):
     __tablename__ = 'tokens'
@@ -131,7 +132,7 @@ class Tasks(Base):
     sentences_rel = relationship("Sentences", secondary=sentences_tasks, back_populates="tasks_rel")
     langs_rel_1 = relationship('Langs', back_populates='tasks_rel_1')
     langs_rel_2 = relationship('Langs', back_populates='tasks_rel_2')
-
+    feedback_rel = relationship('Feedback', back_populates='tasks_rel')
 
 class Sentences(Base):
     __tablename__ = 'sentences'
@@ -155,3 +156,15 @@ class Comments(Base):
     value = Column(String(255))
 
     sentences_tasks_rel = relationship('sentences_tasks')
+
+class Feedback(Base):
+    __tablename__ = 'feedback'
+    id = Column(Integer, primary_key=True)
+    score = Column(Integer, nullable=False)
+    comments = Column(String(240))
+    created = Column(TIMESTAMP, nullable=False, server_default=func.current_timestamp())
+    task_id = Column(Integer, ForeignKey('tasks.id'), nullable=False)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+
+    tasks_rel = relationship('Tasks', back_populates='feedback_rel')
+    users_rel = relationship('Tasks', back_populates='feedback_rel')

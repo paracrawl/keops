@@ -23,7 +23,7 @@ class user_dto{
   public $langs;
   
   const ADMIN = "ADMIN";
-  const STAFF = "STAFF";
+  const PM = "PM";
   const EVALUATOR = "USER";
    
        
@@ -62,12 +62,12 @@ class user_dto{
   }
   
   /**
-   * Checks if the user is staff
+   * Checks if the user is PM
    * 
-   * @return boolean True if is staff, otherwise false
+   * @return boolean True if is PM, otherwise false
    */
-  function isStaff() {
-    return $this->role == user_dto::STAFF;
+  function isPM() {
+    return $this->role == user_dto::PM;
   }
   
   /**

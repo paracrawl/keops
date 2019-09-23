@@ -1,7 +1,7 @@
 CREATE USER keopsdb PASSWORD 'PASSWORD_FOR_USER_KEOPS';
 CREATE SCHEMA keopsdb;
 
-CREATE TYPE keopsdb.role AS ENUM ('ADMIN', 'STAFF', 'USER');
+CREATE TYPE keopsdb.role AS ENUM ('ADMIN', 'PM', 'USER');
 CREATE TYPE keopsdb.taskstatus AS ENUM ('PENDING', 'STARTED', 'DONE');
 CREATE TYPE keopsdb.label AS ENUM ('P','V','L','A','T','MT','E','F');
 CREATE TYPE keopsdb.evalmode AS ENUM ('VAL', 'ADE', 'FLU', 'RAN');

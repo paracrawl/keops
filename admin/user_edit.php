@@ -86,7 +86,7 @@ $languages = $language_dao->getLanguages();
           <div class="col-sm-4">
             <select class="form-control" name="role" id="role">
               <option value="ADMIN" <?= $user->role == "ADMIN" ? "selected" : "" ?>>ADMIN</option>
-              <option value="STAFF" <?= $user->role == "STAFF" ? "selected" : "" ?>>STAFF</option>
+              <option value="PM" <?= $user->role == "PM" ? "selected" : "" ?>>PROJECT MANAGER</option>
               <option value="USER" <?= $user->role == "USER" ? "selected" : "" ?>>USER</option>
             </select>
           </div>

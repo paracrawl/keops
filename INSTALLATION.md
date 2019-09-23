@@ -104,7 +104,7 @@ After installation,  start the PostgreSQL service and connect with the ```postgr
  ```sql
 CREATE SCHEMA keopsdb;
 
-CREATE TYPE keopsdb.role AS ENUM ('ADMIN', 'STAFF', 'USER');
+CREATE TYPE keopsdb.role AS ENUM ('ADMIN', 'PM', 'USER');
 CREATE TYPE keopsdb.taskstatus AS ENUM ('PENDING', 'STARTED', 'DONE');
 CREATE TYPE keopsdb.label AS ENUM ('P','V','L','A','T','MT','E','F');
 

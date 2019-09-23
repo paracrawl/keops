@@ -23,7 +23,7 @@ function isSignedIn(){
 }
 
 /**
- * Retrieves the user role (ADMIN, STAFF or USER)
+ * Retrieves the user role (ADMIN, PM or USER)
  * 
  * @return string User role
  */
@@ -71,7 +71,7 @@ function isActive(){
  */
 function canSeeAdminView() {
   $role = getUserRole();
-  if ($role != null && ($role == user_dto::ADMIN || $role == user_dto::STAFF) && isActive()) {
+  if ($role != null && ($role == user_dto::ADMIN || $role == user_dto::PM) && isActive()) {
     return true;
   }
 }
