@@ -815,10 +815,12 @@ $(document).ready(function() {
   /*
    * Invite button. Generates an invitation token.
    */
-  $(document).on('click', '#invite_button', function(event){
+  $("#invitation_form").on('submit', function(event) {
     event.preventDefault();
     event.stopPropagation();
-    if (!$(".form-group").hasClass("has-error")) {
+    $("#helpEmail").html("The email should be valid, since it will be used to notify the user");
+    let mail = $('#email').val();
+    if (mail.match(/(^([\w-]+))(\.([\w-])*)*@([\w-]+)\.(\w+)$/) != null) {
       getInviteToken($('#email').val());
     }
   });
@@ -950,6 +952,7 @@ function getInviteToken(email){
     success: function (response) {
       if (response.error === 0) {
         $("#token").val(response.token_url);
+        $(".invitation_token").removeClass("d-none");
         
         if (response.message !== '') {
           $("#helpEmail").html(response.message);

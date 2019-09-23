@@ -30,9 +30,9 @@
         <h1>Invite new user</h1>
       </div>
 
-      <form class="form" role="form" data-toggle="validator">
+      <form class="form" role="form" data-toggle="validator" id="invitation_form">
         <div class="row">
-          <div class="col-sm-6 col-xs-12">
+          <div class="col-sm-8 col-xs-12">
             <label for="email" class="control-label">Enter the email address of the user you want to invite</label> <br />
             <input id="email" type="email" name="email" class="form-control" aria-describedby="helpEmail" placeholder="Email address" maxlength="200" required="" autofocus="">
             <div id="helpEmail" class="help-block with-errors">The email should be valid, since it will be used to notify the user</div>
@@ -42,8 +42,8 @@
               <button type="submit" id="invite_button" class="btn btn-success">Invite</button>
             </div>
           </div>
-          <div class="col-sm-6 col-xs-12 mt-4 mt-sm-0">
-            <div id="invitation_url_controls" class="invitation_token">
+          <div class="col-sm-8 col-xs-12 mt-4 mt-sm-0">
+            <div id="invitation_url_controls" class="invitation_token d-none">
               <label for="token" class="control-label">Invitation URL</label> <br />
               <div class="input-group">
                 <div class="input-group-addon"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></div>
