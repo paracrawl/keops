@@ -186,6 +186,7 @@ if (isset($task_id)) {
                   </div>
                 </div>
               </div>
+            </div>
           </div>
           <?php
           } else {
