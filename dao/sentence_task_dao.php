@@ -75,6 +75,71 @@ class sentence_task_dao {
     }
   }
 
+
+  /**
+   * Retrieves parallel sentence objects from the DB, given the ID of their task
+   * 
+   * @param int $task_id Task ID
+   * @return \array Sentence objects
+   * @throws Exception
+   */
+  function getSentencesByTaskIdAndLabel($task_id, $label = "ALL") {
+    try {
+      $sentences = array();
+      $query = $this->conn->prepare("
+        select st.id, st.task_id, st.sentence_id, s.source_text, st.evaluation, st.creation_date, st.completed_date 
+        from sentences_tasks as st 
+        left join sentences as s on st.sentence_id = s.id 
+        where st.task_id = ? and s.is_source = true "
+        . (($label != "ALL" && $label != NULL) ? "and st.evaluation = ? " : "")
+        . "order by s.id asc;
+      ");
+      $query->bindParam(1, $task_id);
+      if ($label != "ALL" && $label != NULL) $query->bindParam(2, $label);
+      
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while ($row = $query->fetch()) {
+        $sentence_task_dto = new sentence_task_dto();
+        $sentence_task_dto->id = $row['id'];
+        $sentence_task_dto->task_id = $row['task_id'];
+        $sentence_task_dto->sentence_id = $row['sentence_id'];
+        $sentence_task_dto->source_text = $row['source_text'];
+        $sentence_task_dto->target_text = array();
+        $sentence_task_dto->evaluation = $row['evaluation'];
+        $sentence_task_dto->creation_date = $row['creation_date'];
+        $sentence_task_dto->completed_date = $row['completed_date'];
+
+        $query2 = $this->conn->prepare("
+          select * from sentences as s
+          join sentences_pairing as sp on (s.id = sp.id_2)
+          where sp.id_1 = ? order by s.id asc;
+        ");
+        $query2->bindParam(1, $row['sentence_id']);
+        $query2->execute();
+        $query2->setFetchMode(PDO::FETCH_ASSOC);
+        while ($row2 = $query2->fetch()) {
+          $sentence_dto = new sentence_dto();
+          $sentence_dto->id = $row2['id'];
+          $sentence_dto->corpus_id = $row2['corpus_id'];
+          $sentence_dto->source_text = $row2['source_text'];
+          $sentence_dto->type = $row2['type'];
+          $sentence_dto->system = $row2['system'];
+
+          $sentence_task_dto->target_text[] = $sentence_dto;
+        }
+
+        $sentences[] = $sentence_task_dto;
+      }
+
+      $this->conn->close_conn();
+      return $sentences;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in sentence_task_dao::getSentencesByTaskId : " . $ex->getMessage());
+    }
+  }
+
   /**
    * Retrieves from the DB the first pending sentence for a given task
    * 

@@ -256,7 +256,7 @@ if (isset($task_id)) {
                   ?>
                   <tr>
                     <td>
-                      <a href="/sentences/evaluate/val.php?task_id=<?= $task->id ?>&term=&p=1&id=1&label=<?= $label['value'] ?>">
+                      <a href="/tasks/task_preview.php?id=<?= $task->id ?>&label=<?= $label['value'] ?>">
                         <?= $label['label'] ?> [<?= $label['value'] ?>]
                       </a>
                     </td>
