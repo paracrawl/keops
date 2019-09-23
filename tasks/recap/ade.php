@@ -226,15 +226,15 @@ if (isset($task_id)) {
           <?php
             $sentences = $sentence_task_dao->getAnnotatedSentecesByTask($task->id);
             $max = $sentences[0]->time;
-            $min = $sentences[0]->time;
+            $total = $sentences[0]->time;
             $mean = 0;
 
             for ($i = 1; $i < count($sentences); $i++) {
-              if ($sentences[$i]->time < $min) $min = $sentences[$i]->time;
               if ($sentences[$i]->time > $max) $max = $sentences[$i]->time;
               $mean += $sentences[$i]->time;
             }
 
+            $total = $mean;
             $mean = $mean / count($sentences);
           ?>
           <div class="h3 mt-0 vertical-align">
@@ -242,17 +242,13 @@ if (isset($task_id)) {
           </div>
 
           <div class="row text-center mb-2 mb-sm-0">
-            <div class="col-sm-4 col-xs-4">
-              <div class="h3"><?= round($min, 2) ?><small>s</small></div>
-              <p>Minimum time <br /> elapsed in a sentence</p>
-            </div>
-            <div class="col-sm-4 col-xs-4">
+            <div class="col-sm-6 col-xs-6">
               <div class="h3"><?= round($mean, 2) ?><small>s</small></div>
               <p>Mean time <br /> elapsed in a sentence</p>
             </div>
-            <div class="col-sm-4 col-xs-4">
-              <div class="h3"><?= round($max, 2) ?><small>s</small></div>
-              <p>Maximum time <br /> elapsed in a sentence</p>
+            <div class="col-sm-6 col-xs-6">
+              <div class="h3"><?= round($total, 2) ?><small>s</small></div>
+              <p>Total time <br /> elapsed in the task</p>
             </div>
           </div>
         </div>
@@ -311,28 +307,6 @@ if (isset($task_id)) {
     <input type=hidden id="task_id" value="<?= $task->id ?>" />
     <script src="/js/recap_ade.js"></script>
     <script src="/js/stars.js"></script>
-
-    <script>
-      $(document).ready(function() {
-        $("#feedbackBtn").on('click', function() {
-          $.ajax({
-              url: "/services/feedback_service.php?service=post",
-              data: {
-                  feedback_score: $("input[name='feedback_score']:checked").val(),
-                  feedback_comments: $("textarea[name='feedback_comments']").val(),
-                  feedback_task_id: $("input[name='feedback_task_id']").val()
-              },
-              type: "POST",
-              success: function(json) {
-                  let response = JSON.parse(json);
-                  if (response.result == 200) {
-                    $("#feedback-success-label").removeClass("d-none");
-                    $("#feedback-success-label").addClass("d-block");
-                  }
-              }
-          })
-        });
-      })
-    </script>
+    <script src="/js/feedback.js"></script>
   </body>
 </html>

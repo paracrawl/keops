@@ -70,18 +70,18 @@ if (isset($task_id)) {
       </ul>
 
       <div class="page-header">
-          <div class="row">
-            <div class="col-sm-8">
+          <div class="row mr-sm-0 vertical-align-sm">
+            <div class="col-sm-8 col-xs-12">
               <span class="h1">Recap of Task #<?php echo $task->id ?></span>
             </div>
           </div>
       </div>
 
       <div class="row">
-        <?php
-        if ($task->status == "DONE") {
-        ?>
-        <div class="col-sm-6">
+      <?php
+      if ($task->status == "DONE") {
+      ?>
+        <div class="col-sm-6 col-xs-12">
           <div class="panel panel-success">
             <div class="panel-heading">
               <h3 class="panel-title">Finished task</h3>
@@ -126,16 +126,14 @@ if (isset($task_id)) {
                       <span>Download annotated sentences (TSV)</span>
                     </a>
                   </div>
-                </div>
               </div>
             </div>
           </div>
         </div>
-        <?php
-        } else { ?>
-        <div class="col-sm-6 col-xs-12">
-        <?php if ($USER->id != $task->assigned_user) {
-        ?>
+      <?php
+      } else { ?>
+        <div class="col-sm-6">
+        <?php if ($USER->id != $task->assigned_user) { ?>
           <div class="panel panel-warning">
             <div class="panel-heading">
               <h3 class="panel-title">Task in progress</h3>
@@ -151,7 +149,7 @@ if (isset($task_id)) {
         <?php
         } else {
           if ($task_stats_dto->array_type["P"] == 0) {
-          ?>
+        ?>
           <div class="panel panel-success">
             <div class="panel-heading">
               <h3 class="panel-title">Congrats! You've arrived to the end of the evaluation task</h3>
@@ -163,7 +161,7 @@ if (isset($task_id)) {
                     <a href="/sentences/evaluate.php?p=1&id=1&task_id=<?= $task_id ?>" class="btn btn-lg btn-primary" style="margin-top: 1em; margin-bottom: 1em;">Review task</a>
                   </p>
                   <div class="row" style="display: flex; justify-content: center;">
-                    <div class="col-sm-8">
+                    <div class="col-sm-10">
                       <p><b>If you are not sure of your evaluation</b></p>
                       <p>
                         When you finish reviewing the task, you will be able to mark it as done again
@@ -177,7 +175,7 @@ if (isset($task_id)) {
                     <a href="/tasks/task_close.php?task_id=<?= $task_id ?>" class="btn btn-lg btn-success" style="margin-top: 1em; margin-bottom: 1em;">Tag as done</a>
                   </p>
                   <div class="row" style="display: flex; justify-content: center;">
-                    <div class="col-sm-8">
+                    <div class="col-sm-10">
                       <p><b>If you don't have any more doubts</b></p>
                       <p>
                         The Project Manager will receive a notice. You will be able to access the task, but not to modify it
@@ -188,9 +186,7 @@ if (isset($task_id)) {
               </div>
             </div>
           </div>
-          <?php
-          } else {
-          ?>
+        <?php } else { ?>
           <div class="panel panel-warning">
             <div class="panel-heading">
               <h3 class="panel-title">Oops! You didn't finish the task</h3>
@@ -201,13 +197,51 @@ if (isset($task_id)) {
               <p class="text-center"><a href="/sentences/evaluate.php?task_id=<?= $task_id ?>" class="btn btn-lg btn-warning">Continue task</a></p>
             </div>
           </div>
-          <?php
+        <?php
           }
-        } 
+        }
         ?>
+        <?php } ?>
         </div>
-      <?php } ?>
 
+        <div class="col-sm-6 col-xs-12">
+          <?php
+            $sentences = $sentence_task_dao->getAnnotatedSentecesByTask($task->id);
+            $max = $sentences[0]->time;
+            $total = $sentences[0]->time;
+            $mean = 0;
+
+            for ($i = 1; $i < count($sentences); $i++) {
+              if ($sentences[$i]->time > $max) $max = $sentences[$i]->time;
+              $mean += $sentences[$i]->time;
+            }
+
+            $total = $mean;
+            $mean = $mean / count($sentences);
+          ?>
+          <div class="h3 mt-0 vertical-align">
+            <span class="glyphicon glyphicon-time mr-3"></span> Timing
+          </div>
+
+          <div class="row text-center mb-2 mb-sm-0">
+            <div class="col-sm-6 col-xs-6">
+              <div class="h3"><?= round($mean, 2) ?><small>s</small></div>
+              <p>Mean time <br /> elapsed in a sentence</p>
+            </div>
+            <div class="col-sm-6 col-xs-6">
+              <div class="h3"><?= round($total, 2) ?><small>s</small></div>
+              <p>Total time <br /> elapsed in the task</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12 col-xs-12">
+            <div class="page-header h3 mt-0 vertical-align">
+              <span class="glyphicon glyphicon-stats mr-3"></span> Statistics
+            </div>
+        </div>
         <div class="col-sm-6 col-xs-12">
           <canvas id="horizontal-bar-chart" class="w-100 h-100"></canvas>
           <p class="small text-center best-system-content d-none">
@@ -216,14 +250,44 @@ if (isset($task_id)) {
           </p>
         </div>
       </div>
+
+      <hr />
+
+      <div class="row">
+        <div class="col-sm-6 col-xs-12 text-justify">
+          <div class="h3">It would be great to hear from you</div>
+          <p>
+            Your thoughts on KEOPS let us build a better platform
+            for you. If you have a moment, please fill the feedback
+            form. It only takes a few seconds!
+          </p>
+
+          <p>
+            The feedback form should be used to tell us about your experience
+            and the suggestions you may have. For specific issues you may run into,
+            please use the <a href="/contact.php">contact form</a>.
+          </p>
+
+          <p>
+            Thanks!
+          </p>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+        <?php require_once(TEMPLATES_PATH . "/feedback.php"); ?>
+        </div>
+      </div>
     </div>
-  
+
     <?php
     require_once(TEMPLATES_PATH . "/footer.php");
     ?>
     <?php
     require_once(TEMPLATES_PATH . "/resources.php");
     ?>
+
+    <input type=hidden id="task_id" value="<?= $task->id ?>" />
+    <script src="/js/recap_ade.js"></script>
+    <script src="/js/feedback.js"></script>
 
     <script>
       $(document).ready(function() {
@@ -278,7 +342,5 @@ if (isset($task_id)) {
         })
       });
     </script>
-
-    <input type=hidden id="task_id" value="<?= $task->id ?>" />
   </body>
 </html>
