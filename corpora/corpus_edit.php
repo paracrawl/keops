@@ -58,6 +58,7 @@
             <div id="helpName" class="help-block with-errors"></div>
           </div>
         </div>
+        <?php if ($corpus->mode != "FLU") { ?>
         <div class="form-group">
           <label for="source_lang" class="control-label col-sm-1">Source language</label>
           <div class="col-sm-4">
@@ -68,6 +69,7 @@
             </select>
           </div>
         </div>
+        <?php } ?>
         <div class="form-group">
           <label for="target_lang" class="control-label col-sm-1">Target language</label>
           <div class="col-sm-4">

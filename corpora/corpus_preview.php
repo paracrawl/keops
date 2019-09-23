@@ -76,9 +76,11 @@
         <div class="col-md-3">
           <p><strong>Name:</strong> <?=$corpus->name ?></p>
         </div>
+        <?php if ($corpus->mode != "FLU") { ?>
         <div class="col-md-3">
           <p><strong>Source language: </strong> <?= $corpus_sl?></p>
         </div>
+        <?php } ?>
         <div class="col-md-3">
           <p><strong>Target language: </strong> <?= $corpus_tl?></p>
         </div>

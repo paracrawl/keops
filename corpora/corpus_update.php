@@ -24,7 +24,7 @@ if (isset($_POST["id"]) && isset($_POST["action"]) && $_POST["action"] == "remov
   }
 } else {
 
-  $failedparams = checkPostParameters(["id", "name", "source_lang", "target_lang"]);
+  $failedparams = checkPostParameters(["id", "name", "target_lang"]);
 
   if (count($failedparams) == 0) {
 
