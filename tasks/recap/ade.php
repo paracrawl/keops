@@ -262,10 +262,16 @@ if (isset($task_id)) {
         </div>
         <div class="col-sm-6 col-xs-12">
           <canvas id="point-chart-intra" class="w-100 h-100"></canvas>
+          <div class="text-center text-increase">
+            Your evaluation
+          </div>
         </div>
         <?php if ($task->status == "DONE") { ?>
         <div class="col-sm-6 col-xs-12">
           <canvas id="point-chart-inter" class="w-100 h-100"></canvas>
+          <div class="text-center text-increase">
+            Comparison with other evaluations
+          </div>
         </div>
       <?php } ?>
       </div>
