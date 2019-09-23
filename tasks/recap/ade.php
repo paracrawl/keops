@@ -314,5 +314,6 @@ if (isset($task_id)) {
     <script src="/js/recap_ade.js"></script>
     <script src="/js/stars.js"></script>
     <script src="/js/feedback.js"></script>
+    <script src="/js/annotation.chart.js"></script>
   </body>
 </html>

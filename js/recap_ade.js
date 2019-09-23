@@ -61,15 +61,20 @@ $(document).ready(function() {
           let labels = []; for(let i = 0; i < 101; i += 10) labels.push(`${i}%`);
           let datasets = [];
 
-          for (task in data.stats) {
-            let dataset = { label: `Task ${task}`, data: [] };
-            if (task == task_id) dataset.backgroundColor = "rgba(0, 74, 122, .5)";
-            for(let i = 0; i < 101; i += 10) {
-              dataset.data.push((i in data.stats[task]) ? data.stats[task][i] : 0);
-            }
-
-            datasets.push(dataset);
+          let dataset = { label: `Task ${task_id}`, data: [] };
+          dataset.backgroundColor = "rgba(0, 74, 122, .5)";
+          for(let i = 0; i < 101; i += 10) {
+            dataset.data.push((i in data.stats[task_id]) ? data.stats[task_id][i] : 0);
           }
+
+          datasets.push(dataset);
+
+          dataset = { label: `Others`, data: [] };
+          for(let i = 0; i < 101; i += 10) {
+            dataset.data.push((i in data.stats['other']) ? data.stats['other'][i] : 0);
+          }
+
+          datasets.push(dataset);
 
           let ctx = document.querySelector('#point-chart-inter').getContext('2d');
           let chart = new Chart(ctx, {
@@ -82,10 +87,10 @@ $(document).ready(function() {
                 scales: {
                   yAxes: [{
                      ticks: {
-                        stepSize: 1
+                        stepSize: 5
                      }
                   }]
-               }
+                }
               }
           });
         }
