@@ -286,7 +286,6 @@ if (isset($task_id)) {
     ?>
 
     <input type=hidden id="task_id" value="<?= $task->id ?>" />
-    <script src="/js/recap_ade.js"></script>
     <script src="/js/feedback.js"></script>
 
     <script>
