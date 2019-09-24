@@ -15,6 +15,7 @@ RUN apt-get update -q --fix-missing && \
 			php7.2 \
 			php7.2-pgsql \
 			php7.2-fpm \
+			php7.2-mbstring \
 			nginx \ 
 			ca-certificates \
 			sudo && \
