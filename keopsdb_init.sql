@@ -120,6 +120,12 @@ CREATE TABLE keopsdb.FEEDBACK (
 	PRIMARY KEY (id)
 );
 
+create table keopsdb.password_renew (
+	token varchar(512) primary key,
+	user_id integer unique not null references keopsdb.users(id),
+	created_time timestamp not null DEFAULT CURRENT_TIMESTAMP
+);
+
 insert INTO keopsdb.langs (langcode, langname) values ('bg','Bulgarian'), ('cs', 'Czech'), ('ca', 'Catalan'),  ('da', 'Danish'), ('de', 'German'), 
 ('el', 'Greek'), ('en', 'English'), ('es', 'Spanish'), ('et', 'Estonian'), ('fi', 'Finnish'), ('fr', 'French'), ('ga', 'Irish'), ('gl', 'Galician'), 
 ('hr', 'Croatian'), ('hu', 'Hungarian'), ('is', 'Icelandic'), ('it', 'Italian'),  ('lt', 'Lithuanian'), ('lv', 'Latvian'), ('mt', 'Maltese'), 
