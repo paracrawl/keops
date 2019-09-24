@@ -180,9 +180,13 @@ else {
               <div class="row">
                 <div class="col-md-12 col-xs-12">
                   <div class="text-increase mb-2">Ranking</div>
+
+                  <small>
+                    Rank the output of the MT systems from best to worst. If two outputs are identical or near identical, set the same number to them. Always start with best position in the ranking (1) and go up.
+                  </small>
                 </div>
 
-                <div class="col-md-12 col-xs-12 ranking">
+                <div class="col-md-12 col-xs-12 ranking mt-3">
                   <?php 
                     $evaluation = json_decode($sentence->evaluation, true);
                     $options = array_slice($sentence->target_text, 1);
