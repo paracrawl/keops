@@ -18,14 +18,14 @@ $service = filter_input(INPUT_POST, 'service');
 
 if ($service == "renew") {
     if (count($failedparams) == 0) {
-        $given_token = filter_input(INPUT_POST, 'token');
+        $given_token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING);
         $password = filter_input(INPUT_POST, 'password');
         $password2 = filter_input(INPUT_POST, 'password2');
         $password_renew_dao = new password_renew_dao();
         $token = $password_renew_dao->getRenewToken($given_token);
         
-        if ($token) $password_renew_dao->revokeToken($given_token);
         if ($password == $password2) {
+            $password_renew_dao->revokeToken($given_token);
             if ($token->token == $given_token) {
                 $then = strtotime($token->created_time);
                 $now = date_timestamp_get(date_create());
@@ -51,7 +51,7 @@ if ($service == "renew") {
             }
         } else {
             $_SESSION["error"] = "wrongpassword";
-            header("Location: /forgot_password.php");
+            header("Location: /renew_password.php?token=" . $given_token);
         }
     }
 } else if ($service == "send") {
