@@ -107,31 +107,28 @@ if (isset($task_id)) {
             <div class="panel-body">
               <div class="row">
                 <div class="col-md-7 col-xs-12">
-                  <p>This task has been marked as <b>DONE</b> and cannot be modified.</p>
-                  <p>Thank you!</p>
-                  <?php
-                  if ($USER->id == $project->owner) {
-                  ?>
-                  <div>
-                    <p>Evaluator: <?php echo $assigned_user->name;?> </p>
-                    <p>Creation date: <?php echo getFormattedDate($task->creation_date); ?> <br>
-                    Assigned on: <?php echo getFormattedDate($task->assigned_date); ?>  <br>
-                    Completion date: <?php echo getFormattedDate($task->completed_date); ?></p>
-                    <a href="mailto: <?php echo $assigned_user->email;?>">
-                    <br><span class="glyphicon glyphicon-envelope"></span> Contact evaluator</a>
-                  </div>
-                  <br>
-                  <?php
-                  }
-                  ?>
+                  <p>
+                  This task has been marked as <b>DONE</b> and cannot be modified.<br />
+                  Thank you!
                   <?php if ($USER->id == $task->assigned_user) { ?>
-                  <div>
                     <a href="/sentences/evaluate.php?review=1&task_id=<?= $task_id ?>">
                       <span class="glyphicon glyphicon-info-sign"></span>
                       <span>Check evaluation <span class="sr-only"> of task <?= $task_id ?></span>
                     </a>
-                  </div>
                   <?php } ?>
+                  </p>
+                  <?php
+                  if ($USER->id == $project->owner) {
+                  ?>
+                  <p>
+                    Evaluator: <?php echo $assigned_user->name;?> <a href="/contact.php?u=<?php echo $assigned_user->id;?>"><span class="glyphicon glyphicon-envelope"></span> Contact evaluator</a> <br />
+                    Task assigned on: <?php echo getFormattedDate($task->assigned_date); ?>  <br>
+                    Completion date: <?php echo getFormattedDate($task->completed_date); ?></p>
+                  </p>
+                  <br>
+                  <?php
+                  }
+                  ?>
                   <div>
                     <a href="/tasks/download_summary.php?task_id=<?php echo $task_id ?>">
                       <span class="glyphicon glyphicon-download-alt"></span>
@@ -160,7 +157,7 @@ if (isset($task_id)) {
               <p>This task is still in progress.
               <p>Evaluator: <?php echo $assigned_user->name; ?></p>
               <p>Creation date: <?php echo getFormattedDate($task->creation_date); ?> <br>
-              Assigned on: <?php echo getFormattedDate($task->assigned_date); ?>  <br>
+              Task assigned on: <?php echo getFormattedDate($task->assigned_date); ?>  <br>
               <p><a href="mailto:<?php echo $assigned_user->email; ?>"><span class="glyphicon glyphicon-envelope"></span> Contact evaluator</a></p>
             </div>
           </div>
