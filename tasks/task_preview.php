@@ -73,7 +73,7 @@
             <div class="row mt-3">
                 <div class="col-sm-12 col-xs-12">
                     <a class="btn btn-link" href="/sentences/evaluate.php?task_id=<?= $task->id ?>&id=<?= $line->id ?>">
-                        <span class="glyphicon glyphicon-play-circle"></span> Evaluate
+                        <span class="glyphicon glyphicon-play-circle"></span> Go
                     </a>
                 </div>
                 <div class="col-sm-12 col-xs-12">
