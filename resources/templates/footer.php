@@ -27,7 +27,7 @@
                         made by the beneficiaries jointly or individually in any form and using any means, 
                         shall indicate that it reflects only the author's view and that the
                         Innovation and Networks Executive Agency of the European Union is not responsible 
-                        for any use that may be made ofthe information it contains.
+                        for any use that may be made of the information it contains.
                     </div>
                 </div>
             </div>
