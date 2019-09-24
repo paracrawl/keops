@@ -11,7 +11,7 @@
 
   $project_id = filter_input(INPUT_GET, 'p', FILTER_SANITIZE_STRING);
   $user_id = filter_input(INPUT_GET, 'u', FILTER_SANITIZE_STRING);
-  if (($project_id || $user_id) && !isSignedIn()) { 
+  if ($project_id&& !isSignedIn()) { 
       header("Location: /signin.php");
       exit();
   }

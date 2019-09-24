@@ -9,8 +9,18 @@
                     </a>
                     <p>
                     <span class="glyphicon glyphicon-copyright-mark" aria-hidden="true"></span>&nbsp;2019 Prompsit Language Engineering S.L. <br />
-                    <a href="/contact.php"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Contact</a>
-                    <!--Logo by icons8.com -->
+                    <?php 
+                        require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/user_dao.php");
+                        $user_dao = new user_dao();
+                        $id = $user_dao->getFirstAdminId();
+                    ?>
+                    <a href="/contact.php?u=<?= $id ?>"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Contact</a>
+                    </p>
+                    <p>
+                        <a href="#" class="vertical-align-center">
+                            <img src="/img/github.png" alt="GitHub logo" class="mt-0" style="width: 16px; height: 16px;" />
+                            <span class="ml-2">Find KEOPS on GitHub</span>
+                        </a>
                     </p>
                 </div>
             </div>
