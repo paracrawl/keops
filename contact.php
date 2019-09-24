@@ -2,19 +2,19 @@
 /**
  * Sign-in page
  */
-  // load up your config file
-  require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
-  require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/user_dao.php");
+    // load up your config file
+    require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
+    require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/user_dao.php");
 
-  $PAGETYPE = "public";
-  require_once(RESOURCES_PATH . "/session.php");
+    $PAGETYPE = "public";
+    require_once(RESOURCES_PATH . "/session.php");
 
-  $project_id = filter_input(INPUT_GET, 'p', FILTER_SANITIZE_STRING);
-  $user_id = filter_input(INPUT_GET, 'u', FILTER_SANITIZE_STRING);
-  if ($project_id&& !isSignedIn()) { 
-      header("Location: /signin.php");
-      exit();
-  }
+    $project_id = filter_input(INPUT_GET, 'p', FILTER_SANITIZE_STRING);
+    $user_id = filter_input(INPUT_GET, 'u', FILTER_SANITIZE_STRING);
+    if ($project_id && !isSignedIn()) { 
+        header("Location: /signin.php");
+        exit();
+    }
 
     $user_dao = new user_dao();
     if ($user_id) {

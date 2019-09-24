@@ -25,7 +25,7 @@
         $pm = filter_input(INPUT_POST, "pm");
         $u = filter_input(INPUT_POST, "u");
 
-        $to = "support@prompsit.com";
+        $to = "";
         if ($pm) {
             $project_dao = new project_dao();
             $project = $project_dao->getProjectById($pm);
@@ -33,6 +33,11 @@
         } else if ($u) {
             $user_dao = new user_dao();
             $user = $user_dao->getUserById($u);
+            $to = $user->email;
+        } else {
+            $user_dao = new user_dao();
+            $id = $user_dao->getFirstAdminId();
+            $user = $user_dao->getUserById($id);
             $to = $user->email;
         }
 
