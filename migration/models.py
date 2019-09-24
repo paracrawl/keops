@@ -58,6 +58,7 @@ class Users(Base):
     projects_rel = relationship('Projects', back_populates='users_rel')
     tasks_rel = relationship('Tasks', back_populates='users_rel')
     feedback_rel = relationship('Tasks', back_populates='users_rel')
+    renew_rel = relationship('PasswordRenew', back_populates='users_rel')
 
 class Tokens(Base):
     __tablename__ = 'tokens'
@@ -167,4 +168,12 @@ class Feedback(Base):
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
     tasks_rel = relationship('Tasks', back_populates='feedback_rel')
-    users_rel = relationship('Tasks', back_populates='feedback_rel')
+    users_rel = relationship('Users', back_populates='feedback_rel')
+
+class PasswordRenew(Base):
+    __tablename__ = 'password_renew'
+    token = Column(String, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False, unique=True)
+    created_time = Column(TIMESTAMP, nullable=False, server_default=func.current_timestamp())
+
+    users_rel = relationship('Users', back_populates='renew_rel')
