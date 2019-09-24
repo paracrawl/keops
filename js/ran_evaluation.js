@@ -19,12 +19,6 @@ $(document).ready(function() {
     let value = $(this).val();
     if (value < parseInt($(this).attr('min')) || value > parseInt($(this).attr('max'))) {
       $(this).val("");
-    } else {
-      for (let option of $(".ranking-position input").not(this)) {
-        if ($(option).val() == value) {
-          $(this).val("");
-        }
-      }
     }
   });
 
