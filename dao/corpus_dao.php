@@ -86,7 +86,7 @@ class corpus_dao {
    * @throws Exception
    */
   function getFilteredCorpora($filters) {
-    $whitelist = array("id", "name", "source_lang", "target_lang", "lines", "creation_date", "active", "mode");
+    $whitelist = array("id", "name", "source_lang", "target_lang", "lines", "creation_date", "active", "evalmode");
     
     try {      
       $sql = "SELECT * FROM corpora";
