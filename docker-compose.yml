@@ -1,21 +1,40 @@
-keops:
-  image: keops:latest
-  container_name: keops
-  restart: always
-  environment: 
-    - KEOPS_DB_NAME=keopsdb
-    - KEOPS_DB_HOST=postgres_db
-    - KEOPS_DB_USER=keopsdb
-    - KEOPS_DB_PASS=PASSWORD_FOR_USER_KEOPS
-    - KEOPS_DB_PORT=5432
-  ports:
-    - "8080:80"
-  links:
-    - postgres_db
-    
-postgres_db:
-  image: postgres:9.5-alpine
-  container_name: postgres_db 
-  restart: always
-  environment:
-    - POSTGRES_PASSWORD=PASSWORD_FOR_USER_KEOPS
+version: '2'
+
+services:
+  keops:
+    image: keops:latest
+    container_name: keops
+    restart: always
+    environment: 
+      - KEOPS_DB_NAME=keopsdb
+      - KEOPS_DB_HOST=postgres_db
+      - KEOPS_DB_USER=keopsdb
+      - KEOPS_DB_PASS=PASSWORD_FOR_USER_KEOPS
+      - KEOPS_DB_PORT=5432
+    ports:
+      - "8080:80"
+    links:
+      - postgres_db
+
+  keopsnodb:
+    build:
+      context: .
+      dockerfile: Dockerfile-nodb
+    image: keops:nodb
+    container_name: keops
+    restart: always
+    environment: 
+      - KEOPS_DB_NAME=keopsdb
+      - KEOPS_DB_HOST=localhost
+      - KEOPS_DB_USER=keopsdb
+      - KEOPS_DB_PASS=PASSWORD_FOR_USER_KEOPS
+      - KEOPS_DB_PORT=5432
+    ports:
+      - "8080:80"
+      
+  postgres_db:
+    image: postgres:9.5-alpine
+    container_name: postgres_db 
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=PASSWORD_FOR_USER_KEOPS
