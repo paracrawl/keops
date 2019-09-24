@@ -46,6 +46,30 @@ class user_dao {
       throw new Exception("Error in user_dao::getUser : " . $ex->getMessage());
     }
   }
+
+  /**
+   * Retrieves from the DB the ID of the first admin
+   * 
+   * @return int ID of the first admin
+   * @throws Exception
+   */
+  function getFirstAdminId() {
+    try {
+      $id = -1;
+      $query = $this->conn->prepare("SELECT id FROM USERS WHERE role = 'ADMIN' order by id asc limit 1");
+      $query->execute();
+      $query->setFetchMode(PDO::FETCH_ASSOC);
+      while($row = $query->fetch()){
+        $id = $row['id'];
+      }
+      $this->conn->close_conn();
+      return $id;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in user_dao::getUser : " . $ex->getMessage());
+    }
+  }
+
  
   /**
    * Retrieves from the DB all the information for a given user, given its ID
