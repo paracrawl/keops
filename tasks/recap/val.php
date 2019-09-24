@@ -79,34 +79,32 @@ if (isset($task_id)) {
             ?>
             <div class="panel panel-success">
               <div class="panel-heading">
-                <h3 class="panel-title">Finished task</h3>
+                <h3 class="panel-title">Well done!</h3>
               </div>
               <div class="panel-body">
-                <p>This task has been marked as <b>DONE</b> and cannot be modified.</p>
-                <p>Thank you!</p>
+                <p>This task has been marked as <b>DONE</b> and cannot be modified. 
+                  <br /> 
+                  Thank you! <?php if ($USER->id == $task->assigned_user) { ?>
+                  <a href="/sentences/evaluate.php?review=1&task_id=<?= $task_id ?>">
+                    <span class="glyphicon glyphicon-info-sign"></span>
+                    <span>Check evaluation <span class="sr-only"> of task <?= $task_id ?></span>
+                  </a>
+                  <?php } ?>
+                </p>
                 <?php
                 if ($USER->id == $project->owner) {                
                   ?>
                   <div>
-                    <p>Evaluator: <?php echo $assigned_user->name;?> </p>
-                  <p>Creation date: <?php echo getFormattedDate($task->creation_date); ?> <br>
-                  Assigned on: <?php echo getFormattedDate($task->assigned_date); ?>  <br>
-                  Completion date: <?php echo getFormattedDate($task->completed_date); ?></p>
-                    <a href="mailto: <?php echo $assigned_user->email;?>">
-                      <br><span class="glyphicon glyphicon-envelope"></span> Contact evaluator</a>
+                    <p>
+                      Evaluator: <?php echo $assigned_user->name;?> <a href="mailto: <?php echo $assigned_user->email;?>"><span class="glyphicon glyphicon-envelope"></span> Contact evaluator</a> <br />
+                      Task assigned on: <?php echo getFormattedDate($task->assigned_date); ?>  <br>
+                      Completion date: <?php echo getFormattedDate($task->completed_date); ?>
+                    </p>
                   </div>
                 <br>
                   <?php
                 }
                 ?>
-                <?php if ($USER->id == $task->assigned_user) { ?>
-                <div>
-                <a href="/sentences/evaluate.php?review=1&task_id=<?= $task_id ?>">
-                  <span class="glyphicon glyphicon-info-sign"></span>
-                  <span>Check evaluation <span class="sr-only"> of task <?= $task_id ?></span>
-                </a>
-                </div>
-                <?php } ?>
                 <div>
                     <a href="/tasks/download_summary.php?task_id=<?php echo $task_id ?>">
                       <span class="glyphicon glyphicon-download-alt"></span>
@@ -236,7 +234,7 @@ if (isset($task_id)) {
             </div>
         </div>
 
-        <div class="col-sm-4">
+        <div class="col-sm-12 col-md-4 col-xs-12">
           <div class="table-responsive">
             <table class="table table-striped table-bordered table-hover table-condensed">
               <thead>
@@ -278,7 +276,7 @@ if (isset($task_id)) {
             </table>
           </div>
         </div>
-        <div class="col-md-8">
+        <div class="col-sm-12 col-md-8 col-xs-12">
           <canvas id="pie-chart" width="800" height="350"></canvas>
           <script type="text/javascript">
             var labels_pie_chart = [<?= implode(",", $labels_chart_js) ?>];
