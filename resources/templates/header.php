@@ -40,11 +40,18 @@
               <a href="/contact.php?p=<?= $project->id  ?>" title="Contact Project Manager">Contact PM <span id="contact-mail-logo" class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
             </li>
             <?php } ?>
+
+            <?php 
+              require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/dao/user_dao.php");
+              $user_dao = new user_dao();
+              $id = $user_dao->getFirstAdminId();
+            ?>
+
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $USER->name ?><span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li class="dropdown-header">Support</li>
-                <li><a href="/contact.php">Contact support</a></li>
+                <li><a href="/contact.php?u=<?= $id ?>">Contact support</a></li>
                 <li class="dropdown-header">Account</li>
                 <li><a href="/users/user_logout.php">Sign out</a></li>
               </ul>
