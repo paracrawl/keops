@@ -276,8 +276,8 @@ if (isset($task_id)) {
             </table>
           </div>
         </div>
-        <div class="col-sm-12 col-md-8 col-xs-12">
-          <canvas id="pie-chart" width="800" height="350"></canvas>
+        <div class="col-sm-12 col-md-8 col-xs-12" style="height: 300px;">
+          <canvas id="pie-chart"></canvas>
           <script type="text/javascript">
             var labels_pie_chart = [<?= implode(",", $labels_chart_js) ?>];
             var data_pie_chart = [<?= implode(",", $data_chart_js) ?>];
