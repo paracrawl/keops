@@ -118,7 +118,7 @@
         } else if ($corpus->mode == "ADE") {
         ?>
           <input type="hidden" name="corpus_id" value="<?= $corpus->id ?>" />
-          <table id="corpora-table-ade" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" style="width:100%;">
+          <table id="corpora-table-ade-preview" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" style="width:100%;">
               <thead>
                 <tr>
                   <th>ID</th>

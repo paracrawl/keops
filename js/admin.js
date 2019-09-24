@@ -280,6 +280,42 @@ $(document).ready(function() {
     ajax: "/users/user_list.php",
     stateSave: true
   });
+
+  corpora_ade_table = $("#corpora-table-ade-preview").DataTable({
+    columnDefs: [
+      {
+        targets: 1,
+        class: "multiline"
+      },
+      {
+        targets: 2,
+        class: "multiline"
+      },
+      {
+        targets: 3,
+        render: function(data, type, row) {
+          switch (row[3]) {
+            case "legit":
+              return "Legit";
+            case "ref":
+              return "Reference";
+            case "bad_ref":
+              return "Bad reference";
+            case "rep":
+              return "Repeated";
+            default:
+              return "";
+          }
+        }
+      }
+    ],
+    order: [[ 0, 'asc' ]],
+    processing: true,
+    serverSide: true,
+    stateSave: true,
+    deferLoading: 0
+  });
+
   
    /*
    * Projects table (for "Projects" tab)
