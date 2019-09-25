@@ -182,7 +182,7 @@ else {
                   <div class="text-increase mb-2">Ranking</div>
 
                   <small>
-                    Rank the output of the MT systems from best to worst. If two outputs are identical or near identical, set the same number to them. Always start with best position in the ranking (1) and go up.
+                    Rank the output of the MT systems from best to worst. If two outputs are identical, set the same number to them. Always start with best position in the ranking (1).
                   </small>
                 </div>
 
