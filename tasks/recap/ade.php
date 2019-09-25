@@ -102,7 +102,7 @@ if (isset($task_id)) {
         <div class="col-sm-6 col-xs-12">
           <div class="panel panel-success">
             <div class="panel-heading">
-              <h3 class="panel-title">Finished task</h3>
+              <h3 class="panel-title">Well done!</h3>
             </div>
             <div class="panel-body">
               <div class="row">
