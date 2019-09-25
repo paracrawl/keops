@@ -71,7 +71,7 @@ your current projects and their tasks.
 <a name="modes"></a>
 
 ## Evaluation modes
-A task has always an evaluation mode. This will change the way you evalute the sentences.
+A task has always an evaluation mode. This will change the way evaluators review the sentences.
 
 <a name="validation"></a>
 
@@ -138,9 +138,7 @@ When performing this kind of evaluation, a source text and a reference translati
 <a name="corpora"></a>
 
 ## Managing corpora
-A set of sentences is called a corpus. Corpora may have a different structure depending on the evaluation mode they are meant to be used in.
-
-KEOPS lets you upload, preview and assign corpora for evaluation. 
+A set of sentences is called a corpus. Corpora may have a different structure depending on the evaluation mode they are meant to be used in. KEOPS lets you upload, preview and assign corpora for evaluation. 
 
 ### Uploading corpora
 ![Corpora upload screen](/screenshots/guide/admin/upload.png)
@@ -205,7 +203,7 @@ Use the Invitations tab on the Management page to invite a user. You only need t
 Once the user accepts the invitation and signs up, you can modify their information:
 * __Name__: the name of the user.
 * __Email__: the email address of the user.
-* __Languages__: the languages which the user has knowledge of.
+* __Languages__: the languages the user has knowledge of.
 * __Role__: whether this user is an evaluator or an administrator.
 * __Active__: whether the user can sign in.
 
@@ -218,7 +216,7 @@ Once the user accepts the invitation and signs up, you can modify their informat
 A comprehensive list of languages is already provided when KEOPS is installed. However, you may add additional languages using the _Add language_ action on the _Languages_ tab of the Managment screen.
 
 When adding a new language, you are asked to type a language code and a language name.
-* The language code must have the form of a [ISO 639-1 code](https://www.loc.gov/standards/iso639-2/php/code_list.php).
+* The language code must have the form of an [ISO 639-1 code](https://www.loc.gov/standards/iso639-2/php/code_list.php).
 * The language name can be any string which describes the language (for example, "Spanish")
 
 <a name="feedback"></a>

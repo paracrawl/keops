@@ -14,7 +14,7 @@ If you already have your evaluator account, sign in to use KEOPS. You can do thi
 
 ![Home page](screenshots/guide/home.png)
 
-This will take you to the _Sign in_ screen, where you just have to fill the fields with your email and password.
+This will take you to the _Sign in_ screen, where you have to fill the fields with your email and password.
 
 ![Sign in screen](screenshots/guide/login.png)
 
@@ -22,6 +22,12 @@ This will take you to the _Sign in_ screen, where you just have to fill the fiel
 When you are invited to KEOPS, you will get an invitation link. If you follow that link, you will be able to sign up.
 
 Fill the required fields and click on _Sign up_. This will create your evaluator account. From now on, administrators can assign you tasks.
+
+Instead of an invitation link, you could get an invitation token. This token will look like this:
+
+    5d4404fb9f66a
+
+On the Sign up screen, fill the _Access Token_ field with this token.
 
 ![Sign up screen](screenshots/guide/signup.png)
 
@@ -128,7 +134,7 @@ Label filtering is not available in this mode, since labels are not used.
 #### Ranking
 ![Ranking screen](/screenshots/guide/ranking.png)
 
-When performing this kind of evaluation, a source text and a reference translation is presented to you. Then, you must rank a set of candidate translations. The first position belongs to the best translation and, the last position, to the worst one.
+When performing this kind of evaluation, a source text and a reference translation is presented to you. Then, you must rank a set of candidate translations from best to worst. If two translations are identical, set the same number to them. Always start with best position in the ranking (1).
 
 When you search in this mode, please note that label filtering is not available because labels are not used.
 
@@ -142,7 +148,7 @@ __Keyboard__
 
 Press the numbers of the keyboard to order the translations. When you press the first number, the first sentence will be assigned to that position. 
 
-Then, you will automatically jump to the next translation. Keep on pressing numbers to assign a position to every translation. If you ever need to move to a translation manually, use the + and - keys. Press Enter to save the ranking and go to the next sentence. Alternatively, you can type the sentence position in the field on its left.
+Then, you will automatically jump to the next translation. Keep on pressing numbers to assign a position to every translation. If you ever need to move to a translation manually, use the <kbd>+</kdb> and <kbd>-</kbd> keys. Press Enter to save the ranking and go to the next sentence. Alternatively, you can type the sentence position in the field on its left.
 
 ## Once you're done
 The Project Manager will be notified via mail when you finish a task.
@@ -166,7 +172,7 @@ Whenever you run into a problem, an issue or you just have a doubt, you can get 
 
 Click on the _Contact PM_ link on the top of the evaluation screen to get in touch with the Project Manager of that task. Use this to discuss issues and doubts about a particular task.
 
-Click on the _Contact_ link on the footer to contact support. Use this option for any other subjects (platform-related errors, doubts about how to use KEOPS...)
+Click on the _Contact support_ link on the top right menu for any other subjects (platform-related errors, doubts about how to use KEOPS...)
 
 ## Let us know what you think
 If you wish to share your thoughts about this product, we'll be happy to hear from you by filling the form available at the end of a task evaluation.
