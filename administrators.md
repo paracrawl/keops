@@ -52,12 +52,21 @@ On the Sign up screen, fill the _Access Token_ field with this token.
 ## Managing tasks and projects
 Projects group tasks which are somehow related. A task must __always__ belong to a project, so projects may contain only one task. When creating a project, you will be asked for a name and a description. Use this information to correctly identify your projects.
 
+![Projects screen](screenshots/guide/admin/projects.png)
+
 Tasks group sentences which should be evaluated in the same way. You can create tasks once you create the project they belong to. When creating a task, you will be asked for:
 * __Mode__: the way this task should be evaluated. Refer to the [modes](#modes) section for more information.
 * __Source language__: the language of the source texts. For certain kinds of evaluation, this will not be required.
 * __Target language__: the language of the target texts.
 * __Evaluator__: the evaluator who should evaluate this set of sentences. Only evaluators who have knowledge of both source and target languages can be chosen. 
 * __Corpus__: the set of sentences to evaluate. Refer to [managing corpora](#corpora) for more information.
+
+![Tasks screen](screenshots/guide/admin/tasks.png)
+
+Finally, if you click on _Recap all_ on the Projects screen, you get an overview of all
+your current projects and their tasks.
+
+![Projects overview screen](screenshots/guide/admin/recapall.png)
 
 <a name="modes"></a>
 
@@ -134,10 +143,11 @@ A set of sentences is called a corpus. Corpora may have a different structure de
 KEOPS lets you upload, preview and assign corpora for evaluation. 
 
 ### Uploading corpora
+![Corpora upload screen](/screenshots/guide/admin/upload.png)
 
 Corpora is always uploaded in TSV format. This format uses one line per record and a tab character to separate fields.
 
-The specific format of the TSV file is explained below for each of the evaluation modes. You can also download a template and use it to upload your data:
+The specific format of the TSV file is explained below for each of the evaluation modes. This information is alsa available on KEOPS clicking on _First time uploading corpora_. You can also download a template and use it to upload your data:
 
 * [Validation template](/corpora/templates/validation.tsv)
 * [Adequacy template](/corpora/templates/adequacy.tsv)
@@ -184,9 +194,14 @@ Include as many systems as you want.
 As an administrator, you have de capability of inviting new users to KEOPS. The new users may have evaluator or administrator privileges.
 
 ### Inviting new users
+![Invitation screen](/screenshots/guide/admin/invite.png)
+
 Use the Invitations tab on the Management page to invite a user. You only need to provide their email address. Make sure to provide a valid one, since they will be notified via mail about the invitation.
 
 ### Modifying users
+
+![Edit user screen](/screenshots/guide/admin/edituser.png)
+
 Once the user accepts the invitation and signs up, you can modify their information:
 * __Name__: the name of the user.
 * __Email__: the email address of the user.
@@ -197,6 +212,9 @@ Once the user accepts the invitation and signs up, you can modify their informat
 <a name="languages"></a>
 
 ## Managing languages
+
+![Languages screen](/screenshots/guide/admin/languages.png)
+
 A comprehensive list of languages is already provided when KEOPS is installed. However, you may add additional languages using the _Add language_ action on the _Languages_ tab of the Managment screen.
 
 When adding a new language, you are asked to type a language code and a language name.
@@ -206,6 +224,9 @@ When adding a new language, you are asked to type a language code and a language
 <a name="feedback"></a>
 
 ## Feedback
+
+![Feedback screen](/screenshots/guide/admin/feedback.png)
+
 When an evaluator finishes a task, they can provide feedback about their experience. As an administrator, you can read this feedback on the Managment screen.
 
 A list of the provided comments is displayed, along with the user who made them. If you click on _Contact_, you can get in touch with that user.
