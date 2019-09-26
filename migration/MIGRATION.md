@@ -2,115 +2,88 @@
 
 This document provides a guide to migrate from a previous version of KEOPS to a new one. We use [SQLAlchemy](https://sqlalchemy-migrate.readthedocs.io/en/latest/) and [Alembic](https://alembic.sqlalchemy.org/en/latest/), which are capable of generating migrations automatically and managing their deployment.
 
-## Getting started
+## 1. Installing required software
+First, download the new version of KEOPS. Once downloaded, the simplest way of running KEOPS is using Docker:
 
-In this section, we will get SQLAlchemy and Alembic ready for migrating to a new version of KEOPS.
+    docker-compose up -d
 
-### Installing required software
-Both SQLAlchemy and Alembic run on Python. They can be installed easily via `pip`:
+This will launch two containers: `keopsdb` and `keops`. The first one hosts the database and the second one hosts KEOPS.
 
-    pip install sqlalchemy
-    pip intall alembic
+Both SQLAlchemy and Alembic run on Python3. They can be installed easily via `pip`. You will also need `psycopg2` as a driver to connect to the database. Install them on the `keops` container:
 
-### Configuring Alembic
-Alembic manages migrations, letting us deploy them and revert them using the command line. To start using Alembic, we first have to initialize it:
+    apt install python python-psycopg2 python-pip
+    pip install sqlalchemy alembic
 
-    alembic init alembic
+## 2. Getting ready for migrating
 
-This command will generate the following structure in the folder you run it:
+All the necessary files for migrating are available in `/opt/keops/migration`, inside of the `keops` container:
 
+* migrations.zip
+* models.py
+
+Unzip the contents of the compressed file in the migration folder:
+
+    unzip migration.zip
+
+Now, your migration folder should look like this:
+
+* migrations.zip
+* models.py
 * alembic.ini
 * alembic/
     * env.py
     * versions/
 
-In order for Alembic to connect to your database, you must change this line in `alembic.ini`
+Edit `alembic.ini` to match the credentials of your actual database (line 38):
 
-    sqlalchemy.url = driver://user:pass@host:port/dbname
+    sqlalchemy.url = postgres+psycopg2://postgres:PASSWORD_FOR_POSTGRES@keopsdb/keopsdb
 
-Change it to a valid URL which points to your database. You can read about valid URLs [here](https://docs.sqlalchemy.org/en/13/core/engines.html#database-urls). For example, this should work for a local deployment of KEOPS:
+Because of the way KEOPS is initialized, the user `postgres` is the owner of the tables and the schemas of the database. We advise you to use this user in Alembic. Otherwise, you may run into permission errors.
 
-    sqlalchemy.url = postgres+psycopg2://keopsdb:PASWORD@localhost/keopsdb
 
-Now, we must configure Alembic to recognize the structure of our database. You need to [download a model of the database](models.py). Place it in the root of the directory where you initilized Alembic. Now, you should have the following file structure:
+## 3. Safety first
+Before performing a migration, back up your current database. First, dump your data from your previous database into a file. 
 
-* alembic.ini
-* **models.py**
-* alembic/
-    * env.py
-    * versions/
+Run this command wherever your previous database is deployed. You should get a file which contains the backup of the database (`keopsdb.bak.sql`).
 
-Then, replace the following line in `env.py`:
+```shell
+# sudo -u postgres pg_dump keopsdb > keopsdb.bak.sql
+```
 
-    target_metadata = None
+Now, you can restore the data to the database present in the container `keopsdb`.
 
-With this code:
+```shell
+# docker exec keopsdb sudo -u postgres dropdb keopsdb
 
-    import sys, os
-    sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-    from models import Base
-    target_metadata = Base.metadata
+# docker exec keopsdb sudo -u postgres createdb keopsdb
 
-You must also add `include_schemas=True` every time the context is configured (the function `context.configure` is called). This happens near lines 46 and 68.
+# docker cp ~/keopsdb.bak.sql keopsdb:/opt/keopsdb.bak.sql
 
-Near line 46:
+# docker exec keopsdb sudo -u postgres psql -d keopsdb -f /opt/keopsdb.bak.sql
+```
 
-    context.configure(
-        url=url, target_metadata=target_metadata,
-        literal_binds=True,
-        include_schemas=True
-    )
+This replicates your previous database in the new KEOPS container. In the next step, we will migrate your data to the new version of KEOPS.
 
-Near line 68:
+## 4. Migrating
 
-    context.configure(
-        connection=connection,
-        target_metadata=target_metadata,
-        include_schemas=True
-    )
+Set the database to the beginning of the migration:
 
-We are ready to go! In the following steps, we will apply the corresponding migrations.
+    alembic stamp 39f0aae0582b
 
-## Migrating
-Migrations are Python files which contain two functions: `upgrade()` and `downgrade()`. As you could guess, the first function performs actions when the database is upgraded to a new version, and the second one performs actions when the database is downgraded to a previous version.
+And, finally, migrate:
 
-First, set the reference point of Alembic:
+    alembic upgrade head
 
-    alembic stamp head
+A set of operations will run sequentially until the end of the migration. Then, the database is ready to be used with the new version of KEOPS.
 
-Then, you can download this [set of migrations](migrations.zip) to migrate from the previous version of KEOPS to the current one. The compressed file contains a folder called _versions_. The Python files inside it must be extracted to the _versions_ folder created by Alembic.
+Since the migration modifies and creates tables, you need to grant the corresponding permissions again to the user `keopsdb`:
 
-If you run `alembic history`, you should get something like this:
-
-    64d08233eefa -> 84c03f89212d (head), Add feedback table
-    4674a545b1b0 -> 64d08233eefa, Set null evalmodes to VAL
-    ee294d2ae5e3 -> 4674a545b1b0, Delete comments
-    7aef4d0260ec -> ee294d2ae5e3, Adjust null values
-    c0f84decbdac -> 7aef4d0260ec, Change evaluation to varchar
-    b8bec0892316 -> c0f84decbdac, Add time column
-    1ec316af4a8f -> b8bec0892316, Add corpora information
-    241a1d4de4e1 -> 1ec316af4a8f, Add tasks information
-    bea5d762a752 -> 241a1d4de4e1, Add sentence information
-    552fb76000a5 -> bea5d762a752, Add vector
-    c2116e8b1149 -> 552fb76000a5, Drop target text column
-    f5ba8fc1c5da -> c2116e8b1149, Create sentences_pairing table
-    9e93ad2ab9f9 -> f5ba8fc1c5da, Move languages to Tasks
-    39f0aae0582b -> 9e93ad2ab9f9, Add Comments table
-    <base> -> 39f0aae0582b, The begining
-
-Finally, you migrate to the new version of KEOPS with:
-
-    alembic upgrade HEAD
-
-Please note that this only upgrades the database. You must download the new code from the repository in order to have a functional deployment.
-
-### ⚠️ Permission issues
-If you have any issues related to permissions after migrating, these lines restore the corresponding permissions to the database:
-
-    REVOKE CONNECT ON DATABASE keopsdb FROM PUBLIC;
-    GRANT CONNECT ON DATABASE keopsdb TO keopsdb;
-    ALTER DEFAULT PRIVILEGES FOR USER keopsdb IN SCHEMA keopsdb GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO keopsdb;
-    GRANT USAGE ON SCHEMA keopsdb TO keopsdb;
-    ALTER DEFAULT PRIVILEGES GRANT ALL ON SEQUENCES TO keopsdb;
-    GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA keopsdb TO keopsdb; 
-    GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA keopsdb TO keopsdb;
+```sql
+REVOKE CONNECT ON DATABASE keopsdb FROM PUBLIC;
+GRANT CONNECT ON DATABASE keopsdb TO keopsdb;
+ALTER DEFAULT PRIVILEGES FOR USER keopsdb IN SCHEMA keopsdb GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO keopsdb;
+GRANT USAGE ON SCHEMA keopsdb TO keopsdb;
+ALTER DEFAULT PRIVILEGES GRANT ALL ON SEQUENCES TO keopsdb;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA keopsdb TO keopsdb; 
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA keopsdb TO keopsdb;
+```
