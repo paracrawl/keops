@@ -116,21 +116,56 @@ An admin can have several projects (see table "projects"), but each project has 
 
 ### Which format must corpora have to be properly uploaded to Keops? ###
 
-The corpus format that Keops does currently support is TSV files having one pair of sentences per line (and no header). For example:
+Corpora is always uploaded in TSV format. This format uses one line per record and a tab character to separate fields.
 
-```
-Hello   Hola
-Good morning    Buenos días
-It's raining cats and dogs  Está lloviendo a cántaros
-```
+The specific format of the TSV file is explained below for each of the evaluation modes. This information is alsa available on KEOPS clicking on _First time uploading corpora_. You can also download a template and use it to upload your data:
+
+* [Validation template](/corpora/templates/validation.tsv)
+* [Adequacy template](/corpora/templates/adequacy.tsv)
+* [Fluency template](/corpora/templates/fluency.tsv)
+* [Ranking template](/corpora/templates/ranking.tsv)
+
+#### Corpora for validation
+| Source text | Tab | Target text |
+|----------------------------------------------------------------------|-----|-------------------------------------------------------------------------------------------------------------|
+| You can contact our customer service department using the form below | Tab | Puedes ponerte en contacto con nuestro departamento de servicio al cliente mediante el siguiente formulario |
+
+You should only include one target text for each source text.
+
+#### Corpora for adequacy
+| Source text | Tab | Candidate translation |
+|----------------------------------------------------------------------|-----|-------------------------------------------------------------------------------------------------------------|
+| You can contact our customer service department using the form below | Tab | Puedes ponerte en contacto con nuestro departamento de servicio al cliente mediante el siguiente formulario |
+
+You should only include one candidate translation for each source text.
+
+---
+
+⚠️ Due to quality control sentences, uploading corpora for adequacy will result in a corpus __30% bigger__ than its original size. Learn more about quality control [here](#qualitycontrol)
+
+---
+
+#### Corpora for fluency
+| Candidate translation |
+|-----------------------|
+Puedes ponerte en contacto con nuestro departamento de servicio al cliente mediante el siguiente formulario |
+
+Corpora for fluency evaluation consist only on one column because they are monolingual tasks.
+
+#### Corpora for ranking
+| Source text | Tab | Reference text | Tab | Name of system 1 | Tab | Name of system 2 | Tab | ... |
+|----------------------------------------------------------------------|-----|-------------------------------------------------------------------------------------------------------------|-----|--------------------------------|-----|--------------------------------|-----|-----|
+| You can contact our customer service department using the form below | Tab | Puedes ponerte en contacto con nuestro departamento de servicio al cliente mediante el siguiente formulario | Tab | Manual de empleo y manutención | Tab | Manual de empleo y manutención | Tab | ... |
+
+Include as many systems as you want.
 
 <a name="faq-langs"></a>
 
 ### Which languages are preloaded in Keops? ###
  
 Preloaded languages are:  Bulgarian (bg), Czech (cs), Danish (da),  German (de), Greek (el), English (en), Spanish (es), Estonian (et), Finnish (fi), French (fr),  
-Irish (ga), Croatian (hr), Hungarian (hu), Italian (it), Lithuanian (lt), Latvian (lv), Maltese (mt), Dutch (nl), Polish (pl),  Portuguese (pt), Romanian (ro), 
-Slovak (sk), Slovenian (sl) and Swedish (sv)
+Irish (ga), Croatian (hr), Hungarian (hu), Italian (it), Lithuanian (lt), Latvian (lv), Maltese (mt), Norwegian - bokmal (no), Norwegian - nynorsk (nn), Dutch (nl), Polish (pl),  Portuguese (pt), Romanian (ro), 
+Slovak (sk), Slovenian (sl) and Swedish (sv).
 
 But remember: Admins can add as many languages as needed, at any time!
 
@@ -160,28 +195,79 @@ Remember: Evaluators can refer to the Validation Guidelines at any time, just cl
 
 ### Which format does the "task summary" file have? ###
 
-The Task Summary (or task stats) file is a CSV file containing the amount of parallel sentences per each label.  
+The Task Summary (or task stats) file is a TSV file containing a summary of the task once it is finished. The format will change depending on the type of the task.
 
+#### Validation
 Each line contains the Label code, the Label description and the amount of entries tagged with that label in the task. For example:
 
 ```
-Label,Description,Count
-L,Wrong language identification,44
-A,Incorrect alignment,150
-T,Wrong tokenization,204
-MT,MT translation,97
-E,Translation error,70
-F,Free translation,39
-V,Valid translation,396
-P,Pending,0
-Total,Total,1000
+Label 	Description           Count
+L     	Wrong language id. 	  44
+A     	Incorrect alignment   150
+T     	Wrong tokenization    204
+MT    	MT translation        97
+E     	Translation error     70
+F     	Free translation      39
+V     	Valid translation     396
+P     	Pending               0
+Total 	Total                 1000
+```
+#### Adequacy
+Each line contains a percentage (in steps of 10) and the amount of sentences evaluated with that score. For example:
+
+```
+Percentage 	# of sentences
+0          	3
+10         	2
+20         	5
+30         	1
+40         	1
+50         	0
+60         	2
+70         	4
+80         	3
+90         	4
+100        	1
+```
+
+#### Fluency
+Each line contains a percentage (in steps of 10) and the amount of sentences evaluated with that score. For example:
+
+```
+Percentage 	# of sentences
+0          	0
+10         	0
+20         	1
+30         	0
+40         	0
+50         	20
+60         	0
+70         	0
+80         	0
+90         	0
+100        	0
+```
+
+#### Ranking
+Each line contains the name of a system and its position in the ranking. For example:
+```
+System        Position
+Google        7
+Microsoft     1
+DeepL         6
+Apertium      3
+PROMPT        3
 ```
 
 <a name="annotation-format"></a>
 
 ### Which format does the "annotated sentences" file have? ###
 
-The Annotated Sentences file is a TSV file containing all parallel sentences that were evaluated in a task, as well as their evaluations (labels) and Evaluator comments (if any).
+The Annotated Sentences file is a TSV file containing all sentences that were evaluated in a task, as well as their evaluations and Evaluator comments (if any).
+
+The format will change depending on the type of the task.
+
+#### Validation
 
 An example of an annotated sentences file follows:
 
@@ -192,3 +278,29 @@ Tooling for cup chain aka tennis chain	Herramienta para cadena tennis	en	es	MT	M
 Type of heating HVAC system	Tipo de calefacción Aire acondicionado frào-calor	en	es	L	Wrong language identification	This sentence has wrong encoding. 
 Budva - photo gallery, Montenegro, Montenegro photos	Lalibela- viajes , Etiopía, fotos de Etiopía, viajar a Etiopía	en	es	A	Incorrect alignment	
 ```
+
+#### Adequacy
+
+Each line contains the source text, the target text, source and target languages and the score of the sentence.
+
+| Source | Target 1 | Source lang | Target lang | Evaluation | Description | Evaluation details |
+|-------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|-------------|-------------|------------|-------------|--------------------|
+| If you did not find what wou were looking for, please use our custom search engine: | Si no encontró lo que está buscando, pruebe nuestro motor de búsqueda personalizada! | en | es | 20 |  |  |
+| In this page, you will find information about Guided Tours of Dumbria. | En esta página encontrarás información sobre Visitas Guiadas de Dumbria. | en | es | 70 |  |  |
+
+#### Fluency
+
+Each line contains the target text, the target language and the score of the sentence.
+
+| Target | Target lang | Evaluation | Description | Evaluation details |
+|-------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|-------------|-------------|------------|-------------|--------------------|
+| If you did not find what wou were looking for, please use our custom search engine: |en | 20 |  |  |
+| In this page, you will find information about Guided Tours of Dumbria.| en | 70 |  |  |
+
+
+#### Ranking
+Each line contains a source text, a reference text, the candidate translations and the position of each one in JSON format. For example:
+
+| Source | Target | Google | Microsoft | DeepL | Apertium | PROMPT | Source lang | Target lang | Evaluation | Description | Evaluation details |
+|----------------------------|--------------------------------|--------------------------------|---------------------------------|--------------------------------|--------------------------------|---------------------------------|-------------|-------------|------------------------------------------------------------------------|-------------|--------------------|
+| Use and maintenance manual | Manual de empleo y manutención | Manual de empleo y manutención | Manual de empleo y manutención. | Manual de empleo y manutención | Manual de empleo y manutención | Manual de empleo y manutención. | en | es | {"Google":"1","Microsoft":"2","DeepL":"3","Apertium":"4","PROMPT":"5"} |  |  |

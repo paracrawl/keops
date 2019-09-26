@@ -4,21 +4,73 @@ KEOPS (Keen Evaluation Of Parallel Sentences) provides a complete tool for manua
 
 It can be installed, or run inside a Docker.
 
-## Requirements ##
-
-To install KEOPS locally in your machine, the following packages are needed.  They can be installed with ```sudo apt-get install```:
-
-* postgresql
-* php7.2
-* php7.2-pgsql
-* php7.2-fpm 
-* nginx
-
-### Get KEOPS ###
+## Get KEOPS ##
 
 ```bash
 git clone http://gitlab.prompsit.com/paracrawl/keops.git
 ```
+
+## Dockerized version ##
+
+All the needed files to dockerize KEOPS are provided. First, install Docker:
+
+```
+sudo apt-get install docker
+```
+
+Docker-compose is the preferred way of launching KEOPS:
+
+```
+docker-compose up -d
+```
+
+This will run, on the background, two containers:
+* __keops__ contains the KEOPS server
+* __keopsdb__ contains the PostgreSQL Database used by KEOPS
+
+Once the containers are running, KEOPS is available on __port 8080__.
+
+Alternatively, you can build and run the container manually:
+
+```
+cd keops
+sudo docker network create keops
+sudo docker build -t keopsdocker .
+```
+
+Once built, run it:
+
+```
+sudo docker run -d --network=keops -pOUT_PORT:80 --name keops keopsdocker:latest
+```
+
+With "OUT_PORT" being the port where Keops is going to be reachable  (usually, 80)
+
+This KEOPS container does not provide a database. You can build the database container manually too:
+
+```
+cd keops
+sudo docker build -f Dockerfile-db -t keopsdb .
+```
+
+And run it:
+
+```
+sudo docker run -d --name keopsdb --network=keops keopsdb:latest
+```
+
+## Local installation ##
+Instead of running a Docker container, you can deploy KEOPS locally.
+
+### Requirements ###
+
+To install KEOPS locally in your machine, the following packages are needed.  They can be installed with ```sudo apt-get install```:
+
+* postgresql-10
+* php7.2
+* php7.2-pgsql
+* php7.2-fpm 
+* nginx
 
 ### Install and configure PHP on nginx ###
 
@@ -216,25 +268,6 @@ insert into keopsdb.users (name, email, role, password) values ('admin', 'admin@
 
 At this point, you should be able to log into Keops with user "admin@admin.com" and password "admin".
 (As pointed below, it's adviced to log as this user the first time to create a new administrator user, and then remove the default "admin" user for security.)
-
-## Dockerized version ##
-
-All the needed files to dockerize Keops are provided. To build the dockerized version of Keops:
-
-```
-sudo apt-get install docker
-git clone http://gitlab.prompsit.com/paracrawl/keops.git
-cd keops
-sudo docker build -t keopsdocker .
-```
-
-Once built, run it:
-
-```
-sudo docker run -d -pOUT_PORT:80 --name keops keopsdocker:latest
-```
-
-With "OUT_PORT" being the port where Keops is going to be reachable  (usually, 80)
 
 ## Notes ##
 

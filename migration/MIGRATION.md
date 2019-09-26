@@ -21,9 +21,17 @@ All the necessary files for migrating are available in `/opt/keops/migration`, i
 * migrations.zip
 * models.py
 
+Access the command line of the container:
+```shell
+# docker exec -it keopsdb bash
+```
+
 Unzip the contents of the compressed file in the migration folder:
 
-    unzip migration.zip
+```shell
+# cd /opt/keops/migration
+# unzip migration.zip
+```
 
 Now, your migration folder should look like this:
 
@@ -40,6 +48,10 @@ Edit `alembic.ini` to match the credentials of your actual database (line 38):
 
 Because of the way KEOPS is initialized, the user `postgres` is the owner of the tables and the schemas of the database. We advise you to use this user in Alembic. Otherwise, you may run into permission errors.
 
+For the following step, exit the container terminal:
+```shell
+# exit
+```
 
 ## 3. Safety first
 Before performing a migration, back up your current database. First, dump your data from your previous database into a file. 
