@@ -50,6 +50,7 @@ if (isset($task_id)) {
       foreach ($sentences as $sentence) {
         $ranking = json_decode($sentence->evaluation, true);
         $systems = array_keys($ranking);
+
         foreach ($systems as $system) {
           if (array_key_exists($system, $scores)) {
             $scores[$system] += ($ranking[$system] == 1) ? 1 : 0;;
@@ -59,6 +60,7 @@ if (isset($task_id)) {
         }
       }
 
+      $rows[] = array("System", "Position");
       foreach ($systems as $system) {
         $rows[] = array($system, $scores[$system]);
       }
