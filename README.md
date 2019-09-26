@@ -2,7 +2,7 @@
 
 KEOPS (Keen Evaluation Of Parallel Sentences) provides a complete tool for manual evaluation of parallel sentences.
 
-<img src="screenshots/fullkeops-page.png" width="700">
+<img src="screenshots/guide/home.png" width="700" />
 
 It can be installed, or run inside a Docker. See [INSTALLATION.md](INSTALLATION.md) for more information.
 
@@ -20,7 +20,7 @@ It can be installed, or run inside a Docker. See [INSTALLATION.md](INSTALLATION.
    * [Which format does the "annotated sentences" file have?](#annotation-format)
 
 
-<a name="overview"/>
+<a name="overview"></a>
 
 ## Overview ##
 
@@ -28,7 +28,7 @@ There are two main types of users in Keops: **Users** (also known as "Evaluators
 Admins can perform management tasks (such as creating tasks, uploading corpora to evaluate, invite users...) and evaluation tasks,
 while regular Users can only perform evaluation tasks (assigned by the Admins).
 
-<a name="admins"/>
+<a name="admins"></a>
 
 ### Admins ###
 The most common **workflow** for an **Admin** is as follows: 
@@ -42,7 +42,7 @@ Then the admin **uploads** one (or more) parallel **corpus**, indicating the sou
 
 After these two first steps, the Admin creates a new **Project**, indicating its source and target languages.
 
-<img src="screenshots/management-page.png" width="700">
+<img src="screenshots/management-page.png" width="700" />
 
 
 When the project is created, the Admin can create **Tasks** in the Project. 
@@ -55,9 +55,9 @@ Please note that only users and corpora matching the project languages will be a
 Once the task is created, Evaluators can immediately start working on them.
 When an Evaluator finishes evaluating all sentences from a task, and markes it as **DONE**, the Admin is able to **download** the stats of the evaluation (a CSV file containing the amount of sentences per evaluation label) and the annotated corpus (a TSV file containing the parallel sentences and their evaluations).
 
-<img src="screenshots/download-page.png" width="700">
+<img src="screenshots/guide/recap-val.png" width="700">
 
-<a name="evaluators"/>
+<a name="evaluators"></a>
 
 ### Evaluators ###
 
@@ -71,7 +71,7 @@ It's important that Evaluators include their languages, so Admins can assign tas
 
 If the Evaluator already had an account in Keops, instead of signing up, the Evaluator just needs to **sign in**.
 
-<img src="screenshots/signin-page.png" width="700">
+<img src="screenshots/guide/login.png" width="700">
 
 Once logged in, in their Keops **homepage**, Evaluators can see a list of **tasks** they are assigned to.  
 Evaluators just need to click the **start/continue** button of the desired task, and then start evaluating.
@@ -89,10 +89,10 @@ Evaluators are also allowed to add a **comment** to each parallel sentence, in o
 Once all sentences of a task are evaluated, the Evaluator is redirected to the **recap** page for the task, where the evaluation stats of the task are shown. 
 By marking the task as **DONE**, the Evaluator states that the task is finished, and from that moment, the Admin is able to **download** the stats of the evaluation and the evaluated sentences.
 
-<img src="screenshots/recap-page.png" width="700">
+<img src="screenshots/guide/recap-val.png" width="700">
 
 
-<a name="DB"/>
+<a name="DB"></a>
 
 ## DB Schema ##
 
@@ -108,11 +108,11 @@ An user (admin or evaluator) can have to several languages associated (see table
 
 An admin can have several projects (see table "projects"), but each project has only one administrator (owner).
 
-<a name="faq"/>
+<a name="faq"></a>
 
 ## FAQ: Frequently Asked Questions ##
 
-<a name="faq-corpora"/>
+<a name="faq-corpora"></a>
 
 ### Which format must corpora have to be properly uploaded to Keops? ###
 
@@ -124,7 +124,7 @@ Good morning    Buenos días
 It's raining cats and dogs  Está lloviendo a cántaros
 ```
 
-<a name="faq-langs"/>
+<a name="faq-langs"></a>
 
 ### Which languages are preloaded in Keops? ###
  
@@ -134,7 +134,7 @@ Slovak (sk), Slovenian (sl) and Swedish (sv)
 
 But remember: Admins can add as many languages as needed, at any time!
 
-<a name="guidelines"/>
+<a name="guidelines"></a>
 
 ### What are "validation guidelines"? ###
 
@@ -156,7 +156,7 @@ For more information on each label, please check the [ELRC Validation Guidelines
 
 Remember: Evaluators can refer to the Validation Guidelines at any time, just clicking in the link in the Evaluation window.
 
-<a name="summary-format"/>
+<a name="summary-format"></a>
 
 ### Which format does the "task summary" file have? ###
 
@@ -177,7 +177,7 @@ P,Pending,0
 Total,Total,1000
 ```
 
-<a name="annotation-format"/>
+<a name="annotation-format"></a>
 
 ### Which format does the "annotated sentences" file have? ###
 
