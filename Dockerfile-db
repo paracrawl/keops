@@ -2,28 +2,21 @@ FROM ubuntu:18.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN mkdir /opt/keops
-
-COPY . /opt/keops
+COPY configure-db.sh /opt/
+COPY docker-entrypoint-db.sh /opt/
+COPY keopsdb_init.sql /opt/
 
 RUN echo "Europe/Madrid" > /etc/timezone
 
 RUN apt-get update -q --fix-missing && \
     apt-get -y upgrade && \
     apt-get -y install  tzdata \			
-			php7.2 \
-			php7.2-pgsql \
-			php7.2-fpm \
-			php7.2-mbstring \
-			nginx \ 
-			ca-certificates \
+			postgresql-10 \
+            dnsutils \
 			sudo && \
     apt-get autoremove -y && \
     apt-get autoclean
 
-RUN /opt/keops/configure-keops-nodb.sh
+RUN /opt/configure-db.sh
 
-EXPOSE 80
-
-
-CMD ./opt/keops/docker-entrypoint-nodb.sh
+CMD ./opt/docker-entrypoint-db.sh $POSTGRESPASSWORD

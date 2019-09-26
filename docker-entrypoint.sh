@@ -11,14 +11,7 @@
 echo "HELLO KEOPS!"
 echo "STARTING SERVICES..."
 
-
-
-if [[ -z "${DB_REMOTE}" ]]; then
-  echo "STARTING POSTGRESQL..."
-  #service postgresql restart
-  nohup bash -c 'sudo -u postgres /usr/lib/postgresql/10/bin/postgres -D /var/lib/postgresql/10/main -c "config_file=/etc/postgresql/10/main/postgresql.conf" &'
-else
-{  cat <<-ENDOFMESSAGE
+cat <<-ENDOFMESSAGE |
 <?php
 class keopsdb extends PDO{  
  private \$dbname = "$KEOPS_DB_NAME";
@@ -43,9 +36,7 @@ class keopsdb extends PDO{
 
 }
 ENDOFMESSAGE
-} | cat >/opt/keops/resources/db/keopsdb.class.php
-
-fi
+cat >/opt/keops/resources/db/keopsdb.class.php
 
 echo "STARTING PHP..."
 service php7.2-fpm stop && service php7.2-fpm start
