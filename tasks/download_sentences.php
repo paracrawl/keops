@@ -28,22 +28,27 @@ if (isset($task_id)) {
     $rows = array();
     $st_array = $sentence_task_dao->getAnnotatedSentecesByTask($task->id);
 
-    $sample = (count($st_array) > 0) ? $st_array[0] : null;
+    if ($task->mode == "FLU") {
+      $headers  = array("Target", "Target lang");
+      $headers = array_merge($headers, array("Evaluation", "Description", "Evaluation details"));
+      $rows[] = $headers;
+    } else {
+      $sample = (count($st_array) > 0) ? $st_array[0] : null;
+      if (!isset($sample)) return;
 
-    if (!isset($sample)) return;
+      $headers  = array("Source");
 
-    $headers  = array("Source");
-    if ((isset($task->target_lang))) {
-      for ($i = 0; $i < count($sample->target_text); $i++) {
-        $headers[] = (isset($sample->target_text[$i]->system) ? $sample->target_text[$i]->system : "Target " . ($i + 1));
+      if ((isset($task->target_lang))) {
+        for ($i = 0; $i < count($sample->target_text); $i++) {
+          $headers[] = (isset($sample->target_text[$i]->system) ? $sample->target_text[$i]->system : "Target " . ($i + 1));
+        }
       }
+
+      $headers[] = "Source lang";
+      if (isset($task->target_lang)) $headers[] = "Target lang";
+      $headers = array_merge($headers, array("Evaluation", "Description", "Evaluation details"));
+      $rows[] = $headers;
     }
-
-    $headers[] = "Source lang";
-    if (isset($task->target_lang)) $headers[] = "Target lang";
-    $headers = array_merge($headers, array("Evaluation", "Description", "Evaluation details"));
-
-    $rows[] = $headers;
 
     $comment_dao = new comment_dao();
 
@@ -65,7 +70,7 @@ if (isset($task_id)) {
         }
       }
 
-      $row[] = $task->source_lang;
+      if (isset($task->source_lang)) $row[] = $task->source_lang;
       if (isset($task->target_lang)) $row[] = $task->target_lang;
       $row = array_merge($row, array($st->evaluation, $sentence_task_dto->getLabel($st->evaluation), implode($sentence_comment, "; ")));
       $rows[] = $row;
