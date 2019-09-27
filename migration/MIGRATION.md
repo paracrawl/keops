@@ -3,13 +3,21 @@
 This document provides a guide to migrate from a previous version of KEOPS to a new one. We use [SQLAlchemy](https://sqlalchemy-migrate.readthedocs.io/en/latest/) and [Alembic](https://alembic.sqlalchemy.org/en/latest/), which are capable of generating migrations automatically and managing their deployment.
 
 ## 1. Installing required software
-First, download the new version of KEOPS. Once downloaded, the simplest way of running KEOPS is using Docker:
+First, download the new version of KEOPS. 
+
+```bash
+git clone http://gitlab.prompsit.com/paracrawl/keops.git
+```
+
+Once downloaded, the simplest way of running KEOPS is using Docker:
 
     docker-compose up -d
 
-This will launch two containers: `keopsdb` and `keops`. The first one hosts the database and the second one hosts KEOPS.
+<small>The [Installation guide](/INSTALLATION.md) provides detailed instructions to deploy KEOPS.</small>
 
-Both SQLAlchemy and Alembic run on Python3. They can be installed easily via `pip`. You will also need `psycopg2` as a driver to connect to the database. Install them on the `keops` container:
+That command will launch two containers: `keopsdb` and `keops`. The first one hosts the database and the second one hosts KEOPS.
+
+Both SQLAlchemy and Alembic run on Python. They can be installed easily via `pip`. You will also need `psycopg2` as a driver to connect to the database. Install them on the `keops` container:
 
     apt install python python-psycopg2 python-pip
     pip install sqlalchemy alembic
@@ -46,9 +54,9 @@ Edit `alembic.ini` to match the credentials of your actual database (line 38):
 
     sqlalchemy.url = postgres+psycopg2://postgres:PASSWORD_FOR_POSTGRES@keopsdb/keopsdb
 
-Because of the way KEOPS is initialized, the user `postgres` is the owner of the tables and the schemas of the database. We advise you to use this user in Alembic. Otherwise, you may run into permission errors.
+Because of the way KEOPS is initialized, the user `postgres` is the owner of the tables and other entities related to KEOPS on the database. We advise you to use this user in Alembic. Otherwise, you may run into permission errors.
 
-For the following step, exit the container terminal:
+For the following step, quit the container terminal:
 ```shell
 # exit
 ```
@@ -62,7 +70,7 @@ Run this command wherever your previous database is deployed. You should get a f
 # sudo -u postgres pg_dump keopsdb > keopsdb.bak.sql
 ```
 
-Now, you can restore the data to the database present in the container `keopsdb`.
+Copy the generated file in your home folder. Now, you can restore the data to the database present in the container `keopsdb`.
 
 ```shell
 # docker exec keopsdb sudo -u postgres dropdb keopsdb

@@ -63,7 +63,7 @@ Tasks group sentences which should be evaluated in the same way. You can create 
 
 ![Tasks screen](screenshots/guide/admin/tasks.png)
 
-Finally, if you click on _Recap all_ on the Projects screen, you get an overview of all
+If you click on _Recap all_ on the Projects screen, you get an overview of all
 your current projects and their tasks.
 
 ![Projects overview screen](screenshots/guide/admin/recapall.png)

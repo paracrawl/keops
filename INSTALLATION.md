@@ -2,9 +2,11 @@
 
 KEOPS (Keen Evaluation Of Parallel Sentences) provides a complete tool for manual evaluation of parallel sentences.
 
-It can be installed, or run inside a Docker.
+It can be run inside a Docker or manually installed.
 
 ## Get KEOPS ##
+
+Whether you use KEOPS with Docker or you install it locally, you will need the latest version of KEOPS:
 
 ```bash
 git clone http://gitlab.prompsit.com/paracrawl/keops.git
@@ -21,6 +23,7 @@ sudo apt-get install docker
 Docker-compose is the preferred way of launching KEOPS:
 
 ```
+cd keops
 docker-compose up -d
 ```
 
@@ -29,6 +32,23 @@ This will run, on the background, two containers:
 * __keopsdb__ contains the PostgreSQL Database used by KEOPS
 
 Once the containers are running, KEOPS is available on __port 8080__.
+
+If you already have a running database and you want to use it with KEOPS, use the file `docker-compose.yml` to indicate your database. That is, set the following environment variables in the service `keops`:
+
+```
+KEOPS_DB_NAME
+KEOPS_DB_HOST
+KEOPS_DB_USER
+KEOPS_DB_PASS
+KEOPS_DB_PORT
+```
+And launch KEOPS __without the default database__:
+
+```
+docker-compose up -d --no-deps keops
+```
+
+Please note that if you use a custom database, you will need to set it up manually. The file `keopsdb_init.sql` performs all the necessary operations to have a functional database with KEOPS. It will create a schema called `keops` in the database you provided and a user called `keopsdb`. It also performs user privilege operations, but __only on the _keops_ schema__.
 
 Alternatively, you can build and run the container manually:
 
@@ -71,6 +91,7 @@ To install KEOPS locally in your machine, the following packages are needed.  Th
 * php7.2-pgsql
 * php7.2-fpm 
 * nginx
+* ca-certificates
 
 ### Install and configure PHP on nginx ###
 

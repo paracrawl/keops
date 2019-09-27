@@ -148,7 +148,7 @@ __Keyboard__
 
 Press the numbers of the keyboard to order the translations. When you press the first number, the first sentence will be assigned to that position. 
 
-Then, you will automatically jump to the next translation. Keep on pressing numbers to assign a position to every translation. If you ever need to move to a translation manually, use the <kbd>+</kdb> and <kbd>-</kbd> keys. Press Enter to save the ranking and go to the next sentence. Alternatively, you can type the sentence position in the field on its left.
+Then, you will automatically jump to the next translation. Keep on pressing numbers to assign a position to every translation. If you ever need to move to a translation manually, use the <kbd>+</kbd> and <kbd>-</kbd> keys. Press <kbd>Enter</kbd> to save the ranking and go to the next sentence. Alternatively, you can type the sentence position in the field on its left.
 
 ## Once you're done
 The Project Manager will be notified via mail when you finish a task.
