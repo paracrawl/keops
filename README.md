@@ -55,6 +55,7 @@ When you assign a task to an evaluator, they will be notified via email.
 
 <img src="screenshots/tasks-project-page.png" width="700">
 
+
 Once the task is created, Evaluators can immediately start working on them.
 When an Evaluator finishes evaluating all sentences from a task, and tags it as **DONE**, both the Admin and the evaluator are able to **download** the stats of the evaluation (a TSV file containing statistics about the task) and the annotated corpus (a TSV file containing the sentences and their evaluation). The Admin will be notified via email when an evaluator finishes a task.
 

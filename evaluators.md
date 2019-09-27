@@ -1,10 +1,29 @@
 # KEOPS for evaluators
 KEOPS (Keen Evaluation Of Parallel Sentences) provides a complete tool for manual evaluation of parallel sentences.
 
+## Table of contents
+
+* [Your role in keops](#role)
+* [Getting started](#started)
+* [Your tasks](#tasks)
+* [Evaluating](#evaluating)
+    * [Evaluation modes](#modes)
+        * [Validation](#validation)
+        * [Adequacy](#adequacy)
+        * [Fluency](#fluency)
+        * [Ranking](#ranking)
+* [Once you're done](#done)
+* [Getting in touch](#contact)
+* [Let us know what you think](#feedback)
+
+<a name="role"></a>
+
 ## Your role in KEOPS
 The parallel sentences are organized in tasks. A task defines a group of sentences which should be reviewed by an evaluator in a certain way. 
 
 As an evaluator, your mission is to evaluate the set of sentences contained in a task. The task will be assigned to you by an administrator, and you may be assigned one or more tasks.
+
+<a name="started"></a>
 
 ## Getting started
 In order to use KEOPS, you need an invitation. Only an admin can provide you with one. 
@@ -31,6 +50,8 @@ On the Sign up screen, fill the _Access Token_ field with this token.
 
 ![Sign up screen](screenshots/guide/signup.png)
 
+<a name="tasks"></a>
+
 ## Your tasks
 ![Tasks screen](/screenshots/guide/tasks.png)
 
@@ -48,6 +69,8 @@ Once you are signed in, you will see a list of tasks assigned to you. Whenever y
 * __Options button__: groups several actions, such as
     * __Recap button__: shows a sum-up of the task
     * __Contact button__: lets you get in touch with the Project administator.
+
+<a name="evaluating"></a>
 
 ## Evaluating
 To start evaluating a task, click on the _Start_ button. Depending on the evaluation mode, this will take you to different screens. However, they all have something in common. To navigate through the task, use the buttons available on the bottom of the page.
@@ -150,6 +173,8 @@ Press the numbers of the keyboard to order the translations. When you press the 
 
 Then, you will automatically jump to the next translation. Keep on pressing numbers to assign a position to every translation. If you ever need to move to a translation manually, use the <kbd>+</kbd> and <kbd>-</kbd> keys. Press <kbd>Enter</kbd> to save the ranking and go to the next sentence. Alternatively, you can type the sentence position in the field on its left.
 
+<a name="done"></a>
+
 ## Once you're done
 The Project Manager will be notified via mail when you finish a task.
 
@@ -167,12 +192,16 @@ Your evaluation is also available for __download__:
 * A summary of the task can be downloaded as a TSV file (tab-separated values). 
 * A detailed list of the evaluation of each sentence can be downloaded as a TSV file.
 
+<a name="contact"></a>
+
 ## Getting in touch
 Whenever you run into a problem, an issue or you just have a doubt, you can get support using the contact form.
 
 Click on the _Contact PM_ link on the top of the evaluation screen to get in touch with the Project Manager of that task. Use this to discuss issues and doubts about a particular task.
 
 Click on the _Contact support_ link on the top right menu for any other subjects (platform-related errors, doubts about how to use KEOPS...)
+
+<a name="feedback"></a>
 
 ## Let us know what you think
 If you wish to share your thoughts about this product, we'll be happy to hear from you by filling the form available at the end of a task evaluation.
