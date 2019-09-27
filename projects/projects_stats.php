@@ -70,7 +70,9 @@ require_once(RESOURCES_PATH . "/session.php");
                 <?php
                     if (count($projects) == 0) {
                 ?>
-                    You don't own any project. If you like, you can <a href="/projects/project_new.php">create a new one</a>.
+                    <div class="col-xs-12 col-sm-12">
+                        You don't own any project. If you like, you can <a href="/projects/project_new.php">create a new one</a>.
+                    </div>
                 <?php } else { ?>
 
                 <div class="col-xs-12 col-md-12">
