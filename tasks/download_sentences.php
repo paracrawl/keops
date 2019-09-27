@@ -46,7 +46,7 @@ if (isset($task_id)) {
 
       $headers[] = "Source lang";
       if (isset($task->target_lang)) $headers[] = "Target lang";
-      $headers = array_merge($headers, array("Evaluation", "Description", "Evaluation details"));
+      $headers = array_merge($headers, array("Evaluation", "Description", "Evaluation details", "Time"));
       $rows[] = $headers;
     }
 
@@ -73,6 +73,8 @@ if (isset($task_id)) {
       if (isset($task->source_lang)) $row[] = $task->source_lang;
       if (isset($task->target_lang)) $row[] = $task->target_lang;
       $row = array_merge($row, array($st->evaluation, $sentence_task_dto->getLabel($st->evaluation), implode($sentence_comment, "; ")));
+      $row[] = $st->time;
+      
       $rows[] = $row;
     }
 
