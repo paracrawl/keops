@@ -25,6 +25,8 @@ Even if you are an administrator, you can be assigned tasks. For more informatio
 ## Getting started
 In order to use KEOPS, you need an invitation. Only another admin can provide you with one. In addition, the admin who invited you has to grant administrator privileges to your account.
 
+<a name="signin"></a>
+
 ### Sign in
 If you already have your administrator account, sign in to use KEOPS. You can do this by clicking on _Sign in_ in the homepage.
 

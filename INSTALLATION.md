@@ -20,7 +20,7 @@ All the needed files to dockerize KEOPS are provided. First, install Docker:
 sudo apt-get install docker
 ```
 
-Docker-compose is the preferred way of launching KEOPS:
+Now, launch KEOPS:
 
 ```
 cd keops
@@ -61,7 +61,7 @@ sudo docker build -t keopsdocker .
 Once built, run it:
 
 ```
-sudo docker run -d --network=keops -pOUT_PORT:80 --name keops keopsdocker:latest
+sudo docker run -d --network=keops -p OUT_PORT:80 --name keops keopsdocker:latest
 ```
 
 With "OUT_PORT" being the port where Keops is going to be reachable  (usually, 80)
@@ -77,6 +77,28 @@ And run it:
 
 ```
 sudo docker run -d --name keopsdb --network=keops keopsdb:latest
+```
+
+## KEOPS root user 
+
+Whereas Admins can view and manage their own projects and tasks, KEOPS provides a `root` user which is capable of displaying all the projects, tasks, users (and so on) saved on KEOPS. Please, do not confuse this `root` user with the Linux `root` user. KEOPS creates this user __only in the application__, not at system level.
+
+The default password for `root` on KEOPS is `root`. Once KEOPS is running, you can change the password using the `root-change.sh` utility script __on your host machine__:
+
+```shell
+./root_change.sh [YOUR PASSWORD]
+```
+
+This script depends on having both `keops` and `keopsdb` containers. If your deployment of KEOPS is different, you have to manually change the password.
+
+Generate a hash using a PHP installation:
+```shell
+php -r 'echo password_hash("[YOUR PASSWORD]",  PASSWORD_DEFAULT);'
+```
+
+And save it to the database:
+```shell
+sudo -u postgres psql -d keopsdb -c "update keopsdb.users set password = '[PASSWORD HASH]' where role='root'"
 ```
 
 ## Local installation ##
