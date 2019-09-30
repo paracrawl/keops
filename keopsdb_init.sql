@@ -1,7 +1,7 @@
 CREATE USER keopsdb PASSWORD 'PASSWORD_FOR_USER_KEOPS';
 CREATE SCHEMA keopsdb;
 
-CREATE TYPE keopsdb.role AS ENUM ('ADMIN', 'PM', 'USER');
+CREATE TYPE keopsdb.role AS ENUM ('ADMIN', 'PM', 'USER', 'root');
 CREATE TYPE keopsdb.taskstatus AS ENUM ('PENDING', 'STARTED', 'DONE');
 CREATE TYPE keopsdb.label AS ENUM ('P','V','L','A','T','MT','E','F');
 CREATE TYPE keopsdb.evalmode AS ENUM ('VAL', 'ADE', 'FLU', 'RAN');
@@ -57,7 +57,8 @@ CREATE TABLE keopsdb.CORPORA(
     LINES integer,
     CREATION_DATE timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     ACTIVE boolean NOT NULL DEFAULT TRUE,
-    EVALMODE keopsdb.evalmode NOT NULL DEFAULT 'VAL'
+    EVALMODE keopsdb.evalmode NOT NULL DEFAULT 'VAL',
+    added_by integer references keopsdb.users(id)
 );
 
 
@@ -143,6 +144,7 @@ GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA keopsdb TO keopsdb;
 
 
 insert into keopsdb.users (name, email, role, password) values ('admin', 'admin@admin.com', 'ADMIN', '$2y$10$dbba8ArdKTe9Uxt7rkGwKOrfX5EpI8SO2VheEnnfoYu4kmVFtQjW2');
+insert into keopsdb.users (name, email, role, password) values ('root', 'root', 'root', '$2y$10$rUSV39GMx2fy9XTFT.CdVOlKuNpGxDKazJyzqRS8n3D0Z9mKgBdRi');
 
 /* No stopwords 
 update pg_catalog.pg_ts_dict set dictinitoption = regexp_replace(dictinitoption, ', stopwords = ''(.*)''', ''); */

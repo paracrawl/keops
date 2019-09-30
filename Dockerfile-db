@@ -19,4 +19,4 @@ RUN apt-get update -q --fix-missing && \
 
 RUN /opt/configure-db.sh
 
-CMD ./opt/docker-entrypoint-db.sh $POSTGRESPASSWORD
+CMD ./opt/docker-entrypoint-db.sh $POSTGRESPASSWORD $KEOPS_ROOT_PASSWORD_HASH
