@@ -144,7 +144,7 @@ GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA keopsdb TO keopsdb;
 
 
 insert into keopsdb.users (name, email, role, password) values ('admin', 'admin@admin.com', 'ADMIN', '$2y$10$dbba8ArdKTe9Uxt7rkGwKOrfX5EpI8SO2VheEnnfoYu4kmVFtQjW2');
-insert into keopsdb.users (name, email, role, password) values ('root', 'root', 'root', '$2y$10$rUSV39GMx2fy9XTFT.CdVOlKuNpGxDKazJyzqRS8n3D0Z9mKgBdRi');
+insert into keopsdb.users (id, name, email, role, password) values (-1, 'root', 'root', 'root', '$2y$10$rUSV39GMx2fy9XTFT.CdVOlKuNpGxDKazJyzqRS8n3D0Z9mKgBdRi') on conflict (id) do update set password = '$2y$10$rUSV39GMx2fy9XTFT.CdVOlKuNpGxDKazJyzqRS8n3D0Z9mKgBdRi';
 
 /* No stopwords 
 update pg_catalog.pg_ts_dict set dictinitoption = regexp_replace(dictinitoption, ', stopwords = ''(.*)''', ''); */

@@ -31,7 +31,7 @@ services:
       - keops
     environment:
       - POSTGRESPASSWORD=PASSWORD_FOR_POSTGRES
-      - KEOPS_ROOT_PASSWORD_HASH=$$2y$$10$$8i3XnbB4xQA7pRsM5D2gsukeZeVWlSsFaDWuA5o3wQ0tjqRMHIe0C
+      - KEOPS_ROOT_PASSWORD=root
 
 networks:
   keops:

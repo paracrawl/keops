@@ -13,10 +13,12 @@ RUN apt-get update -q --fix-missing && \
     apt-get -y install  tzdata \			
 			postgresql-10 \
             dnsutils \
-			sudo && \
+			sudo \
+            python3 \
+            python3-pip && \
     apt-get autoremove -y && \
     apt-get autoclean
-
+    
 RUN /opt/configure-db.sh
 
-CMD ./opt/docker-entrypoint-db.sh $POSTGRESPASSWORD $KEOPS_ROOT_PASSWORD_HASH
+CMD ./opt/docker-entrypoint-db.sh $POSTGRESPASSWORD $KEOPS_ROOT_PASSWORD
