@@ -74,7 +74,7 @@ Once built, run it:
 sudo docker run -d --network=keops -p OUT_PORT:80 --name keops keopsdocker:latest
 ```
 
-With "OUT_PORT" being the port where Keops is going to be reachable  (usually, 80)
+With "OUT_PORT" being the port where Keops is going to be reachable (usually, 80)
 
 This KEOPS container does not provide a database. You can build the database container manually too:
 

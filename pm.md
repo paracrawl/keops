@@ -1,4 +1,4 @@
-# KEOPS for administrators
+# KEOPS for project managers
 KEOPS (Keen Evaluation Of Parallel Sentences) provides a complete tool for manual evaluation of parallel sentences.
 
 ## Table of contents
@@ -16,19 +16,19 @@ KEOPS (Keen Evaluation Of Parallel Sentences) provides a complete tool for manua
 ## Your role in KEOPS
 The parallel sentences are organized in tasks. A task defines a group of sentences which should be reviewed by an evaluator in a certain way. 
 
-As an administrator, your mission is to create tasks, assign them to evaluators and track their progress. 
+As a project manager, your mission is to create tasks, assign them to evaluators and track their progress. 
 
-Even if you are an administrator, you can be assigned tasks. For more information about how to evaluate tasks, please refer to the [evaluators guide](evaluators.md).
+Even if you are a project manager, you can be assigned tasks. For more information about how to evaluate tasks, please refer to the [evaluators guide](evaluators.md).
 
 <a name="started"></a>
 
 ## Getting started
-In order to use KEOPS, you need an invitation. Only another admin can provide you with one. In addition, the admin who invited you has to grant administrator privileges to your account.
+In order to use KEOPS, you need an invitation. Only another project manager can provide you with one. In addition, the project manager who invited you has to grant project manager privileges to your account.
 
 <a name="signin"></a>
 
 ### Sign in
-If you already have your administrator account, sign in to use KEOPS. You can do this by clicking on _Sign in_ in the homepage.
+If you already have your project manager account, sign in to use KEOPS. You can do this by clicking on _Sign in_ in the homepage.
 
 ![Home page](screenshots/guide/home.png)
 
@@ -121,7 +121,7 @@ The source text is presented to evaluators on the left of the screen and, the ca
 
 Adequacy mode adds quality control sentences to the corpus. These sentences can be previewed at any time, and their creation is based on [the research of Cambridge Core](https://www.cambridge.org/core/journals/natural-language-engineering/article/can-machine-translation-systems-be-evaluated-by-the-crowd-alone/E29DA2BC8E6B99AA1481CC92FAB58462). 
 
-Once the evaluator is done with the task, a score is computed assessing their performance on the control sentences. This score may be mediocre even for good evaluators, since the used metrics are strict. __We do not recommend to ban an evaluator because of this score as the only reason__. The score may be used as an illustrative measure of the performance of the user on that task, but administrators should always corroborate the score.
+Once the evaluator is done with the task, a score is computed assessing their performance on the control sentences. This score may be mediocre even for good evaluators, since the used metrics are strict. __We do not recommend to ban an evaluator because of this score as the only reason__. The score may be used as an illustrative measure of the performance of the user on that task, but project managers should always corroborate the score.
 
 <a name="fluency"></a>
 
@@ -191,7 +191,7 @@ Include as many systems as you want.
 <a name="users"></a>
 
 ## Managing users
-As an administrator, you have de capability of inviting new users to KEOPS. The new users may have evaluator or administrator privileges.
+As a project manager, you have de capability of inviting new users to KEOPS. The new users may have evaluator or project manager privileges.
 
 ### Inviting new users
 ![Invitation screen](/screenshots/guide/admin/invite.png)
@@ -206,7 +206,7 @@ Once the user accepts the invitation and signs up, you can modify their informat
 * __Name__: the name of the user.
 * __Email__: the email address of the user.
 * __Languages__: the languages the user has knowledge of.
-* __Role__: whether this user is an evaluator or an administrator.
+* __Role__: whether this user is an evaluator or a project manager.
 * __Active__: whether the user can sign in.
 
 <a name="languages"></a>
@@ -227,7 +227,7 @@ When adding a new language, you are asked to type a language code and a language
 
 ![Feedback screen](/screenshots/guide/admin/feedback.png)
 
-When an evaluator finishes a task, they can provide feedback about their experience. As an administrator, you can read this feedback on the Managment screen.
+When an evaluator finishes a task, they can provide feedback about their experience. As a project manager, you can read this feedback on the Managment screen.
 
 A list of the provided comments is displayed, along with the user who made them. If you click on _Contact_, you can get in touch with that user.
 
