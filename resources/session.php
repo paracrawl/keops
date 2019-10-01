@@ -73,7 +73,7 @@ function isActive(){
  */
 function canSeeAdminView() {
   $role = getUserRole();
-  if ($role != null && ($role == user_dto::ADMIN || $role == user_dto::PM || $role == user_dto::ROOT) && isActive()) {
+  if ($role != null && ($role == user_dto::PM || $role == user_dto::ROOT) && isActive()) {
     return true;
   }
 }

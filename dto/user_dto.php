@@ -22,7 +22,6 @@ class user_dto{
   public $active;
   public $langs;
   
-  const ADMIN = "ADMIN";
   const PM = "PM";
   const EVALUATOR = "USER";
   const ROOT = "root";
