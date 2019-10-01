@@ -313,8 +313,8 @@ class user_dao {
         self::$columns, 
         "users as u left join tokens as t on (u.email = t.email)", 
         $request, null,
-        ($invited_by != -1) ? "t.admin = ? and u.role != 'root'" : "u.role != 'root'",
-        ($invited_by != -1) ? array($invited_by) : null
+        ($invited_by != -1) ? "(t.admin = ? or u.id = ?) and u.role != 'root'" : "u.role != 'root'",
+        ($invited_by != -1) ? array($invited_by, $invited_by) : null
       ));
     } catch (Exception $ex) {
       throw new Exception("Error in user_dao::getDatatablesUsers : " . $ex->getMessage());
