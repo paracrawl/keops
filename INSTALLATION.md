@@ -20,6 +20,16 @@ All the needed files to dockerize KEOPS are provided. First, install Docker:
 sudo apt-get install docker
 ```
 
+Whereas Admins can view and manage their own projects and tasks, KEOPS provides a `root` user which is capable of displaying all the projects, tasks, users (and so on) saved on KEOPS. Please, do not confuse this `root` with the Linux `root`. KEOPS creates this user __only in the application context__, not at system level.
+
+The default password for `root` on KEOPS is `root`. Before launching KEOPS, please change it in `docker-compose.yml`:
+
+    keopsdb:
+        environment:
+            - KEOPS_ROOT_PASSWORD=[PASWORD]
+
+__Replace [PASSWORD] with your new password__
+
 Now, launch KEOPS:
 
 ```
@@ -77,28 +87,6 @@ And run it:
 
 ```
 sudo docker run -d --name keopsdb --network=keops keopsdb:latest
-```
-
-## KEOPS root user 
-
-Whereas Admins can view and manage their own projects and tasks, KEOPS provides a `root` user which is capable of displaying all the projects, tasks, users (and so on) saved on KEOPS. Please, do not confuse this `root` user with the Linux `root` user. KEOPS creates this user __only in the application__, not at system level.
-
-The default password for `root` on KEOPS is `root`. Once KEOPS is running, you can change the password using the `root-change.sh` utility script __on your host machine__:
-
-```shell
-./root_change.sh [YOUR PASSWORD]
-```
-
-This script depends on having both `keops` and `keopsdb` containers. If your deployment of KEOPS is different, you have to manually change the password.
-
-Generate a hash using a PHP installation:
-```shell
-php -r 'echo password_hash("[YOUR PASSWORD]",  PASSWORD_DEFAULT);'
-```
-
-And save it to the database:
-```shell
-sudo -u postgres psql -d keopsdb -c "update keopsdb.users set password = '[PASSWORD HASH]' where role='root'"
 ```
 
 ## Local installation ##
@@ -199,9 +187,10 @@ After installation,  start the PostgreSQL service and connect with the ```postgr
  ```sql
 CREATE SCHEMA keopsdb;
 
-CREATE TYPE keopsdb.role AS ENUM ('ADMIN', 'PM', 'USER');
+CREATE TYPE keopsdb.role AS ENUM ('ADMIN', 'PM', 'USER', 'root');
 CREATE TYPE keopsdb.taskstatus AS ENUM ('PENDING', 'STARTED', 'DONE');
 CREATE TYPE keopsdb.label AS ENUM ('P','V','L','A','T','MT','E','F');
+CREATE TYPE keopsdb.evalmode AS ENUM ('VAL', 'ADE', 'FLU', 'RAN');
 
 CREATE TABLE keopsdb.USERS (
     ID serial PRIMARY KEY,
@@ -239,22 +228,23 @@ CREATE TABLE keopsdb.PROJECTS(
     ID serial PRIMARY KEY,
     OWNER integer NOT NULL REFERENCES keopsdb.USERS(ID),
     NAME varchar(100) NOT NULL,
-    SOURCE_LANG integer NOT NULL REFERENCES keopsdb.LANGS(ID),
-    TARGET_LANG integer NOT NULL REFERENCES keopsdb.LANGS(ID),
     DESCRIPTION varchar(500),
     CREATION_DATE timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     ACTIVE boolean NOT NULL DEFAULT TRUE
 );
 
 
+
 CREATE TABLE keopsdb.CORPORA(
     ID serial PRIMARY KEY,
     NAME varchar(100) NOT NULL,
-    SOURCE_LANG integer NOT NULL REFERENCES keopsdb.LANGS(ID),
+    SOURCE_LANG integer REFERENCES keopsdb.LANGS(ID),
     TARGET_LANG integer NOT NULL REFERENCES keopsdb.LANGS(ID),
     LINES integer,
     CREATION_DATE timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    ACTIVE boolean NOT NULL DEFAULT TRUE
+    ACTIVE boolean NOT NULL DEFAULT TRUE,
+    EVALMODE keopsdb.evalmode NOT NULL DEFAULT 'VAL',
+    added_by integer references keopsdb.users(id)
 );
 
 
@@ -267,25 +257,60 @@ CREATE TABLE keopsdb.TASKS(
     STATUS keopsdb.taskstatus NOT NULL DEFAULT 'PENDING',
     CREATION_DATE timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     ASSIGNED_DATE timestamp,
-    COMPLETED_DATE timestamp
+    COMPLETED_DATE timestamp,
+    SOURCE_LANG VARCHAR(5) REFERENCES keopsdb.LANGS(langcode),
+    TARGET_LANG VARCHAR(5) NOT NULL REFERENCES keopsdb.LANGS(langcode),
+    EVALMODE keopsdb.evalmode NOT NULL DEFAULT 'VAL',
+    SCORE NUMERIC
 );
-
 
 CREATE TABLE keopsdb.SENTENCES(
     ID serial PRIMARY KEY,
     CORPUS_ID integer NOT NULL REFERENCES keopsdb.CORPORA(ID),
     SOURCE_TEXT varchar (5000) NOT NULL,
-    TARGET_TEXT varchar (5000) NOT NULL
+    SOURCE_TEXT_VECTOR tsvector NOT NULL,
+    TYPE varchar(140),
+    IS_SOURCE boolean,
+    SYSTEM VARCHAR(140)
 );
 
 CREATE TABLE keopsdb.SENTENCES_TASKS(
     ID serial PRIMARY KEY,
     TASK_ID integer NOT NULL REFERENCES keopsdb.TASKS(ID),
     SENTENCE_ID integer NOT NULL REFERENCES keopsdb.SENTENCES(ID),
-    EVALUATION keopsdb.label NOT NULL DEFAULT 'P',
+    EVALUATION varchar(140) NOT NULL DEFAULT 'P',
     CREATION_DATE timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     COMPLETED_DATE timestamp,
-    COMMENTS varchar(1000)
+    TIME numeric
+);
+
+CREATE TABLE keopsdb.SENTENCES_PAIRING (
+    id_1 integer NOT NULL REFERENCES keopsdb.sentences(id),
+    id_2 integer NOT NULL REFERENCES keopsdb.sentences(id),
+    PRIMARY KEY (id_1, id_2)
+);
+
+create table keopsdb.COMMENTS (
+	pair integer references keopsdb.SENTENCES_TASKS(id),
+	name varchar (140),
+	value varchar (255),
+	primary key (pair, name)
+);
+
+CREATE TABLE keopsdb.FEEDBACK (
+	id serial NOT NULL,
+	score integer NOT NULL,
+	"comments" varchar(240) NULL,
+	created timestamp NOT NULL DEFAULT NOW(),
+	task_id integer NOT NULL references keopsdb.TASKS(id),
+	user_id integer NOT NULL references keopsdb.USERS(id),
+	PRIMARY KEY (id)
+);
+
+create table keopsdb.password_renew (
+	token varchar(512) primary key,
+	user_id integer unique not null references keopsdb.users(id),
+	created_time timestamp not null DEFAULT CURRENT_TIMESTAMP
 );
 
 insert INTO keopsdb.langs (langcode, langname) values ('bg','Bulgarian'), ('cs', 'Czech'), ('ca', 'Catalan'),  ('da', 'Danish'), ('de', 'German'), 
@@ -293,7 +318,6 @@ insert INTO keopsdb.langs (langcode, langname) values ('bg','Bulgarian'), ('cs',
 ('hr', 'Croatian'), ('hu', 'Hungarian'), ('is', 'Icelandic'), ('it', 'Italian'),  ('lt', 'Lithuanian'), ('lv', 'Latvian'), ('mt', 'Maltese'), 
 ('nl', 'Dutch'), ('nn', 'Norwegian - nynorsk'), ('no', 'Norwegian - bokmal'), ('pl', 'Polish'), ('pt', 'Portuguese'),  ('ro', 'Romanian'), 
 ('sk', 'Slovak'), ('sl', 'Slovenian'), ('sv', 'Swedish');
-
 
 
 REVOKE CONNECT ON DATABASE keopsdb FROM PUBLIC;
@@ -306,7 +330,12 @@ GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA keopsdb TO keopsdb;
 
 
 insert into keopsdb.users (name, email, role, password) values ('admin', 'admin@admin.com', 'ADMIN', '$2y$10$dbba8ArdKTe9Uxt7rkGwKOrfX5EpI8SO2VheEnnfoYu4kmVFtQjW2');
+insert into keopsdb.users (name, email, role, password) values ('root', 'root', 'root', '$2y$10$rUSV39GMx2fy9XTFT.CdVOlKuNpGxDKazJyzqRS8n3D0Z9mKgBdRi');
 
+CREATE TEXT SEARCH DICTIONARY public.simple_dict ( TEMPLATE = pg_catalog.simple );
+
+alter role keopsdb set search_path to keopsdb, public;
+set search_path = keopsdb, public;
 ```
 
 At this point, you should be able to log into Keops with user "admin@admin.com" and password "admin".
