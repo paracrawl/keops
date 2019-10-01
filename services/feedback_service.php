@@ -34,9 +34,8 @@ if ($service == "post") {
         echo json_encode(array("result" => -1));
     }
 } else if ($service == "get") {
-        $id = filter_input(INPUT_GET, "id");
-        $cond = ($id != "ALL") ? "where id = ?" : NULL;
-        $condArr = ($id != "ALL") ? array($id) : array();
+        $cond = NULL;
+        $condArr = array();
         $dtProc = new DatatablesProcessing(new keopsdb());
         echo json_encode(
             $dtProc->process(array(
@@ -47,7 +46,10 @@ if ($service == "post") {
                 array("f.comments"),
                 array("f.user_id")
             ),
-            "feedback as f join users as u on (f.user_id = u.id)",
+            "feedback as f
+            join users as u on (f.user_id = u.id) 
+            join tasks as t on (t.id = f.task_id)
+            join projects as p on (p.id = t.project_id)",
             $_GET,
         null, $cond, $condArr));
 } else {

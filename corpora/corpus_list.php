@@ -9,4 +9,4 @@ $PAGETYPE = "admin";
 require_once(RESOURCES_PATH . "/session.php");
 
 $corpus_dao = new corpus_dao();
-echo $corpus_dao->getDatatablesCorpora($_GET);
+echo $corpus_dao->getDatatablesCorpora($_GET, getUserId());

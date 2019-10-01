@@ -45,7 +45,7 @@ if ($service == "new") {
 }
 else if ($service == "list_dt") {
   $project_dao = new project_dao();
-  echo $project_dao->getDatatablesProjects($_GET);
+  echo $project_dao->getDatatablesProjects($_GET, getUserId());
   die();
 }
 

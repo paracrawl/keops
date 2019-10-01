@@ -9,4 +9,4 @@ $PAGETYPE = "admin";
 require_once(RESOURCES_PATH . "/session.php");
 
 $invite_dao = new invite_dao();
-echo $invite_dao->getDatatablesInvited($_GET);
+echo $invite_dao->getDatatablesInvited($_GET, getUserId());

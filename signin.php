@@ -57,14 +57,14 @@
         }
         ?>
 
-        <form class="form-signin <?= (isset($_SESSION["error"])) ? "form-signin-error" : "" ?>" role="form" data-toggle="validator" action="users/user_login.php" method="post">
+        <form class="form-signin <?= (isset($_SESSION["error"])) ? "form-signin-error" : "" ?>" data-toggle="validator" role="form" action="users/user_login.php" method="post">
           <div class="signin-title">
             <img src="img/pyramids-icon.png" alt="" />
             <div class="h3">Sign in</div>
           </div>
           <div class="form-group">
             <label for="email" class="sr-only control-label">Email address</label>
-            <input type="email" name="email" id="email" class="form-control" placeholder="Email address" required="" autofocus="">
+            <input type="text" pattern="^((\w+([!#$%&'*+\-\/=?^_`{|\.]\w+)*@(\w+\.)+(\w+))|root)$" name="email" id="email" class="form-control" placeholder="Email address" required="" autofocus="">
             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
             <div class="help-block with-errors">Type your email address</div>
           </div>

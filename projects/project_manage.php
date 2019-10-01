@@ -160,7 +160,7 @@
     require_once(TEMPLATES_PATH . "/modals.php")
     ?>
 
-    <input type=hidden id="input_isowner" name="isowner" value="<?php echo (getUserId() == $project->owner) ?>" />
+    <input type=hidden id="input_isowner" name="isowner" value="<?php echo (getUserId() == $project->owner || isRoot()) ?>" />
   </body>
 </html>
 

@@ -188,14 +188,15 @@ class project_dao {
    * @return string JSON string containing the requested projects for Datatables
    * @throws Exception
    */
-  function getDatatablesProjects($request) {
+  function getDatatablesProjects($request, $created_by) {
     try {
       $dtProc = new DatatablesProcessing($this->conn);
       return json_encode($dtProc->process(self::$columns,
       "projects as p left join users as u on p.owner = u.id "
       . "left join tasks as t on t.project_id = p.id ",
       $request, "p.id, u.name, u.id",
-      "p.owner=?", array(getUserId())));
+      ($created_by != -1) ? "p.owner=?" : null, 
+      ($created_by != -1) ? array($created_by) : null));
     } catch (Exception $ex) {
       throw new Exception("Error in project_dao::getDatatablesProjects : " . $ex->getMessage());
     }

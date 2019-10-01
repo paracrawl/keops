@@ -27,7 +27,7 @@ if (isset($task_id)) {
     $project = $project_dao->getProjectById($task->project_id);
     $assigned_user =  $user_dao->getUserById($task->assigned_user);
     
-    if ($task->assigned_user == $USER->id || $USER->id == $project->owner) {
+    if ($task->assigned_user == $USER->id || $USER->id == $project->owner || isRoot()) {
       $sentence_task_dao = new sentence_task_dao();
       $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id);
     } else {

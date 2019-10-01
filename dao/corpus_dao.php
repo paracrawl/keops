@@ -134,12 +134,15 @@ class corpus_dao {
    * @return string A JSON for Datatables, containing the list of corpora
    * @throws Exception
    */
-  function getDatatablesCorpora($request) {
+  function getDatatablesCorpora($request, $added_by) {
     try {
       $dtProc = new DatatablesProcessing($this->conn);
       return json_encode($dtProc->process(self::$columns,
               "corpora as c left join langs as l1 on c.source_lang = l1.id left join langs as l2 on c.target_lang = l2.id",
-              $request));
+              $request, null,
+              ($added_by != -1) ? "added_by = ?" : null,
+              ($added_by != -1) ? array($added_by) : null
+            ));
     } catch (Exception $ex) {
       throw new Exception("Error in corpus_dao::getDatatablesCorpora : " . $ex->getMessage());
     }
@@ -154,11 +157,12 @@ class corpus_dao {
    */
   function insertCorpus($corpus_dto) {
     try {
-      $query = $this->conn->prepare("INSERT INTO corpora (name, source_lang, target_lang, evalmode) VALUES (?, ?, ?, ?::evalmode);");
+      $query = $this->conn->prepare("INSERT INTO corpora (name, source_lang, target_lang, evalmode, added_by) VALUES (?, ?, ?, ?::evalmode, ?);");
       $query->bindParam(1, $corpus_dto->name);
       $query->bindValue(2, ($corpus_dto->source_lang != "NULL" ? $corpus_dto->source_lang : NULL));
       $query->bindParam(3, $corpus_dto->target_lang);
       $query->bindParam(4, $corpus_dto->mode);
+      $query->bindParam(5, $corpus_dto->added_by);
       $query->execute();
       $corpus_dto->id = $this->conn->lastInsertId();
       $this->conn->close_conn();

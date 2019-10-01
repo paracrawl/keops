@@ -23,7 +23,7 @@ class DatatablesProcessing {
             . (($wheresql != "") ? "WHERE $wheresql" : "")
         . ";");
 
-        for ($i = 0; $i < count($conditionsValues); $i++) {
+        for ($i = 0; isset($conditionsValues) && $i < count($conditionsValues); $i++) {
             $query->bindParam($i + 1, $conditionsValues[$i]);
         }
 
@@ -92,7 +92,7 @@ class DatatablesProcessing {
         . ";");
 
         // We start binding the values of the conditions
-        for ($i = 0; $i < count($conditionsValues); $i++) {
+        for ($i = 0; isset($conditionsValues) && $i < count($conditionsValues); $i++) {
             $query->bindParam($i + 1, $conditionsValues[$i]);
         }
 

@@ -26,7 +26,7 @@
   $project_dao = new project_dao();
   $project = $project_dao->getProjectById($task->project_id);
 
-  if ($project->owner != getUserId()) {
+  if ($project->owner != getUserId() && !isRoot()) {
     // The evaluator of a task can only be reassigned by the Project Manager
     // of the project the task belongs to
     header("Location: /projects/project_manage.php?id=" . $task->project_id);

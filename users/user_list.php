@@ -9,4 +9,4 @@ $PAGETYPE = "admin";
 require_once(RESOURCES_PATH . "/session.php");
 
 $user_dao = new user_dao();
-echo $user_dao->getDatatablesUsers($_GET);
+echo $user_dao->getDatatablesUsers($_GET, getUserId());

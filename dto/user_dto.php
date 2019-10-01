@@ -25,6 +25,7 @@ class user_dto{
   const ADMIN = "ADMIN";
   const PM = "PM";
   const EVALUATOR = "USER";
+  const ROOT = "root";
    
        
   public function __construct() {

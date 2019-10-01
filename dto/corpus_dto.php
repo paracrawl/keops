@@ -20,6 +20,7 @@ class corpus_dto {
   public $creation_date;
   public $active;
   public $mode;
+  public $added_by;
 
   public function __construct() {
 

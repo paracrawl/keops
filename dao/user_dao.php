@@ -56,7 +56,7 @@ class user_dao {
   function getFirstAdminId() {
     try {
       $id = -1;
-      $query = $this->conn->prepare("SELECT id FROM USERS WHERE role = 'ADMIN' order by id asc limit 1");
+      $query = $this->conn->prepare("SELECT id FROM USERS WHERE role = 'ADMIN' and active = true order by id asc limit 1");
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while($row = $query->fetch()){
@@ -261,12 +261,14 @@ class user_dao {
    */
   function updateUser($user_dto) {
     try {
+      if (strtolower($user_dto->role) == "root") throw new Exception();
+
       $query = $this->conn->prepare("UPDATE USERS SET name = ?, email = ?,  role = ?, active = ? WHERE id = ?;");
       $query->bindParam(1, $user_dto->name);
       $query->bindParam(2, $user_dto->email);
       $query->bindParam(3, $user_dto->role);
       $query->bindParam(4, $user_dto->active);
-      $query->bindParam(5, $user_dto->id);   
+      $query->bindParam(5, $user_dto->id);
       $query->execute();
       $this->conn->close_conn();
       return true;
@@ -304,10 +306,16 @@ class user_dao {
    * @return string JSON string containing the list of users, ready for Datatables
    * @throws Exception
    */
-  function getDatatablesUsers($request) {
+  function getDatatablesUsers($request, $invited_by) {
     try {
       $dtProc = new DatatablesProcessing($this->conn);
-      return json_encode($dtProc->process(self::$columns, "users", $request));
+      return json_encode($dtProc->process(
+        self::$columns, 
+        "users as u left join tokens as t on (u.email = t.email)", 
+        $request, null,
+        ($invited_by != -1) ? "t.admin = ? and u.role != 'root'" : "u.role != 'root'",
+        ($invited_by != -1) ? array($invited_by) : null
+      ));
     } catch (Exception $ex) {
       throw new Exception("Error in user_dao::getDatatablesUsers : " . $ex->getMessage());
     }
@@ -318,10 +326,10 @@ class user_dao {
  * Datatables columns for the  Users table 
  */
 user_dao::$columns = array(
-    array('id'),
-    array('name'),
-    array('email'),
-    array('creation_date'),
-    array('role'),
-    array('active')
+    array('u.id'),
+    array('u.name'),
+    array('u.email'),
+    array('u.creation_date'),
+    array('u.role'),
+    array('u.active')
 );

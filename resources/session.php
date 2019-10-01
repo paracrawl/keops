@@ -39,9 +39,11 @@ function getUserRole(){
 /**
  * Retrieves the user id
  * 
- * @return int User ID
+ * @return int User ID or -1 if ROOT
  */
 function getUserId(){
+  if (isRoot()) return -1;
+
   $id = null;
   if (isset($_SESSION["userinfo"])) {
     $user = $_SESSION["userinfo"];
@@ -71,9 +73,19 @@ function isActive(){
  */
 function canSeeAdminView() {
   $role = getUserRole();
-  if ($role != null && ($role == user_dto::ADMIN || $role == user_dto::PM) && isActive()) {
+  if ($role != null && ($role == user_dto::ADMIN || $role == user_dto::PM || $role == user_dto::ROOT) && isActive()) {
     return true;
   }
+}
+
+/**
+ * Checks if the user is ROOT
+ * 
+ * @return boolean True if he/she can view the admin zone, otherwise false
+ */
+function isRoot() {
+  $role = getUserRole();
+  return ($role != null && $role == user_dto::ROOT && isActive());
 }
 
 $SIGNEDIN = isSignedIn();

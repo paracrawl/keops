@@ -22,6 +22,7 @@ try {
   $corpus_dto->source_lang = filter_input(INPUT_POST, "source_lang");
   $corpus_dto->target_lang = filter_input(INPUT_POST, "target_lang");
   $corpus_dto->mode = filter_input(INPUT_POST, "mode");
+  $corpus_dto->added_by = getUserId();
 
   $corpus_dao = new corpus_dao();
 

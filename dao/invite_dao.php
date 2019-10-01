@@ -139,10 +139,15 @@ class invite_dao {
      * @return string JSON enconded list, friendly for Datatables
      * @throws Exception
      */
-    function getDatatablesInvited($request) {
+    function getDatatablesInvited($request, $invited_by) {
     try {
       $dtProc = new DatatablesProcessing($this->conn);
-      return json_encode($dtProc->process(self::$columns, "tokens as t left join users u on u.id = t.admin", $request));
+      return json_encode($dtProc->process(self::$columns, 
+      "tokens as t left join users u on u.id = t.admin", 
+      $request, null,
+      ($invited_by != -1) ? "u.id = ?" : null,
+      ($invited_by != -1) ? array($invited_by) : null
+    ));
     } catch (Exception $ex) {
       throw new Exception("Error in invite_dao::getDatatablesInvited : " . $ex->getMessage());
     }
