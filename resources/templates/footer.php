@@ -11,7 +11,7 @@
                     <span class="glyphicon glyphicon-copyright-mark" aria-hidden="true"></span>&nbsp;2019 Prompsit Language Engineering S.L. <br />
                     
                     <p>
-                        <a href="#" class="vertical-align-center" target="_blank">
+                        <a href="https://github.com/paracrawl/keops" class="vertical-align-center" target="_blank">
                             <img src="/img/github.png" alt="GitHub logo" class="mt-0" style="width: 16px; height: 16px;" />
                             <span class="ml-2">Find KEOPS on GitHub</span>
                         </a>
