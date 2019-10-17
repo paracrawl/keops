@@ -94,7 +94,7 @@
                     </div>
                     <?php if (!isSignedIn()) { ?>
                     <div class="form-group">
-                        <div class="g-recaptcha" data-sitekey="6LekjLEUAAAAAHmTjsaiYkiARjoXk_3G2affoyju"></div>
+                        <div class="g-recaptcha" data-sitekey="6Ld2Fb4UAAAAAEvh6zPWL-e_YK_3AeZNUhkON0iE"></div>
                         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                     </div>
                     <?php } ?>

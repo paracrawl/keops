@@ -354,4 +354,10 @@ Nginx log can be read, when Keops running in Docker, with the command:
 ``` 
 sudo docker logs -f keops
 ```
- 
+
+### CAPTCHA API Keys ###
+API Keys for the CAPTCHA present in the contact form can be managed using
+the following Google acccount:
+
+* Email: `keops.prompsit@gmail.com`
+* Password: DE7UsQVyVUhV#t*N 

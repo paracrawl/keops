@@ -48,7 +48,7 @@
                     'method' => 'POST',
                     'header'  => 'Content-Type: application/x-www-form-urlencoded',
                     'content' => http_build_query(array(
-                        'secret' => '6LekjLEUAAAAAJCz1juAh32dHaFbfKq7La4h_7oz',
+                        'secret' => '6Ld2Fb4UAAAAAI27xyjdOnFC0UsAY8DnGQbxJmZA',
                         'response' => $recaptcha
                     ))
                 ))
