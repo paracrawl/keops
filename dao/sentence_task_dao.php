@@ -32,7 +32,7 @@ class sentence_task_dao {
     try {
       $sentence_task_dto = new sentence_task_dto();
       // TODO We are assuming that sentence ids are consecutive
-      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, st.evaluation, st.creation_date, st.completed_date from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.id = ? and st.task_id = ? order by s.id asc limit 1;");
+      $query = $this->conn->prepare("select st.id, st.task_id, st.sentence_id, s.source_text, st.evaluation, st.creation_date, st.completed_date from sentences_tasks as st left join sentences as s on st.sentence_id = s.id where st.id = ? and st.task_id = ? order by st.id asc limit 1;");
       $query->bindParam(1, $sentence_id);
       $query->bindParam(2, $task_id);
       $query->execute();
@@ -438,7 +438,7 @@ class sentence_task_dao {
    */
   function insertBatchSentencesFromCorpusToTask($corpus_id, $task_id) {
     try {
-      $query = $this->conn->prepare("insert into sentences_tasks (task_id, sentence_id) select ?, id from sentences where corpus_id = ?");
+      $query = $this->conn->prepare("insert into sentences_tasks (task_id, sentence_id) select ?, id from sentences where corpus_id = ? order by id asc;");
       $query->bindParam(1, $task_id);
       $query->bindParam(2, $corpus_id);
       $query->execute();
@@ -486,7 +486,7 @@ class sentence_task_dao {
   function getCurrentProgressByIdAndTask($sentence_id, $task_id) {
     try {
       $task_progress_dto = new task_progress_dto();
-      $query = $this->conn->prepare("select count(case when st.id <= ? then 1 end) as current, count(*) as total, count(case when st.evaluation<>'P' then 1 end) as completed from sentences_tasks as st, sentences as s where task_id = ? and sentence_id = s.id and s.is_source ;");
+      $query = $this->conn->prepare("select count(case when st.id <= ? then 1 end) as current, count(*) as total, count(case when st.evaluation<>'P' then 1 end) as completed from sentences_tasks as st, sentences as s where task_id = ? and sentence_id = s.id and s.is_source;");
       $query->bindParam(1, $sentence_id);
       $query->bindParam(2, $task_id);
       $query->execute();
