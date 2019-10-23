@@ -12,7 +12,7 @@
                     <a href="/contact.php"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Contact</a>
                     </p>
                     <p>
-                        <a href="#" class="vertical-align-center" target="_blank">
+                        <a href="https://github.com/paracrawl/keops" class="vertical-align-center" target="_blank">
                             <img src="/img/github.png" alt="GitHub logo" class="mt-0" style="width: 16px; height: 16px;" />
                             <span class="ml-2">Find KEOPS on GitHub</span>
                         </a>
