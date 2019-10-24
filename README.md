@@ -129,6 +129,15 @@ The specific format of the TSV file is explained below for each of the evaluatio
 * [Fluency template](/corpora/templates/fluency.tsv)
 * [Ranking template](/corpora/templates/ranking.tsv)
 
+Please note that **all formats contain headers** which are necessary in
+order to upload corpora to KEOPS. If you have a corpus without headers, you can add them using:
+
+```
+echo -e "Header 1\tHeader 2" | cat - corpus > corpus-with-headers
+```
+
+Replace `Header 1\tHeader 2` with the actual headers.
+
 #### Corpora for validation
 | Source text | Tab | Target text |
 |----------------------------------------------------------------------|-----|-------------------------------------------------------------------------------------------------------------|
