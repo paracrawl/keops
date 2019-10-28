@@ -96,6 +96,18 @@ And, finally, migrate:
 
 A set of operations will run sequentially until the end of the migration. Then, the database is ready to be used with the new version of KEOPS.
 
+KEOPS provides a __root__ user which has access to all data. Please, once
+you migrate your database, __update root user password__. This user is
+stored in the _USERS_ table. A new password can be generated using PHP:
+
+	php -r 'echo password_hash("[NEW PASSWORD]", "PASSWORD_DEFAULT");'
+
+Or using Python (`pip install bcrypt` required):
+
+	python3 -c 'import bcrypt, sys; hash = bcrypt.hashpw("[NEW PASSWORD]".encode("utf-8"), bcrypt.gensalt()); print(hash.decode("ascii"))'
+
+In both cases, replace _[NEW PASSWORD]_ with your actual new password.
+
 Since the migration modifies and creates tables, you need to grant the corresponding permissions again to the user `keopsdb`:
 
 ```sql
