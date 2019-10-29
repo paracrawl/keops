@@ -522,7 +522,13 @@ $(document).ready(function() {
       {
         targets: 6,
         render: function (data, type, row) {
-          switch (row[6]) {
+          return `<a href='/admin/user_edit.php?id=${row[11]}'>${row[6]}</a>`
+        }
+      },
+      {
+        targets: 7,
+        render: function (data, type, row) {
+          switch (row[7]) {
             case "VAL":
               return "Validation";
             case "ADE":
@@ -535,7 +541,7 @@ $(document).ready(function() {
         }
       },
       {
-        targets: 7,
+        targets: 8,
         className: "text-center",
         render: function (data, type, row) {
           if (row[7]) {
@@ -546,7 +552,7 @@ $(document).ready(function() {
         }
       },
       {
-      targets: 8,
+      targets: 9,
       className: "actions",
       responsivePriority: 1,
       searchable: false,

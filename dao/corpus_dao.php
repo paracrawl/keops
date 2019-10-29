@@ -138,7 +138,10 @@ class corpus_dao {
     try {
       $dtProc = new DatatablesProcessing($this->conn);
       return json_encode($dtProc->process(self::$columns,
-              "corpora as c left join langs as l1 on c.source_lang = l1.id left join langs as l2 on c.target_lang = l2.id",
+              "corpora as c 
+              left join langs as l1 on c.source_lang = l1.id 
+              left join langs as l2 on c.target_lang = l2.id
+              join users as u on c.added_by = u.id",
               $request, null,
               ($added_by != -1) ? "added_by = ?" : null,
               ($added_by != -1) ? array($added_by) : null
@@ -371,9 +374,10 @@ corpus_dao::$columns = array(
     array('l2.langcode', 'target_lang'),
     array('c.lines', 'lines'),
     array('c.creation_date', 'creation_date'),
+    array('u.name', 'user_name'),
     array('c.evalmode', 'mode'),
     array('c.active', 'active'),
     array('l1.langname', 'nsource_lang'),
-    array('l2.langname', 'ntarget_lang')
-
+    array('l2.langname', 'ntarget_lang'),
+    array('u.id', 'user_id')
 );
