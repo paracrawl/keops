@@ -102,7 +102,7 @@
       <div class="prompsit-gradient"></div>
       <div class="prompsit-info">
           <a target="_blank" href="http://www.prompsit.com" rel="noopener">
-            <img src="http://www.prompsit.com/wp-content/themes/prompsit-theme/images/logotipo-prompsit.png" alt="Prompsit home" />
+            <img src="/img/logotipo-prompsit.png" alt="Prompsit home" />
           </a>
       </div>
       <div class="pull-right">
