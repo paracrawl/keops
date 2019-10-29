@@ -46,4 +46,38 @@ service nginx stop && service nginx start
 
 echo "SERVICES STARTED!"
 
+if ! { [ -z "$KEOPS_DB_HOST" ] || [ -z "$KEOPS_DB_PORT" ] || [ -z "$POSTGRESPASSWORD" ] || [ -z "$KEOPS_DB_NAME" ]; };
+then
+  >&2 echo "APPLYING DATABASE MIGRATION..."
+
+  i=0
+  until PGPASSWORD=$POSTGRESPASSWORD psql -h "$KEOPS_DB_HOST" -p "$KEOPS_DB_PORT" -U "postgres" -c '\q'; do
+    >&2 echo "Waiting for Postgres..."
+    ((i++))
+    sleep 5
+
+    if [ "$i" -eq "10" ]
+    then
+      >&2 echo "Could not connect to database"
+      tail -f /var/log/nginx/error.log /var/log/nginx/access.log
+    fi
+  done
+
+  cd /opt/keops/automigration/
+  cp alembic.ini.template alembic.ini
+  echo "sqlalchemy.url = postgres+psycopg2://postgres:$POSTGRESPASSWORD@$KEOPS_DB_HOST:$KEOPS_DB_PORT/$KEOPS_DB_NAME" >> alembic.ini
+  current=`alembic current`
+  if [ -z "$current" ]
+  then
+    >&2 echo "SETTING UP ALEMBIC HEAD"
+    alembic stamp head
+    >&2 echo "HEAD IS NOW: $(alembic heads)"
+  else
+    >&2 echo "ALEMBIC VERSION DETECTED. UPGRADING..."
+    alembic upgrade head
+  fi
+
+  cd /
+fi
+
 tail -f /var/log/nginx/error.log /var/log/nginx/access.log 

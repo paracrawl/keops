@@ -17,9 +17,14 @@ RUN apt-get update -q --fix-missing && \
 			php7.2-mbstring \
 			nginx \ 
 			ca-certificates \
+			python \
+			python-psycopg2 \
+			python-pip \
+			postgresql-client \
 			sudo && \
     apt-get autoremove -y && \
-    apt-get autoclean
+    apt-get autoclean && \
+	pip install sqlalchemy alembic
 
 RUN /opt/keops/configure-keops.sh
 
