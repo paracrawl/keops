@@ -203,7 +203,7 @@ class sentence_dao {
       while ($row = $query->fetch()) {
         $sentence_dto->id = $row['id'];
         $sentence_dto->corpus_id = $row['corpus_id'];
-        $sentence_dto->source_text = $row['source_text'];
+        $sentence_dto->source_text = filter_var($row['source_text'], FILTER_SANITIZE_SPECIAL_CHARS);;
         $sentence_dto->target_text = array();
         $sentence_dto->type = $row['type'];
       }
