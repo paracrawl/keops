@@ -332,34 +332,28 @@ $(document).ready(function() {
       targets:3,
       searchable: false,
      render: function (data, type, row) {
-       var completed = (parseInt(row[8])/parseInt(row[7])) * 100;
+       var completed = (parseInt(row[3])/parseInt(row[8])) * 100;
         
         return '<a href="/projects/project_stats.php?id=' + row[0] + '" title="View stats">'+
-          '<div title="'+row[8]+' of '+row[7]+' tasks completed"'+'class="progress">' +
+          '<div title="'+row[3]+' of '+row[8]+' tasks completed"'+'class="progress">' +
           '<div class="progress-bar" role="progressbar" aria-valuenow="' + completed +'"' +
           'aria-valuemin="0" aria-valuemax="100" style="width:' + completed +'%">' +
-          '<span>'+row[8] +' of '+ row[7]+'</span></div>' +
+          '<span>'+row[3] +' of '+ row[8]+'</span></div>' +
           '</div></a>';
        }  
     },
     {
       targets:4,
      render: function (data, type, row) {
-       return formatDate(row[3]);
+       return formatDate(row[4]);
        }
     },
     {
-      targets:5,
-     render: function (data, type, row) {
-       return row [4];
-       }
-    },
-   {
       targets: 6,
       searchable: false,
       className: "text-center",
       render: function (data, type, row) {
-        if (row[5]){
+        if (row[6]){
           return '<span class="glyphicon glyphicon-ok green" aria-hidden="true"></span>';
         }
         else {

@@ -209,11 +209,11 @@ class project_dao {
 project_dao::$columns = array(
     array('p.id', 'id'),
     array('p.name', 'name'),
-    array('p.description', 'description'),
+    array('p.description', 'description'),   
+    array("count(case when t.status = 'DONE' then 1 end)", 'taskdone'),
     array('p.creation_date', 'creation_date'),
     array('u.name', 'owner'),
     array('p.active', 'active'),
     array('u.id', 'user_id'),
     array('count(case when t.project_id > 0 then 1 end)', 'taskcount'),
-    array("count(case when t.status = 'DONE' then 1 end)", 'taskdone')            
 );
