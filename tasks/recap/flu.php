@@ -205,17 +205,16 @@ if (isset($task_id)) {
         <div class="col-sm-6 col-xs-12">
           <?php
             $sentences = $sentence_task_dao->getAnnotatedSentecesByTask($task->id);
-            $max = $sentences[0]->time;
-            $total = $sentences[0]->time;
-            $mean = 0;
+            $total = 0;
+            $mean = $sentences[0]->time;
 
             for ($i = 1; $i < count($sentences); $i++) {
-              if ($sentences[$i]->time > $max) $max = $sentences[$i]->time;
               $mean += $sentences[$i]->time;
             }
 
-            $total = $mean;
+            $total = round($mean, 2);
             $mean = $mean / count($sentences);
+            $mean = round($mean, 2);
           ?>
           <div class="h3 mt-0 vertical-align">
             <span class="glyphicon glyphicon-time mr-3"></span> Timing
@@ -223,11 +222,19 @@ if (isset($task_id)) {
 
           <div class="row text-center mb-2 mb-sm-0">
             <div class="col-sm-6 col-xs-6">
-              <div class="h3"><?= round($mean, 2) ?><small>s</small></div>
+            <div class="h3">
+                <?= intval($mean / 3600); ?><small>h</small>
+                <?= intval($mean / 60); ?><small>m</small>
+                <?= fmod($mean, 60); ?><small>s</small>
+              </div>
               <p>Mean time <br /> elapsed in a sentence</p>
             </div>
             <div class="col-sm-6 col-xs-6">
-              <div class="h3"><?= round($total, 2) ?><small>s</small></div>
+              <div class="h3">
+                <?= intval($total / 3600); ?><small>h</small>
+                <?= intval($total / 60); ?><small>m</small>
+                <?= fmod($total, 60) ?><small>s</small>
+              </div>
               <p>Total time <br /> elapsed in the task</p>
             </div>
           </div>

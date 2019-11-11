@@ -27,7 +27,12 @@ if (count($failedparams) == 0){
     $sentence_task_dto->id = filter_input(INPUT_POST, "sentence_id", FILTER_SANITIZE_STRING);
     $sentence_task_dto->task_id = filter_input(INPUT_POST, "task_id", FILTER_SANITIZE_STRING);
     $sentence_task_dto->evaluation = filter_input(INPUT_POST, "evaluation");
-    $sentence_task_dto->time = filter_input(INPUT_POST, "time");
+    
+    $start_time = filter_input(INPUT_POST, "time");
+    $datetime = new DateTime();
+    $end_time = $datetime->getTimestamp();
+
+    $sentence_task_dto->time = ($end_time - $start_time);
 
     $datetime= date('Y-m-d H:i:s');
     $sentence_task_dto->completed_date = $datetime;

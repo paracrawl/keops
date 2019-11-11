@@ -1,7 +1,4 @@
 $(document).ready(function() {
-  let timer = timerjs.build();
-  timer.start();
-
   $('.btn-annotation.active').closest('.row').find('.question-column').removeClass('d-none');
   $('.btn-annotation.active').closest('.row').find('.question-column').addClass('active-question')
   $(".btn-annotation").on('click', function (e) {
@@ -54,17 +51,9 @@ $(document).ready(function() {
   });
 
   $('#evalutionsavebutton').on('click', function() {
-    timer.stop();
-    console.log('Time', timer.get());
     if ($(this).attr("data-next")) {
       window.location.href = $(this).attr("data-next");
     } else {
-      let time_el = document.createElement('input');
-      $(time_el).attr('name', 'time');
-      $(time_el).attr('type', 'hidden');
-      $(time_el).val(timer.get());
-      $('#evaluationform').append(time_el);
-
       $('#evaluationform').submit();
     }
   });

@@ -183,6 +183,7 @@ else {
                   <input type="hidden" name="task_id" value="<?= $task->id ?>">
                   <input type="hidden" name="sentence_id" value="<?= $sentence->id ?>">
                   <input type="hidden" name="p_id" value="<?= $task_progress->current ?>">
+                  <input type="hidden" name="time" value="<?php $date = new DateTime(); echo $date->getTimestamp(); ?>" />
 
                   <?php if ($filtered) { ?>
                   <input type="hidden" name="term" value="<?= $search_term ?>" />
@@ -284,7 +285,6 @@ else {
     require_once(TEMPLATES_PATH . "/resources.php");
     ?>
 
-    <script type="text/javascript" src="/js/timer.js"></script>
     <script type="text/javascript" src="/js/evaluation.js"></script>
     <script type="text/javascript" src="/js/slider.js"></script>
     <script type="text/javascript" src="/js/slider_keyboard.js"></script>
