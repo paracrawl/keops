@@ -14,6 +14,7 @@ services:
       - KEOPS_DB_USER=keopsdb
       - KEOPS_DB_PASS=PASSWORD_FOR_USER_KEOPS
       - KEOPS_DB_PORT=5432
+      - POSTGRESPASSWORD=PASSWORD_FOR_POSTGRES
     ports:
       - "8080:80"
     depends_on:
