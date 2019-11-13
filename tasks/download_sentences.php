@@ -26,7 +26,7 @@ if (isset($task_id)) {
   if ($task->status == "DONE") {
     $sentence_task_dao = new sentence_task_dao();
     $rows = array();
-    $st_array = $sentence_task_dao->getAnnotatedSentecesByTask($task->id);
+    $st_array = $sentence_task_dao->getAnnotatedSentecesByTask($task->id, false);
 
     if ($task->mode == "FLU") {
       $headers  = array("Target", "Target lang");

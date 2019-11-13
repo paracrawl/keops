@@ -603,7 +603,7 @@ from sentences_tasks, sentences as s where task_id = ? and sentence_id = s.id an
    * @return array Array of sentence objects
    * @throws Exception
    */
-  function getAnnotatedSentecesByTask($task_id){ 
+  function getAnnotatedSentecesByTask($task_id, $escape = true){ 
      try {
       $st_array = array();
       $query = $this->conn->prepare("select st.id as pair, st.sentence_id, s.source_text, st.evaluation, st.time from sentences_tasks st left join sentences s on s.id = st.sentence_id left join tasks t on t.id = st.task_id where st.task_id = ? and s.is_source = true order by s.id;");
@@ -613,7 +613,7 @@ from sentences_tasks, sentences as s where task_id = ? and sentence_id = s.id an
       while ($row = $query->fetch()) {
         $sentence_task_dto = new sentence_task_dto();
         $sentence_task_dto->id = $row['pair'];
-        $sentence_task_dto->source_text = filter_var($row['source_text'], FILTER_SANITIZE_SPECIAL_CHARS);;
+        $sentence_task_dto->source_text = ($escape) ? filter_var($row['source_text'], FILTER_SANITIZE_SPECIAL_CHARS) : $row['source_text'];
         $sentence_task_dto->target_text = array();
         $sentence_task_dto->evaluation = $row['evaluation'];
         $sentence_task_dto->evaluation = $row['evaluation'];
@@ -632,7 +632,7 @@ from sentences_tasks, sentences as s where task_id = ? and sentence_id = s.id an
           $sentence_dto = new sentence_dto();
           $sentence_dto->id = $row['id'];
           $sentence_dto->corpus_id = $row['corpus_id'];
-          $sentence_dto->source_text = filter_var($row['source_text'], FILTER_SANITIZE_SPECIAL_CHARS);;
+          $sentence_dto->source_text = ($escape) ? filter_var($row['source_text'], FILTER_SANITIZE_SPECIAL_CHARS) : $row['source_text'];
           $sentence_dto->type = $row['type'];
           $sentence_dto->system = $row['system'];
   
