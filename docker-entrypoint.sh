@@ -51,14 +51,15 @@ then
   >&2 echo "APPLYING DATABASE MIGRATION..."
 
   i=0
+  max=10
   until PGPASSWORD=$POSTGRESPASSWORD psql -h "$KEOPS_DB_HOST" -p "$KEOPS_DB_PORT" -U "postgres" -c '\q'; do
-    >&2 echo "Waiting for Postgres..."
+    >&2 echo "Waiting for Postgres... ($((i+1))/$max)"
     ((i++))
     sleep 5
 
-    if [ "$i" -eq "10" ]
+    if [ "$i" -eq "$max" ]
     then
-      >&2 echo "Could not connect to database"
+      >&2 echo "Could not connect to database. Server running anyway..."
       tail -f /var/log/nginx/error.log /var/log/nginx/access.log
     fi
   done
@@ -69,12 +70,14 @@ then
   current=`alembic current`
   if [ -z "$current" ]
   then
-    >&2 echo "SETTING UP ALEMBIC HEAD"
+    >&2 echo "NO ALEMBIC VERSION DETECTED. SETTING UP ALEMBIC HEAD TO LATEST UPDATE"
     alembic stamp head
     >&2 echo "HEAD IS NOW: $(alembic heads)"
+    >&2 echo "IF YOUR DATABASE SCHEMA IS NOT UPDATED, YOU SHOULD DO THAT MANUALLY"
   else
     >&2 echo "ALEMBIC VERSION DETECTED. UPGRADING..."
     alembic upgrade head
+    PGPASSWORD=$POSTGRESPASSWORD psql -h "$KEOPS_DB_HOST" -p "$KEOPS_DB_PORT" -U "postgres" -f fix-permissions.sql keopsdb
   fi
 
   cd /
