@@ -32,7 +32,7 @@
     control.addEventListener("touchstart", function(e) { handledown(e) });
 
     let handlemove = (e) => {
-      e.preventDefault();
+      //e.preventDefault();
       if (e.touches) e = e.touches[0];
 
       if (moving) {
