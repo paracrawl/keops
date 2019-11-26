@@ -74,7 +74,7 @@ if (isset($task_id)) {
             <div class="col-sm-8 col-xs-12">
               <span class="h1">Recap of Task #<?php echo $task->id ?></span>
             </div>
-            <?php if($task->status == "DONE" && $USER->role == "ADMIN") { ?>
+            <?php if($task->status == "DONE" && $USER->role == "PM") { ?>
             <div class="col-sm-4 col-xs-12 text-right-sm mt-4 mt-sm-0">
               <?php
                 $user_score = $task_dao->getTaskScore($task_id);
