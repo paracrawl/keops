@@ -219,7 +219,7 @@ if (isset($task_id)) {
             <div class="col-sm-6 col-xs-6">
               <div class="h3">
                 <?= intval($mean / 3600); ?><small>h</small>
-                <?= intval($mean / 60); ?><small>m</small>
+                <?= fmod(intval($mean / 60), 60); ?><small>m</small>
                 <?= fmod($mean, 60); ?><small>s</small>
               </div>
               <p>Mean time <br /> elapsed in a sentence</p>
