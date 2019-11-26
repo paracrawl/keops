@@ -40,6 +40,19 @@ $languages = $language_dao->getLanguages();
         <li><a href="/admin/user_edit.php?id=<?php echo $user->id; ?>"><?= $user->name?></a></li>
         <li class="active">Edit user</li> 
       </ul>
+
+      <?php if ($_SESSION["error"] == "yes") { ?>
+      <p class="text-danger">
+        Password could not be changed.
+      </p>
+      <?php } else if ($_SESSION["error"] == "none") { ?>
+      <p class="text-success">
+        Password changed successfuly.
+      </p>
+      <?php } ?>
+
+      <?php $_SESSION["error"] = null; ?>
+
       <div class="page-header">
         <h1>Edit user</h1>
       </div>
@@ -51,10 +64,15 @@ $languages = $language_dao->getLanguages();
             <div id="helpName" class="help-block with-errors"></div>
           </div>
         </div>
+        <?php if (isRoot()) { ?>
         <div class="form-group">
-          <div class="col-sm-1"></div>
-<!--          <a class="col-sm-4" href="">Change password (TODO)</a>-->
+          <label for="name" class="col-sm-1 control-label">Password</label>
+          <div class="col-sm-4">
+            <a href="#" class="btn btn-secondary w-100" data-toggle="modal" data-target="#password_modal">Click to generate a  new one</a>
+            <div class="help-block with-errors"></div>
+          </div>
         </div>
+        <?php } ?>
         <div class="form-group">
           <label for="email" class="col-sm-1 control-label">Email</label>
           <div class="col-sm-4">
@@ -111,5 +129,38 @@ $languages = $language_dao->getLanguages();
     <?php
     require_once(TEMPLATES_PATH . "/admin_resources.php");
     ?>
+
+    <?php if (isRoot()) { ?>
+    <?php $rand = bin2hex(random_bytes(5)); ?>
+    <form class="modal" tabindex="-1" role="dialog" id="password_modal" action="../users/user_edit.php" method="post">
+      <input type=hidden name="id" value="<?php echo $user->id; ?>" />
+      <input type=hidden name="new_password" value="<?php echo $rand; ?>" />
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Change password</h4>
+          </div>
+          <div class="modal-body">
+            <p>
+              This password will be <strong>assigned to this user</strong>.
+            </p>
+
+            <div class="jumbotron text-center py-4">
+              <div class="h2 my-0">
+                <?php
+                  echo $rand;
+                ?>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <?php } ?>
   </body>
 </html>
