@@ -856,7 +856,7 @@ $(document).ready(function() {
     event.stopPropagation();
     $("#helpEmail").html("The email should be valid, since it will be used to notify the user");
     let mail = $('#email').val();
-    if (mail.match(/(^([\w-]+))(\.([\w-])*)*@([\w-]+)\.(\w+)$/) != null) {
+    if (mail.match(/(^([\w-]+))(\.([\w-])*)*@([\w-]+)(\.(\w+))+$/) != null) {
       getInviteToken($('#email').val());
     }
   });
