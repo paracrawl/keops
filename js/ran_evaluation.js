@@ -88,8 +88,18 @@ $(document).ready(function() {
     }
   });
 
+  let ctrlkey = false;
+  $(document).on('keydown', function(e) {
+    ctrlkey = e.which == 17;
+  });
+
+  $(document).on('keyup', function(e) {
+    ctrlkey = ctrlkey && !(e.which == 17);
+  });
+
   let clickcount = 0;
   $(".ranking-text").on('click', function() {
+    if (!ctrlkey) return;
     if ($("#evaluation-container").attr("data-done") == "1") return;
 
     ranking.each(function (i, position) {
@@ -100,7 +110,7 @@ $(document).ready(function() {
 
     $(this).siblings('.ranking-position').find('input').val(clickcount + 1);
 
-    clickcount = (clickcount + 1 == ranking.length) ? 0 : clickcount + 1;
+    clickcount = (clickcount + 1) % ranking.length;
     iterator = clickcount;
   });
 })
