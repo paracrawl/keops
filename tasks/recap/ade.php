@@ -249,7 +249,7 @@ if (isset($task_id)) {
             <div class="col-sm-6 col-xs-6">
               <div class="h3">
                 <?= intval($total / 3600); ?><small>h</small>
-                <?= intval($total / 60); ?><small>m</small>
+                <?= fmod(intval($total / 60), 60); ?><small>m</small>
                 <?= fmod($total, 60) ?><small>s</small>
               </div>
               <p>Total time <br /> elapsed in the task</p>
@@ -270,6 +270,23 @@ if (isset($task_id)) {
             Your evaluation
           </div>
         </div>
+        <!--<div class="col-sm-6 col-xs-12">
+            <table class="table table-striped" id="table-intra">
+              <thead>
+                <tr>
+                  <th>Percentage</th>
+                  <th># of sentences</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+              <tfoot>
+                <tr>
+                  <th>Percentage</th>
+                  <th># of sentences</th>
+                </tr>
+              </tfoot>
+            </table>
+        </div>-->
         <?php if ($task->status == "DONE") { ?>
         <div class="col-sm-6 col-xs-12">
           <canvas id="point-chart-inter" class="w-100 h-100"></canvas>
