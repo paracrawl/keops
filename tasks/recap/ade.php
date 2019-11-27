@@ -270,32 +270,53 @@ if (isset($task_id)) {
             Your evaluation
           </div>
         </div>
-        <!--<div class="col-sm-6 col-xs-12">
+        <div class="col-sm-6 col-xs-12">
             <table class="table table-striped" id="table-intra">
               <thead>
                 <tr>
-                  <th>Percentage</th>
+                  <th>Range</th>
                   <th># of sentences</th>
                 </tr>
               </thead>
               <tbody></tbody>
               <tfoot>
                 <tr>
-                  <th>Percentage</th>
+                  <th>Range</th>
                   <th># of sentences</th>
                 </tr>
               </tfoot>
             </table>
-        </div>-->
-        <?php if ($task->status == "DONE") { ?>
+        </div>
+      </div>
+      <?php if ($task->status == "DONE") { ?>
+      <div class="row">
         <div class="col-sm-6 col-xs-12">
           <canvas id="point-chart-inter" class="w-100 h-100"></canvas>
           <div class="text-center text-increase">
             Comparison with other evaluations
           </div>
         </div>
-      <?php } ?>
+        <div class="col-sm-6 col-xs-12">
+            <table class="table table-striped" id="table-inter">
+              <thead>
+                <tr>
+                  <th>Range</th>
+                  <th># of sentences</th>
+                  <th># of sentences (others)</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+              <tfoot>
+                <tr>
+                  <th>Range</th>
+                  <th># of sentences</th>
+                  <th># of sentences (others)</th>
+                </tr>
+              </tfoot>
+            </table>
+        </div>
       </div>
+      <?php } ?>
 
       <hr />
 

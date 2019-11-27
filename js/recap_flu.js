@@ -35,6 +35,27 @@ $(document).ready(function() {
                 }
               }
           });
+
+          // Table
+          for(let i = 20; i < 101; i += 20) {
+            let left = i - 20;
+            let right = i;
+            let acum = 0;
+            for(let j = right; (left == 0) ? j >= left : j > left; j -= 10) {
+              acum += (j in data.stats) ? data.stats[j] : 0;
+            }
+
+            let tr = document.createElement('tr');
+            let percentage = document.createElement('td');
+            let amount = document.createElement('td');
+
+            $(percentage).html(`${left == 0 ? left : left + 1}% - ${right}%`);
+            $(amount).html(acum);
+
+            $(tr).append(percentage);
+            $(tr).append(amount);
+            $('#table-intra tbody').append(tr);
+          }
         }
       }
     });
@@ -64,16 +85,45 @@ $(document).ready(function() {
             datasets.push(dataset);
           }
 
-          let ctx = document.querySelector('#point-chart-inter').getContext('2d');
-          let chart = new Chart(ctx, {
-              type: 'line',
-              data: {
-                labels: labels,
-                datasets: datasets
-              },
-              options: {
+          if (document.querySelector('#point-chart-inter')) {
+            let ctx = document.querySelector('#point-chart-inter').getContext('2d');
+            let chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                  labels: labels,
+                  datasets: datasets
+                },
+                options: {
+                }
+            });
+
+            // Table
+            for(let i = 20; i < 101; i += 20) {
+              let left = i - 20;
+              let right = i;
+              let acum = 0;
+              let acum_others = 0;
+              for(let j = right; (left == 0) ? j >= left : j > left; j -= 10) {
+                acum += (j in data.stats[task_id]) ? data.stats[task_id][j] : 0;
+                acum_others += (j in data.stats['other']) ? data.stats['other'][j] : 0;
               }
-          });
+
+              let tr = document.createElement('tr');
+              let percentage = document.createElement('td');
+              let amount = document.createElement('td');
+              let amount_other = document.createElement('td');
+
+              $(percentage).html(`${left == 0 ? left : left + 1}% - ${right}%`);
+              $(amount).html(acum);
+              $(amount_other).html(acum_others);
+
+              $(tr).append(percentage);
+              $(tr).append(amount);
+              $(tr).append(amount_other);
+
+              $('#table-inter tbody').append(tr);
+            }
+          }
         }
       }
     });

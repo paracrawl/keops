@@ -35,6 +35,27 @@ $(document).ready(function() {
                 }
               }
           });
+
+          // Table
+          for(let i = 20; i < 101; i += 20) {
+            let left = i - 20;
+            let right = i;
+            let acum = 0;
+            for(let j = right; (left == 0) ? j >= left : j > left; j -= 10) {
+              acum += (j in data.stats) ? data.stats[j] : 0;
+            }
+
+            let tr = document.createElement('tr');
+            let percentage = document.createElement('td');
+            let amount = document.createElement('td');
+
+            $(percentage).html(`${left == 0 ? left : left + 1}% - ${right}%`);
+            $(amount).html(acum);
+
+            $(tr).append(percentage);
+            $(tr).append(amount);
+            $('#table-intra tbody').append(tr);
+          }
         }
       }
     });
@@ -88,27 +109,34 @@ $(document).ready(function() {
                   }
                 }
             });
+
+            // Table
+            for(let i = 20; i < 101; i += 20) {
+              let left = i - 20;
+              let right = i;
+              let acum = 0;
+              let acum_others = 0;
+              for(let j = right; (left == 0) ? j >= left : j > left; j -= 10) {
+                acum += (j in data.stats[task_id]) ? data.stats[task_id][j] : 0;
+                acum_others += (j in data.stats['other']) ? data.stats['other'][j] : 0;
+              }
+
+              let tr = document.createElement('tr');
+              let percentage = document.createElement('td');
+              let amount = document.createElement('td');
+              let amount_other = document.createElement('td');
+
+              $(percentage).html(`${left == 0 ? left : left + 1}% - ${right}%`);
+              $(amount).html(acum);
+              $(amount_other).html(acum_others);
+
+              $(tr).append(percentage);
+              $(tr).append(amount);
+              $(tr).append(amount_other);
+
+              $('#table-inter tbody').append(tr);
+            }
           }
-
-          // Table
-          /*let acum = 0;
-          for(let i = 0; i < 101; i += 10) {
-            acum += (i in data.stats[task_id]) ? data.stats[task_id][i] : 0;
-
-            if (i % 20 != 0) continue;
-
-            let tr = document.createElement('tr');
-            let percentage = document.createElement('td');
-            let amount = document.createElement('td');
-
-            $(percentage).html(`${i}% ${(i != 0) ? 'or less' : ''}`);
-            $(amount).html(acum);
-
-            $(tr).append(percentage);
-            $(tr).append(amount);
-
-            $('#table-intra tbody').append(tr);
-          }*/
         }
       }
     });
