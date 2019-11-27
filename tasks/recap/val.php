@@ -267,7 +267,7 @@ if (isset($task_id)) {
                     </td>
                     <td class="text-right"><?= $task_stats_dto->array_type[$label['value']] ?></td>
                     <td class="text-right">
-                      <?= (($task_stats_dto->array_type[$label['value']]) / $task_stats_dto->total) * 100 ?>%
+                     <?= round((($task_stats_dto->array_type[$label['value']]) / $task_stats_dto->total) * 100, 2) ?>%
                     </td>
                   </tr>
                 <?php } ?>
