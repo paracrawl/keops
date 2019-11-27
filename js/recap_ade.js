@@ -51,6 +51,7 @@ $(document).ready(function() {
       success: (data_raw) => {
         let data = JSON.parse(data_raw);
         if (data.result == 200) {
+          // Chart
           let labels = []; for(let i = 0; i < 101; i += 10) labels.push(`${i}%`);
           let datasets = [];
 
@@ -69,23 +70,45 @@ $(document).ready(function() {
 
           datasets.push(dataset);
 
-          let ctx = document.querySelector('#point-chart-inter').getContext('2d');
-          let chart = new Chart(ctx, {
-              type: 'line',
-              data: {
-                labels: labels,
-                datasets: datasets
-              },
-              options: {
-                scales: {
-                  yAxes: [{
-                     ticks: {
-                        stepSize: 5
-                     }
-                  }]
+          if (document.querySelector('#point-chart-inter')) {
+            let ctx = document.querySelector('#point-chart-inter').getContext('2d');
+            let chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                  labels: labels,
+                  datasets: datasets
+                },
+                options: {
+                  scales: {
+                    yAxes: [{
+                      ticks: {
+                          stepSize: 5
+                      }
+                    }]
+                  }
                 }
-              }
-          });
+            });
+          }
+
+          // Table
+          /*let acum = 0;
+          for(let i = 0; i < 101; i += 10) {
+            acum += (i in data.stats[task_id]) ? data.stats[task_id][i] : 0;
+
+            if (i % 20 != 0) continue;
+
+            let tr = document.createElement('tr');
+            let percentage = document.createElement('td');
+            let amount = document.createElement('td');
+
+            $(percentage).html(`${i}% ${(i != 0) ? 'or less' : ''}`);
+            $(amount).html(acum);
+
+            $(tr).append(percentage);
+            $(tr).append(amount);
+
+            $('#table-intra tbody').append(tr);
+          }*/
         }
       }
     });
