@@ -258,7 +258,8 @@ class sentence_task_dao {
     function getSentenceIdByTermAndTask($task_id, $search_term) {
       try {
         $sentence_id = 0;
-        $search_term = preg_replace('/(\S*)\s(\S*)/', '$1 & $2', $search_term);
+        $search_term = trim($search_term); // Trailing whitespaces
+        $search_term = preg_replace('/(\S*)\s(\S*)/', '$1<1>$2', $search_term);
     
         $sentence_task_dto = new sentence_task_dto();
         $query = $this->conn->prepare("select st.sentence_id from sentences_tasks as st "
@@ -288,7 +289,7 @@ class sentence_task_dao {
         return $sentence_id;
       } catch (Exception $ex) {
         $this->conn->close_conn();
-        throw new Exception("Error in sentence_task_dao::gotoSentenceByTask : " . $ex->getMessage());
+        throw new Exception("Error in sentence_task_dao::getSentenceIdByTermAndTask : " . $ex->getMessage());
       }
     }
 
@@ -367,7 +368,8 @@ class sentence_task_dao {
         $sentence_id = 1;
       }
 
-      $search_term = preg_replace('/(\S*)\s(\S*)/', '$1 & $2', $search_term);
+      $search_term = trim($search_term); // Trailing whitespaces
+      $search_term = preg_replace('/(\S*)\s(\S*)/', '$1<1>$2', $search_term);
   
       $sentence_task_dto = new sentence_task_dto();
       $offset = $sentence_id - 1;
@@ -424,7 +426,7 @@ class sentence_task_dao {
       return $sentence_task_dto;
     } catch (Exception $ex) {
       $this->conn->close_conn();
-      throw new Exception("Error in sentence_task_dao::gotoSentenceByTask : " . $ex->getMessage());
+      throw new Exception("Error in sentence_task_dao::gotoSentenceByTaskAndFilters : " . $ex->getMessage());
     }
   }
 
@@ -500,7 +502,7 @@ class sentence_task_dao {
       return $task_progress_dto;
     } catch (Exception $ex) {
       $this->conn->close_conn();
-      throw new Exception("Error in sentence_task_dao::getNextPendingSentenceByTask : " . $ex->getMessage());
+      throw new Exception("Error in sentence_task_dao::getCurrentProgressByIdAndTask : " . $ex->getMessage());
     }
   }
 
@@ -525,12 +527,12 @@ class sentence_task_dao {
           select st.id, evaluation
           from sentences_tasks as st 
           left join sentences as s on (s.id = st.sentence_id)
-          join sentences_pairing as sp on (st.sentence_id = sp.id_1)
-          join sentences as s2 on (sp.id_2 = s2.id) "
+          left join sentences_pairing as sp on (st.sentence_id = sp.id_1)
+          left join sentences as s2 on (sp.id_2 = s2.id) "
           . "where task_id = :taskid and s.is_source = true " 
           . (($label != "ALL") ? "and evaluation = :label " : "")
-          . (($search_term != "") ? "and (s.source_text @@ to_tsquery(:searchterm) " : "")
-          . (($search_term != "") ?" or s2.source_text @@ to_tsquery(:searchterm2))" : "")
+          . (($search_term != "") ? "and (s.source_text_vector @@ to_tsquery(:searchterm) " : "")
+          . (($search_term != "") ?" or s2.source_text_vector @@ to_tsquery(:searchterm2))" : "")
           . " group by st.id
         ) as x;"
       );
@@ -538,7 +540,8 @@ class sentence_task_dao {
       $query->bindParam(':sentenceid', $sentence_id);
       $query->bindParam(':taskid', $task_id);
 
-      $search_term = preg_replace('/(\S*)\s(\S*)/', '$1 & $2', $search_term);
+      $search_term = trim($search_term); // Trailing whitespaces
+      $search_term = preg_replace('/(\S*)\s(\S*)/', '$1<1>$2', $search_term);
 
       if ($search_term != "") $query->bindParam(':searchterm', $search_term);
       if ($search_term != "") $query->bindParam(':searchterm2', $search_term);
@@ -555,7 +558,7 @@ class sentence_task_dao {
       return $task_progress_dto;
     } catch (Exception $ex) {
       $this->conn->close_conn();
-      throw new Exception("Error in sentence_task_dao::getNextPendingSentenceByTask : " . $ex->getMessage());
+      throw new Exception("Error in sentence_task_dao::getCurrentProgressByIdAndTaskAndFilters : " . $ex->getMessage());
     }
   }
 
@@ -592,7 +595,7 @@ from sentences_tasks, sentences as s where task_id = ? and sentence_id = s.id an
       return $task_stats_dto;
     } catch (Exception $ex) {
       $this->conn->close_conn();
-      throw new Exception("Error in sentence_task_dao::getNextPendingSentenceByTask : " . $ex->getMessage());
+      throw new Exception("Error in sentence_task_dao::getStatsByTask : " . $ex->getMessage());
     }
   }
 
