@@ -137,7 +137,7 @@ else {
             <div class="col-md-4 col-sm-12 col-xs-12">
               <span class="h2">Task #<?php echo $task->id ?>
               <?php if (!$filtered) { ?>
-                <small><?= round(($task_progress->completed / $task_progress->total) * 100, 2) ?>% done</small></span>
+                <small><?= $task_progress->completed ?> out of <?= $task_progress->total ?> (<?= round(($task_progress->completed / $task_progress->total) * 100, 2) ?>%) done</small></span>
               <?php } ?>
             </div>
 
