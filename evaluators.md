@@ -165,7 +165,7 @@ You can order the translations using the mouse or the keyboard:
 
 __Mouse__
 
-Click on each translation in the desired order to set that ranking. 
+Hold <kbd>Ctrl</kbd> and click on each translation in the desired order to set that ranking. 
 
 __Keyboard__
 
