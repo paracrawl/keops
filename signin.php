@@ -64,7 +64,7 @@
           </div>
           <div class="form-group">
             <label for="email" class="sr-only control-label">Email address</label>
-            <input type="text" pattern="^((\w+([!#$%&'*+\-\/=?^_`{|\.]\w+)*@(\w+\.)+(\w+))|root)$" name="email" id="email" class="form-control" placeholder="Email address" required="" autofocus="">
+            <input type="text" pattern="^([^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+|root)$" name="email" id="email" class="form-control" placeholder="Email address" required="" autofocus="">
             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
             <div class="help-block with-errors">Type your email address</div>
           </div>
