@@ -39,7 +39,7 @@ ENDOFMESSAGE
 cat >/opt/keops/resources/db/keopsdb.class.php
 
 echo "STARTING PHP..."
-service php7.2-fpm stop && service php7.2-fpm start
+service php7.2-fpm stop && /etc/init.d/php7.2-fpm start
 
 echo "STARTING NGINX..."
 service nginx stop && service nginx start

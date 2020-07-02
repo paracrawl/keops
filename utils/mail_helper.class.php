@@ -7,30 +7,28 @@ require_once(RESOURCES_PATH . "/mail/src/PHPMailer.php");
 require_once(RESOURCES_PATH . "/mail/src/SMTP.php");
 
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/utils/mail_template.interface.php");
-
-/*
- * 
- */
-
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/config.php");
 
 class MailHelper {
-    private const KEOPS_USER = "keops@prompsit.com";
-    private const KEOPS_PWD = ".pinyico.";
-
     private $mail = null;
+    private $KEOPS_USER = null;
+    private $KEOPS_PWD = null;
 
     public function __construct() {
+        $this->KEOPS_USER = isset(Config::$KEOPS_HELPER_EMAIL) ? Config::$KEOPS_HELPER_EMAIL : getenv('KEOPS_HELPER_EMAIL');
+        $this->KEOPS_PWD = isset(Config::$KEOPS_HELPER_PASSWORD) ? Config::$KEOPS_HELPER_PASSWORD : getenv('KEOPS_HELPER_PASSWORD');
+
         $this->mail = new PHPMailer(true);
         $this->mail->isSMTP();
         $this->mail->Host       = 'mail.prompsit.com';
         $this->mail->SMTPAuth   = true; 
-        $this->mail->Username   = self::KEOPS_USER;
-        $this->mail->Password   = self::KEOPS_PWD;
+        $this->mail->Username   = $this->KEOPS_USER;
+        $this->mail->Password   = $this->KEOPS_PWD;
         $this->mail->SMTPSecure = 'tls';
         $this->mail->Port       = 587;
         $this->mail->CharSet   = 'UTF-8';
         $this->mail->Encoding  = 'base64';
-        $this->mail->setFrom(self::KEOPS_USER, 'KEOPS');
+        $this->mail->setFrom($this->KEOPS_USER, 'KEOPS');
         $this->mail->isHTML(true);
     }
 
