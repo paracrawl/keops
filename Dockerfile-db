@@ -5,6 +5,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 COPY configure-db.sh /opt/
 COPY docker-entrypoint-db.sh /opt/
 COPY keopsdb_init.sql /opt/
+COPY set-password.sh /opt/
 
 RUN echo "Europe/Madrid" > /etc/timezone
 
