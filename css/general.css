@@ -26,6 +26,7 @@ body > .container {
 .home-body{
   margin-top: 0px;
   margin-bottom: 0px;
+  min-height: 100vh;
 }
 
 .home-body > .container {
