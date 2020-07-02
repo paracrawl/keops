@@ -70,7 +70,7 @@ class password_renew_dao {
     try {
         $query = $this->conn->prepare("
             INSERT INTO password_renew (token, user_id) VALUES (?, ?)
-            ON CONFLICT ON CONSTRAINT password_renew_user_id_key 
+            ON CONFLICT ON CONSTRAINT password_renew_user_key 
             DO UPDATE SET token = ?
             RETURNING token, user_id, created_time;
         ");
