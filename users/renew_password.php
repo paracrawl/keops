@@ -27,8 +27,8 @@ if ($service == "renew") {
         if ($password == $password2) {
             $password_renew_dao->revokeToken($given_token);
             if ($token->token == $given_token) {
-                $then = strtotime($token->created_time);
-                $now = date_timestamp_get(date_create());
+                $then = strtotime($token->created_time . " UTC");
+                $now = time();
                 $diff = $now - $then; // in seconds
                 
                 if ($diff > (15 * 60)) {

@@ -40,6 +40,9 @@
                 case "wrongmail":
                   echo "Email address is not correct. Please, try again.";
                   break;
+                case "expired":
+                  echo "This token has expired. Please, try again.";
+                  break;
                 case "unknownerror":
                 default:
                   echo "Sorry, your request could not be processed. Please, try again later.";
