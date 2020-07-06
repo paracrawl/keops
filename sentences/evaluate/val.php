@@ -501,6 +501,16 @@ else {
                           Нямате артикули в количката си.
                         </p>
                       </div>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>English</strong> <br />
+                          You have no items in your shopping cart.
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Spanish</strong> <br />
+                          El carrito est&amp;#225; vac&amp;iacuteo
+                        </p>
+                      </div>
                     </div>
                     <div class="row">
                       <div class="col-xs-12 col-md-12 h5">
@@ -514,6 +524,16 @@ else {
                         <p class="col-xs-12 col-md-6">
                           <strong>Spanish</strong> <br />
                           En diciembre, pueden reservar dos habitaciones dobles al precio de una (mínimo cuatro noches).
+                        </p>
+                      </div>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>English</strong> <br />
+                          its configuration could give the impression that its owners were not
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Spanish</strong> <br />
+                          podría dar la impresión de que sus poseedores no
                         </p>
                       </div>
                     </div>
@@ -544,6 +564,26 @@ else {
                         <p class="col-xs-12 col-md-6">
                           <strong>Spanish</strong> <br />
                           Hay que haber otro camino.
+                        </p>
+                      </div>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>English</strong> <br />
+                          Steve Jobs co-founded Apple.
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Spanish</strong> <br />
+                          Steve Trabajos cofundó Manzana.
+                        </p>
+                      </div>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>English</strong> <br />
+                          You can drink free beers here.
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Spanish</strong> <br />
+                          Puedes tomar cervezas libre aquí.
                         </p>
                       </div>
                     </div>
