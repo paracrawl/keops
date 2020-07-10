@@ -69,7 +69,19 @@ HTML;
 
         <div class="container">
             <div class="body">
-                Task #{$params->task_id} has been marked as done. Review it by following this link:
+                <p>Task #{$params->task_id} has been marked as done.</p>
+                
+                <p>
+                    Task info: <br />
+
+                    <ul>
+                        <li>Project name: {$params->project_name}</li>
+                        <li>Language pair: {$params->project_src_lang} - {$params->project_trg_lang}</li>
+                        <li>Assigned user: {$params->assigned_user}</li>
+                    </ul>
+                </p>
+                
+                <p>Review it by following this link:</p>
 
                 <p class="well">
                     <a href="http://{$_SERVER['HTTP_HOST']}/tasks/recap.php?id={$params->task_id}">http://{$_SERVER['HTTP_HOST']}/tasks/recap.php?id={$params->task_id}</a>
