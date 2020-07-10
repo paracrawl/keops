@@ -96,7 +96,7 @@ A task has always an evaluation mode. This will change the way you evalute the s
 #### Validation
 ![Validation screen](/screenshots/guide/validation.png)
 
-This mode is used to classify pairs of sentences using the [European Language Resource Coordination (ELRC)](http://www.lr-coordination.eu/) validation guidelines. These guidelines define a set of labels to classify sentences:
+This mode is used to classify pairs of sentences using the [European Language Resource Coordination (ELRC)](http://www.lr-coordination.eu/) validation guidelines. These guidelines define a set of labels to __annotate sentences following a hierarchical error typology__:
 
 1. Wrong language identification
 2. Incorrect alignment
@@ -104,23 +104,30 @@ This mode is used to classify pairs of sentences using the [European Language Re
 4. MT translation
 5. Translation error
 6. Free translation
+
+If none of these errors apply, the pairs are then considered as __valid__: 
+
 7. Valid translation
 
 More information about these labels is available on KEOPS (clicking on _Validation guidelines_). You may also refer to the [ELRC Validation Guidelines document](http://www.lr-coordination.eu/sites/default/files/common/Validation_guidelines_CEF-AT_v6.2_20180720.pdf).
 
-If you don't select a label, the sentence will be __pending__.
+When more than one issue appears in the evaluated sentences, please choose 
+
+If you don't select a label, the sentence will not be annotated and considered as __pending__.
 
 When selecting some of the labels, you may be asked for additional information:
-* __Wrong language identification__: whether the source, the target or both texts are wrong identified.
-* __MT Translation__: whether the source, the target or both texts are MT-translated.
-* __Free translation__: whether the translation should be kept, even though it is a free one.
+* __Wrong language identification__: whether the source, the target or both texts are wrongly identified.
+* __MT Translation__: whether the source, the target or both text are MT-translated.
+* __Free translation__: whether the translation should be kept, even though it is freely translated.
 
-Please note that this additional information is completely optional to provide.
+Please note that this additional information is completely optional to provide. Only if indicated by the PM, you should add it to the previous annotation.
 
 Moreover, KEOPS can be also used to flag sentences which contain personal data or inappropriate language. This is done by using the checkboxes on the bottom right of the screen. 
 
 * A pair of sentences contains personal data when the content includes proper names or other personal data that could be anonymised for data protection purposes.
 * A pair of sentences contains inappropriate language when it includes profane expressions.
+
+This is also additional information that only needs to be provided in addition to the error (1-6) or valid (7) labels annotation. 
 
 Finally, some keyboard shortcuts are available. Press the key corresponding to the number of the label to select it. If an optional question is available, you can answer using <kbd>←</kbd> or <kbd>→</kbd>. Press <kbd>Enter</kbd> to save the evaluation and go to the next sentence.
 
