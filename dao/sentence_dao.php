@@ -31,8 +31,12 @@ class sentence_dao {
   function insertBatchSentences($corpus_id, $source_lang, $target_lang, $data, $mode = "", $count = 2) {
     try {
       $insert_values = array();
-      $batch_size = 1000;
-      $batches = ceil(count($data) / 1000);
+
+      // Calc batch size
+      $base_factor = 1000 / $count;
+      $batch_size = ceil($base_factor) * $count;
+
+      $batches = ceil(count($data) / $batch_size);
       $group_size = 0;
 
       $pairs = array();
@@ -83,7 +87,7 @@ class sentence_dao {
         }
       }
 
-      $batches = ceil(count($pairs) / 1000);
+      $batches = ceil(count($pairs) / $batch_size);
       for ($i = 0; $i < $batches; $i++) {
         $batch_data =  array_slice($pairs, $i * $batch_size, ($i + 1) * $batch_size);
 
