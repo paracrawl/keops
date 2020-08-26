@@ -7,7 +7,8 @@ $(document).ready(function() {
       data: {
         service: "stats_ade",
         type: "intra",
-        task_id: task_id
+        task_id: task_id,
+        mode: "FLU"
       },
       success: (data_raw) => {
         let data = JSON.parse(data_raw);

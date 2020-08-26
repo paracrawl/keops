@@ -492,14 +492,26 @@ class task_dao {
    * @return array Statistics
    * @throws Exception
    */
-  function getStatsForTask($task_id) {
+  function getStatsForTask($task_id, $mode = "ADE") {
     try {
       $statistics = array();
-      $query = $this->conn->prepare("
-        select round(evaluation::integer, -1) as evaluation, count(evaluation) as count
-        from sentences_tasks where task_id = ? and evaluation != 'P'
-        group by 1;
-      ");
+
+      $query = "";
+      if ($mode == "ADE") {
+        $query = $this->conn->prepare("
+          select round(evaluation::integer, -1) as evaluation, count(evaluation) as count
+          from sentences_tasks as st, sentences as s where st.task_id = ? and st.evaluation != 'P'
+          and st.sentence_id = s.id and s.type = 'legit'
+          group by 1;
+        ");
+      } else {
+        $query = $this->conn->prepare("
+          select round(evaluation::integer, -1) as evaluation, count(evaluation) as count
+          from sentences_tasks as st where st.task_id = ? and st.evaluation != 'P'
+          group by 1;
+        ");
+      }
+
       $query->bindParam(1, $task_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -530,12 +542,26 @@ class task_dao {
   function getInterStatsForTask($task_id, $mode = "ADE") {
     try {
       $statistics = array();
-      $query = $this->conn->prepare("
-        select t.id, round(st.evaluation::integer, -1) as evaluation, count(*) from tasks as t
-        join sentences_tasks as st on t.id = st.task_id
-        where t.evalmode = ? and t.corpus_id = (select corpus_id from tasks where id = ?)
-        and st.evaluation != 'P' group by 1,2;
-      ");
+
+      $query = "";
+      if ($mode == "ADE") {
+        $query = $this->conn->prepare("
+          select t.id, round(st.evaluation::integer, -1) as evaluation, count(*) from tasks as t
+          join sentences_tasks as st on t.id = st.task_id
+          join sentences as s on st.sentence_id = s.id
+          where t.evalmode = ? and t.corpus_id = (select corpus_id from tasks where id = ?)
+          and st.evaluation != 'P' and st.sentence_id = s.id and s.type = 'legit'
+          group by 1,2;
+        ");
+      } else {
+        $query = $this->conn->prepare("
+          select t.id, round(st.evaluation::integer, -1) as evaluation, count(*) from tasks as t
+          join sentences_tasks as st on t.id = st.task_id
+          where t.evalmode = ? and t.corpus_id = (select corpus_id from tasks where id = ?)
+          and st.evaluation != 'P' group by 1,2;
+        ");
+      }
+
       $query->bindParam(1, $mode);
       $query->bindParam(2, $task_id);
       $query->execute();

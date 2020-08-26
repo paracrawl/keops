@@ -20,17 +20,18 @@ if ($service == "stats_ade") {
     
     if ($type == "intra") {
       $task_id = filter_input(INPUT_POST, "task_id");
+      $mode = filter_input(INPUT_POST, "mode") ?? "ADE";
       $task_dao = new task_dao();
 
       try {
-          $stats = $task_dao->getStatsForTask($task_id);
+          $stats = $task_dao->getStatsForTask($task_id, $mode);
           echo json_encode(array("result" => 200, "stats" => $stats));
       } catch (Exception $e) {
           echo json_encode(array("result" => -1));
       }
     } else if ($type == "inter") {
       $task_id = filter_input(INPUT_POST, "task_id");
-      $mode = filter_input(INPUT_POST, "mode");
+      $mode = filter_input(INPUT_POST, "mode") ?? "ADE";
       $task_dao = new task_dao();
 
       try {
