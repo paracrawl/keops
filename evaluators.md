@@ -111,7 +111,7 @@ If none of these errors apply, the pairs are then considered as __valid__:
 
 More information about these labels is available on KEOPS (clicking on _Validation guidelines_). You may also refer to the [ELRC Validation Guidelines document](http://www.lr-coordination.eu/sites/default/files/common/Validation_guidelines_CEF-AT_v6.2_20180720.pdf).
 
-When more than one issue appears in the evaluated sentences, please choose 
+When more than one issue appears in the evaluated sentences, please choose the first one according to the above referred error typology (1 to 7). 
 
 If you don't select a label, the sentence will not be annotated and considered as __pending__.
 
@@ -130,6 +130,10 @@ Moreover, KEOPS can be also used to flag sentences which contain personal data o
 This is also additional information that only needs to be provided in addition to the error (1-6) or valid (7) labels annotation. 
 
 Finally, some keyboard shortcuts are available. Press the key corresponding to the number of the label to select it. If an optional question is available, you can answer using <kbd>←</kbd> or <kbd>→</kbd>. Press <kbd>Enter</kbd> to save the evaluation and go to the next sentence.
+
+We provide here some more examples and explanation about error typology: 
+
+
 
 <a name="adequacy"></a>
 
