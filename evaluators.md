@@ -98,10 +98,10 @@ A task has always an evaluation mode. This will change the way you evalute the s
 
 This mode is used to classify pairs of sentences using the [European Language Resource Coordination (ELRC)](http://www.lr-coordination.eu/) validation guidelines. These guidelines define a set of labels to __annotate sentences following a hierarchical error typology__:
 
-1. Wrong language identification (see examples at https://github.com/paracrawl/keops/blob/master/screenshots/guide/Wrong-language-identification.png)
-2. Incorrect alignment (see examples at https://github.com/paracrawl/keops/blob/master/screenshots/guide/Incorrect-alignment.png)
-3. Wrong tokenization (see examples at https://github.com/paracrawl/keops/blob/master/screenshots/guide/Wrong-Tokenization.png)
-4. MT translation (see examples at https://github.com/paracrawl/keops/blob/master/screenshots/guide/MT-errors.png)
+1. Wrong language identification (see examples [here](https://github.com/paracrawl/keops/blob/master/screenshots/guide/Wrong-language-identification.png))
+2. Incorrect alignment (see examples [here](https://github.com/paracrawl/keops/blob/master/screenshots/guide/Incorrect-alignment.png))
+3. Wrong tokenization (see examples [here](https://github.com/paracrawl/keops/blob/master/screenshots/guide/Wrong-Tokenization.png))
+4. MT translation (see examples [here](https://github.com/paracrawl/keops/blob/master/screenshots/guide/MT-errors.png))
 5. Translation error
 6. Free translation
 
