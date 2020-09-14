@@ -98,10 +98,10 @@ A task has always an evaluation mode. This will change the way you evalute the s
 
 This mode is used to classify pairs of sentences using the [European Language Resource Coordination (ELRC)](http://www.lr-coordination.eu/) validation guidelines. These guidelines define a set of labels to __annotate sentences following a hierarchical error typology__:
 
-1. Wrong language identification
-2. Incorrect alignment
-3. Wrong tokenization
-4. MT translation
+1. Wrong language identification (see examples at https://github.com/paracrawl/keops/blob/master/screenshots/guide/Wrong-language-identification.png)
+2. Incorrect alignment (see examples at https://github.com/paracrawl/keops/blob/master/screenshots/guide/Incorrect-alignment.png)
+3. Wrong tokenization (see examples at https://github.com/paracrawl/keops/blob/master/screenshots/guide/Wrong-Tokenization.png)
+4. MT translation (see examples at https://github.com/paracrawl/keops/blob/master/screenshots/guide/MT-errors.png)
 5. Translation error
 6. Free translation
 
@@ -130,9 +130,6 @@ Moreover, KEOPS can be also used to flag sentences which contain personal data o
 This is also additional information that only needs to be provided in addition to the error (1-6) or valid (7) labels annotation. 
 
 Finally, some keyboard shortcuts are available. Press the key corresponding to the number of the label to select it. If an optional question is available, you can answer using <kbd>←</kbd> or <kbd>→</kbd>. Press <kbd>Enter</kbd> to save the evaluation and go to the next sentence.
-
-We provide here some more examples and explanation about error typology: 
-
 
 
 <a name="adequacy"></a>
