@@ -277,8 +277,7 @@ $(document).ready(function() {
     order: [[ 1, 'asc' ]],
     processing: true,
     serverSide: true,
-    ajax: "/users/user_list.php",
-    stateSave: true
+    ajax: "/users/user_list.php"
   });
 
   corpora_ade_table = $("#corpora-table-ade-preview").DataTable({
@@ -312,7 +311,6 @@ $(document).ready(function() {
     order: [[ 0, 'asc' ]],
     processing: true,
     serverSide: true,
-    stateSave: true,
     deferLoading: 0
   });
 
@@ -386,8 +384,7 @@ $(document).ready(function() {
     order: [[ 6, 'desc' ]],
     processing: true,
     serverSide: true,
-    ajax: "/services/project_service.php?service=list_dt",
-    stateSave: true
+    ajax: "/services/project_service.php?service=list_dt"
   });
   
   
@@ -400,7 +397,6 @@ $(document).ready(function() {
     processing: true,
     serverSide: true,
     ajax: "/languages/language_list.php",
-    stateSave: true,
     columnDefs: [{
       targets: 3,
       searchable: false,
@@ -484,8 +480,7 @@ $(document).ready(function() {
     order: [[2, 'desc']],
     processing: true,
     serverSide: true,
-    ajax: "/admin/invite_list.php",
-    stateSave: true
+    ajax: "/admin/invite_list.php"
   });
   
    /*
@@ -567,8 +562,7 @@ $(document).ready(function() {
     order: [[ 5, 'desc' ]],
     processing: true,
     serverSide: true,
-    ajax: "/corpora/corpus_list.php",
-    stateSave: true
+    ajax: "/corpora/corpus_list.php"
   });
   
    /*
@@ -699,8 +693,7 @@ $(document).ready(function() {
           data: function (d) {
             d.p_id = $("#tasks-table").data("projectid");
           }
-      },
-      stateSave: true
+      }
   });
   
   /*
@@ -758,8 +751,7 @@ $(document).ready(function() {
         data: function (d) {
           d.corpus_id = $("#corpus-tasks-table").data("corpusid");
         }
-    },
-    stateSave: true
+    }
   });
 
   /*
@@ -804,7 +796,6 @@ $(document).ready(function() {
     order: [[ 0, 'asc' ]],
     processing: true,
     serverSide: true,
-    stateSave: true,
     ajax: {
       url: "/services/feedback_service.php",
       data: function (d) {
