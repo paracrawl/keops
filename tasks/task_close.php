@@ -4,6 +4,7 @@
  */
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/task_dao.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/corpus_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/sentence_task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/sentence_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/utils/utils.php");
@@ -39,16 +40,22 @@ if ($task_dto->assigned_user == $USER->id) {
 
     $project_dao = new project_dao();
     $project_dto = $project_dao->getProjectById($task_dto->project_id);
+
     $user_dao = new user_dao();
     $owner = $user_dao->getUserById($project_dto->owner);
     $assigned_user = $user_dao->getUserById($task_dto->assigned_user);
+
+    $corpus_dao = new corpus_dao();
+    $corpus_dto = $corpus_dao->getCorpusById($task_dto->corpus_id);
 
     $params = (object) [
         "task_id" => $_GET["task_id"],
         "project_name" => $project_dto->name,
         "project_src_lang" => $task_dto->source_lang_object->langcode,
         "project_trg_lang" => $task_dto->target_lang_object->langcode,
-        "assigned_user" => $assigned_user->name
+        "assigned_user" => $assigned_user->name,
+        "corpus_id" => $corpus_dto->id,
+        "corpus_name" => $corpus_dto->name
     ];
 
     $mail = new MailHelper();

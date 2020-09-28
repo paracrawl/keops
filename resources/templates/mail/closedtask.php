@@ -78,6 +78,7 @@ HTML;
                         <li>Project name: {$params->project_name}</li>
                         <li>Language pair: {$params->project_src_lang} - {$params->project_trg_lang}</li>
                         <li>Assigned user: {$params->assigned_user}</li>
+                        <li>Evaluated corpus: {$params->corpus_name} (#{$params->corpus_id})</li>
                     </ul>
                 </p>
                 
