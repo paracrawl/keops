@@ -146,6 +146,27 @@ class task_dao {
   }
   
   /**
+   * Marks a task in the DB as "Pending"
+   * 
+   * @param object $task_dto Task object
+   * @return boolean True if succeeded, otherwise false
+   * @throws Exception
+  */
+  function openTask($task_dto){
+    try {
+      $query = $this->conn->prepare("UPDATE TASKS set status='PENDING' where id = ?;");
+      $query->bindParam(1, $task_dto->id);
+      $query->execute();
+      $this->conn->close_conn();
+      return true;
+    } catch (Exception $ex) {
+      $this->conn->close_conn();
+      throw new Exception("Error in task_dao::openTask : " . $ex->getMessage());
+    }
+    return false;
+  }
+
+  /**
    * Marks a task in the DB as "Started"
    * 
    * @param int $task_id Task ID

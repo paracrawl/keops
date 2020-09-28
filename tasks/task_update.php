@@ -51,6 +51,12 @@ if (isset($_POST["id"]) && isset($_POST["action"]) && $_POST["action"] == "remov
     header("Location: /admin/index.php#projects");
     die();  
   }
+} else if (isset($_GET["id"]) && isset($_GET["pid"]) && isset($_GET["action"]) && $_GET["action"] == "open") {
+  $task_id = $_GET["id"];
+  $task_dao = new task_dao();
+  $task_dto = $task_dao->getTaskById($task_id);
+  $task_dao->openTask($task_dto);
+  header("Location: /projects/project_manage.php?id=" . $_GET["pid"]);
 } else {
   //Currently, no other actions than removing or reassigning tasks
   $_SESSION["error"] = "missingparams";
