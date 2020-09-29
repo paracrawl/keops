@@ -20,7 +20,6 @@
         $name = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
         $subject = filter_input(INPUT_POST, "subject", FILTER_SANITIZE_STRING);
         $message = filter_input(INPUT_POST, "message", FILTER_SANITIZE_STRING);
-        $copy = filter_input(INPUT_POST, "copy", FILTER_SANITIZE_STRING);
         $recaptcha = filter_input(INPUT_POST, "g-recaptcha-response");
         $pm = filter_input(INPUT_POST, "pm");
         $u = filter_input(INPUT_POST, "u");
@@ -68,11 +67,8 @@
         
         $mail = new MailHelper();
         $mail->prepare(new ContactFormTemplate(), (object) ["subject" => $subject, "message" => $message, "user" => $user]);
+        $mail->addCC($user->email);
         $result = $mail->send($to);
-
-        if ($copy == "on") {
-            $mail->send($user->email);
-        }
 
         $_SESSION["contacterror"] = false;
         $_SESSION["contactsuccess"] = true;

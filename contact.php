@@ -85,13 +85,13 @@
                         <label for="message">Message</label>
                         <textarea type=text class="form-control" id="message" name="message"></textarea>
                     </div>
-                    <div class="form-group">
+                    <!--<div class="form-group">
                         <label for="copy" class="checkbox-custom active" tabindex="0">
                             <input type="checkbox" id="copy" autocomplete="off" name="copy" checked />
                             <span class="checkbox-control"></span>
                             Send me a copy
                         </label>
-                    </div>
+                    </div>-->
                     <?php if (!isSignedIn()) { ?>
                     <div class="form-group">
                         <div class="g-recaptcha" data-sitekey="6Ld2Fb4UAAAAAEvh6zPWL-e_YK_3AeZNUhkON0iE"></div>
