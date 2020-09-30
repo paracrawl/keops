@@ -48,6 +48,15 @@ class MailHelper {
         }
     }
 
+    public function addCC($to) {
+        try {
+            $this->mail->addCC($to);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
     private function generateHTML(MailTemplateI $template, $params) {
         $html = "<!doctype html><html><head><meta charset='utf-8' />" . $template->getHead($params) . "</head><body>" . $template->getBody($params) . "</body></html>";
         return $html;
