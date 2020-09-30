@@ -35,7 +35,7 @@
             $to = $user->email;
         } else {
             $user_dao = new user_dao();
-            $id = $user_dao->getFirstAdminId();
+            $id = $user_dao->getFirstPMId();
             $user = $user_dao->getUserById($id);
             $to = $user->email;
         }

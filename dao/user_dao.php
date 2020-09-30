@@ -48,15 +48,15 @@ class user_dao {
   }
 
   /**
-   * Retrieves from the DB the ID of the first admin
+   * Retrieves from the DB the ID of the first PM
    * 
-   * @return int ID of the first admin
+   * @return int ID of the first PM
    * @throws Exception
    */
-  function getFirstAdminId() {
+  function getFirstPMId() {
     try {
       $id = -1;
-      $query = $this->conn->prepare("SELECT id FROM USERS WHERE role = 'ADMIN' and active = true order by id asc limit 1");
+      $query = $this->conn->prepare("SELECT id FROM USERS WHERE role = 'PM' and active = true order by id asc limit 1");
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while($row = $query->fetch()){
