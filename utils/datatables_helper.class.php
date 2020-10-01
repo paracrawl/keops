@@ -81,7 +81,10 @@ class DatatablesProcessing {
         $groupsql = (($group != "") ? "GROUP BY " . $group : "");
 
         // Order SQL clause
-        $ordersql = (isset($dt_params['order'][0]['column']) ? ("ORDER BY " . $columns[$dt_params['order'][0]['column']][0] . " " . $dt_params['order'][0]['dir']) : "");
+        $ordersql = "";
+        if (isset($dt_params['order'][0]['column'])) {
+            $ordersql = "ORDER BY lower_if_text(" . $columns[$dt_params['order'][0]['column']][0] . ") " . $dt_params['order'][0]['dir'];
+        }
 
         $query = $this->conn->prepare("
             SELECT $columnssql FROM $tables "
@@ -90,7 +93,7 @@ class DatatablesProcessing {
             . (($ordersql != "") ? "$ordersql ": "")
             . (($limitsql != "") ? "$limitsql " : "")
         . ";");
-
+        
         // We start binding the values of the conditions
         for ($i = 0; isset($conditionsValues) && $i < count($conditionsValues); $i++) {
             $query->bindParam($i + 1, $conditionsValues[$i]);
@@ -124,11 +127,11 @@ class DatatablesProcessing {
         $total_count = $this->getCount($primary, $tables, $conditionsStatement, $conditionsValues);
 
         return array(
-			"draw"            => isset ($dt_params['draw']) ? intval($dt_params['draw']) :0,
-			"recordsTotal"    => $total_count,
-			"recordsFiltered" => $filtered_count,
-			"data"            => $data
-		);
+	"draw"            => isset ($dt_params['draw']) ? intval($dt_params['draw']) :0,
+	"recordsTotal"    => $total_count,
+	"recordsFiltered" => $filtered_count,
+	"data"            => $data
+	);
     }
 }
 ?>
