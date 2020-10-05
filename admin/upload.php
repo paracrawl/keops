@@ -81,6 +81,10 @@
                       <?php } ?>
                     </select>
                   </div>
+
+                  <div class="mt-2 small text-gray">
+                    <i class="glyphicon glyphicon-info-sign mr-2"></i> KEOPS will try to detect the language of the corpora automatically
+                  </div>
                 </div>
                 <div class="col-md-6 col-xs-12">
                   <div class="text-center-sm help-block with-errors">
@@ -161,6 +165,10 @@
                     <option value="<?= $lang->id?>"><?= $lang->langcode . " - " . $lang->langname ?></option>
                   <?php } ?>
                 </select>
+              </div>
+
+              <div class="mt-2 small text-gray">
+                <i class="glyphicon glyphicon-info-sign mr-2"></i> KEOPS will try to detect the language of the corpora automatically
               </div>
             </div>
 
@@ -247,6 +255,9 @@
                       <?php } ?>
                     </select>
                   </div>
+                  <div class="mt-2 small text-gray">
+                    <i class="glyphicon glyphicon-info-sign mr-2"></i> KEOPS will try to detect the language of the corpora automatically
+                  </div>
                 </div>
                 <div class="col-md-6 col-xs-12">
                   <div class="text-center-sm help-block with-errors">
@@ -329,6 +340,10 @@
                         <option value="<?= $lang->id?>"><?= $lang->langcode . " - " . $lang->langname ?></option>
                       <?php } ?>
                     </select>
+                  </div>
+
+                  <div class="mt-2 small text-gray">
+                    <i class="glyphicon glyphicon-info-sign mr-2"></i> KEOPS will try to detect the language of the corpora automatically
                   </div>
                 </div>
                 <div class="col-md-6 col-xs-12">

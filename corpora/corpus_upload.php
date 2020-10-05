@@ -6,6 +6,7 @@ require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.ph
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/user_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/corpus_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/sentence_dao.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/language_dao.php");
 $PAGETYPE = "admin";
 require_once(RESOURCES_PATH . "/session.php");
 
@@ -20,9 +21,34 @@ try {
   $corpus_dto = new corpus_dto();
   $corpus_dto->name = $_FILES['file']['name'];
   $corpus_dto->source_lang = filter_input(INPUT_POST, "source_lang");
-  $corpus_dto->target_lang = filter_input(INPUT_POST, "target_lang");
+  $corpus_dto->target_lang = filter_input(INPUT_POST, "target_lang");  
   $corpus_dto->mode = filter_input(INPUT_POST, "mode");
   $corpus_dto->added_by = getUserId();
+
+  /*
+    Autodetect language
+    Possible name formats:
+      [filename].[src].[trg]
+      [filename].[src]-[trg]
+
+    ** For fluency: **
+      [filename].[trg]
+  */
+  $lang_dao = new language_dao();
+  $matches = [];
+
+  if ($corpus_dto->mode == "FLU") {
+    if (preg_match('/^.+\.(\w{2})$/', $corpus_dto->name, $matches)) {
+      if (count($matches) > 1 && $lang_dao->existsLangCode($matches[1])) {
+        $corpus_dto->target_lang = $lang_dao->getLangByLangCode($matches[1])->id;
+      }
+    }
+  } else if (preg_match('/^.+\.(\w{2})[\.-](\w{2})$/', $corpus_dto->name, $matches)) {
+    if (count($matches) > 2 && $lang_dao->existsLangCode($matches[1]) && $lang_dao->existsLangCode($matches[2])) {
+      $corpus_dto->source_lang = $lang_dao->getLangByLangCode($matches[1])->id;
+      $corpus_dto->target_lang = $lang_dao->getLangByLangCode($matches[2])->id;
+    }
+  }
 
   $corpus_dao = new corpus_dao();
 
