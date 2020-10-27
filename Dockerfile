@@ -10,18 +10,19 @@ RUN echo "Europe/Madrid" > /etc/timezone
 
 RUN apt-get update -q --fix-missing && \
     apt-get -y upgrade && \
-    apt-get -y install  tzdata \			
-			php7.2 \
-			php7.2-pgsql \
-			php7.2-fpm \
-			php7.2-mbstring \
-			nginx \ 
-			ca-certificates \
-			python \
-			python-psycopg2 \
-			python-pip \
-			postgresql-client \
-			sudo && \
+    apt-get -y install  tzdata \	
+	php7.2 \
+	php7.2-pgsql \
+	php7.2-fpm \
+	php7.2-mbstring \
+	php7.2-zip \
+	nginx \ 
+	ca-certificates \
+	python \
+	python-psycopg2 \
+	python-pip \
+	postgresql-client \
+	sudo && \
     apt-get autoremove -y && \
     apt-get autoclean && \
 	pip install sqlalchemy alembic
