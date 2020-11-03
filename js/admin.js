@@ -164,6 +164,40 @@ $(document).ready(function() {
       $(window).trigger('resize');
     });
 
+    $(".all-tsv-btn").on('click', function() {
+      let self = this;
+      let pid = $("#tasks-table").data("projectid");
+      let text = $(this).find(".all-tsv-text").html();
+      $(this).find("span").addClass("text-warning");
+      $(this).find(".all-tsv-text").html("Generating...");
+
+      $.ajax({
+        url: `/projects/download_sentences.php?project_id=${pid}`,
+        success: function (response) {
+          if (response) {
+            let uid = response;
+
+            let longpoll = () => {
+              $.ajax({
+                url: `/projects/download_sentences.php?status=${uid}`,
+                success: function (output) {
+                  if (output) {
+                    $(self).find("span").removeClass("text-warning");
+                    $(self).find(".all-tsv-text").html(text);
+                    window.location.href = `/projects/download_sentences.php?file=${uid}`;
+                  } else {
+                    setTimeout(() => longpoll(), 1000);
+                  }
+                }
+              });
+            };
+
+            longpoll();
+          }
+        }
+      });
+    });
+
     let source_lang = target_lang = -1;
     $(".new-task-form select[name$='_lang'], .new-task-form select[name='mode']").on('change', function() {
       if ($(this).attr('name') == "source_lang") {

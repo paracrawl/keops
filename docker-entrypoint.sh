@@ -44,6 +44,9 @@ service php7.2-fpm stop && /etc/init.d/php7.2-fpm start
 echo "STARTING NGINX..."
 service nginx stop && service nginx start
 
+echo "STARTING MEMCACHED..."
+nohup memcached -u memcached &
+
 echo "SERVICES STARTED!"
 
 if ! { [ -z "$KEOPS_DB_HOST" ] || [ -z "$KEOPS_DB_PORT" ] || [ -z "$POSTGRESPASSWORD" ] || [ -z "$KEOPS_DB_NAME" ]; };

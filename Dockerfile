@@ -15,7 +15,10 @@ RUN apt-get update -q --fix-missing && \
 	php7.2-pgsql \
 	php7.2-fpm \
 	php7.2-mbstring \
+	php7.2-memcached \
+	php7.2-memcache \
 	php7.2-zip \
+	memcached \
 	nginx \ 
 	ca-certificates \
 	python \

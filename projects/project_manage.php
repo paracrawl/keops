@@ -106,10 +106,10 @@
           <h3>Project Tasks</h3>
         </div>
         <div class="col-xs-6 col-md-6 text-right">
-          <a href="/projects/download_sentences.php?project_id=<?= $project->id ?>" class="btn btn-link mr-3" title="Download sentences evaluation as TSV">
+          <button class="btn btn-link all-tsv-btn" title="Download sentences evaluation as TSV">
             <span class=" glyphicon glyphicon-download"></span>
-            <span class="col-xs-12">Download</span>
-          </a>
+            <span class="col-xs-12 all-tsv-text">Download</span>
+          </button>
           <a href="/tasks/task_new.php?p_id=<?= $project->id ?>" class="btn btn-link" title="New task">
             <span class="glyphicon glyphicon-plus"></span>
             <span class="col-xs-12">New task</span>

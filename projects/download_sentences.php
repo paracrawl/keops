@@ -1,11 +1,6 @@
 <?php
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/resources/config.php");
-require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/task_dao.php");
-require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/project_dao.php");
-require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/sentence_task_dao.php");
-require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/comment_dao.php");
-require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dto/sentence_task_dto.php");
-require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/utils/TSVGenerator.class.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/utils/sentences_download.class.php");
 
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/project_dao.php");
 
@@ -13,44 +8,24 @@ $PAGETYPE = "admin";
 require_once(RESOURCES_PATH . "/session.php");
 
 $project_id = filter_input(INPUT_GET, "project_id");
+$status = filter_input(INPUT_GET, "status");
+$file = filter_input(INPUT_GET, "file");
 
-function tempdir() {
-    $tempfile=tempnam(sys_get_temp_dir(), 'keops-');
-    if (file_exists($tempfile)) { unlink($tempfile); }
-    mkdir($tempfile);
-    if (is_dir($tempfile)) { return $tempfile; }
-}
-
+$sentences_download = new SentencesDownload();
 if (isset($project_id)) {
-    $tmpdir = tempdir();
-    $task_dao = new task_dao();
-    $generator = new TSVGenerator();
-
-    $tsv_list = array();
-    foreach($task_dao->getTasksByProject($project_id) as $task) {
-        $task_id = $task->id;
-        $tsv_file = "$tmpdir/$task_id.tsv";
-
-        $generator->generate_annotated($task_id, $tsv_file);
-        $tsv_list[] = $tsv_file;
-    }
-
-    $zipdir = "$tmpdir/sentences-$project_id.zip";
-    $zip = new ZipArchive;
-
-    if ($zip->open($zipdir, ZipArchive::CREATE) == TRUE) {
-        foreach ($tsv_list as $tsv_file) {
-            $tsv_name = basename($tsv_file);
-            $zip->addFile($tsv_file, "/$tsv_name");
-        }
-
-        $zip->close();
-    }
-
+    $uid = $sentences_download->create_zip($project_id);
+    echo $uid;
+} else if (isset($status)) {
+    $output = $sentences_download->get_output($status);
+    echo ($output) ? $output : "-1";
+} else if (isset($file)) {
+    $output = $sentences_download->get_output($file);
+    error_log("file " . $output);
+    $file_name = basename($output);
     header("Content-Type: application/zip");
-    header("Content-Disposition: attachment; filename=" . basename($zipdir));
-    header("Content-Length: " . filesize($zipdir));
-    readfile($zipdir);
+    header("Content-Disposition: attachment; filename=$file_name");
+    header("Content-Length: " . filesize($output));
+    readfile($output);
     exit;
 }
 ?>

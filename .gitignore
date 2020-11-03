@@ -3,3 +3,6 @@
 test.php
 .vscode
 **/*.pyc
+composer.phar
+/vendor/
+
