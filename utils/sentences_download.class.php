@@ -53,7 +53,7 @@ class SentencesDownload {
         if ($zip->open($zipdir, ZipArchive::CREATE) == TRUE) {
             foreach ($tsv_list as $tsv_file) {
                 $tsv_name = basename($tsv_file);
-                $zip->addFile($tsv_file, "/$tsv_name");
+                $zip->addFile($tsv_file, "$tsv_name");
             }
     
             $zip->close();
