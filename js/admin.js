@@ -181,7 +181,7 @@ $(document).ready(function() {
               $.ajax({
                 url: `/projects/download_sentences.php?status=${uid}`,
                 success: function (output) {
-                  if (output) {
+                  if (output && output != "-1") {
                     $(self).find("span").removeClass("text-warning");
                     $(self).find(".all-tsv-text").html(text);
                     window.location.href = `/projects/download_sentences.php?file=${uid}`;
