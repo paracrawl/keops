@@ -89,7 +89,7 @@ You can also search through the sentences using the search box. Depending on the
 <a name="modes"></a>
 
 ### Evaluation modes
-A task has always an evaluation mode. This will change the way you evalute the sentences.
+A task has always an evaluation mode. This will change the way you evaluate the sentences.
 
 <a name="validation"></a>
 
