@@ -34,6 +34,6 @@ RUN /opt/keops/configure-keops.sh
 
 EXPOSE 80
 
-RUN rm -r /opt/keops/.git
+RUN rm -r /opt/keops/.git || :
 
 CMD ./opt/keops/docker-entrypoint.sh

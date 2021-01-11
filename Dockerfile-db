@@ -22,6 +22,6 @@ RUN apt-get update -q --fix-missing && \
     
 RUN /opt/configure-db.sh
 
-RUN rm -r /opt/.git
+RUN rm -r /opt/.git || :
 
 CMD ./opt/docker-entrypoint-db.sh $POSTGRESPASSWORD $KEOPS_ROOT_PASSWORD

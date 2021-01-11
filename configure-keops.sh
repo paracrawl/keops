@@ -6,6 +6,8 @@ cp /opt/keops/keops.conf /etc/nginx/sites-available/keops.conf && cd /etc/nginx/
 
 echo "extension=pdo_pgsql" >> /etc/php/7.2/fpm/php.ini
 echo "extension=pgsql" >> /etc/php/7.2/fpm/php.ini
+echo "variables_order=EGPCS" >> /etc/php/7.2/fpm/php.ini
+echo "clear_env=no" >> /etc/php/7.2/fpm/pool.d/www.conf
 
 cd /opt/keops
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
