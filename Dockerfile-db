@@ -11,15 +11,17 @@ RUN echo "Europe/Madrid" > /etc/timezone
 
 RUN apt-get update -q --fix-missing && \
     apt-get -y upgrade && \
-    apt-get -y install  tzdata \			
-			postgresql-10 \
+    apt-get -y install  tzdata \	
+	postgresql-10 \
             dnsutils \
-			sudo \
+	sudo \
             python3 \
             python3-pip && \
     apt-get autoremove -y && \
     apt-get autoclean
     
 RUN /opt/configure-db.sh
+
+RUN rm -r /opt/.git
 
 CMD ./opt/docker-entrypoint-db.sh $POSTGRESPASSWORD $KEOPS_ROOT_PASSWORD

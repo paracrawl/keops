@@ -15,8 +15,8 @@ class MailHelper {
     private $KEOPS_PWD = null;
 
     public function __construct() {
-        $this->KEOPS_USER = isset(Config::$KEOPS_HELPER_EMAIL) ? Config::$KEOPS_HELPER_EMAIL : getenv('KEOPS_HELPER_EMAIL');
-        $this->KEOPS_PWD = isset(Config::$KEOPS_HELPER_PASSWORD) ? Config::$KEOPS_HELPER_PASSWORD : getenv('KEOPS_HELPER_PASSWORD');
+        $this->KEOPS_USER = getenv('KEOPS_HELPER_EMAIL');
+        $this->KEOPS_PWD = getenv('KEOPS_HELPER_PASSWORD');
 
         $this->mail = new PHPMailer(true);
         $this->mail->isSMTP();
