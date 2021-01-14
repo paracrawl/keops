@@ -29,6 +29,8 @@ keops:
       - KEOPS_HELPER_PASSWORD=
 ```
 
+The system administrator has the responsibility of deploying and mantaining the email address. KEOPS will not provide any.
+
 Whereas Admins can view and manage their own projects and tasks, KEOPS provides a `root` user which is capable of displaying all the projects, tasks, users (and so on) saved on KEOPS. Please, do not confuse this `root` with the Linux `root`. KEOPS creates this user __only in the application context__, not at system level.
 
 The default password for `root` on KEOPS is `root`. Before launching KEOPS, please change it in `docker-compose.yml`:
