@@ -150,5 +150,15 @@ insert into keopsdb.users (id, name, email, role, password) values (-1, 'root', 
 update pg_catalog.pg_ts_dict set dictinitoption = regexp_replace(dictinitoption, ', stopwords = ''(.*)''', ''); */
 CREATE TEXT SEARCH DICTIONARY public.simple_dict ( TEMPLATE = pg_catalog.simple );
 
+CREATE OR REPLACE FUNCTION lower_if_text(e anyelement) RETURNS anyelement AS $$
+    BEGIN
+        IF pg_typeof(e) = 'character varying'::regtype then
+            return lower(e);
+        else
+            return e;
+        end if;
+    END
+$$ LANGUAGE plpgsql;
+
 alter role keopsdb set search_path to keopsdb, public;
 set search_path = keopsdb, public;
