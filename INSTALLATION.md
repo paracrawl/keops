@@ -20,6 +20,15 @@ All the needed files to dockerize KEOPS are provided. First, install Docker:
 sudo apt-get install docker
 ```
 
+KEOPS notifies evaluators about invitations and tasks via email. Please, provide credentials for the email account you are going to use to send messages to users. You can set them in docker-compose.yaml:
+
+```
+keops:
+    environment:
+      - KEOPS_HELPER_EMAIL=
+      - KEOPS_HELPER_PASSWORD=
+```
+
 Whereas Admins can view and manage their own projects and tasks, KEOPS provides a `root` user which is capable of displaying all the projects, tasks, users (and so on) saved on KEOPS. Please, do not confuse this `root` with the Linux `root`. KEOPS creates this user __only in the application context__, not at system level.
 
 The default password for `root` on KEOPS is `root`. Before launching KEOPS, please change it in `docker-compose.yml`:
@@ -332,7 +341,19 @@ GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA keopsdb TO keopsdb;
 insert into keopsdb.users (name, email, role, password) values ('admin', 'admin@admin.com', 'ADMIN', '$2y$10$dbba8ArdKTe9Uxt7rkGwKOrfX5EpI8SO2VheEnnfoYu4kmVFtQjW2');
 insert into keopsdb.users (name, email, role, password) values ('root', 'root', 'root', '$2y$10$rUSV39GMx2fy9XTFT.CdVOlKuNpGxDKazJyzqRS8n3D0Z9mKgBdRi');
 
+/* No stopwords 
+update pg_catalog.pg_ts_dict set dictinitoption = regexp_replace(dictinitoption, ', stopwords = ''(.*)''', ''); */
 CREATE TEXT SEARCH DICTIONARY public.simple_dict ( TEMPLATE = pg_catalog.simple );
+
+CREATE OR REPLACE FUNCTION lower_if_text(e anyelement) RETURNS anyelement AS $$
+    BEGIN
+        IF pg_typeof(e) = 'character varying'::regtype then
+            return lower(e);
+        else
+            return e;
+        end if;
+    END
+$$ LANGUAGE plpgsql;
 
 alter role keopsdb set search_path to keopsdb, public;
 set search_path = keopsdb, public;
