@@ -9,7 +9,7 @@ It can be run inside a Docker or manually installed.
 Whether you use KEOPS with Docker or you install it locally, you will need the latest version of KEOPS:
 
 ```bash
-git clone http://gitlab.prompsit.com/paracrawl/keops.git
+git clone http://github.com/paracrawl/keops.git
 ```
 
 ## Dockerized version ##
