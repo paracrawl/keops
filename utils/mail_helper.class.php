@@ -20,7 +20,7 @@ class MailHelper {
 
         $this->mail = new PHPMailer(true);
         $this->mail->isSMTP();
-        $this->mail->Host       = 'mail.prompsit.com';
+        $this->mail->Host       = getenv('KEOPS_HELPER_HOST');
         $this->mail->SMTPAuth   = true; 
         $this->mail->Username   = $this->KEOPS_USER;
         $this->mail->Password   = $this->KEOPS_PWD;
