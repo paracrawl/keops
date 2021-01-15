@@ -25,7 +25,7 @@ class MailHelper {
         $this->mail->Username   = $this->KEOPS_USER;
         $this->mail->Password   = $this->KEOPS_PWD;
         $this->mail->SMTPSecure = 'tls';
-        $this->mail->Port       = 587;
+        $this->mail->Port       = getenv('KEOPS_HELPER_PORT');
         $this->mail->CharSet   = 'UTF-8';
         $this->mail->Encoding  = 'base64';
         $this->mail->setFrom($this->KEOPS_USER, 'KEOPS');

@@ -20,12 +20,13 @@ All the needed files to dockerize KEOPS are provided. First, install Docker:
 sudo apt-get install docker
 ```
 
-KEOPS notifies evaluators about invitations and tasks via email. Please, provide credentials for the email account you are going to use to send messages to users. You also must provide the domain name of the mail server. You can set them in docker-compose.yaml:
+KEOPS notifies evaluators about invitations and tasks via email. Please, provide credentials for the email account you are going to use to send messages to users. You also must provide the domain name and port of the mail server. You can set them in docker-compose.yaml:
 
 ```
 keops:
     environment:
         - KEOPS_HELPER_HOST=[mail.example.com]
+        - KEOPS_HELPER_PORT=[587]
         - KEOPS_HELPER_EMAIL=[noreply@example.com]
         - KEOPS_HELPER_PASSWORD=[examplepassword]
 ```
