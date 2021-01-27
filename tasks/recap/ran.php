@@ -308,7 +308,7 @@ if (isset($task_id)) {
             let response = JSON.parse(json);
             let stats_raw = response.stats;
             let stats_array = Object.keys(stats_raw).map(i => { let x = []; x[i] = stats_raw[i]; return x; } );
-            let stats_ordered = stats_array.sort((a, b) => (a[Object.keys(a)[0]] < b[Object.keys(b)[0]] ? -1 : a[Object.keys(a)[0]] > b[Object.keys(b)[0]] ? 1 : 0));
+            let stats_ordered = stats_array.sort((a, b) => (a[Object.keys(a)[0]] < b[Object.keys(b)[0]] ? 1 : a[Object.keys(a)[0]] > b[Object.keys(b)[0]] ? -1 : 0));
 
             let labels = [];
             for (let i in stats_ordered) labels.push(Object.keys(stats_ordered[i])[0]);
