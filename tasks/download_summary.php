@@ -35,7 +35,7 @@ if (isset($task_id)) {
 
       $rows[] = array("Total", "Total", $task_stats_dto->total);
     } else if ($task->mode == "ADE" || $task->mode == "FLU") {
-      $stats = $task_dao->getStatsForTask($task_id);
+      $stats = $task_dao->getStatsForTask($task_id, $task->mode);
 
       $rows[] = array("Percentage", "# of sentences");
       for ($i = 0; $i < 110; $i += 10) {
