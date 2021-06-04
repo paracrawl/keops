@@ -69,7 +69,7 @@ then
 
   cd /opt/keops/automigration/
   cp alembic.ini.template alembic.ini
-  echo "sqlalchemy.url = postgres+psycopg2://postgres:$POSTGRESPASSWORD@$KEOPS_DB_HOST:$KEOPS_DB_PORT/$KEOPS_DB_NAME" >> alembic.ini
+  echo "sqlalchemy.url = postgresql+psycopg2://postgres:$POSTGRESPASSWORD@$KEOPS_DB_HOST:$KEOPS_DB_PORT/$KEOPS_DB_NAME" >> alembic.ini
   current=`alembic current`
   if [ -z "$current" ]
   then
