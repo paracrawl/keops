@@ -4,6 +4,7 @@ require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/project_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/sentence_task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/comment_dao.php");
+require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/sentence_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dto/sentence_task_dto.php");
 
 class TSVGenerator {
@@ -38,11 +39,17 @@ class TSVGenerator {
                 $headers[] = "Source lang";
                 if (isset($task->target_lang)) $headers[] = "Target lang";
                 $headers = array_merge($headers, array("Evaluation", "Description", "Evaluation details", "Time"));
+
+                if ($task->mode == "ADE") {
+                    $headers[] = "Type";
+                }
+
                 $rows[] = $headers;
             }
         
             $comment_dao = new comment_dao();
-        
+            $sentence_dao = new sentence_dao();
+
             foreach ($st_array as $st) {  
                 $source_text = $st->source_text;
                 $target_text = $st->target_text;
@@ -56,15 +63,22 @@ class TSVGenerator {
         
                 $row = array($source_text);
                 if ((isset($task->target_lang))) {
-                foreach($target_text as $text) {
-                    $row[] = $text->source_text;
-                }
+                    foreach($target_text as $text) {
+                        $row[] = $text->source_text;
+                    }
                 }
         
                 if (isset($task->source_lang)) $row[] = $task->source_lang;
                 if (isset($task->target_lang)) $row[] = $task->target_lang;
                 $row = array_merge($row, array($st->evaluation, $sentence_task_dto->getLabel($st->evaluation), implode($sentence_comment, "; ")));
                 $row[] = $st->time;
+
+                if ($task->mode == "ADE") {
+                    $sentence = $sentence_dao->getSentenceById($st->sentence_id);
+                    if ($sentence != null) {
+                        $row[] = $sentence->type;
+                    }
+                }
                 
                 $rows[] = $row;
             }
