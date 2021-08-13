@@ -167,7 +167,12 @@
                 </select>
               </div>
 
-              <div class="mt-2 small text-gray">
+              <div class="mt-2">
+                  <input type="checkbox" class="form-check-input" name="shouldHaveControl" id="shouldHaveControl" />
+                  <label for="shouldHaveControl" class="control-label">Generate control sentences</label>
+              </div>
+
+              <div class="mt-4 small text-gray">
                 <i class="glyphicon glyphicon-info-sign mr-2"></i> KEOPS will try to detect the language of the corpora automatically
               </div>
             </div>

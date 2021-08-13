@@ -67,84 +67,101 @@ try {
       $corpus_dao->updateLinesInCorpus($corpus_dto->id);
     }, 1000, true);
   } else if ($mode == "ADE") {
-    file_reader($tempFile, 2, function($values) use ($corpus_dto, $corpus_dao, $sentence_dao, $mode) {
-      $total = count($values);
+    $shouldHaveControl = filter_input(INPUT_POST, "shouldHaveControl");
+    error_log("shouldHaveControl $shouldHaveControl");
 
-      if ($total == 0) throw new CorpusException("Invalid format of corpus uploaded.");
-      $final_total = (100/70) * $total;
-
-      // Reference sentences
-      $ref_group = array();
-      $ref_total = floor($final_total * 0.1);
-      $ref_group_total = floor($total / 3) + $ref_total;
-      $legit_in_ref = $ref_group_total - $ref_total;
-
-      for ($i = 0; $i < $legit_in_ref; $i++) {
-        $ref_group[] = array($values[0], 'legit');
-        array_splice($values, 0, 1);
-      }
-
-      for ($i = 0; $i < $ref_total; $i++) {
-        $sentence = $values[mt_rand(0, count($values) - 1)];
-        $sentence[1] = $sentence[0];
-        $ref_group[] = array($sentence, 'ref');
-      }
-
-      // bad_reference sentences
-      $bad_ref_group = array();
-      $bad_ref_total = floor($final_total * 0.1);
-      $bad_ref_group_total = floor($total / 3) + $bad_ref_total;
-      $legit_in_bad_ref = $bad_ref_group_total - $bad_ref_total;
-
-      for ($i = 0; $i < $legit_in_bad_ref; $i++) {
-        $bad_ref_group[] = array($values[0], 'legit');
-        array_splice($values, 0, 1);
-      }
-
-      for ($i = 0; $i < $bad_ref_total; $i++) {
-        $sentence_pair = $values[0];
-        $sentence = $sentence_pair[1];
-        $words = explode(" ", $sentence);
-        $c = count($words);
-        $remove = ($c < 4) ? 1 : ($c < 6) ? 2 : ($c < 9) ? 3 : ($c < 16) ? 5 : floor($c / 5);
-        for ($j = 0; $j < $remove; $j++) {
-          $p = mt_rand(0, $c); 
-          array_splice($words, $p, 1); 
-          $c = count($words);
+    if (empty($shouldHaveControl)) {
+      file_reader($tempFile, 2, function($values) use ($sentence_dao, $corpus_dto, $corpus_dao, $mode) {
+        $sentencesWithType = array();
+        foreach ($values as $sentence) {
+          $sentencesWithType[] = array($sentence, 'legit');
         }
 
-        $sentence_pair[1] = implode(" ", $words);
-        $bad_ref_group[] = array($sentence_pair, 'bad_ref');
-      }
-
-      // repeated sentences
-      $repeated_group = array();
-      $repeated_total = floor($final_total * 0.1);
-      $repeated_group_total = floor($total / 3) + $repeated_total + ceil($total % 3);
-      $legit_in_repeated = $repeated_group_total - $repeated_total;
-
-      $added = array();
-
-      for ($i = 0; $i < $legit_in_repeated; $i++) {
-        $repeated_group[] = array($values[0], 'legit');
-        $added[] = $values[0];
-        array_splice($values, 0, 1);
-      }
-
-      for ($i = 0; $i < $repeated_total; $i++) {
-        $pos_added = mt_rand(0, count($added) - 1);
-        $repeated_group[] = array($added[$pos_added], 'rep');
-        array_splice($added, $pos_added, 1);
-      }
-
-      // We are ready to save
-      shuffle($ref_group); shuffle($bad_ref_group); shuffle($repeated_group);
-      $sentences = array_merge($ref_group, array_merge($bad_ref_group, $repeated_group));
-      $result = $sentence_dao->insertBatchSentences($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $sentences, $mode);
-      if ($result) {
+        $result = $sentence_dao->insertBatchSentences($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $sentencesWithType, $mode, 2);
         $corpus_dao->updateLinesInCorpus($corpus_dto->id);
-      }
-    }, null, true);
+      }, 1000, true);
+    } else {
+      file_reader($tempFile, 2, function ($values) use ($corpus_dto, $corpus_dao, $sentence_dao, $mode) {
+        $total = count($values);
+
+        if ($total == 0) throw new CorpusException("Invalid format of corpus uploaded.");
+        $final_total = (100 / 70) * $total;
+
+        // Reference sentences
+        $ref_group = array();
+        $ref_total = floor($final_total * 0.1);
+        $ref_group_total = floor($total / 3) + $ref_total;
+        $legit_in_ref = $ref_group_total - $ref_total;
+
+        for ($i = 0; $i < $legit_in_ref; $i++) {
+          $ref_group[] = array($values[0], 'legit');
+          array_splice($values, 0, 1);
+        }
+
+        for ($i = 0; $i < $ref_total; $i++) {
+          $sentence = $values[mt_rand(0, count($values) - 1)];
+          $sentence[1] = $sentence[0];
+          $ref_group[] = array($sentence, 'ref');
+        }
+
+        // bad_reference sentences
+        $bad_ref_group = array();
+        $bad_ref_total = floor($final_total * 0.1);
+        $bad_ref_group_total = floor($total / 3) + $bad_ref_total;
+        $legit_in_bad_ref = $bad_ref_group_total - $bad_ref_total;
+
+        for ($i = 0; $i < $legit_in_bad_ref; $i++) {
+          $bad_ref_group[] = array($values[0], 'legit');
+          array_splice($values, 0, 1);
+        }
+
+        for ($i = 0; $i < $bad_ref_total; $i++) {
+          $sentence_pair = $values[0];
+          $sentence = $sentence_pair[1];
+          $words = explode(" ", $sentence);
+          $c = count($words);
+          $remove = ($c < 4) ? 1 : ($c < 6) ? 2 : ($c < 9) ? 3 : ($c < 16) ? 5 : floor($c / 5);
+          for ($j = 0; $j < $remove; $j++) {
+            $p = mt_rand(0, $c);
+            array_splice($words, $p, 1);
+            $c = count($words);
+          }
+
+          $sentence_pair[1] = implode(" ", $words);
+          $bad_ref_group[] = array($sentence_pair, 'bad_ref');
+        }
+
+        // repeated sentences
+        $repeated_group = array();
+        $repeated_total = floor($final_total * 0.1);
+        $repeated_group_total = floor($total / 3) + $repeated_total + ceil($total % 3);
+        $legit_in_repeated = $repeated_group_total - $repeated_total;
+
+        $added = array();
+
+        for ($i = 0; $i < $legit_in_repeated; $i++) {
+          $repeated_group[] = array($values[0], 'legit');
+          $added[] = $values[0];
+          array_splice($values, 0, 1);
+        }
+
+        for ($i = 0; $i < $repeated_total; $i++) {
+          $pos_added = mt_rand(0, count($added) - 1);
+          $repeated_group[] = array($added[$pos_added], 'rep');
+          array_splice($added, $pos_added, 1);
+        }
+
+        // We are ready to save
+        shuffle($ref_group);
+        shuffle($bad_ref_group);
+        shuffle($repeated_group);
+        $sentences = array_merge($ref_group, array_merge($bad_ref_group, $repeated_group));
+        $result = $sentence_dao->insertBatchSentences($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $sentences, $mode);
+        if ($result) {
+          $corpus_dao->updateLinesInCorpus($corpus_dto->id);
+        }
+      }, null, true);
+    }
   } else if ($mode == "RAN") {
     file_reader($tempFile, -1, function($values, $headers, $count) use ($sentence_dao, $corpus_dao, $corpus_dto, $mode) {
       // We are ready to save
@@ -186,7 +203,7 @@ try {
  * 
  * @param string $filename Name of the file to read
  * @param int $count Amount of sentences (-1 for until the size of the first sentence)
- * @param function $callback Function to run when a batch is available
+ * @param Closure $callback Function to run when a batch is available
  * @param int $batch_size Size of the batch
  */
 function file_reader($filename, $count, $callback, $batch_size = null, $has_headers = false) {
