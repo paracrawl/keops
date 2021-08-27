@@ -24,11 +24,13 @@ RUN apt-get update -q --fix-missing && \
 	python \
 	python-psycopg2 \
 	python-pip \
+    python3-pip \
 	postgresql-client \
 	sudo && \
     apt-get autoremove -y && \
     apt-get autoclean && \
-	pip install sqlalchemy alembic
+	pip install sqlalchemy alembic bcrypt && \
+    pip3 install bcrypt
 
 RUN /opt/keops/configure-keops.sh
 

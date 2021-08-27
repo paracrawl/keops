@@ -80,10 +80,16 @@ then
   else
     >&2 echo "ALEMBIC VERSION DETECTED. UPGRADING..."
     alembic upgrade head
-    PGPASSWORD=$POSTGRESPASSWORD psql -h "$KEOPS_DB_HOST" -p "$KEOPS_DB_PORT" -U "postgres" -f fix-permissions.sql keopsdb
+    PGPASSWORD=$POSTGRESPASSWORD psql -h "$KEOPS_DB_HOST" -p "$KEOPS_DB_PORT" -U "postgres" -d "$KEOPS_DB_NAME" -f fix-permissions.sql keopsdb
   fi
 
   cd /
+
+  >&2 echo "Updating root user password for KEOPS..."
+
+  hash=`python3 -c 'import bcrypt, sys; hash = bcrypt.hashpw(sys.argv[1].encode("utf-8"), bcrypt.gensalt()); print(hash.decode("ascii"))' $KEOPS_ROOT_PASSWORD`
+  echo "INSERT INTO keopsdb.users(id, name, email, creation_date, role, password, active) VALUES (-1, 'root', 'root', now(), 'root', '$hash', true) on conflict (id) do update set password = '$hash';" \
+  | PGPASSWORD=$POSTGRESPASSWORD psql -h "$KEOPS_DB_HOST" -p "$KEOPS_DB_PORT" -d "$KEOPS_DB_NAME" -U "postgres";
 fi
 
 tail -f /var/log/nginx/error.log /var/log/nginx/access.log 

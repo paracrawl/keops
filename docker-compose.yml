@@ -19,6 +19,7 @@ services:
       - KEOPS_HELPER_PORT=
       - KEOPS_HELPER_EMAIL=
       - KEOPS_HELPER_PASSWORD=
+      - KEOPS_ROOT_PASSWORD=root
     ports:
       - "8080:80"
     depends_on:
@@ -36,7 +37,6 @@ services:
       - keops
     environment:
       - POSTGRESPASSWORD=PASSWORD_FOR_POSTGRES
-      - KEOPS_ROOT_PASSWORD=root
     volumes:
       - postgres:/var/lib/postgresql/data
 
