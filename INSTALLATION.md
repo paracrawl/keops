@@ -37,7 +37,7 @@ Whereas Admins can view and manage their own projects and tasks, KEOPS provides 
 
 The default password for `root` on KEOPS is `root`. Before launching KEOPS, please change it in `docker-compose.yml`:
 
-    keopsdb:
+    keops:
         environment:
             - KEOPS_ROOT_PASSWORD=[PASWORD]
 
