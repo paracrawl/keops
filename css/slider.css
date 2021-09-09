@@ -14,7 +14,7 @@
   background: rgb(191,0,0);
   background: linear-gradient(90deg, rgba(122,0,0,1) 0%, rgba(241,212,3,1) 50%, rgba(0,122,0,1) 100%);
   overflow: hidden;
-  transform: skewX(-20deg);
+  border-radius: 5px;
 }
 
 .custom-range-control .handle {
