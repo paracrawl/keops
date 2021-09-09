@@ -146,13 +146,13 @@ else {
             <div class="col-md-8 col-sm-12 col-xs-12">
               <input type="hidden" name="seall" value="?p=1&id=1&task_id=<?= $task->id ?>" />
               <div class="row">
-                <form action="" class="form-inline col-sm-12 col-md-8 col-md-offset-4 search-form mt-1 mt-sm-0 pl-md-0" style="justify-content: flex-end;">
+                <form action="" class="form-inline col-sm-12 col-md-8 col-md-offset-4 search-form mt-1 mt-sm-0 pl-md-0" style="display: flex; align-items: center; justify-content: end;">
                   <input type="hidden" name="task_id" value="<?= $task->id ?>" />
                   <input type="hidden" name="p" value="1" />
                   <input type="hidden" name="id" value="1" />
 
-                  <div class="form-group pr-sm-4">
-                    <input class="form-control" id="search-term" name="term" value="<?php if (isset($search_term)) { echo $search_term; } ?>" placeholder="Search through sentences" aria-label="Search through sentences">
+                  <div class="form-group pr-sm-4" style="margin-right: 0.5rem; width: 100%;">
+                    <input class="form-control" style="margin-bottom: 0; width: 100%;" id="search-term" name="term" value="<?php if (isset($search_term)) { echo $search_term; } ?>" placeholder="Search through sentences" aria-label="Search through sentences">
                   </div>
 
                   <div class="form-group">
