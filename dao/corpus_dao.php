@@ -265,7 +265,9 @@ class corpus_dao {
       $this->conn->close_conn();      
       if ($lines == 0 || $lines=="" || $lines==null){
         //no inserted lines
-        $this->deleteCorpus($this->id);
+
+        // This function should not have this kind of side effect!
+        // $this->deleteCorpus($this->id);
         return false;
       }
       else {

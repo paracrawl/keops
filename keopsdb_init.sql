@@ -4,7 +4,7 @@ CREATE SCHEMA keopsdb;
 CREATE TYPE keopsdb.role AS ENUM ('PM', 'USER', 'root');
 CREATE TYPE keopsdb.taskstatus AS ENUM ('PENDING', 'STARTED', 'DONE');
 CREATE TYPE keopsdb.label AS ENUM ('P','V','L','A','T','MT','E','F');
-CREATE TYPE keopsdb.evalmode AS ENUM ('VAL', 'ADE', 'FLU', 'RAN');
+CREATE TYPE keopsdb.evalmode AS ENUM ('VAL', 'ADE', 'FLU', 'RAN', 'PAR');
 
 CREATE TABLE keopsdb.USERS (
     ID serial PRIMARY KEY,

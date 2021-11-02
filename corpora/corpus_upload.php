@@ -61,7 +61,7 @@ try {
     throw new CorpusException("Invalid format of corpus uploaded.");
   }
 
-  if ($mode == "VAL" || $mode == "FLU") {
+  if ($mode == "VAL" || $mode == "FLU" || $mode == "PAR") {
     file_reader($tempFile, ($mode == "VAL") ? 2 : 1, function($values) use ($sentence_dao, $corpus_dto, $corpus_dao, $mode) {
       $result = $sentence_dao->insertBatchSentences($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $values, $mode, ($mode == "VAL") ? 2 : 1);
       $corpus_dao->updateLinesInCorpus($corpus_dto->id);

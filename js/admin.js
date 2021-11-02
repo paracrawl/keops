@@ -152,6 +152,34 @@ Dropzone.options.dropzoneran = { // camelized id
   autoProcessQueue: true
 };
 
+Dropzone.options.dropzonepar = { // camelized id
+  paramName: "file",
+  maxFilesize: 10, // 10 MB
+  filesizeBase: 1000,
+  //acceptedFiles: "text/*,application/*",
+  //maxFiles: 40, // needed?
+  init: function() {
+    this.on("complete", function(file) {
+      obj = this;
+
+      setTimeout(function() {
+        obj.removeFile(file);
+        $('#corpora-table-par').DataTable().ajax.reload();
+      }, 10000);
+      $('#corpora-table-par').DataTable().ajax.reload();
+    });
+
+    this.on("canceled", function(file) {
+      this.removeFile(file);
+    });
+  },
+  sending: function(file, xhr, formData) {
+    formData.append("source_lang", $("#corpora_ranking .source_lang"));
+    formData.append("target_lang", $("#corpora_ranking .target_lang"));
+  },
+//  previewTemplate: document.querySelector('#custom-dz-template').innerHTML,
+  autoProcessQueue: true
+};
 
 $(document).ready(function() {
     // In order to make data tables become responsive at first load
@@ -560,6 +588,8 @@ $(document).ready(function() {
               return "Fluency";
             case "RAN":
               return "Ranking";
+            case "PAR":
+              return "Paraphrases";
           }
         }
       },
