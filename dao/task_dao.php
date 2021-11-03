@@ -514,6 +514,7 @@ class task_dao {
    * @throws Exception
    */
   function getStatsForTask($task_id, $mode = "ADE") {
+    error_log("mode $mode");
     try {
       $statistics = array();
 
