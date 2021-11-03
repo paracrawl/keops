@@ -146,13 +146,13 @@ else {
             <div class="col-md-8 col-sm-12 col-xs-12">
               <input type="hidden" name="seall" value="?p=1&id=1&task_id=<?= $task->id ?>" />
               <div class="row">
-                <form action="" class="form-inline col-sm-12 col-md-8 col-md-offset-4 search-form mt-1 mt-sm-0 pl-md-0" style="justify-content: flex-end;">
+                <form action="" class="form-inline col-sm-12 col-md-8 col-md-offset-4 search-form mt-1 mt-sm-0 pl-md-0" style="display: flex; align-items: center; justify-content: end;">
                   <input type="hidden" name="task_id" value="<?= $task->id ?>" />
                   <input type="hidden" name="p" value="1" />
                   <input type="hidden" name="id" value="1" />
 
-                  <div class="form-group pr-sm-4">
-                    <input class="form-control" id="search-term" name="term" value="<?php if (isset($search_term)) { echo $search_term; } ?>" placeholder="Search through sentences" aria-label="Search through sentences">
+                  <div class="form-group pr-sm-4" style="margin-right: 0.5rem; width: 100%;">
+                    <input class="form-control" style="margin-bottom: 0; width: 100%;" id="search-term" name="term" value="<?php if (isset($search_term)) { echo $search_term; } ?>" placeholder="Search through sentences" aria-label="Search through sentences">
                   </div>
 
                   <div class="form-group">
@@ -239,26 +239,30 @@ else {
 
       <div class="row">
         <hr />
-        <div class="col-md-2 col-md-push-6 col-xs-2 pt-xs-1">
-          <a class="btn btn-lg btn-previous <?= ($task_progress->current-1 == 0) ? "disabled" : "" ?>" style="padding-left: 0em;" href="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current-1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>" title="Go to the previous sentence"><span class="glyphicon glyphicon-arrow-left"></span> Previous</a>
+
+        <div class="col-md-6 col-md-push-6 col-xs-12 text-right" style="display: flex; align-items: baseline; justify-content: space-between;">
+            <div style="display: flex; align-items: center;">
+                <a class="btn btn-lg btn-previous <?= ($task_progress->current-1 == 0) ? "disabled" : "" ?>" style="padding-left: 0em;" href="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current-1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>" title="Go to the previous sentence"><span class="glyphicon glyphicon-arrow-left"></span> Previous</a>
+                <a href="/sentences/evaluate.php?task_id=<?= $task->id ?>" class="btn btn-link" title="Go to the first pending sentence" style="padding-left: 0px;">First pending</a>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: end;">
+                <a href="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current + 1 ?>" class="btn btn-link">Skip</a>
+
+                <?php if ($task->status == "DONE") { ?>
+                    <button id="evalutionsavebutton" data-next="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current+1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" title="Go to the next sentence">
+                      Next <span class="glyphicon glyphicon-arrow-right"></span>
+                    </button>
+                <?php } else { ?>
+                    <button id="evalutionsavebutton" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" title="Save this evaluation and go to the next sentence">Next <span class="glyphicon glyphicon-arrow-right"></span></button>
+                <?php } ?>
+            </div>
         </div>
 
-        <div class="col-md-4 col-md-push-6 col-xs-10 text-right">
-          <a href="/sentences/evaluate.php?task_id=<?= $task->id ?>" class="btn btn-link" title="Go to the first pending sentence">First pending</a>
-
-          <?php if ($task->status == "DONE") { ?>
-            <button id="evalutionsavebutton" data-next="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current+1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" title="Go to the next sentence">
-              Next <span class="glyphicon glyphicon-arrow-right"></span>
-            </button>
-          <?php } else { ?>
-            <button id="evalutionsavebutton" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" title="Save this evaluation and go to the next sentence">Next <span class="glyphicon glyphicon-arrow-right"></span></button>
-          <?php } ?>
-        </div>
-
-        <div class="col-md-6 col-md-pull-6 col-xs-12 mt-4 mt-sm-0">
-          <div class="row">
-            <div class="col-md-12 col-xs-12 mt-1" style="display: flex; justify-content: center;">
-              <form id="gotoform" method="get" action="/sentences/evaluate.php" class="col-md-5 col-xs-12">
+        <div class="col-md-6 col-md-pull-6 col-xs-12">
+          <div class="row" style="display: flex; justify-content: center;">
+            <div class="col-md-5 col-xs-12 mt-3 mt-md-0">
+              <form id="gotoform" method="get" action="/sentences/evaluate.php">
                 <input type="hidden" name="p" value="1">
                 <input type="hidden" name="task_id" value="<?= $task->id ?>">
                 
