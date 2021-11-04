@@ -26,8 +26,8 @@ services:
     networks:
       - keops
     volumes:
-      - .:/opt/keops
-      
+      - ./:/opt/keops
+
   keopsdb:
     build:
       context: .
@@ -41,10 +41,8 @@ services:
     environment:
       - POSTGRESPASSWORD=PASSWORD_FOR_POSTGRES
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - ./postgres:/var/lib/postgresql/data
 
 networks:
   keops:
 
-volumes:
-  postgres:
