@@ -26,13 +26,13 @@ class DatatablesProcessing {
 	 */
 	static function data_output ( $columns, $data )
 	{
-		$out = array();
+	$out = array();
 
-		for ( $i=0, $ien=count($data) ; $i<$ien ; $i++ ) {
-			$row = array();
+	for ( $i=0, $ien=count($data) ; $i<$ien ; $i++ ) {
+	$row = array();
 
-			for ( $j=0, $jen=count($columns) ; $j<$jen ; $j++ ) {
-				$column = $columns[$j];
+	for ( $j=0, $jen=count($columns) ; $j<$jen ; $j++ ) {
+	$column = $columns[$j];
 
                 // Is there an alias?
                 $prop = 'db';
@@ -40,19 +40,19 @@ class DatatablesProcessing {
                   $prop = 'alias';
                 }
                 
-				// Is there a formatter?
-				if ( isset( $column['formatter'] ) ) {
-					$row[ $column['dt'] ] = $column['formatter']( $data[$i][ $column[$prop] ], $data[$i] );
-				}
-				else {
-					$row[ $column['dt'] ] = $data[$i][ $columns[$j][$prop] ];
-				}
-			}
+	// Is there a formatter?
+	if ( isset( $column['formatter'] ) ) {
+	$row[ $column['dt'] ] = $column['formatter']( $data[$i][ $column[$prop] ], $data[$i] );
+	}
+	else {
+	$row[ $column['dt'] ] = $data[$i][ $columns[$j][$prop] ];
+	}
+	}
 
-			$out[] = $row;
-		}
+	$out[] = $row;
+	}
 
-		return $out;
+	return $out;
 	}
 
 
@@ -71,11 +71,11 @@ class DatatablesProcessing {
 	 */
 	static function db ( $conn )
 	{
-		/*if ( is_array( $conn ) ) {
-			return self::sql_connect( $conn );
-		}*/
+	/*if ( is_array( $conn ) ) {
+	return self::sql_connect( $conn );
+	}*/
 
-		return $conn;
+	return $conn;
 	}
 
 
@@ -90,13 +90,13 @@ class DatatablesProcessing {
 	 */
 	static function limit ( $request, $columns )
 	{
-		$limit = '';
+	$limit = '';
 
-		if ( isset($request['start']) && $request['length'] != -1 ) {
-			$limit = "LIMIT ".intval($request['length'])." OFFSET ".intval($request['start']);
-		}
+	if ( isset($request['start']) && $request['length'] != -1 ) {
+	$limit = "LIMIT ".intval($request['length'])." OFFSET ".intval($request['start']);
+	}
 
-		return $limit;
+	return $limit;
 	}
 
 
@@ -111,34 +111,34 @@ class DatatablesProcessing {
 	 */
 	static function order ( $request, $columns )
 	{
-		$order = '';
+	$order = '';
 
-		if ( isset($request['order']) && count($request['order']) ) {
-			$orderBy = array();
-			$dtColumns = self::pluck( $columns, 'dt' );
+	if ( isset($request['order']) && count($request['order']) ) {
+	$orderBy = array();
+	$dtColumns = self::pluck( $columns, 'dt' );
 
-			for ( $i=0, $ien=count($request['order']) ; $i<$ien ; $i++ ) {
-				// Convert the column index into the column data property
-				$columnIdx = intval($request['order'][$i]['column']);
-				$requestColumn = $request['columns'][$columnIdx];
+	for ( $i=0, $ien=count($request['order']) ; $i<$ien ; $i++ ) {
+	// Convert the column index into the column data property
+	$columnIdx = intval($request['order'][$i]['column']);
+	$requestColumn = $request['columns'][$columnIdx];
 
-				$columnIdx = array_search( $requestColumn['data'], $dtColumns );
-				$column = $columns[ $columnIdx ];
+	$columnIdx = array_search( $requestColumn['data'], $dtColumns );
+	$column = $columns[ $columnIdx ];
 
-				if ( $requestColumn['orderable'] == 'true' ) {
-					$dir = $request['order'][$i]['dir'] === 'asc' ?
-						'ASC' :
-						'DESC';
+	if ( $requestColumn['orderable'] == 'true' ) {
+	$dir = $request['order'][$i]['dir'] === 'asc' ?
+	'ASC' :
+	'DESC';
 
-					$orderBy[] = ''.$column['db'].' '.$dir;
-				}
-			}
+	$orderBy[] = ''.$column['db'].' '.$dir;
+	}
+	}
       if  (!empty($orderBy)){
         $order = 'ORDER BY '.implode(', ', $orderBy);
       }
-		}
+	}
 
-		return $order;
+	return $order;
 	}
 
 
@@ -159,60 +159,60 @@ class DatatablesProcessing {
 	 */
 	static function filter ( $request, $columns, &$bindings )
 	{
-		$globalSearch = array();
-		$columnSearch = array();
-		$dtColumns = self::pluck( $columns, 'dt' );
+	$globalSearch = array();
+	$columnSearch = array();
+	$dtColumns = self::pluck( $columns, 'dt' );
 
-		if ( isset($request['search']) && $request['search']['value'] != '' ) {
-			$str = $request['search']['value'];
+	if ( isset($request['search']) && $request['search']['value'] != '' ) {
+	$str = $request['search']['value'];
 
-			for ( $i=0, $ien=count($request['columns']) ; $i<$ien ; $i++ ) {
-				$requestColumn = $request['columns'][$i];
-				$columnIdx = array_search( $requestColumn['data'], $dtColumns );
-				$column = $columns[ $columnIdx ];
+	for ( $i=0, $ien=count($request['columns']) ; $i<$ien ; $i++ ) {
+	$requestColumn = $request['columns'][$i];
+	$columnIdx = array_search( $requestColumn['data'], $dtColumns );
+	$column = $columns[ $columnIdx ];
 
-				if ( $requestColumn['searchable'] == 'true' ) {
-					$binding = self::bind( $bindings, '%'.$str.'%', PDO::PARAM_STR );
-					$globalSearch[] = "".$column['db']."::text ILIKE ".$binding;
-				}
-			}
-		}
+	if ( $requestColumn['searchable'] == 'true' ) {
+	$binding = self::bind( $bindings, '%'.$str.'%', PDO::PARAM_STR );
+	$globalSearch[] = "".$column['db']."::text ILIKE ".$binding;
+	}
+	}
+	}
 
-		// Individual column filtering
-		if ( isset( $request['columns'] ) ) {
-			for ( $i=0, $ien=count($request['columns']) ; $i<$ien ; $i++ ) {
-				$requestColumn = $request['columns'][$i];
-				$columnIdx = array_search( $requestColumn['data'], $dtColumns );
-				$column = $columns[ $columnIdx ];
+	// Individual column filtering
+	if ( isset( $request['columns'] ) ) {
+	for ( $i=0, $ien=count($request['columns']) ; $i<$ien ; $i++ ) {
+	$requestColumn = $request['columns'][$i];
+	$columnIdx = array_search( $requestColumn['data'], $dtColumns );
+	$column = $columns[ $columnIdx ];
 
-				$str = $requestColumn['search']['value'];
+	$str = $requestColumn['search']['value'];
 
-				if ( $requestColumn['searchable'] == 'true' &&
-				 $str != '' ) {
-					$binding = self::bind( $bindings, '%'.$str.'%', PDO::PARAM_STR );
-					$columnSearch[] = "".$column['db']."::text ILIKE ".$binding;
-				}
-			}
-		}
+	if ( $requestColumn['searchable'] == 'true' &&
+	 $str != '' ) {
+	$binding = self::bind( $bindings, '%'.$str.'%', PDO::PARAM_STR );
+	$columnSearch[] = "".$column['db']."::text ILIKE ".$binding;
+	}
+	}
+	}
 
-		// Combine the filters into a single string
-		$where = '';
+	// Combine the filters into a single string
+	$where = '';
 
-		if ( count( $globalSearch ) ) {
-			$where = '('.implode(' OR ', $globalSearch).')';
-		}
+	if ( count( $globalSearch ) ) {
+	$where = '('.implode(' OR ', $globalSearch).')';
+	}
 
-		if ( count( $columnSearch ) ) {
-			$where = $where === '' ?
-				implode(' AND ', $columnSearch) :
-				$where .' AND '. implode(' AND ', $columnSearch);
-		}
+	if ( count( $columnSearch ) ) {
+	$where = $where === '' ?
+	implode(' AND ', $columnSearch) :
+	$where .' AND '. implode(' AND ', $columnSearch);
+	}
 
-		if ( $where !== '' ) {
-			$where = 'WHERE '.$where;
-		}
+	if ( $where !== '' ) {
+	$where = 'WHERE '.$where;
+	}
 
-		return $where;
+	return $where;
 	}
 
 
@@ -232,54 +232,54 @@ class DatatablesProcessing {
 	 */
 	static function simple ( $request, $conn, $table, $primaryKey, $columns, $groupBy = null )
 	{
-		$bindings = array();
-		$db = self::db( $conn );
+	$bindings = array();
+	$db = self::db( $conn );
     $groupBySql = "";
-		
+	
 // Build the SQL query string from the request
-		$limit = self::limit( $request, $columns );
-		$order = self::order( $request, $columns );
+	$limit = self::limit( $request, $columns );
+	$order = self::order( $request, $columns );
     $where = self::filter( $request, $columns, $bindings );    
     $groupBy = self::_flatten( $groupBy, ", " );
     
     if ( $groupBy ) {
-			$groupBySql = 'GROUP BY '.$groupBy;
-		}
+	$groupBySql = 'GROUP BY '.$groupBy;
+	}
     
     
-		// Main query to actually get the data
-		$data = self::sql_exec( $db, $bindings,
-			"SELECT ".implode(", ", self::pluck_select($columns, 'db', 'alias'))."
-			 FROM $table $where $groupBySql $order $limit"
-		);
-		// Data set length after filtering
-		$resFilterLength = self::sql_exec( $db, $bindings,
-			"SELECT COUNT(distinct {$primaryKey})
-			 FROM   $table
-			 $where"
-		);
-		$recordsFiltered = $resFilterLength[0][0];
+	// Main query to actually get the data
+	$data = self::sql_exec( $db, $bindings,
+	"SELECT ".implode(", ", self::pluck_select($columns, 'db', 'alias'))."
+	 FROM $table $where $groupBySql $order $limit"
+	);
+	// Data set length after filtering
+	$resFilterLength = self::sql_exec( $db, $bindings,
+	"SELECT COUNT(distinct {$primaryKey})
+	 FROM   $table
+	 $where"
+	);
+	$recordsFiltered = $resFilterLength[0][0];
 
-		// Total data set length
-		$str = "SELECT COUNT(distinct {$primaryKey})
-		FROM   $table";
+	// Total data set length
+	$str = "SELECT COUNT(distinct {$primaryKey})
+	FROM   $table";
 
-		$resTotalLength = self::sql_exec( $db,
-			$str
-		);
-		$recordsTotal = $resTotalLength[0][0];
+	$resTotalLength = self::sql_exec( $db,
+	$str
+	);
+	$recordsTotal = $resTotalLength[0][0];
 
-		/*
-		 * Output
-		 */
-		return array(
-			"draw"            => isset ( $request['draw'] ) ?
-				intval( $request['draw'] ) :
-				0,
-			"recordsTotal"    => intval( $recordsTotal ),
-			"recordsFiltered" => intval( $recordsFiltered ),
-			"data"            => self::data_output( $columns, $data )
-		);
+	/*
+	 * Output
+	 */
+	return array(
+	"draw"            => isset ( $request['draw'] ) ?
+	intval( $request['draw'] ) :
+	0,
+	"recordsTotal"    => intval( $recordsTotal ),
+	"recordsFiltered" => intval( $recordsFiltered ),
+	"data"            => self::data_output( $columns, $data )
+	);
 	}
 
 
@@ -308,79 +308,79 @@ class DatatablesProcessing {
 	 */
 	static function complex ( $request, $conn, $table, $primaryKey, $columns, $whereResult=null, $whereAll=null, $groupBy=null )
 	{
-		$bindings = array();
-		$db = self::db( $conn );
-		$localWhereResult = array();
-		$localWhereAll = array();
-		$whereAllSql = '';
+	$bindings = array();
+	$db = self::db( $conn );
+	$localWhereResult = array();
+	$localWhereAll = array();
+	$whereAllSql = '';
    
 
-		// Build the SQL query string from the request
-		$limit = self::limit( $request, $columns );
-		$order = self::order( $request, $columns );
-		$where = self::filter( $request, $columns, $bindings );
+	// Build the SQL query string from the request
+	$limit = self::limit( $request, $columns );
+	$order = self::order( $request, $columns );
+	$where = self::filter( $request, $columns, $bindings );
     
-		$whereResult = self::_flatten( $whereResult );
-		$whereAll = self::_flatten( $whereAll );
+	$whereResult = self::_flatten( $whereResult );
+	$whereAll = self::_flatten( $whereAll );
     $groupBy = self::_flatten( $groupBy, ", " );
     
-		if ( $whereResult ) {
-			$where = $where ?
-				$where .' AND '.$whereResult :
-				'WHERE '.$whereResult;
-		}
+	if ( $whereResult ) {
+	$where = $where ?
+	$where .' AND '.$whereResult :
+	'WHERE '.$whereResult;
+	}
 
-		if ( $whereAll ) {
-			$where = $where ?
-				$where .' AND '.$whereAll :
-				'WHERE '.$whereAll;
+	if ( $whereAll ) {
+	$where = $where ?
+	$where .' AND '.$whereAll :
+	'WHERE '.$whereAll;
 
-			$whereAllSql = 'WHERE '.$whereAll;
-		}
+	$whereAllSql = 'WHERE '.$whereAll;
+	}
     
-		if ( $groupBy ) {
+	if ( $groupBy ) {
 
-			$groupBySql = 'GROUP BY '.$groupBy;
-		}
+	$groupBySql = 'GROUP BY '.$groupBy;
+	}
     else {
       $groupBySql = "";
     }
 
     
     
-		// Main query to actually get the data
-		$data = self::sql_exec( $db, $bindings,
-			"SELECT ".implode(", ", self::pluck_select($columns, 'db', 'alias'))."
-			 FROM $table $where $groupBySql	$order $limit"
-		);    
+	// Main query to actually get the data
+	$data = self::sql_exec( $db, $bindings,
+	"SELECT ".implode(", ", self::pluck_select($columns, 'db', 'alias'))."
+	 FROM $table $where $groupBySql	$order $limit"
+	);    
     
 // Data set length after filtering
-		$resFilterLength = self::sql_exec( $db, $bindings,
+	$resFilterLength = self::sql_exec( $db, $bindings,
       "SELECT COUNT(DISTINCT {$primaryKey}) 
-			 FROM   $table $where"
-		);
-		$recordsFiltered = $resFilterLength[0][0];
+	 FROM   $table $where"
+	);
+	$recordsFiltered = $resFilterLength[0][0];
     
 
     // Total data set length
-		$resTotalLength = self::sql_exec( $db,
-			"SELECT COUNT(DISTINCT {$primaryKey})
-			 FROM   $table ".
-			$whereAllSql
-		);
-		$recordsTotal = $resTotalLength[0][0];
+	$resTotalLength = self::sql_exec( $db,
+	"SELECT COUNT(DISTINCT {$primaryKey})
+	 FROM   $table ".
+	$whereAllSql
+	);
+	$recordsTotal = $resTotalLength[0][0];
  
-		/*
-		 * Output
-		 */
-		return array(
-			"draw"            => isset ( $request['draw'] ) ?
-				intval( $request['draw'] ) :
-				0,
-			"recordsTotal"    => intval( $recordsTotal ),
-			"recordsFiltered" => intval( $recordsFiltered ),
-			"data"            => self::data_output( $columns, $data )
-		);
+	/*
+	 * Output
+	 */
+	return array(
+	"draw"            => isset ( $request['draw'] ) ?
+	intval( $request['draw'] ) :
+	0,
+	"recordsTotal"    => intval( $recordsTotal ),
+	"recordsFiltered" => intval( $recordsFiltered ),
+	"data"            => self::data_output( $columns, $data )
+	);
 	}
 
 
@@ -397,22 +397,22 @@ class DatatablesProcessing {
 	 */
 	/*static function sql_connect ( $sql_details )
 	{
-		try {
-			$db = @new PDO(
-				"mysql:host={$sql_details['host']};dbname={$sql_details['db']}",
-				$sql_details['user'],
-				$sql_details['pass'],
-				array( PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION )
-			);
-		}
-		catch (PDOException $e) {
-			self::fatal(
-				"An error occurred while connecting to the database. ".
-				"The error reported by the server was: ".$e->getMessage()
-			);
-		}
+	try {
+	$db = @new PDO(
+	"mysql:host={$sql_details['host']};dbname={$sql_details['db']}",
+	$sql_details['user'],
+	$sql_details['pass'],
+	array( PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION )
+	);
+	}
+	catch (PDOException $e) {
+	self::fatal(
+	"An error occurred while connecting to the database. ".
+	"The error reported by the server was: ".$e->getMessage()
+	);
+	}
 
-		return $db;
+	return $db;
 	}*/
 
 
@@ -428,31 +428,31 @@ class DatatablesProcessing {
 	 */
 	static function sql_exec ( $db, $bindings, $sql=null )
 	{
-		// Argument shifting
-		if ( $sql === null ) {
-			$sql = $bindings;
-		}
+	// Argument shifting
+	if ( $sql === null ) {
+	$sql = $bindings;
+	}
 
-		$stmt = $db->prepare( $sql );
+	$stmt = $db->prepare( $sql );
 
-		// Bind parameters
-		if ( is_array( $bindings ) ) {
-			for ( $i=0, $ien=count($bindings) ; $i<$ien ; $i++ ) {
-				$binding = $bindings[$i];
-				$stmt->bindValue( $binding['key'], $binding['val'], $binding['type'] );
-			}
-		}
-		// Execute
-		try {
-			$stmt->execute();
+	// Bind parameters
+	if ( is_array( $bindings ) ) {
+	for ( $i=0, $ien=count($bindings) ; $i<$ien ; $i++ ) {
+	$binding = $bindings[$i];
+	$stmt->bindValue( $binding['key'], $binding['val'], $binding['type'] );
+	}
+	}
+	// Execute
+	try {
+	$stmt->execute();
 
-		}
-		catch (PDOException $e) {
-			self::fatal( "An SQL error occurred: ".$e->getMessage() );
-		}
+	}
+	catch (PDOException $e) {
+	self::fatal( "An SQL error occurred: ".$e->getMessage() );
+	}
 
-		// Return all
-		return $stmt->fetchAll( PDO::FETCH_BOTH );
+	// Return all
+	return $stmt->fetchAll( PDO::FETCH_BOTH );
 	}
 
 
@@ -471,11 +471,11 @@ class DatatablesProcessing {
 	static function fatal ( $msg )
 	{
         error_log($msg);
-		echo json_encode( array( 
-			"error" => $msg
-		) );
+	echo json_encode( array( 
+	"error" => $msg
+	) );
 
-		exit(0);
+	exit(0);
 	}
 
 	/**
@@ -490,15 +490,15 @@ class DatatablesProcessing {
 	 */
 	static function bind ( &$a, $val, $type )
 	{
-		$key = ':binding_'.count( $a );
+	$key = ':binding_'.count( $a );
 
-		$a[] = array(
-			'key' => $key,
-			'val' => $val,
-			'type' => $type
-		);
+	$a[] = array(
+	'key' => $key,
+	'val' => $val,
+	'type' => $type
+	);
 
-		return $key;
+	return $key;
 	}
 
 
@@ -512,13 +512,13 @@ class DatatablesProcessing {
 	 */
 	static function pluck ( $a, $prop )
 	{
-		$out = array();
+	$out = array();
 
-		for ( $i=0, $len=count($a) ; $i<$len ; $i++ ) {
-			$out[] = $a[$i][$prop];
-		}
+	for ( $i=0, $len=count($a) ; $i<$len ; $i++ ) {
+	$out[] = $a[$i][$prop];
+	}
 
-		return $out;
+	return $out;
 	}
     
 	/**
@@ -555,12 +555,12 @@ class DatatablesProcessing {
 	 */
 	static function _flatten ( $a, $join = ' AND ' )
 	{
-		if ( ! $a ) {
-			return '';
-		}
-		else if ( $a && is_array($a) ) {
-			return implode( $join, $a );
-		}
-		return $a;
+	if ( ! $a ) {
+	return '';
+	}
+	else if ( $a && is_array($a) ) {
+	return implode( $join, $a );
+	}
+	return $a;
 	}
 }

@@ -53,6 +53,7 @@
               <option value="ADE">Adequacy</option>
               <option value="FLU">Fluency</option>
               <option value="RAN">Ranking</option>
+              <option value="PAR">Paraphrasing</option>
             </select>
           </div>
         </div>

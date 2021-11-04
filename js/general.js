@@ -49,6 +49,8 @@ $(document).ready(function() {
               return 'Fluency';
             case 'RAN':
               return 'Ranking';
+            case 'PAR':
+              return 'Paraphrases';
           }
         }
       },
