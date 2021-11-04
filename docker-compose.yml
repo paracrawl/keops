@@ -15,10 +15,10 @@ services:
       - KEOPS_DB_PASS=PASSWORD_FOR_USER_KEOPS
       - KEOPS_DB_PORT=5432
       - POSTGRESPASSWORD=PASSWORD_FOR_POSTGRES
-      - KEOPS_HELPER_HOST=mail.prompsit.com
-      - KEOPS_HELPER_PORT=587
-      - KEOPS_HELPER_EMAIL=keops@prompsit.com
-      - KEOPS_HELPER_PASSWORD=.superpinyico.
+      - KEOPS_HELPER_HOST=
+      - KEOPS_HELPER_PORT=
+      - KEOPS_HELPER_EMAIL=
+      - KEOPS_HELPER_PASSWORD=
     ports:
       - "8080:80"
     depends_on:
