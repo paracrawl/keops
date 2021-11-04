@@ -300,15 +300,18 @@ else {
                                             order of words
                                         </li>
                                         <li>
-                                            The meanings of both sentences are similar in any context, even if they
+                                            The meanings of both sentences are similar in any context
+                                        </li>
+                                        <li>
+                                            The meanings of both sentences are equivalent, even if the sentences
                                             have different items (in different tense, person, number or gender)
                                         </li>
                                         <li>
-                                            The meanings of both sentences are similar in any context, even if they
+                                            The meanings of both sentences are similar, even if they
                                             contain any stop word which makes the meanings not equivalent
                                         </li>
                                         <li>
-                                            The meanings of both sentences are similar in any context, even if they
+                                            The meanings of both sentences are equivalent, even if they
                                             are expressed in different variants of the same language
                                         </li>
                                     </ul>
@@ -334,156 +337,190 @@ else {
                             </div>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="examples">
-                            <p>
-                                These examples use Spanish as both the source and target language.
-                            </p>
                             <div class="row">
                                 <div class="col-xs-12 col-md-12 h5">
-                                    Wrong Language Identification
+                                    A sentence can be replaced by the other one
                                 </div>
                                 <div class="col-xs-12 col-md-12 row">
                                     <p class="col-xs-12 col-md-6">
-                                        <strong>English</strong> <br />
-                                        You have no items in your shopping cart.
+                                        <strong>Spanish</strong> <br />
+                                        Reparó
                                     </p>
                                     <p class="col-xs-12 col-md-6">
                                         <strong>Spanish</strong> <br />
-                                        Нямате артикули в количката си.
-                                    </p>
-                                </div>
-                                <div class="col-xs-12 col-md-12 row">
-                                    <p class="col-xs-12 col-md-6">
-                                        <strong>English</strong> <br />
-                                        You have no items in your shopping cart.
-                                    </p>
-                                    <p class="col-xs-12 col-md-6">
-                                        <strong>Spanish</strong> <br />
-                                        El carrito est&amp;#225; vac&amp;iacuteo
+                                        Arregló
                                     </p>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 col-md-12 h5">
-                                    Incorrect Alignment
+                                    The candidate sentence is a generalization of the source text
                                 </div>
                                 <div class="col-xs-12 col-md-12 row">
                                     <p class="col-xs-12 col-md-6">
-                                        <strong>English</strong> <br />
-                                        We have booked two rooms at your hotel on Dec 11 for four nights.
+                                        <strong>Spanish</strong> <br />
+                                        Mi basura
                                     </p>
                                     <p class="col-xs-12 col-md-6">
                                         <strong>Spanish</strong> <br />
-                                        En diciembre, pueden reservar dos habitaciones dobles al precio de una (mínimo cuatro noches).
+                                        De mis cosas
                                     </p>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 col-md-12 h5">
-                                    Wrong Tokenization
+                                    The candidate sentence is a circumlocution of the source text
                                 </div>
                                 <div class="col-xs-12 col-md-12 row">
                                     <p class="col-xs-12 col-md-6">
-                                        <strong>English</strong> <br />
-                                        EnvironmentPleasant view, bright, in gated residential community.
+                                        <strong>Spanish</strong> <br />
+                                        Sobre las elecciones
                                     </p>
                                     <p class="col-xs-12 col-md-6">
                                         <strong>Spanish</strong> <br />
-                                        EntornoVista agradable , luminoso , en una urbanizaci ón cerrada.
-                                    </p>
-                                </div>
-                                <div class="col-xs-12 col-md-12 row">
-                                    <p class="col-xs-12 col-md-6">
-                                        <strong>English</strong> <br />
-                                        its configuration could give the impression that its owners were not
-                                    </p>
-                                    <p class="col-xs-12 col-md-6">
-                                        <strong>Spanish</strong> <br />
-                                        podría dar la impresión de que sus poseedores no
+                                        Sobre el transcurso de las elecciones
                                     </p>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 col-md-12 h5">
-                                    MT-translated content
+                                    The candidate sentence is the same as the source text, but with a different
+                                    order of words
                                 </div>
                                 <div class="col-xs-12 col-md-12 row">
                                     <p class="col-xs-12 col-md-6">
-                                        <strong>English</strong> <br />
-                                        There must be another way.
+                                        <strong>Spanish</strong> <br />
+                                        Durante el actual período
                                     </p>
                                     <p class="col-xs-12 col-md-6">
                                         <strong>Spanish</strong> <br />
-                                        Hay que haber otro camino.
-                                    </p>
-                                </div>
-                                <div class="col-xs-12 col-md-12 row">
-                                    <p class="col-xs-12 col-md-6">
-                                        <strong>English</strong> <br />
-                                        Steve Jobs co-founded Apple.
-                                    </p>
-                                    <p class="col-xs-12 col-md-6">
-                                        <strong>Spanish</strong> <br />
-                                        Steve Trabajos cofundó Manzana.
-                                    </p>
-                                </div>
-                                <div class="col-xs-12 col-md-12 row">
-                                    <p class="col-xs-12 col-md-6">
-                                        <strong>English</strong> <br />
-                                        You can drink free beers here.
-                                    </p>
-                                    <p class="col-xs-12 col-md-6">
-                                        <strong>Spanish</strong> <br />
-                                        Puedes tomar cervezas libre aquí.
+                                        Durante el período actual
                                     </p>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 col-md-12 h5">
-                                    Translation Errors
+                                    The meanings of both sentences are similar in any context
                                 </div>
                                 <div class="col-xs-12 col-md-12 row">
                                     <p class="col-xs-12 col-md-6">
-                                        <strong>English</strong> <br />
-                                        The Centre for Human Rights publishes its annual report
+                                        <strong>Spanish</strong> <br />
+                                        Obedeció a la disminución
                                     </p>
                                     <p class="col-xs-12 col-md-6">
                                         <strong>Spanish</strong> <br />
-                                        El Centro de Derechos Umanos publica su banlace anual.
+                                        Era imputable al menor
                                     </p>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 col-md-12 h5">
-                                    Free translation
+                                    The meanings of both sentences are equivalent, even if the sentences
+                                    have different items (in different tense, person, number or gender)
                                 </div>
                                 <div class="col-xs-12 col-md-12 row">
                                     <p class="col-xs-12 col-md-6">
-                                        <strong>English</strong> <br />
-                                        I'll make you two promises: a very good steak, medium rare, and the truth, which is very rare
+                                        <strong>Spanish</strong> <br />
+                                        Firmara la paz
                                     </p>
                                     <p class="col-xs-12 col-md-6">
                                         <strong>Spanish</strong> <br />
-                                        Te prometo dos cosas: un sabroso bistec a la plancha y decir siempre la verdad, lo que es raro en mí
+                                        Hice las paces
                                     </p>
                                 </div>
                             </div>
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="moreabout">
                             <div class="row">
-                                <div class="col-xs-12 col-md-12">
-                                    <p>
-                                        Extra information is optional and you should only be taken into account if indicated by your PM.
+                                <div class="col-xs-12 col-md-12 h5">
+                                    The meanings of both sentences are similar, even if they
+                                    contain any stop word which makes the meanings not equivalent
+                                </div>
+                                <div class="col-xs-12 col-md-12 row">
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>Spanish</strong> <br />
+                                        Estar más guapa
                                     </p>
-                                    <p>
-                                        Options:
-                                    <ul>
-                                        <li>
-                                            <strong>Contains personal data:</strong> content includes proper names or other personal data that could be anonymised for data protection purposes.
-                                        </li>
-                                        <li>
-                                            <strong>Contains inappropriate language:</strong> content includes profane language.
-                                        </li>
-                                    </ul>
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>Spanish</strong> <br />
+                                        Por lucir bien
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-12 h5">
+                                    The meanings of both sentences are equivalent, even if they
+                                    are expressed in different variants of the same language
+                                </div>
+                                <div class="col-xs-12 col-md-12 row">
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>Spanish</strong> <br />
+                                        Arrancó el coche
+                                    </p>
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>Spanish</strong> <br />
+                                        Encendió el auto
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12 col-md-12 h5">
+                                    The meanings of both sentences are not clearly related
+                                </div>
+                                <div class="col-xs-12 col-md-12 row">
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>Spanish</strong> <br />
+                                        Miráramos
+                                    </p>
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>Spanish</strong> <br />
+                                        Querr ¡
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-12 h5">
+                                    The candidate sentence contains just the same verbs or nouns but
+                                    in different tense, gender or number
+                                </div>
+                                <div class="col-xs-12 col-md-12 row">
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>Spanish</strong> <br />
+                                        Ya puede ir
+                                    </p>
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>Spanish</strong> <br />
+                                        Podrá ir
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-12 h5">
+                                    The meanings of both sentences are similar, but the candidate is missing
+                                    some important items
+                                </div>
+                                <div class="col-xs-12 col-md-12 row">
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>Spanish</strong> <br />
+                                        Sabía que tuviese
+                                    </p>
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>Spanish</strong> <br />
+                                        Ella tiene
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-12 h5">
+                                    The candidate sentence is specifying the meaning of the source text
+                                </div>
+                                <div class="col-xs-12 col-md-12 row">
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>Spanish</strong> <br />
+                                        De mis cosas
+                                    </p>
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>Spanish</strong> <br />
+                                        Mi basura
                                     </p>
                                 </div>
                             </div>
