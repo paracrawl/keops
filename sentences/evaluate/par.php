@@ -7,7 +7,6 @@ require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/sentence_task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/project_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dto/sentence_task_dto.php");
-require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/comment_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/utils/utils.php");
 
 
@@ -122,13 +121,13 @@ else {
                 <div class="col-md-8 col-sm-12 col-xs-12">
                     <input type="hidden" name="seall" value="?p=1&id=1&task_id=<?= $task->id ?>" />
                     <div class="row">
-                        <form action="" class="form-inline col-sm-12 col-md-8 col-md-offset-4 search-form mt-1 mt-sm-0 pl-md-0" style="justify-content: flex-end;">
+                        <form action="" class="form-inline col-sm-12 col-md-8 col-md-offset-4 search-form mt-1 mt-sm-0 pl-md-0" style="display: flex; align-items: center; justify-content: end;">
                             <input type="hidden" name="task_id" value="<?= $task->id ?>" />
                             <input type="hidden" name="p" value="1" />
                             <input type="hidden" name="id" value="1" />
 
-                            <div class="form-group pr-sm-4">
-                                <input class="form-control" id="search-term" name="term" value="<?php if (isset($search_term)) { echo $search_term; } ?>" placeholder="Search through sentences" aria-label="Search through sentences">
+                            <div class="form-group pr-sm-4" style="margin-right: 0.5rem; width: 100%;">
+                                <input class="form-control" style="margin-bottom: 0; width: 100%;" id="search-term" name="term" value="<?php if (isset($search_term)) { echo $search_term; } ?>" placeholder="Search through sentences" aria-label="Search through sentences">
                             </div>
 
                             <div class="form-group">
@@ -155,7 +154,7 @@ else {
         <?php } else {?>
         <div class="col-md-12 col-xs-12">
             <form id="evaluationform" action="/sentences/sentence_save.php" role="form" method="post" data-toggle="validator">
-                <div class="row vertical-align-sm">
+                <div class="row">
                     <input type="hidden" name="task_id" value="<?= $task->id ?>">
                     <input type="hidden" name="sentence_id" value="<?= $sentence->id ?>">
                     <input type="hidden" name="p_id" value="<?= $task_progress->current ?>">
@@ -166,15 +165,23 @@ else {
                         <input type="hidden" name="label" value="<?= $filter_label ?>" />
                     <?php } ?>
 
-                    <div class="col-sm-6">
-                        <div class="text-increase mb-2 ">This text is fluent <?= $task->target_lang_object->langname ?></div>
-                        <div class="well"><?=  $sentence->source_text ?></div>
+                    <div class="col-md-6">
+                        <div class="text-increase">Paraphrasing</div>
+                        <p>
+                            Please confirm if the two texts below are equivalent in meaning (paraphrases) according to the guidelines
+                        </p>
+
+                        <p style="margin-top: 2rem;">
+                            <a href="#" data-toggle="modal" data-target="#evaluation-help">
+                                <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Paraphrasing guidelines
+                            </a>
+                        </p>
                     </div>
 
-                    <div class="col-sm-6 my-3">
+                    <div class="col-md-6 my-3">
                         <div class="row">
                             <div class="col-md-12 col-xs-12 slider-component mt-3"> <!-- .slider-component -->
-                                <div class="custom-range slider">
+                                <div class="custom-range slider <?= ($task->status == "DONE") ? "disabled" : "" ?>">
                                     <input type=range id="evaluation" name="evaluation" min="0" max="100" value="<?= ($sentence->evaluation == "P") ? 50 : $sentence->evaluation ?>" />
                                     <div class="custom-range-control">
                                         <div class="pre"></div>
@@ -185,11 +192,11 @@ else {
                             </div>
 
                             <div class="col-md-6 col-xs-6">
-                                <strong>Strongly disagree</strong>
+                                <strong>Non-valid</strong>
                             </div>
 
                             <div class="col-md-6 col-xs-6 text-right">
-                                <strong>Strongly agree</strong>
+                                <strong>Valid</strong>
                             </div>
                         </div>
                     </div>
@@ -199,6 +206,13 @@ else {
         <div class="col-md-12 col-xs-12 mt-sm-5 mt-3">
             <div class="row same-height-sm">
                 <div class="col-md-6 same-height-column">
+                    <div class="text-increase mb-2">Source text</div>
+                    <div class="well h-100"><?=  $sentence->source_text ?></div>
+                </div>
+
+                <div class="col-md-6 same-height-column">
+                    <div class="text-increase mb-2">Candidate paraphrase</div>
+                    <div class="well h-100"><?=  $sentence->target_text[0]->source_text ?></div>
                 </div>
             </div>
         </div>
@@ -206,26 +220,31 @@ else {
 
     <div class="row">
         <hr />
-        <div class="col-md-2 col-md-push-6 col-xs-2 pt-xs-1">
-            <a class="btn btn-lg btn-previous <?= ($task_progress->current-1 == 0) ? "disabled" : "" ?>" style="padding-left: 0em;" href="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current-1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>" title="Go to the previous sentence"><span class="glyphicon glyphicon-arrow-left"></span> Previous</a>
+
+        <div class="col-md-6 col-md-push-6 col-xs-12 text-right" style="display: flex; align-items: baseline; justify-content: space-between;">
+            <div style="display: flex; align-items: center;">
+                <a class="btn btn-lg btn-previous <?= ($task_progress->current-1 == 0) ? "disabled" : "" ?>" style="padding-left: 0em;" href="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current-1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>" title="Go to the previous sentence"><span class="glyphicon glyphicon-arrow-left"></span> Previous</a>
+                <a href="/sentences/evaluate.php?task_id=<?= $task->id ?>" class="btn btn-link" title="Go to the first pending sentence" style="padding-left: 0px;">First pending</a>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: end;">
+                <a href="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current + 1 ?>"
+                   class="btn btn-link" id="skipBtn">Skip</a>
+
+                <?php if ($task->status == "DONE") { ?>
+                    <button id="evalutionsavebutton" data-next="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current+1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" title="Go to the next sentence">
+                        Next <span class="glyphicon glyphicon-arrow-right"></span>
+                    </button>
+                <?php } else { ?>
+                    <button id="evalutionsavebutton" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" title="Save this evaluation and go to the next sentence">Next <span class="glyphicon glyphicon-arrow-right"></span></button>
+                <?php } ?>
+            </div>
         </div>
 
-        <div class="col-md-4 col-md-push-6 col-xs-10 text-right">
-            <a href="/sentences/evaluate.php?task_id=<?= $task->id ?>" class="btn btn-link" title="Go to the first pending sentence">First pending</a>
-
-            <?php if ($task->status == "DONE") { ?>
-                <button id="evalutionsavebutton" data-next="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current+1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" title="Go to the next sentence">
-                    Next <span class="glyphicon glyphicon-arrow-right"></span>
-                </button>
-            <?php } else { ?>
-                <button id="evalutionsavebutton" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" title="Save this evaluation and go to the next sentence">Next <span class="glyphicon glyphicon-arrow-right"></span></button>
-            <?php } ?>
-        </div>
-
-        <div class="col-md-6 col-md-pull-6 col-xs-12 mt-4 mt-sm-0">
-            <div class="row">
-                <div class="col-md-12 col-xs-12 mt-1" style="display: flex; justify-content: center;">
-                    <form id="gotoform" method="get" action="/sentences/evaluate.php" class="col-md-5 col-xs-12">
+        <div class="col-md-6 col-md-pull-6 col-xs-12">
+            <div class="row" style="display: flex; justify-content: center;">
+                <div class="col-md-5 col-xs-12 mt-3 mt-md-0">
+                    <form id="gotoform" method="get" action="/sentences/evaluate.php">
                         <input type="hidden" name="p" value="1">
                         <input type="hidden" name="task_id" value="<?= $task->id ?>">
 
@@ -245,6 +264,241 @@ else {
 </div>
 </div>
 
+<div id="evaluation-help" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Guidelines</h4>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#quickreference" role="tab" data-toggle="tab">Quick reference</a></li>
+                    <li role="presentation"><a href="#examples" aria-controls="profile" role="tab" data-toggle="tab">Examples</a></li>
+                </ul>
+
+                <div class="modal-body-content">
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="quickreference">
+                            <div class="row">
+                                <div class="col-md-12 col-xs-12">
+                                    <p class="h4"><strong class="label label-success">Valid paraphrases</strong></p>
+                                    <ul class="arrow-list">
+                                        <li>
+                                            A sentence can be replaced by the other one
+                                        </li>
+                                        <li>
+                                            The candidate sentence is a generalization of the source text
+                                        </li>
+                                        <li>
+                                            The candidate sentence is a circumlocution of the source text
+                                        </li>
+                                        <li>
+                                            The candidate sentence is the same as the source text, but with a different
+                                            order of words
+                                        </li>
+                                        <li>
+                                            The meanings of both sentences are similar in any context, even if they
+                                            have different items (in different tense, person, number or gender)
+                                        </li>
+                                        <li>
+                                            The meanings of both sentences are similar in any context, even if they
+                                            contain any stop word which makes the meanings not equivalent
+                                        </li>
+                                        <li>
+                                            The meanings of both sentences are similar in any context, even if they
+                                            are expressed in different variants of the same language
+                                        </li>
+                                    </ul>
+
+                                    <p class="h4"><strong class="label label-danger">Non-valid paraphrases</strong></p>
+                                    <ul class="times-list">
+                                        <li>
+                                            The meanings of both sentences are not clearly related
+                                        </li>
+                                        <li>
+                                            The candidate sentence contains just the same verbs or nouns but
+                                            in different tense, gender or number
+                                        </li>
+                                        <li>
+                                            The meanings of both sentences are similar, but the candidate is missing
+                                            some important items
+                                        </li>
+                                        <li>
+                                            The candidate sentence is specifying the meaning of the source text
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="examples">
+                            <p>
+                                These examples use Spanish as both the source and target language.
+                            </p>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-12 h5">
+                                    Wrong Language Identification
+                                </div>
+                                <div class="col-xs-12 col-md-12 row">
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>English</strong> <br />
+                                        You have no items in your shopping cart.
+                                    </p>
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>Spanish</strong> <br />
+                                        Нямате артикули в количката си.
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-12 row">
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>English</strong> <br />
+                                        You have no items in your shopping cart.
+                                    </p>
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>Spanish</strong> <br />
+                                        El carrito est&amp;#225; vac&amp;iacuteo
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-12 h5">
+                                    Incorrect Alignment
+                                </div>
+                                <div class="col-xs-12 col-md-12 row">
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>English</strong> <br />
+                                        We have booked two rooms at your hotel on Dec 11 for four nights.
+                                    </p>
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>Spanish</strong> <br />
+                                        En diciembre, pueden reservar dos habitaciones dobles al precio de una (mínimo cuatro noches).
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-12 h5">
+                                    Wrong Tokenization
+                                </div>
+                                <div class="col-xs-12 col-md-12 row">
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>English</strong> <br />
+                                        EnvironmentPleasant view, bright, in gated residential community.
+                                    </p>
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>Spanish</strong> <br />
+                                        EntornoVista agradable , luminoso , en una urbanizaci ón cerrada.
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-12 row">
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>English</strong> <br />
+                                        its configuration could give the impression that its owners were not
+                                    </p>
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>Spanish</strong> <br />
+                                        podría dar la impresión de que sus poseedores no
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-12 h5">
+                                    MT-translated content
+                                </div>
+                                <div class="col-xs-12 col-md-12 row">
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>English</strong> <br />
+                                        There must be another way.
+                                    </p>
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>Spanish</strong> <br />
+                                        Hay que haber otro camino.
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-12 row">
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>English</strong> <br />
+                                        Steve Jobs co-founded Apple.
+                                    </p>
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>Spanish</strong> <br />
+                                        Steve Trabajos cofundó Manzana.
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-12 row">
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>English</strong> <br />
+                                        You can drink free beers here.
+                                    </p>
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>Spanish</strong> <br />
+                                        Puedes tomar cervezas libre aquí.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-12 h5">
+                                    Translation Errors
+                                </div>
+                                <div class="col-xs-12 col-md-12 row">
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>English</strong> <br />
+                                        The Centre for Human Rights publishes its annual report
+                                    </p>
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>Spanish</strong> <br />
+                                        El Centro de Derechos Umanos publica su banlace anual.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-12 h5">
+                                    Free translation
+                                </div>
+                                <div class="col-xs-12 col-md-12 row">
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>English</strong> <br />
+                                        I'll make you two promises: a very good steak, medium rare, and the truth, which is very rare
+                                    </p>
+                                    <p class="col-xs-12 col-md-6">
+                                        <strong>Spanish</strong> <br />
+                                        Te prometo dos cosas: un sabroso bistec a la plancha y decir siempre la verdad, lo que es raro en mí
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="moreabout">
+                            <div class="row">
+                                <div class="col-xs-12 col-md-12">
+                                    <p>
+                                        Extra information is optional and you should only be taken into account if indicated by your PM.
+                                    </p>
+                                    <p>
+                                        Options:
+                                    <ul>
+                                        <li>
+                                            <strong>Contains personal data:</strong> content includes proper names or other personal data that could be anonymised for data protection purposes.
+                                        </li>
+                                        <li>
+                                            <strong>Contains inappropriate language:</strong> content includes profane language.
+                                        </li>
+                                    </ul>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 <?php
 require_once(TEMPLATES_PATH . "/footer.php");
 ?>
@@ -252,8 +506,8 @@ require_once(TEMPLATES_PATH . "/footer.php");
 require_once(TEMPLATES_PATH . "/resources.php");
 ?>
 
-<script type="text/javascript" src="/js/timer.js"></script>
 <script type="text/javascript" src="/js/evaluation.js"></script>
+<script type="text/javascript" src="/js/par_evaluation.js"></script>
 <script type="text/javascript" src="/js/slider.js"></script>
 <script type="text/javascript" src="/js/slider_keyboard.js"></script>
 </body>

@@ -25,7 +25,7 @@ if ($service == "corporaByLanguage") {
     $corpus_dao = new corpus_dao();
     $corpora_filters = array('active' => 'true', 'target_lang' => $target_lang_object->id, 'evalmode' => $mode);
     
-    if ($mode != "FLU" && $mode != "PAR") {
+    if ($mode != "FLU") {
       $source_lang_object = $language_dao->getLangByLangCode($source_lang);
       $corpora_filters['source_lang'] = $source_lang_object->id;
     }

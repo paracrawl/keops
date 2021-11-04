@@ -1019,7 +1019,7 @@ table.dataTable td.multiline:not(.actions) {
   border-radius: 0;
 }
 
-.arrow-list {
+.arrow-list, .times-list {
   list-style-type: none;
   padding: 0px;
 }
@@ -1027,6 +1027,12 @@ table.dataTable td.multiline:not(.actions) {
 .arrow-list li:before {
   content: "✔";
   font-size: 20px;
+}
+
+.times-list li:before {
+  content: "×";
+  font-size: 20px;
+  vertical-align: middle;
 }
 
 #evaluation-sentences a img {

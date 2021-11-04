@@ -54,7 +54,7 @@ class sentence_dao {
             $type = "";
           }
   
-          $is_source = ($mode == "FLU" || $mode == "PAR") ? "true" : "false";
+          $is_source = ($mode == "FLU") ? "true" : "false";
 
           $pair = array();
           foreach ($d as $sentence) {
@@ -71,7 +71,7 @@ class sentence_dao {
         $query = $this->conn->prepare(substr_replace($query_str, "RETURNING id", -1));
         $query->execute($paramvalues);
         
-        if ($mode != "FLU" && $mode != "PAR") {
+        if ($mode != "FLU") {
           while($row = $query->fetch()) {
             $pair[] = $row['id'];
           }

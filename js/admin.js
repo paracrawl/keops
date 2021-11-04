@@ -589,7 +589,7 @@ $(document).ready(function() {
             case "RAN":
               return "Ranking";
             case "PAR":
-              return "Paraphrases";
+              return "Paraphrasing";
           }
         }
       },
@@ -712,7 +712,7 @@ $(document).ready(function() {
             case 'RAN':
               return 'Ranking';
             case 'PAR':
-              return 'Paraphrases';
+              return 'Paraphrasing';
           } 
         }
       },
