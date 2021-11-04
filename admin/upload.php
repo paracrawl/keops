@@ -47,7 +47,7 @@
       <li role="presentation"><a href="#corpora_adequacy" data-toggle="tab">Adequacy</a></li>
       <li role="presentation"><a href="#corpora_fluency" data-toggle="tab">Fluency</a></li>
       <li role="presentation"><a href="#corpora_ranking" data-toggle="tab">Ranking</a></li>
-      <li role="presentation"><a href="#corpora_paraphrases" data-toggle="tab">Paraphrasing</a></li>
+      <li role="presentation"><a href="#corpora_paraphrases" data-toggle="tab">Paraphrasing <span class="label label-default ml-1">BETA</span></a></li>
     </ul>
 
     <div class="tab-content pt-4">
