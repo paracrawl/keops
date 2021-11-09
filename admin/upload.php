@@ -631,6 +631,33 @@
               <p>Include as many systems as you want.</p>
             </div>
           </div>
+
+          <div class="row">
+            <div class="col-xs-12 col-md-12 h5 px-inherit py-3">
+                Paraphrasing
+                <a href="/corpora/templates/paraphrasing.tsv" class="pull-right"><span class="glyphicon glyphicon-download"></span> Template (.tsv)</a>
+            </div>
+            <div class="col-xs-12 col-md-12 px-inherit py-3">
+                <table class="table table-no-left-padding">
+                    <thead>
+                    <tr>
+                        <th>Source text</th>
+                        <th><kbd>Tab</kbd></th>
+                        <th>Candidate paraphrase</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>The people were excited</td>
+                        <td><kbd>Tab</kbd></td>
+                        <td>The people were thrilled</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <p>You should only include one candidate paraphrase for each source text.</p>
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
