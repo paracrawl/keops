@@ -102,14 +102,20 @@ else {
         </div>
     <?php } ?>
 
-    <ul class="breadcrumb" id="top">
-        <li><a href="/index.php">Tasks</a></li>
-        <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>" title="Go to the first pending sentence">Evaluation of <?= $project->name ?> </a></li>
-        <li class="active">Task #<?= $task->id ?></li>
-    </ul>
+    <div style="display: flex; align-items: center; flex-wrap: wrap;">
+        <ul class="breadcrumb mb-3" id="top" style="width: 100%; margin-bottom: 0; flex: 1 0 75%;">
+            <li><a href="/index.php">Tasks</a></li>
+            <li><a href="/sentences/evaluate.php?task_id=<?= $task->id ?>" title="Go to the first pending sentence">Evaluation of <?= $project->name ?> </a></li>
+            <li class="active">Task #<?= $task->id ?></li>
+        </ul>
+
+        <a href="#" data-toggle="modal" data-target="#evaluation-help" class="mb-3 ml-3">
+            <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Paraphrasing guidelines
+        </a>
+    </div>
 
     <div class="row" style="border-bottom: solid 1px #eee;">
-        <div class="col-md-12 row mx-0 mt-0 mb-4">
+        <div class="col-md-12 row mx-0 mt-3 mb-4">
             <div class="row">
                 <div class="col-md-4 col-sm-12 col-xs-12">
               <span class="h2">Task #<?php echo $task->id ?>
@@ -165,16 +171,11 @@ else {
                         <input type="hidden" name="label" value="<?= $filter_label ?>" />
                     <?php } ?>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="margin-bottom: 2rem;">
                         <div class="text-increase">Paraphrasing</div>
+
                         <p>
                             Please confirm if the two texts below are equivalent in meaning (paraphrases) according to the guidelines
-                        </p>
-
-                        <p style="margin-top: 2rem;">
-                            <a href="#" data-toggle="modal" data-target="#evaluation-help">
-                                <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Paraphrasing guidelines
-                            </a>
                         </p>
                     </div>
 
