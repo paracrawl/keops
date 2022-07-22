@@ -25,7 +25,7 @@
   $corpus_tl = "";
           
   $preview = $corpus_dao->getSentencesFromCorpus($corpus_id, 20);
-  
+
   foreach ($languages as $lang){
     if ($lang->id == $corpus->source_lang){
       $corpus_sl = $lang->langname;
@@ -101,7 +101,7 @@
       </div>
       
         <?php
-        if ($corpus->mode == "VAL" || $corpus->mode == "FLU") {
+        if (in_array($corpus->mode, ["VAL", "FLU", "PAR"])) {
           foreach ($preview as $line){
             ?>
             <div class="row">

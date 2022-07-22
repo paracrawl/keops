@@ -137,6 +137,14 @@ When evaluating fluency, evaluators must assess that the presented text is fluen
 
 When performing this kind of evaluation, a source text and a reference translation is presented to the evaluator. Then, evaluators must rank a set of candidate translations. The first position belongs to the best translation and, the last position, to the worst one.
 
+#### Paraphrasing
+![Paraphrasing screen](/screenshots/guide/paraphrasing.png)
+
+When evaluating paraphrases, a source text and a candidate paraphrase is presented to the evaluator.
+The evaluator must assess that the candidate is a valid paraphrase of the source text. 
+A bunch of guidelines are available on the evaluating screen, 
+in order to help the evaluator assess the paraphrases.
+
 <a name="corpora"></a>
 
 ## Managing corpora
@@ -153,14 +161,15 @@ The specific format of the TSV file is explained below for each of the evaluatio
 * [Adequacy template](/corpora/templates/adequacy.tsv)
 * [Fluency template](/corpora/templates/fluency.tsv)
 * [Ranking template](/corpora/templates/ranking.tsv)
+* [Paraphrasing template](/corpora/templates/paraphrasing.tsv)
 
 Please note that **all formats contain headers** which are necessary in
 order to upload corpora to KEOPS. If you have a corpus without headers, you
 can add them using:
 
 ```
-echo -e "Source text\tTarget Text" | cat - paracrawl-v5.en-fr-0.7.shuf >
-corpus-with headers
+echo -e "Header\tAnother header" | cat - corpus-without-headers >
+corpus-with-headers
 ```
 
 #### Corpora for validation
@@ -196,6 +205,13 @@ Corpora for fluency evaluation consist only on one column because they are monol
 | You can contact our customer service department using the form below | Tab | Puedes ponerte en contacto con nuestro departamento de servicio al cliente mediante el siguiente formulario | Tab | Manual de empleo y manutención | Tab | Manual de empleo y manutención | Tab | ... |
 
 Include as many systems as you want.
+
+#### Corpora for paraphrasing
+| Source text | Tab | Candidate paraphrase |
+|----------------------------------------------------------------------|-----|-------------------------------------------------------------------------------------------------------------|
+| Have the right to choose | Tab | Have the right to elect |
+
+You should only include one candidate paraphrase for each source text.
 
 <a name="users"></a>
 

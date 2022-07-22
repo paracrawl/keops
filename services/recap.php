@@ -13,7 +13,7 @@ require_once(RESOURCES_PATH . "/session.php");
 
 
 $service = filter_input(INPUT_POST, "service");
-if ($service == "stats_ade") {
+if ($service == "stats_ade" || $service == "stats_par") {
   $failedparams = checkPostParameters(["type", "task_id"]);
   if (count($failedparams) == 0){
     $type = filter_input(INPUT_POST, "type");
@@ -46,7 +46,8 @@ if ($service == "stats_ade") {
   } else {
     echo json_encode(array("result" => -1));
   }
-} else if ($service = "stats_ran") {
+} else if ($service == "stats_ran") {
+    error_log("stats ranking");
   $failedparams = checkPostParameters(["task_id"]);
   if (count($failedparams) > 0) {
     echo json_encode(array("result" => -1));

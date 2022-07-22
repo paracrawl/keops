@@ -181,6 +181,22 @@ Press the numbers of the keyboard to order the translations. When you press the 
 
 Then, you will automatically jump to the next translation. Keep on pressing numbers to assign a position to every translation. If you ever need to move to a translation manually, use the <kbd>+</kbd> and <kbd>-</kbd> keys. Press <kbd>Enter</kbd> to save the ranking and go to the next sentence. Alternatively, you can type the sentence position in the field on its left.
 
+#### Paraphrasing
+
+When evaluating paraphrases, a source text and a candidate paraphrase is presented to you.
+You must assess that the candidate is a valid paraphrase of the source text. A bunch of guidelines
+are available on the evaluating screen, in order to help you assess the paraphrases.
+
+__Keyboard__
+
+Press <kbd>A</kbd> to set the paraphrase as non-valid.
+
+Press <kbd>D</kbd> to set it as valid.
+
+Press <kbd>S</kbd> to skip it.
+
+With <kbd>+</kbd>, <kbd>-</kbd>, and <kbd>.</kbd> you can adjust the assessment of the paraphrase accurately.
+
 <a name="done"></a>
 
 ## Once you're done

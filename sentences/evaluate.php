@@ -22,5 +22,8 @@
     case 'RAN':
       header("Location: /sentences/evaluate/ran.php?".$_SERVER['QUERY_STRING']);
       break;
+    case 'PAR':
+      header("Location: /sentences/evaluate/par.php?".$_SERVER['QUERY_STRING']);
+      break;
   }
 ?>

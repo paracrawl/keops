@@ -19,14 +19,15 @@ services:
       - KEOPS_HELPER_PORT=
       - KEOPS_HELPER_EMAIL=
       - KEOPS_HELPER_PASSWORD=
-      - KEOPS_ROOT_PASSWORD=root
     ports:
       - "8080:80"
     depends_on:
       - keopsdb
     networks:
       - keops
-      
+    volumes:
+      - ./:/opt/keops
+
   keopsdb:
     build:
       context: .
@@ -35,13 +36,13 @@ services:
     container_name: keopsdb
     networks:
       - keops
+#    ports:
+        #- 5432:5432
     environment:
       - POSTGRESPASSWORD=PASSWORD_FOR_POSTGRES
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - ./postgres:/var/lib/postgresql/data
 
 networks:
   keops:
 
-volumes:
-  postgres:

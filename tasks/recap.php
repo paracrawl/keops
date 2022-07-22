@@ -22,6 +22,9 @@
     case 'RAN':
       header("Location: /tasks/recap/ran.php?".$_SERVER['QUERY_STRING']);
       break;
-
+    case 'PAR':
+      header("Location: /tasks/recap/par.php?".$_SERVER['QUERY_STRING']);
+      break;
   }
 ?>
+

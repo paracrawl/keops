@@ -8,7 +8,7 @@
                         <img src="/img/logotipo-prompsit.png" alt="Prompsit home" />
                     </a>
                     <p>
-                    <span class="glyphicon glyphicon-copyright-mark" aria-hidden="true"></span>&nbsp;2019 Prompsit Language Engineering S.L. <br />
+                    <span class="glyphicon glyphicon-copyright-mark" aria-hidden="true"></span> <?= date("Y") ?> Prompsit Language Engineering S.L. <br />
                     
                     <p>
                         <a href="https://github.com/paracrawl/keops" class="vertical-align-center" target="_blank">
@@ -33,6 +33,16 @@
                         shall indicate that it reflects only the author's view and that the
                         Innovation and Networks Executive Agency of the European Union is not responsible 
                         for any use that may be made of the information it contains.
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-xs-12 col-md-12">
+                        <img alt="Ministerio" src="/img/ministerio.svg" style="height: 6rem;" />
+                    </div>
+
+                    <div class="col-md-offset-6 col-xs-12 col-md-6 legal-notice mt-3">
+                        TSI-100905-2019-4 project, co-financed by the Ministry of Economic Affairs and Digital Transformation
                     </div>
                 </div>
             </div>

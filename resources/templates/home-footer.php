@@ -37,6 +37,16 @@
                         for any use that may be made of the information it contains.
                     </div>
                 </div>
+
+                <div class="row mt-5">
+                    <div class="col-xs-12 col-md-12">
+                        <img alt="Ministerio" src="/img/ministerio.svg" style="height: 6rem;" />
+                    </div>
+
+                    <div class="col-md-offset-6 col-xs-12 col-md-6 legal-notice mt-3">
+                        TSI-100905-2019-4 project, co-financed by the Ministry of Economic Affairs and Digital Transformation
+                    </div>
+                </div>
             </div>
         </div>
     </div>
