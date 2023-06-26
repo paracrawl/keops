@@ -37,7 +37,7 @@ try {
   $lang_dao = new language_dao();
   $matches = [];
 
-  if ($corpus_dto->mode == "FLU") {
+  if ($corpus_dto->mode == "FLU" || $corpus_dto->mode == "MONO") {
     if (preg_match('/^.+\.(\w{2})$/', $corpus_dto->name, $matches)) {
       if (count($matches) > 1 && $lang_dao->existsLangCode($matches[1])) {
         $corpus_dto->target_lang = $lang_dao->getLangByLangCode($matches[1])->id;
@@ -61,11 +61,11 @@ try {
     throw new CorpusException("Invalid format of corpus uploaded.");
   }
 
-  if ($mode == "VAL" || $mode == "FLU" || $mode == "PAR") {
-    file_reader($tempFile, (in_array($mode, ["VAL", "PAR"])) ? 2 : 1, function($values) use ($sentence_dao, $corpus_dto, $corpus_dao, $mode) {
+  if ($mode == "VAL" || $mode == "FLU" || $mode == "PAR" || $mode == "VAL_MAC" || $mode == "MONO") {
+    file_reader($tempFile, (in_array($mode, ["VAL", "VAL_MAC", "PAR"])) ? 2 : 1, function($values) use ($sentence_dao, $corpus_dto, $corpus_dao, $mode) {
       $result = $sentence_dao->insertBatchSentences($corpus_dto->id,
           $corpus_dto->source_lang, $corpus_dto->target_lang, $values,
-          $mode, (in_array($mode, ["VAL", "PAR"])) ? 2 : 1);
+          $mode, (in_array($mode, ["VAL", "VAL_MAC", "PAR"])) ? 2 : 1);
       $corpus_dao->updateLinesInCorpus($corpus_dto->id);
     }, 1000, true);
   } else if ($mode == "ADE") {

@@ -28,7 +28,9 @@
     ["code" => "VAL", "name" => "Validation"],
     ["code" => "ADE", "name" => "Adequacy"],
     ["code" => "FLU", "name" => "Fluency"],
-    ["code" => "RAN", "name" => "Ranking"]
+    ["code" => "RAN", "name" => "Ranking"],
+    ["code" => "VAL_MAC", "name" => "Validation (MaCoCu)"],
+    ["code" => "MONO", "name" => "Monolingual validation"]
   ];
 ?>
 <!DOCTYPE html>

@@ -52,8 +52,10 @@
               <option value="VAL">Validation</option>
               <option value="ADE">Adequacy</option>
               <option value="FLU">Fluency</option>
+              <option value="MONO">Monolingual validation</option>
               <option value="RAN">Ranking</option>
               <option value="PAR">Paraphrasing</option>
+              <option value="VAL_MAC">Validation (MaCoCu)</option>
             </select>
           </div>
         </div>

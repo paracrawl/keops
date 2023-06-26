@@ -4,7 +4,8 @@ CREATE SCHEMA keopsdb;
 CREATE TYPE keopsdb.role AS ENUM ('PM', 'USER', 'root');
 CREATE TYPE keopsdb.taskstatus AS ENUM ('PENDING', 'STARTED', 'DONE');
 CREATE TYPE keopsdb.label AS ENUM ('P','V','L','A','T','MT','E','F');
-CREATE TYPE keopsdb.evalmode AS ENUM ('VAL', 'ADE', 'FLU', 'RAN', 'PAR');
+CREATE TYPE keopsdb.mac_label AS ENUM ('WL', 'ML', 'CL', 'MC', 'RC','MA', 'SC', 'LQT', 'CBT', 'RT');
+CREATE TYPE keopsdb.evalmode AS ENUM ('VAL', 'ADE', 'FLU', 'RAN', 'PAR', 'MONO', 'VAL_MAC');
 
 CREATE TABLE keopsdb.USERS (
     ID serial PRIMARY KEY,
@@ -127,11 +128,11 @@ create table keopsdb.password_renew (
 	created_time timestamp not null DEFAULT CURRENT_TIMESTAMP
 );
 
-insert INTO keopsdb.langs (langcode, langname) values ('bg','Bulgarian'), ('cs', 'Czech'), ('ca', 'Catalan'),  ('da', 'Danish'), ('de', 'German'), 
+insert INTO keopsdb.langs (langcode, langname) values ('bg','Bulgarian'), ('bo', 'Bosnian'),  ('cs', 'Czech'), ('ca', 'Catalan'),  ('da', 'Danish'), ('de', 'German'), 
 ('el', 'Greek'), ('en', 'English'), ('es', 'Spanish'), ('et', 'Estonian'), ('fi', 'Finnish'), ('fr', 'French'), ('ga', 'Irish'), ('gl', 'Galician'), 
-('hr', 'Croatian'), ('hu', 'Hungarian'), ('is', 'Icelandic'), ('it', 'Italian'),  ('lt', 'Lithuanian'), ('lv', 'Latvian'), ('mt', 'Maltese'), 
+('hr', 'Croatian'), ('hu', 'Hungarian'), ('is', 'Icelandic'), ('it', 'Italian'),  ('lt', 'Lithuanian'), ('lv', 'Latvian'), ('me', 'Montenegrin'), ('mk', 'Macedonian'), ('mt', 'Maltese'), 
 ('nl', 'Dutch'), ('nn', 'Norwegian - nynorsk'), ('no', 'Norwegian - bokmal'), ('pl', 'Polish'), ('pt', 'Portuguese'),  ('ro', 'Romanian'), 
-('sk', 'Slovak'), ('sl', 'Slovenian'), ('sv', 'Swedish');
+('sk', 'Slovak'), ('sl', 'Slovene'), ('sq', 'Albanian'), ('sr', 'Serbian'), ('sv', 'Swedish'). ('tk', 'Turkish');
 
 
 REVOKE CONNECT ON DATABASE keopsdb FROM PUBLIC;

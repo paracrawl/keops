@@ -25,6 +25,12 @@
     case 'PAR':
       header("Location: /tasks/recap/par.php?".$_SERVER['QUERY_STRING']);
       break;
+    case 'VAL_MAC':
+      header("Location: /tasks/recap/val_mac.php?".$_SERVER['QUERY_STRING']);
+      break;
+    case 'MONO':
+      header("Location: /tasks/recap/mono.php?".$_SERVER['QUERY_STRING']);
+      break;      
   }
 ?>
 

@@ -23,7 +23,7 @@ if (isset($task_id)) {
   if ($task->status == "DONE") {
     $rows = array();
 
-    if ($task->mode == "VAL") {
+    if ($task->mode == "VAL" || $task->mode=="VAL_MAC") {
       $sentence_task_dao = new sentence_task_dao();
       $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id);
 
@@ -34,7 +34,7 @@ if (isset($task_id)) {
       }
 
       $rows[] = array("Total", "Total", $task_stats_dto->total);
-    } else if ($task->mode == "ADE" || $task->mode == "FLU") {
+    } else if ($task->mode == "ADE" || $task->mode == "FLU" || $task->mode=="MONO") {
       $stats = $task_dao->getStatsForTask($task_id, $task->mode);
 
       $rows[] = array("Percentage", "# of sentences");

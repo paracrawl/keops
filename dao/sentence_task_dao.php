@@ -580,7 +580,17 @@ count(case when evaluation = 'MT' then 1 end) as MT,
 count(case when evaluation = 'E' then 1 end) as E,
 count(case when evaluation = 'F' then 1 end) as F,
 count(case when evaluation = 'P' then 1 end) as P,
-count(case when evaluation = 'V' then 1 end) as V
+count(case when evaluation = 'V' then 1 end) as V,
+count(case when evaluation = 'WL' then 1 en) as WL,
+count(case when evaluation = 'ML' then 1 en) as ML,
+count(case when evaluation = 'CL' then 1 en) as CL,
+count(case when evaluation = 'MC' then 1 en) as MC,
+count(case when evaluation = 'RC' then 1 en) as RC,
+count(case when evaluation = 'MA' then 1 en) as MA,
+count(case when evaluation = 'SC' then 1 en) as SC,
+count(case when evaluation = 'LQT' then 1 en) as LQT,
+count(case when evaluation = 'CBT' then 1 en) as CBT,
+count(case when evaluation = 'RT' then 1 en) as RT
 from sentences_tasks, sentences as s where task_id = ? and sentence_id = s.id and s.is_source = true;");
       $query->bindParam(1, $task_id);
       $query->execute();
