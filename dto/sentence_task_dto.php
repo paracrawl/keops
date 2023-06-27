@@ -63,6 +63,6 @@ sentence_task_dto::$labels = array(
   array( 'value' => 'RC', 'label' => 'Replaced content', 'title' => ''),
   array( 'value' => 'MA', 'label' => 'Misalignment', 'title' => ''),
   array( 'value' => 'LQT', 'label' => 'Low quality translation', 'title' => ''),
-  array( 'value' => 'CBT', 'label' => 'Correct boilerplate translation', 'title' => ''))
-
+  array( 'value' => 'CBT', 'label' => 'Correct boilerplate translation', 'title' => '')
+);
 

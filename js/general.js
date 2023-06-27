@@ -51,6 +51,10 @@ $(document).ready(function() {
               return 'Ranking';
             case 'PAR':
               return 'Paraphrases';
+            case 'MONO':
+              return "Monolingual";
+            case "VAL_MAC":
+              return "Validation (MaCoCu)";
           }
         }
       },
