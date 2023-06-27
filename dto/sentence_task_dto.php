@@ -15,7 +15,8 @@
  */
 class sentence_task_dto {
   public static $labels;
-  
+  public static $labels_valmac;
+    
   public $id;
   public $task_id;
   public $sentence_id;
@@ -40,6 +41,23 @@ class sentence_task_dto {
     }
     return "";
   }
+  
+  
+  /**
+   * Retrieves the text (label) evaluation label of a evaluation type
+   * 
+   * @param string $value Value of the evaluation
+   * @return string Label
+   */
+  public static function  getValMacLabel($value){
+    foreach (sentence_task_dto::$labels_valmac as $label) {
+      if ($label['value'] == $value){
+        return $label['label'];
+      }
+    }
+    return "";
+  }
+  
 
 }
 
@@ -54,15 +72,18 @@ sentence_task_dto::$labels = array(
   array( 'value' => 'MT', 'label' => 'MT translation', 'title' => '' ),
   array( 'value' => 'E', 'label' => 'Translation error', 'title' => '' ),
   array( 'value' => 'F', 'label' => 'Free translation', 'title' => '' ),
-  array( 'value' => 'V', 'label' => 'Valid translation', 'title' => 'No issues found on parallel sentences' ),
+  array( 'value' => 'V', 'label' => 'Valid translation', 'title' => 'No issues found on parallel sentences' )
+);
 
-
+sentence_task_dto::$labels_valmac = array(
   array( 'value' => 'WL', 'label' => 'Wrong language', 'title' => ''),
   array( 'value' => 'ML', 'label' => 'Mixed language', 'title' => ''),
   array( 'value' => 'MC', 'label' => 'Missing content', 'title' => ''),
   array( 'value' => 'RC', 'label' => 'Replaced content', 'title' => ''),
   array( 'value' => 'MA', 'label' => 'Misalignment', 'title' => ''),
   array( 'value' => 'LQT', 'label' => 'Low quality translation', 'title' => ''),
-  array( 'value' => 'CBT', 'label' => 'Correct boilerplate translation', 'title' => '')
+  array( 'value' => 'CBT', 'label' => 'Correct boilerplate translation', 'title' => ''),
+  array( 'value' => 'V', 'label' => 'Valid translation', 'title' => 'No issues found on parallel sentences' )
+
 );
 

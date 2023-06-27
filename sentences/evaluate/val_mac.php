@@ -262,7 +262,7 @@ else {
                 <div class="row">
                   <div class="col-md-12 col-xs-12 btn-group evaluation-btn-group">
                     <?php $comment_dao = new comment_dao(); $count = 0; ?>
-                    <?php foreach (array_slice(sentence_task_dto::$labels, 1, count(sentence_task_dto::$labels) - 2) as $label) { ?>
+                    <?php foreach (array_slice(sentence_task_dto::$labels_valmac, 1, count(sentence_task_dto::$labels_valmac) - 2) as $label) { ?>
                       <?php $count++; ?>
                       <div class="row">
                       <div class="col-md-5 col-xs-12">
@@ -294,7 +294,7 @@ else {
                     <?php } ?>
 
                     <div class="row">
-                      <?php foreach (array_slice(sentence_task_dto::$labels, -1, 1) as $label) { ?>
+                      <?php foreach (array_slice(sentence_task_dto::$labels_valmac, -1, 1) as $label) { ?>
                       <div class="col-md-5 col-xs-12">
                       <div class="btn-group w-100 mb-1" role="group" style="display:flex;">
                           <span class="btn btn-success disabled outline col-md-2 col-xs-2 px-0"><?= $count + 1 ?></span>
