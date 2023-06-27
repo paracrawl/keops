@@ -304,7 +304,7 @@ $(document).ready(function() {
       }
 
       let mode = $("#mode").val();
-      if (mode == "FLU" || $mode == "MONO") {
+      if (mode == "FLU" || mode == "MONO") {
         $("#source_lang_group").addClass("d-none");
       } else {
         $("#source_lang_group").removeClass("d-none");
