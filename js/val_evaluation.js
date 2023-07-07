@@ -32,7 +32,7 @@ $(document).ready(function () {
     }
     if (!thirdLoop.hasClass("d-none")) {
       thirdLoop.toggleClass("d-none");
-      trhirdLoop.css("display", "none");
+      thirdLoop.css("display", "none");
     }
   });
 
@@ -92,11 +92,11 @@ $(document).ready(function () {
 
   let annotations = $(".btn-annotation");
   $(document).on("keydown", (e) => {
-    if (e.which == 45) {
-      wrongLanguageInput.trigger("click");
-    }
     if (e.which == 35) {
       mixedLanguageInput.trigger("click");
+    }
+    if (e.which == 45) {
+      wrongLanguageInput.trigger("click");
     }
     if (e.which == 40) {
       correctLanguageInput.trigger("click");
