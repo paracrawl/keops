@@ -153,9 +153,9 @@ else {
             </div>
         </div>
         <?php } else {?>
-        <div class="col-md-12 col-xs-12">
+        <div class=" col-xs-12">
           <form id="evaluationform" action="/sentences/sentence_save.php" role="form" method="post" data-toggle="validator">
-              <div class="row vertical-align-sm">
+              <div class="row ">
                   <input type="hidden" name="task_id" value="<?= $task->id ?>">
                   <input type="hidden" name="sentence_id" value="<?= $sentence->id ?>">
                   <input type="hidden" name="p_id" value="<?= $task_progress->current ?>">
@@ -166,14 +166,15 @@ else {
                   <input type="hidden" name="label" value="<?= $filter_label ?>" />
                   <?php } ?>
 
-                  <div class="col-sm-6">
+                  <div class="col-sm-6 ">
                       <div class="text-increase mb-2 ">This text is fluent <?= $task->target_lang_object->langname ?></div>
                       <div class="well"><?=  $sentence->source_text ?></div>
                   </div>
+                  
 
-                  <div class="col-sm-6 my-3">
-                    <div class="row">
-                      <div class="col-md-12 col-xs-12 slider-component mt-3"> <!-- .slider-component -->
+                  <div class="col-sm-6 my-3 d-flex" style="display:flex;flex-direction:column;width: 40%;">
+                    <!-- <div class="row">
+                      <div class="col-md-12 col-xs-12 slider-component mt-3"> 
                         <div class="custom-range slider">
                             <input type=range id="evaluation" name="evaluation" min="0" max="100" value="<?= ($sentence->evaluation == "P") ? 50 : $sentence->evaluation ?>" />
                             <div class="custom-range-control">
@@ -182,17 +183,65 @@ else {
                               <div class="handle"></div>
                             </div>
                           </div>
-                      </div>
+                      </div> --><!-- .slider-component -->
+                   
 
-                      <div class="col-md-6 col-xs-6">
-                        <strong>Strongly disagree</strong>
-                      </div>
-
-                      <div class="col-md-6 col-xs-6 text-right">
-                        <strong>Strongly agree</strong>
-                      </div>
+                      <div class="col-md-11 col-md-offset-1">
+                  <div class="row vertical-align mt-1 mt-sm-0 mb-4" style="margin-bottom: 1em;">
+                    <div class="col-sm-4 col-xs-6">
+                      <h4 class="my-0">Annotation</h4>
                     </div>
-                  </div>
+                    <div class="col-sm-8 col-xs-6 text-right">
+                      <a href="#" data-toggle="modal" data-target="#evaluation-help">
+                        Validation guidelines <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                      </a>
+                    </div>
+                </div>
+                   
+                      <div class=" col-xs-12">
+                        <div class="btn-group btn-group-annotation w-100 mb-1" role="group" >
+                          <span class="btn btn-danger disabled outline col-md-2 col-xs-2 px-0">0</span>
+                          <label class="btn btn-annotation outline btn-danger col-md-10 col-xs-10 mb-2">
+                            <input type="radio" name="evaluation" autocomplete="off" style="display: none;" type="radio" value="WL"> Wrong language or no language
+                          </label>
+                        </div>
+                      </div>
+                    
+               
+                      <div class=" col-xs-12">
+                        <div class="btn-group btn-group-annotation w-100 mb-1" role="group" >
+                          <span class="btn btn-warning disabled outline col-md-2 col-xs-2 px-0">1</span>
+                          <label class="btn btn-annotation outline btn-warning col-md-10 col-xs-10 mb-2">
+                            <input type="radio" name="evaluation" autocomplete="off" style="display: none;" type="radio" value="NRT"> Not running text 
+                          </label>
+                        </div>
+                      </div>
+                    
+                      <div class=" col-xs-12">
+                        <div class="btn-group btn-group-annotation w-100 mb-1" role="group" >
+                          <span class="btn btn-info disabled outline col-md-2 col-xs-2 px-0">2</span>
+                          <label class="btn btn-annotation outline btn-info col-md-10 col-xs-10 mb-2">
+                            <input type="radio" name="evaluation" autocomplete="off" style="display: none;" type="radio" value="PRT"> Partially running text 
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-xs-12">
+                        <div class="btn-group btn-group-annotation w-100 mb-1" role="group" >
+                          <span class="btn btn-primary disabled outline col-md-2 col-xs-2 px-0">3</span>
+                          <label class="btn btn-annotation outline btn-primary col-md-10 col-xs-10 mb-2">
+                            <input type="radio" name="evaluation" autocomplete="off" style="display: none;" type="radio" value="RTE"> Running text 
+                          </label>
+                        </div>
+                      </div>
+                      <div class=" col-xs-12">
+                        <div class="btn-group btn-group-annotation w-100 mb-1" role="group" >
+                          <span class="btn btn-success disabled outline col-md-2 col-xs-2 px-0">4</span>
+                          <label class="btn btn-annotation outline btn-success col-md-10 col-xs-10 mb-2">
+                            <input type="radio" name="evaluation" autocomplete="off" style="display: none;" type="radio" value="PT"> Publishable running text 
+                          </label>
+                        </div>
+                      </div>
+                    
               </div>
           </form>
         </div>
@@ -243,6 +292,312 @@ else {
       </div>
       <?php } ?>
     </div>
+
+    <div id="evaluation-help" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">How to annotate</h4>
+            </div>
+            <div class="modal-body">
+              <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#quickreference" role="tab" data-toggle="tab">Quick reference</a></li>
+                <li role="presentation"><a href="#examples" aria-controls="profile" role="tab" data-toggle="tab">Examples</a></li>
+                <li role="presentation"><a href="#moreabout" aria-controls="messages" role="tab" data-toggle="tab">More about labels</a></li>
+              </ul>
+
+              <div class="modal-body-content">
+                <div class="tab-content">
+                  <div role="tabpanel" class="tab-pane active" id="quickreference">
+                    <div class="row">
+                      <div class="col-md-12 col-xs-12">
+                        <p class="h4"><strong class="label label-info">Keep in mind</strong></p>
+                        <ul class="arrow-list">
+                          <li>
+                            Only one type of error should be attributed to each sentence.
+                          </li>
+                          <li>
+                            When more than one error is present, please follow the hierarchy to indicate just one.
+                          </li>
+                          <li>
+                            Sub-specifications for some errors are optional: mark them only if indicated by your PM.
+                          </li>
+                          <li>
+                            The given translation must receive the benefit of the doubt.
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="col-md-12 col-xs-12 quickreference">
+                        <p class="h4"><strong class="label label-default">Error hierarchy</strong></p>
+                        <div class="row">
+                          <div class="col-md-4 col-xs-12">
+                            <span class="number-container number-container-small p-1">0</span>
+                            <strong>Wrong Language</strong>
+                          </div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
+                          The content of one of the two sentences is not in the expected language. Annotation finishes.
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4 col-xs-12">
+                            <span class="number-container number-container-small pt-1">1</span>
+                            <strong>Mixed languages</strong>
+                          </div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
+                          The content of one of the two sentences is written in a mix of languages, one of which is the expected one. Annotation finishes
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4 col-xs-12">
+                            <span class="number-container number-container-small pt-1">2</span>
+                            <strong>Correct languages</strong>
+                            </div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
+                          The content of both sentences is in the expected languages. Annotation is not yet over, as we have correct languages, we now face four possible scenerios to pick from: missing content, replaced content, misalignment, same content.
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4 col-xs-12">
+                              <span class="number-container number-container-small pt-1">3</span>
+                              <strong>Missing content</strong>
+                            </div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
+                          The content in one sentence is missing a substantial part of the content from the other sentence.  Annotation is finished.
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4 col-xs-12">
+                            <span class="number-container number-container-small pt-1">4</span>
+                            <strong>Replaced content</strong>
+                          </div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
+                          The content is roughly the same in both sentences but some content words or numbers are different.  Annotation is finished.
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4 col-xs-12">
+                            <span class="number-container number-container-small pt-1">5</span>
+                            <strong>Misalignment</strong>
+                          </div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
+                          The content of both sentences is completely different. Annotation is finished.
+
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4 col-xs-12">
+                            <span class="number-container number-container-small pt-1">6</span>
+                            <strong>Same content</strong>
+                          </div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
+                          The content of both sentences is roughly the same. Annotation is not yet over, as we have correct languages, and the same content on both sides, we now face three further possible scenarios to pick from: low quality translation, correct boilerplate translation and reasonable translation.
+
+
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4 col-xs-12">
+                            <span class="number-container number-container-small pt-1">7</span>
+                            <strong>Low Quality Translation</strong>
+                          </div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
+                          The content of both sentences is roughly the same but there are serious translation errors. Annotation finishes.
+
+
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4 col-xs-12">
+                            <span class="number-container number-container-small pt-1">8</span>
+                            <strong>Correct boilerplate translation</strong>
+                          </div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
+                          The content of both sentences is roughly the same but the content is boilerplate. Annotation finishes.
+
+
+
+
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4 col-xs-12">
+                            <span class="number-container number-container-small pt-1">9</span>
+                            <strong>Reasonable traslation</strong>
+                          </div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
+                          The content of both sentences is roughly the same and the translation is at least reasonable. Annotation is finished.
+
+                          </div>
+                        </div>
+                        <div class="row col-md-12">Before moving to the next sentence pair, you will need to indicate whether the sentence pair you just annotated contained inappropriate or pornographic content by clicking on the checkbox below the annotation scheme. Similarly, you need to indicate whether the examples consisted of running text, i.e. are not just a bunch of words together.</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div role="tabpanel" class="tab-pane" id="examples">
+                    <p>
+                      These examples use English as the source language and Spanish as the target language.
+                    </p>
+                    <div class="row">
+                      <div class="col-xs-12 col-md-12 h5">
+                        Wrong Language Identification
+                      </div>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>English</strong> <br />
+                          You have no items in your shopping cart.
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Spanish</strong> <br />
+                          Нямате артикули в количката си.
+                        </p>
+                      </div>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>English</strong> <br />
+                          You have no items in your shopping cart.
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Spanish</strong> <br />
+                          El carrito est&amp;#225; vac&amp;iacuteo
+                        </p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 col-md-12 h5">
+                        Incorrect Alignment
+                      </div>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>English</strong> <br />
+                          We have booked two rooms at your hotel on Dec 11 for four nights.
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Spanish</strong> <br />
+                          En diciembre, pueden reservar dos habitaciones dobles al precio de una (mínimo cuatro noches).
+                        </p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 col-md-12 h5">
+                        Wrong Tokenization
+                      </div>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>English</strong> <br />
+                          EnvironmentPleasant view, bright, in gated residential community.
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Spanish</strong> <br />
+                          EntornoVista agradable , luminoso , en una urbanizaci ón cerrada.
+                        </p>
+                      </div>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>English</strong> <br />
+                          its configuration could give the impression that its owners were not
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Spanish</strong> <br />
+                          podría dar la impresión de que sus poseedores no
+                        </p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 col-md-12 h5">
+                        MT-translated content
+                      </div>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>English</strong> <br />
+                          There must be another way.
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Spanish</strong> <br />
+                          Hay que haber otro camino.
+                        </p>
+                      </div>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>English</strong> <br />
+                          Steve Jobs co-founded Apple.
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Spanish</strong> <br />
+                          Steve Trabajos cofundó Manzana.
+                        </p>
+                      </div>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>English</strong> <br />
+                          You can drink free beers here.
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Spanish</strong> <br />
+                          Puedes tomar cervezas libre aquí.
+                        </p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 col-md-12 h5">
+                        Translation Errors
+                      </div>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>English</strong> <br />
+                          The Centre for Human Rights publishes its annual report 
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Spanish</strong> <br />
+                          El Centro de Derechos Umanos publica su banlace anual.
+                        </p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 col-md-12 h5">
+                        Free translation
+                      </div>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>English</strong> <br />
+                          I'll make you two promises: a very good steak, medium rare, and the truth, which is very rare
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Spanish</strong> <br />
+                          Te prometo dos cosas: un sabroso bistec a la plancha y decir siempre la verdad, lo que es raro en mí
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div role="tabpanel" class="tab-pane" id="moreabout">
+                  <div class="row">
+                      <div class="col-xs-12 col-md-12">
+                        <p>
+                          Extra information is optional and you should only be taken into account if indicated by your PM. 
+                        </p>
+                        <p>
+                          Options:
+                          <ul>
+                            <li>
+                              <strong>Contains personal data:</strong> content includes proper names or other personal data that could be anonymised for data protection purposes.
+                            </li>
+                            <li>
+                              <strong>Contains inappropriate language:</strong> content includes profane language. 
+                            </li>
+                          </ul>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
   </div>
 
     <?php

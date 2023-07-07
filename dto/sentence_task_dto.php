@@ -76,14 +76,17 @@ sentence_task_dto::$labels = array(
 );
 
 sentence_task_dto::$labels_valmac = array(
+  array( 'value' => 'P', 'label' => 'Pending', 'title' => 'Don\'t take the decision now' ),
   array( 'value' => 'WL', 'label' => 'Wrong language', 'title' => ''),
   array( 'value' => 'ML', 'label' => 'Mixed language', 'title' => ''),
+  array( 'value' => 'CL', 'label' => 'Correct language', 'title' => ''),
   array( 'value' => 'MC', 'label' => 'Missing content', 'title' => ''),
   array( 'value' => 'RC', 'label' => 'Replaced content', 'title' => ''),
   array( 'value' => 'MA', 'label' => 'Misalignment', 'title' => ''),
+   array( 'value' => 'SC', 'label' => 'Same content', 'title' => ''),
   array( 'value' => 'LQT', 'label' => 'Low quality translation', 'title' => ''),
   array( 'value' => 'CBT', 'label' => 'Correct boilerplate translation', 'title' => ''),
-  array( 'value' => 'V', 'label' => 'Valid translation', 'title' => 'No issues found on parallel sentences' )
+  array( 'value' => 'RT', 'label' => 'Reasonable translation', 'title' => 'No issues found on parallel sentences' )
 
 );
 

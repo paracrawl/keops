@@ -259,20 +259,25 @@ else {
                       </a>
                     </div>
                 </div>
-                <div class="row">
-                  <div class="col-md-12 col-xs-12 btn-group evaluation-btn-group">
+           
+                
                     <?php $comment_dao = new comment_dao(); $count = 0; ?>
-                    <?php foreach (array_slice(sentence_task_dto::$labels_valmac, 1, count(sentence_task_dto::$labels_valmac) - 2) as $label) { ?>
+                      <div class="col-md-12 col-xs-12 btn-group evaluation-btn-group">
+                    <div class="row first-loop" style="display:flex;align-items:flex-end" >
+                      <div style="display:flex;flex-direction:column;width:50%;">
+                    <?php foreach (array_slice(sentence_task_dto::$labels_valmac, 1, 2) as $label) { ?>
                       <?php $count++; ?>
-                      <div class="row">
-                      <div class="col-md-5 col-xs-12">
-                        <div class="btn-group btn-group-annotation w-100 mb-1" role="group" style="display:flex;">
-                          <span class="btn btn-primary disabled outline col-md-2 col-xs-2 px-0"><?= $count ?></span>
+                  
+                      <div class=" col-xs-12" style="padding-left:0;">
+                        <div class="btn-group btn-group-annotation w-100 mb-2" role="group" style="display:flex;">
+                          <span class="btn btn-primary disabled outline col-md-2 col-xs-2 px-0"><?= $count -1?></span>
                           <label class="btn btn-annotation outline btn-primary col-md-10 col-xs-10 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
                             <input type="radio" name="evaluation" autocomplete="off" <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
                           </label>
+                          
                         </div>
-                      </div>
+                   
+          
                       <div class="col-md-7 col-xs-12 question-column d-none">
                         
                         <?php
@@ -287,26 +292,75 @@ else {
                             <input type="checkbox" name="<?= $option["name"] ?>" value="<?= $option["value"] ?>" <?= ($comment_dto) ? ($comment_dto->value == $option["value"] ? "checked" : "") : "" ?> /> <?= str_replace("[SOURCE]", $task->source_lang_object->langname, str_replace("[TARGET]",  $task->target_lang_object->langname, $option["text"])); ?>
                           </label>
                           <?php } ?>
+                          
                         </div>
                         <?php } else {  ?> &nbsp; <?php } ?>
                       </div>
                     </div>
+                    
                     <?php } ?>
-
-                    <div class="row">
-                      <?php foreach (array_slice(sentence_task_dto::$labels_valmac, -1, 1) as $label) { ?>
-                      <div class="col-md-5 col-xs-12">
+                          </div>
+                    <div class="btn-group btn-group-annotation w-100 mb-2" role="group" style="width:47%;">
+                          <span class="btn btn-primary disabled outline col-md-2 col-xs-2 px-0"><?= 2?></span>
+                          <label class="btn btn-annotation outline btn-primary col-md-10 col-xs-10 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                            <input type="radio" name="evaluation" autocomplete="off" <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="CL"> Correct language
+                          </label>
+                          
+                        </div>
+                    </div>
+                    <div  style="margin-left:-15px" class="second-loop d-none">
+                   <hr />
+                          </div>
+                    <div class="row second-loop d-none" style="align-items:flex-end" >
+                    <div style="display:flex;flex-direction:column;width:50%;">
+                      <?php foreach (array_slice(sentence_task_dto::$labels_valmac, 4, 3) as $label) { ?>
+                        <?php $count++; ?>
+                      <div class="col-xs-12" style="padding-left:0;">
                       <div class="btn-group w-100 mb-1" role="group" style="display:flex;">
-                          <span class="btn btn-success disabled outline col-md-2 col-xs-2 px-0"><?= $count + 1 ?></span>
-                          <label class="btn btn-annotation outline btn-success px-0 col-md-10 col-xs-10 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                          <span class="btn btn-primary disabled outline col-md-2 col-xs-2 px-0"><?= $count ?></span>
+                          <label class="btn btn-annotation outline btn-primary px-0 col-md-10 col-xs-10 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
                             <input type="radio" name="evaluation" autocomplete="off" <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
                           </label>
                         </div>
                       </div>
                       <?php } ?>
+                      </div>
+                      <div class="btn-group btn-group-annotation w-100 mb-2" role="group" style="width:47%;">
+                          <span class="btn btn-primary disabled outline col-md-2 col-xs-2 px-0"><?= 6?></span>
+                          <label class="btn btn-annotation outline btn-primary col-md-10 col-xs-10 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                            <input type="radio" name="evaluation" autocomplete="off" <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="SC"> Same content
+                          </label>
+                          
+                        </div>
                     </div>
+                    <div  style="margin-left:-15px" class="third-loop d-none" >
+                   <hr />
+                          </div>
+                    <div class="row third-loop d-none" style="align-items:flex-end">
+                    <div style="display:flex;flex-direction:column;width:50%;">
+                      <?php foreach (array_slice(sentence_task_dto::$labels_valmac, 8, 2) as $label) { ?>
+                        <?php $count++; ?>
+                      <div class=" col-xs-12" style="padding-left:0;">
+                      <div class="btn-group w-100 mb-1" role="group" style="display:flex;">
+                          <span class="btn btn-primary disabled outline col-md-2 col-xs-2 px-0"><?= $count +1?></span>
+                          <label class="btn btn-annotation outline btn-primary px-0 col-md-10 col-xs-10 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                            <input type="radio" name="evaluation" autocomplete="off" <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
+                          </label>
+                        </div>
+                      </div>
+                      <?php } ?>
+                      </div>
+                      <div class="btn-group btn-group-annotation w-100 mb-2" role="group" style="width:47%;">
+                          <span class="btn btn-primary disabled outline col-md-2 col-xs-2 px-0"><?= 9?></span>
+                          <label class="btn btn-annotation outline btn-primary col-md-10 col-xs-10 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                            <input type="radio" name="evaluation" autocomplete="off" <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="RT"> Reasonable translation
+                          </label>
+                          
+                        </div>
+                    </div>
+
                   </div>
-                </div>
+      
 
                 <div class="row" style="margin-bottom: 1em;">
                   <hr />
@@ -326,15 +380,17 @@ else {
                   <div class="col-xs-12 col-md-12">
                     <label for="personal_data" class="checkbox-custom <?= ($task->status == "DONE") ? "disabled" : "" ?>">
                       <input type="checkbox" id="personal_data" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($personal_data) ? (($personal_data->value == "1") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="personal_data" />
-                      <span class="checkbox-control"></span>
-                      Contains personal data
-                    </label>
                   </div>
                   <div class="col-xs-12 col-md-12">
                     <label for="content_error" class="checkbox-custom <?= ($task->status == "DONE") ? "disabled" : "" ?>">
                       <input type="checkbox" id="content_error" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($content_error) ? (($content_error->value == "1") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="content_error" />
                       <span class="checkbox-control"></span>
-                      Contains inappropriate language
+                      Contains inappropriate language or pornographic content
+                    </label>
+                    <label for="content_error" class="checkbox-custom <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                      <input type="checkbox" id="content_error" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($content_error) ? (($content_error->value == "1") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="content_error" />
+                      <span class="checkbox-control"></span>
+                      Sentences contain not running language
                     </label>
                   </div>
                 </div>
@@ -407,7 +463,7 @@ else {
                   <div role="tabpanel" class="tab-pane active" id="quickreference">
                     <div class="row">
                       <div class="col-md-12 col-xs-12">
-                        <p class="h4"><strong class="label label-info">Keep in mind</strong></p>
+                        <p class="h4"><strong class="label label-info pt-3">Keep in mind</strong></p>
                         <ul class="arrow-list">
                           <li>
                             Only one type of error should be attributed to each pair of sentences.
@@ -424,65 +480,108 @@ else {
                         </ul>
                       </div>
                       <div class="col-md-12 col-xs-12 quickreference">
-                        <p class="h4"><strong class="label label-default">Error hierarchy</strong></p>
+                        <p class="h4"><strong class="label label-default pt-3">Error hierarchy</strong></p>
                         <div class="row">
                           <div class="col-md-4 col-xs-12">
-                            <span class="number-container number-container-small">1</span>
-                            <strong>Wrong Language Identification</strong>
+                            <span class="number-container number-container-small p-1">0</span>
+                            <strong>Wrong Language</strong>
                           </div>
                           <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
-                            Automatic tools failed in identifying the right language or in providing a consistent encoding. <br />
-                            Sub-specification: mark if source, target or both languages are wrongly identified or encoded.
+                          The content of one of the two sentences is not in the expected language. Annotation finishes.
                           </div>
                         </div>
                         <div class="row">
                           <div class="col-md-4 col-xs-12">
-                            <span class="number-container number-container-small">2</span>
-                            <strong>Incorrect Alignment</strong>
+                            <span class="number-container number-container-small pt-1">1</span>
+                            <strong>Mixed languages</strong>
                           </div>
                           <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
-                            The segments have different content due to wrong alignment.
+                          The content of one of the two sentences is written in a mix of languages, one of which is the expected one. Annotation finishes
                           </div>
                         </div>
                         <div class="row">
                           <div class="col-md-4 col-xs-12">
-                            <span class="number-container number-container-small">3</span>
-                            <strong>Wrong Tokenization</strong>
+                            <span class="number-container number-container-small pt-1">2</span>
+                            <strong>Correct languages</strong>
                             </div>
                           <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
-                            Text in sentences has not been properly rendered or segmented: no separator between words, extra spaces near punctuation, more than two sentences, etc. <br />
-                            Sub-specification: bad tokenized text can be found in source, target or both.
+                          The content of both sentences is in the expected languages. Annotation is not yet over, as we have correct languages, we now face four possible scenerios to pick from: missing content, replaced content, misalignment, same content.
                           </div>
                         </div>
                         <div class="row">
                           <div class="col-md-4 col-xs-12">
-                              <span class="number-container number-container-small">4</span>
-                              <strong>MT-translated Content</strong>
+                              <span class="number-container number-container-small pt-1">3</span>
+                              <strong>Missing content</strong>
                             </div>
                           <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
-                            Content identified as a translation through a machine translation system and wrongly translated. <br />
-                            Sub-specification: machine translated content is in source, target or both.
+                          The content in one sentence is missing a substantial part of the content from the other sentence.  Annotation is finished.
                           </div>
                         </div>
                         <div class="row">
                           <div class="col-md-4 col-xs-12">
-                            <span class="number-container number-container-small">5</span>
-                            <strong>Translation Errors</strong>
+                            <span class="number-container number-container-small pt-1">4</span>
+                            <strong>Replaced content</strong>
                           </div>
                           <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
-                            Translation contains lexical mistakes, syntactic errors or poor use of language.
+                          The content is roughly the same in both sentences but some content words or numbers are different.  Annotation is finished.
                           </div>
                         </div>
                         <div class="row">
                           <div class="col-md-4 col-xs-12">
-                            <span class="number-container number-container-small">6</span>
-                            <strong>Free Translation</strong>
+                            <span class="number-container number-container-small pt-1">5</span>
+                            <strong>Misalignment</strong>
                           </div>
                           <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
-                            Non-literal translation, that is, the content is completely reformulated in one language. <br />
-                            Sub-specification: the sentence pairs should be kept or discarded from a parallel corpus.
+                          The content of both sentences is completely different. Annotation is finished.
+
                           </div>
                         </div>
+                        <div class="row">
+                          <div class="col-md-4 col-xs-12">
+                            <span class="number-container number-container-small pt-1">6</span>
+                            <strong>Same content</strong>
+                          </div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
+                          The content of both sentences is roughly the same. Annotation is not yet over, as we have correct languages, and the same content on both sides, we now face three further possible scenarios to pick from: low quality translation, correct boilerplate translation and reasonable translation.
+
+
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4 col-xs-12">
+                            <span class="number-container number-container-small pt-1">7</span>
+                            <strong>Low Quality Translation</strong>
+                          </div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
+                          The content of both sentences is roughly the same but there are serious translation errors. Annotation finishes.
+
+
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4 col-xs-12">
+                            <span class="number-container number-container-small pt-1">8</span>
+                            <strong>Correct boilerplate translation</strong>
+                          </div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
+                          The content of both sentences is roughly the same but the content is boilerplate. Annotation finishes.
+
+
+
+
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4 col-xs-12">
+                            <span class="number-container number-container-small pt-1">9</span>
+                            <strong>Reasonable traslation</strong>
+                          </div>
+                          <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
+                          The content of both sentences is roughly the same and the translation is at least reasonable. Annotation is finished.
+
+                          </div>
+                        </div>
+                        <div class="row col-md-12 pt-4"><strong>Before moving to the next sentence pair, you will need to indicate whether the sentence pair you just annotated contained inappropriate or pornographic content by clicking on the checkbox below the annotation scheme. Similarly, you need to indicate whether the examples consisted of running text, i.e. are not just a bunch of words together.</strong></div>
                       </div>
                     </div>
                   </div>
