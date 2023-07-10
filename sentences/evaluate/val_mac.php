@@ -385,12 +385,12 @@ else {
                     <label for="content_error" class="checkbox-custom <?= ($task->status == "DONE") ? "disabled" : "" ?>">
                       <input type="checkbox" id="content_error" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($content_error) ? (($content_error->value == "1") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="content_error" />
                       <span class="checkbox-control"></span>
-                      Contains inappropriate language or pornographic content
-                    </label>
+                      Offensive or pornographic content
+                    </label><br>
                     <label for="content_error" class="checkbox-custom <?= ($task->status == "DONE") ? "disabled" : "" ?>">
                       <input type="checkbox" id="content_error" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($content_error) ? (($content_error->value == "1") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="content_error" />
                       <span class="checkbox-control"></span>
-                      Sentences contain not running language
+                      Not running language
                     </label>
                   </div>
                 </div>
@@ -586,138 +586,205 @@ else {
                     </div>
                   </div>
                   <div role="tabpanel" class="tab-pane" id="examples">
-                    <p>
-                      These examples use English as the source language and Spanish as the target language.
+                   
+                    <div class="row">
+                      <div class="col-xs-12 col-md-12 h5">
+                       <strong> Wrong Language</strong>
+                      </div>
+                      <div class="col-xs-12 col-md-12 row">
+                      <p class="col-md-12"> 
+                      One of the sentences is in completely the wrong language. Example: Sentence 2 should be in Turkish but it is in Icelandic instead.
                     </p>
-                    <div class="row">
-                      <div class="col-xs-12 col-md-12 h5">
-                        Wrong Language Identification
-                      </div>
-                      <div class="col-xs-12 col-md-12 row">
                         <p class="col-xs-12 col-md-6">
-                          <strong>English</strong> <br />
-                          You have no items in your shopping cart.
+                          <strong>Sentence 1</strong> <br />
+                          The meeting takes place on Thursday the 28th of March and will be about our finances.
                         </p>
                         <p class="col-xs-12 col-md-6">
-                          <strong>Spanish</strong> <br />
-                          Нямате артикули в количката си.
-                        </p>
-                      </div>
-                      <div class="col-xs-12 col-md-12 row">
-                        <p class="col-xs-12 col-md-6">
-                          <strong>English</strong> <br />
-                          You have no items in your shopping cart.
-                        </p>
-                        <p class="col-xs-12 col-md-6">
-                          <strong>Spanish</strong> <br />
-                          El carrito est&amp;#225; vac&amp;iacuteo
+                          <strong>Sentence 2</strong> <br />
+                          Fundurinn fer fram fimmtudaginn 28. mars og mun fjalla um fjármálin okkar.
                         </p>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-xs-12 col-md-12 h5">
-                        Incorrect Alignment
+                        <strong>Mixed languages</strong>
                       </div>
+                      <p class="col-md-12"> 
+                      One of the sentences is in completely the wrong language. Example: Sentence 2 should be in Turkish but it is in Icelandic instead.
+                    </p>
                       <div class="col-xs-12 col-md-12 row">
                         <p class="col-xs-12 col-md-6">
-                          <strong>English</strong> <br />
-                          We have booked two rooms at your hotel on Dec 11 for four nights.
+                          <strong>Sentence 1</strong> <br />
+                          The meeting takes place on Thursday the 28th of March and will be about our
                         </p>
                         <p class="col-xs-12 col-md-6">
-                          <strong>Spanish</strong> <br />
-                          En diciembre, pueden reservar dos habitaciones dobles al precio de una (mínimo cuatro noches).
+                          <strong>Sentence 2</strong> <br />
+                          The meeting takes place on Thursday the 28th og mun fjalla um fjármálin okkar.
                         </p>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-xs-12 col-md-12 h5">
-                        Wrong Tokenization
+                       <strong> Missing content</strong>
+                      </div>
+                      <p class="col-md-12"> 
+                      One of the sentences is in completely the wrong language. Example: Sentence 2 should be in Turkish but it is in Icelandic instead.
+                    </p>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Sentence 1</strong> <br />
+                          The meeting takes place on Thursday the 28th of March and will be about our finances.
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Sentence 2</strong> <br />
+                          The meeting takes place on Thursday the 28th of March.
+                        </p>
                       </div>
                       <div class="col-xs-12 col-md-12 row">
                         <p class="col-xs-12 col-md-6">
-                          <strong>English</strong> <br />
-                          EnvironmentPleasant view, bright, in gated residential community.
+                          <strong>Sentence 1</strong> <br />
+                          The meeting takes place on Thursday the 28th of March.
                         </p>
                         <p class="col-xs-12 col-md-6">
-                          <strong>Spanish</strong> <br />
-                          EntornoVista agradable , luminoso , en una urbanizaci ón cerrada.
+                          <strong>Sentence 2</strong> <br />
+                          The meeting takes place on Thursday the 28th of March and will be about our finances.
+                        </p>
+                      </div>
+                     
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 col-md-12 h5">
+                       <strong> Replaced content</strong>
+                      </div>
+                      <p class="col-md-12"> 
+                      The second sentence looks like a reasonable translation of the first, but one or more content words seem to be replaced by a wrong word or phrase. Common examples are different dates, proper nouns and numbers. 
+                    </p>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Sentence 1</strong> <br />
+                          The meeting takes place on Thursday the 28th of March and will be about our finances.
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Sentence 2</strong> <br />
+                          The meeting takes place on Wednesday the 27th of March and will be about our merger.
                         </p>
                       </div>
                       <div class="col-xs-12 col-md-12 row">
                         <p class="col-xs-12 col-md-6">
-                          <strong>English</strong> <br />
-                          its configuration could give the impression that its owners were not
+                          <strong>Sentence 1</strong> <br />
+                          Turkey is a beautiful country to visit in the summer.
                         </p>
                         <p class="col-xs-12 col-md-6">
-                          <strong>Spanish</strong> <br />
-                          podría dar la impresión de que sus poseedores no
+                          <strong>Sentence 2</strong> <br />
+                          Greece is a beautiful country to visit in the summer.
+                        </p>
+                      </div>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Sentence 1</strong> <br />
+                          Book your tickets for only 500 euro here!
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Sentence 2</strong> <br />
+                          You can book tickets for only 400 euro here.
                         </p>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-xs-12 col-md-12 h5">
-                        MT-translated content
+                    <strong>  Complete Misalignment</strong>
                       </div>
+                      <p class="col-md-12"> 
+                      The two sentences seem to be completely misaligned, or there are too many issues for it to be Missing Content or Replaced Content.
+                    </p>
                       <div class="col-xs-12 col-md-12 row">
                         <p class="col-xs-12 col-md-6">
-                          <strong>English</strong> <br />
-                          There must be another way.
+                          <strong>Sentence 1</strong> <br />
+                          The meeting takes place on Thursday the 28th of March and will be about our finances.
                         </p>
                         <p class="col-xs-12 col-md-6">
-                          <strong>Spanish</strong> <br />
-                          Hay que haber otro camino.
-                        </p>
-                      </div>
-                      <div class="col-xs-12 col-md-12 row">
-                        <p class="col-xs-12 col-md-6">
-                          <strong>English</strong> <br />
-                          Steve Jobs co-founded Apple.
-                        </p>
-                        <p class="col-xs-12 col-md-6">
-                          <strong>Spanish</strong> <br />
-                          Steve Trabajos cofundó Manzana.
+                          <strong>Sentence 2</strong> <br />
+                          John and Mary went to the zoo and had a great time.
                         </p>
                       </div>
                       <div class="col-xs-12 col-md-12 row">
                         <p class="col-xs-12 col-md-6">
-                          <strong>English</strong> <br />
-                          You can drink free beers here.
+                          <strong>Sentence 1</strong> <br />
+                          The meeting takes place on Thursday the 28th of March and will be about our finances.
                         </p>
                         <p class="col-xs-12 col-md-6">
-                          <strong>Spanish</strong> <br />
-                          Puedes tomar cervezas libre aquí.
+                          <strong>Sentence 2</strong> <br />
+                          In our previous meeting, which took place on April 2nd, we discussed our current situation and any plans we had for the future.
                         </p>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-xs-12 col-md-12 h5">
-                        Translation Errors
+                   <strong>   Correct, but boilerplate </strong>
                       </div>
+                      <p class="col-md-12"> 
+                      The translation is roughly correct but the content looks like boilerplate. Boilerplate includes pieces of website text that are unrelated to the content (e.g. HTML, cookies, website navigation). It can also include sentences that look automatically generated, instead of being written by a human. Some examples of boilerplate:
+                    </p>
                       <div class="col-xs-12 col-md-12 row">
-                        <p class="col-xs-12 col-md-6">
-                          <strong>English</strong> <br />
-                          The Centre for Human Rights publishes its annual report 
+                        <p class=" col-md-12">
+                          <strong>Sentence 1 or 2</strong> <br />
+                          850 Acres of Land Stock 355 Parcels
                         </p>
-                        <p class="col-xs-12 col-md-6">
-                          <strong>Spanish</strong> <br />
-                          El Centro de Derechos Umanos publica su banlace anual.
+                        <p class=" col-md-12">
+                          <strong>Sentence 1 or 2</strong> <br />
+                          By accepting all cookies, you agree to our use of cookies to deliver and maintain our services.
+
+                        </p>
+                        <p class=" col-md-12">
+                          <strong>Sentence 1 or 2</strong> <br />
+                          Click here to go back to Home.
+
+                        </p>
+                        <p class=" col-md-12">
+                          <strong>Sentence 1 or 2</strong> <br />
+                          Premier Apartment with Sea Front View 
+
                         </p>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-xs-12 col-md-12 h5">
-                        Free translation
+                    <strong>Low quality translation</strong>
                       </div>
+                      <p class="col-md-12"> 
+                      Translation is of low quality. For example, it is overly literal, clearly uses the wrong terms or contains grammatical errors. Very small issues are acceptable, see the examples for Reasonable Translation below.
+                    </p>
                       <div class="col-xs-12 col-md-12 row">
                         <p class="col-xs-12 col-md-6">
-                          <strong>English</strong> <br />
-                          I'll make you two promises: a very good steak, medium rare, and the truth, which is very rare
+                          <strong>Sentence 1</strong> <br />
+                          The meeting takes place on Thursday the 28th of March and will be about our finances.
                         </p>
                         <p class="col-xs-12 col-md-6">
-                          <strong>Spanish</strong> <br />
-                          Te prometo dos cosas: un sabroso bistec a la plancha y decir siempre la verdad, lo que es raro en mí
+                          <strong>Sentence 2</strong> <br />
+                          Meeting take place thursday 28 march about money.
                         </p>
                       </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 col-md-12 h5">
+                    <strong>Reasonable translation</strong>
+                      </div>
+                      <p class="col-md-12"> 
+                      Translation is more or less correct and is at least reasonable. It does not have to be perfect, but should preserve the meaning.
+                    </p>
+                      <div class="col-xs-12 col-md-12 row">
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Sentence 1</strong> <br />
+                          The meeting takes place on Thursday the 28th of March and will be about our finances.
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Sentence 2</strong> <br />
+                          Our meeting about our final situation takes place on Thursday the 28th of March.<br />
+                          On 28-03 we will meet about our finances.<br />
+                          Next week Thursday 28-03 the meeting about the budget will take place.
+                        </p>
+                      </div>
+                      
                     </div>
                   </div>
                   <div role="tabpanel" class="tab-pane" id="moreabout">
@@ -730,11 +797,22 @@ else {
                           Options:
                           <ul>
                             <li>
-                              <strong>Contains personal data:</strong> content includes proper names or other personal data that could be anonymised for data protection purposes.
+                              <strong>Contains offensive or pornographic content:</strong> At least one of the sentences in the sentence pair is offensive or is likely to be offensive to a subgroup of the population, and/or the sentence is pornographic in nature.<br/><br/>
                             </li>
+                            <ul ><li>What the fuck is wrong with you dumb idiot</li><li>Amateur Teen Sex Porn Now Order Here</li></ul>
+                            <br/>
                             <li>
-                              <strong>Contains inappropriate language:</strong> content includes profane language. 
+                              <strong>Not running text: </strong> More than 50% of the text is not running text. This means that a substantial part of the text is just a bunch of words together, for which it does not make sense to judge the translation.<br/><br/>
                             </li>
+                            <ul >
+                              <li class="pb-1"><strong>Sentence 1 or 2:</strong> < start="204.771" dur="1.868">Well, you guys,</li>
+                              <li class="pb-1"><strong>Sentence 1 or 2:</strong> Vacation Holiday Turkey Slovenia Ankara Book Now</li>
+                              <li class="pb-1"><strong>Sentence 1 or 2:</strong>  TO007 Stone Granite Display Cabinet</li>
+                              <li class="pb-1"><strong>Sentence 1 or 2:</strong> Home > Products > Circuit Protection > Electrical, Specialty Fuses > 004176029</li>
+                              <li class="pb-1"><strong>Sentence 1 or 2:</strong>1500mmx3000mm hot sale and good price fiber laser cutting machine with 500w,700w</li>
+                              <li class="pb-1"><strong>Sentence 1 or 2:</strong>Photo White-spotted Puffer (Arothron hispidus), Spotted, Aquarium Fish</li>
+                            </ul>
+                            <br/>
                           </ul>
                         </p>
                       </div>

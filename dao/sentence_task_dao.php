@@ -596,13 +596,17 @@ from sentences_tasks, sentences as s where task_id = ? and sentence_id = s.id an
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while ($row = $query->fetch()) {
-        if ($tasktype!="val_mac") {
+        if ($tasktype!="val_mac" and $tasktype!="mono") {
           foreach (sentence_task_dto::$labels as $label) {
             $task_stats_dto->array_type[$label['value']] = $row[strtolower($label['value'])];
          }
         }
-        else {
+        elseif ($tasktype!="val" and $tasktype!="mono")  {
           foreach (sentence_task_dto::$labels_valmac as $label) {
+            $task_stats_dto->array_type[$label['value']] = $row[strtolower($label['value'])];
+         }
+        } else{
+          foreach (sentence_task_dto::$labels_monolingual as $label) {
             $task_stats_dto->array_type[$label['value']] = $row[strtolower($label['value'])];
          }
         }

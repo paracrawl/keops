@@ -167,7 +167,7 @@ else {
                   <?php } ?>
 
                   <div class="col-sm-6 "style="width:60%;">
-                      <div class="text-increase mb-2 ">This text is fluent <?= $task->target_lang_object->langname ?></div>
+                      <div class="text-increase mb-2 ">How would you rate this sentence in <?= $task->target_lang_object->langname ?> ?</div>
                       <div class="well"><?=  $sentence->source_text ?></div>
                   </div>
                   

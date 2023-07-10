@@ -98,6 +98,6 @@ sentence_task_dto::$labels_monolingual = array(
   array( 'value' => 'WLN', 'label' => 'Wrong language or no language', 'title' => '' ),
   array( 'value' => 'NRT', 'label' => 'Not running text', 'title' => '' ),
   array( 'value' => 'PRT', 'label' => 'Partially running text', 'title' => '' ),
-  array( 'value' => 'RTE', 'label' => 'Running text', 'title' => '' ),
+  array( 'value' => 'RTE', 'label' => 'Running text, but (slightly) non-standard', 'title' => '' ),
   array( 'value' => 'PT', 'label' => 'Publishable running text', 'title' => '' )
 );
