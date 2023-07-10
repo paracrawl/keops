@@ -569,7 +569,7 @@ class sentence_task_dao {
    * @return \task_stats_dto Task stats object
    * @throws Exception
    */
-  function getStatsByTask($task_id) {
+  function getStatsByTask($task_id, $tasktype="") {
     try {
       $task_stats_dto = new task_stats_dto();
       $query = $this->conn->prepare("select count(*) as total,
@@ -596,8 +596,15 @@ from sentences_tasks, sentences as s where task_id = ? and sentence_id = s.id an
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while ($row = $query->fetch()) {
-        foreach (sentence_task_dto::$labels as $label) {
-          $task_stats_dto->array_type[$label['value']] = $row[strtolower($label['value'])];
+        if ($tasktype!="val_mac") {
+          foreach (sentence_task_dto::$labels as $label) {
+            $task_stats_dto->array_type[$label['value']] = $row[strtolower($label['value'])];
+         }
+        }
+        else {
+          foreach (sentence_task_dto::$labels_valmac as $label) {
+            $task_stats_dto->array_type[$label['value']] = $row[strtolower($label['value'])];
+         }
         }
         $task_stats_dto->total = $row['total'];
       }

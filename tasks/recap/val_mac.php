@@ -27,7 +27,8 @@ if (isset($task_id)) {
     
     if ($task->assigned_user == $USER->id || $USER->id == $project->owner || isRoot()) {
       $sentence_task_dao = new sentence_task_dao();
-      $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id);
+      $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id, "val_mac");
+      //print_r($task_stats_dto->array_type);
     } else {
       // ERROR: Task doesn't exist or it's already done or user is not the assigned to the task
       // Message: You don't have access to this evaluation / We couldn't find this task for you
@@ -256,6 +257,7 @@ if (isset($task_id)) {
                 $labels_chart_js = array();
                 $data_chart_js = array();
                 foreach (sentence_task_dto::$labels_valmac as $label) {
+
                   $labels_chart_js[] = '"' . $label['value'] . '"';
                   $data_chart_js[] = $task_stats_dto->array_type[$label['value']];
                   ?>
@@ -265,6 +267,7 @@ if (isset($task_id)) {
                         <?= $label['label'] ?> [<?= $label['value'] ?>]
                       </a>
                     </td>
+                    <?  error.log($task_stats_dto)?>
                     <td class="text-right"><?= $task_stats_dto->array_type[$label['value']] ?></td>
                     <td class="text-right">
                      <?= round((($task_stats_dto->array_type[$label['value']]) / $task_stats_dto->total) * 100, 2) ?>%
@@ -289,7 +292,7 @@ if (isset($task_id)) {
             var labels_pie_chart = [<?= implode(",", $labels_chart_js) ?>];
             var data_pie_chart = [<?= implode(",", $data_chart_js) ?>];
 
-            let pos = labels_pie_chart.indexOf("V");
+            let pos = labels_pie_chart.indexOf("RT");
             let tmp = data_pie_chart[0];
             data_pie_chart[0] = data_pie_chart[pos];
             data_pie_chart[pos] = tmp;

@@ -16,6 +16,7 @@
 class sentence_task_dto {
   public static $labels;
   public static $labels_valmac;
+  public static $labels_monolingual;
     
   public $id;
   public $task_id;
@@ -75,6 +76,7 @@ sentence_task_dto::$labels = array(
   array( 'value' => 'V', 'label' => 'Valid translation', 'title' => 'No issues found on parallel sentences' )
 );
 
+
 sentence_task_dto::$labels_valmac = array(
   array( 'value' => 'P', 'label' => 'Pending', 'title' => 'Don\'t take the decision now' ),
   array( 'value' => 'WL', 'label' => 'Wrong language', 'title' => ''),
@@ -90,3 +92,12 @@ sentence_task_dto::$labels_valmac = array(
 
 );
 
+
+sentence_task_dto::$labels_monolingual = array(
+ array( 'value' => 'P', 'label' => 'Pending', 'title' => 'Don\'t take the decision now' ),
+  array( 'value' => 'WLN', 'label' => 'Wrong language or no language', 'title' => '' ),
+  array( 'value' => 'NRT', 'label' => 'Not running text', 'title' => '' ),
+  array( 'value' => 'PRT', 'label' => 'Partially running text', 'title' => '' ),
+  array( 'value' => 'RTE', 'label' => 'Running text', 'title' => '' ),
+  array( 'value' => 'PT', 'label' => 'Publishable running text', 'title' => '' )
+);

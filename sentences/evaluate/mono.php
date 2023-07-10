@@ -202,7 +202,7 @@ else {
                         <div class="btn-group btn-group-annotation w-100 mb-1" role="group" >
                           <span class="btn btn-danger disabled outline col-md-2 col-xs-2 px-0">0</span>
                           <label class="btn btn-annotation outline btn-danger col-md-10 col-xs-10 mb-2">
-                            <input type="radio" name="evaluation" autocomplete="off" style="display: none;" type="radio" value="WL"> Wrong language or no language
+                            <input type="radio" name="evaluation" autocomplete="off" style="display: none;" type="radio" value="WLN"> Wrong language or no language
                           </label>
                         </div>
                       </div>
