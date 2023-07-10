@@ -255,7 +255,7 @@ if (isset($task_id)) {
                 <?php
                 $labels_chart_js = array();
                 $data_chart_js = array();
-                foreach (sentence_task_dto::$labels as $label) {
+                foreach (sentence_task_dto::$labels_valmac as $label) {
                   $labels_chart_js[] = '"' . $label['value'] . '"';
                   $data_chart_js[] = $task_stats_dto->array_type[$label['value']];
                   ?>
