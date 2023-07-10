@@ -28,7 +28,7 @@ if (isset($task_id)) {
     if ($task->assigned_user == $USER->id || $USER->id == $project->owner || isRoot()) {
       $sentence_task_dao = new sentence_task_dao();
       $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id, "val_mac");
-      //print_r($task_stats_dto->array_type);
+      // print_r($task_stats_dto->array_type);
     } else {
       // ERROR: Task doesn't exist or it's already done or user is not the assigned to the task
       // Message: You don't have access to this evaluation / We couldn't find this task for you

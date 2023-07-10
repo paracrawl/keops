@@ -58,6 +58,22 @@ class sentence_task_dto {
     }
     return "";
   }
+
+    
+  /**
+   * Retrieves the text (label) evaluation label of a evaluation type
+   * 
+   * @param string $value Value of the evaluation
+   * @return string Label
+   */
+  public static function  getMonoLabel($value){
+    foreach (sentence_task_dto::$labels_monolingual as $label) {
+      if ($label['value'] == $value){
+        return $label['label'];
+      }
+    }
+    return "";
+  }
   
 
 }

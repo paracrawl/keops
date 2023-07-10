@@ -184,7 +184,7 @@ else {
                             </div>
                           </div>
                       </div> --><!-- .slider-component -->
-                   
+                      <?php $comment_dao = new comment_dao(); $count = 0; ?>
 
                       <div class="col-md-11 col-md-offset-1">
                   <div class="row vertical-align mt-1 mt-sm-0 mb-4" style="margin-bottom: 1em;">
@@ -197,7 +197,7 @@ else {
                       </a>
                     </div>
                 </div>
-                   
+               
                       <div class=" col-xs-12">
                         <div class="btn-group btn-group-annotation w-100 mb-1" role="group" >
                           <span class="btn btn-danger disabled outline col-md-2 col-xs-2 px-0">0</span>
@@ -243,6 +243,7 @@ else {
                       </div>
                     
               </div>
+          
           </form>
         </div>
         <div class="col-md-12 col-xs-12 mt-sm-5 mt-3">
