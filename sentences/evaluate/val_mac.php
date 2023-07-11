@@ -301,7 +301,7 @@ else {
                     <?php } ?>
                           </div>
                           <div class="btn-group btn-group-annotation w-100 mb-2" role="group" style="width:47%;display:flex;align-items:flex-end;">
-                          <span class="btn btn-primary disabled outline col-md-2 col-xs-2 px-0" ><?= 6?></span>
+                          <span class="btn btn-primary disabled outline col-md-2 col-xs-2 px-0" ><?= 3?></span>
                           <label class="btn btn-annotation outline btn-primary col-md-10 col-xs-10" disabled  style="margin-top:auto;">
                             <input type="radio" name="evaluation" autocomplete="off"  disabled <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="CL"> Correct language
                           </label>
