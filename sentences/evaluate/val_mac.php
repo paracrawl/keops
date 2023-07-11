@@ -255,7 +255,7 @@ else {
                     </div>
                     <div class="col-sm-8 col-xs-6 text-right">
                       <a href="#" data-toggle="modal" data-target="#evaluation-help">
-                        Validation guidelines <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                       Guidelines <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
                       </a>
                     </div>
                 </div>
@@ -390,7 +390,7 @@ else {
                     <label for="content_error" class="checkbox-custom <?= ($task->status == "DONE") ? "disabled" : "" ?>">
                       <input type="checkbox" id="content_error" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($content_error) ? (($content_error->value == "1") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="content_error" />
                       <span class="checkbox-control"></span>
-                      Not running language
+                      Not running text
                     </label>
                   </div>
                 </div>
@@ -466,13 +466,10 @@ else {
                         <p class="h4"><strong class="label label-info pt-3">Keep in mind</strong></p>
                         <ul class="arrow-list">
                           <li>
-                            Only one type of error should be attributed to each pair of sentences.
+                            Only one label should be attributed to each pair of sentences. Please, follow the hierarchy.
                           </li>
                           <li>
-                            When more than one error is present, please follow the hierarchy to indicate just one.
-                          </li>
-                          <li>
-                            Sub-specifications for some errors are optional: mark them only if indicated by your PM.
+                            Additional info (checkboxes) should be marked if indicated by your PM.
                           </li>
                           <li>
                             The given translation must receive the benefit of the doubt.
@@ -505,7 +502,7 @@ else {
                             <strong>Correct languages</strong>
                             </div>
                           <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
-                          The content of both sentences is in the expected languages. Annotation is not yet over, as we have correct languages, we now face four possible scenerios to pick from: missing content, replaced content, misalignment, same content.
+                          The content of both sentences is in the expected languages. Annotation is not yet over. As we have correct languages, we now face four possible scenerios to pick from: missing content, replaced content, misalignment, same content.
                           </div>
                         </div>
                         <div class="row">
@@ -514,7 +511,7 @@ else {
                               <strong>Missing content</strong>
                             </div>
                           <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
-                          The content in one sentence is missing a substantial part of the content from the other sentence.  Annotation is finished.
+                          The content in one sentence is missing a substantial part of the content from the other sentence.  Annotation finishes.
                           </div>
                         </div>
                         <div class="row">
@@ -523,7 +520,7 @@ else {
                             <strong>Replaced content</strong>
                           </div>
                           <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
-                          The content is roughly the same in both sentences but some content words or numbers are different.  Annotation is finished.
+                          The content is roughly the same in both sentences but some content words or numbers are different.  Annotation finishes.
                           </div>
                         </div>
                         <div class="row">
@@ -532,7 +529,7 @@ else {
                             <strong>Misalignment</strong>
                           </div>
                           <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
-                          The content of both sentences is completely different. Annotation is finished.
+                          The content of both sentences is completely different. Annotation finishes.
 
                           </div>
                         </div>
@@ -542,7 +539,7 @@ else {
                             <strong>Same content</strong>
                           </div>
                           <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
-                          The content of both sentences is roughly the same. Annotation is not yet over, as we have correct languages, and the same content on both sides, we now face three further possible scenarios to pick from: low quality translation, correct boilerplate translation and reasonable translation.
+                          The content of both sentences is roughly the same. Annotation is not yet over. As we have correct languages and the same content on both sentences, we now face three further possible scenarios to pick from: low quality translation, correct boilerplate translation and reasonable translation.
 
 
                           </div>
@@ -577,7 +574,7 @@ else {
                             <strong>Reasonable traslation</strong>
                           </div>
                           <div class="col-md-8 col-xs-11 mt-1 mt-sm-0">
-                          The content of both sentences is roughly the same and the translation is at least reasonable. Annotation is finished.
+                          The content of both sentences is roughly the same and the translation is at least reasonable. Annotation finishes.
 
                           </div>
                         </div>
@@ -610,16 +607,25 @@ else {
                         <strong>Mixed languages</strong>
                       </div>
                       <p class="col-md-12"> 
-                      One of the sentences is in completely the wrong language. Example: Sentence 2 should be in Turkish but it is in Icelandic instead.
+                       A substantial part of one of the sentences is in the wrong language. Example: Sentence 2 is a mix of English and Icelandic.
                     </p>
                       <div class="col-xs-12 col-md-12 row">
                         <p class="col-xs-12 col-md-6">
                           <strong>Sentence 1</strong> <br />
-                          The meeting takes place on Thursday the 28th of March and will be about our
+                          The meeting takes place on Thursday the 28th of March and will be about our finances.
                         </p>
                         <p class="col-xs-12 col-md-6">
                           <strong>Sentence 2</strong> <br />
                           The meeting takes place on Thursday the 28th og mun fjalla um fjármálin okkar.
+                        </p>
+                     Note that, in some cases, specific terms or toponyms could appear in a different language and they should be still considered correct, such as:
+                      <p class="col-xs-12 col-md-6">
+                          <strong>Sentence 1</strong> <br />
+                        I got accepted at Háskólinn Reykjavík for the next academic year.
+                        </p>
+                        <p class="col-xs-12 col-md-6">
+                          <strong>Sentence 2</strong> <br />
+                        From the house you get to a large terrace with dining table and lounge, where you can relax, or have your siesta in a hammock.
                         </p>
                       </div>
                     </div>
@@ -628,7 +634,7 @@ else {
                        <strong> Missing content</strong>
                       </div>
                       <p class="col-md-12"> 
-                      One of the sentences is in completely the wrong language. Example: Sentence 2 should be in Turkish but it is in Icelandic instead.
+                      A substantial part of the first sentence is missing in the second sentence or a substantial part of the second sentence is missing in the first sentence. It should be a substantial part that is missing, it’s OK if there are one or two words not present.
                     </p>
                       <div class="col-xs-12 col-md-12 row">
                         <p class="col-xs-12 col-md-6">
@@ -692,7 +698,7 @@ else {
                     </div>
                     <div class="row">
                       <div class="col-xs-12 col-md-12 h5">
-                    <strong>  Complete Misalignment</strong>
+                    <strong> Complete Misalignment</strong>
                       </div>
                       <p class="col-md-12"> 
                       The two sentences seem to be completely misaligned, or there are too many issues for it to be Missing Content or Replaced Content.
@@ -720,7 +726,7 @@ else {
                     </div>
                     <div class="row">
                       <div class="col-xs-12 col-md-12 h5">
-                   <strong>   Correct, but boilerplate </strong>
+                   <strong> Correct, but boilerplate </strong>
                       </div>
                       <p class="col-md-12"> 
                       The translation is roughly correct but the content looks like boilerplate. Boilerplate includes pieces of website text that are unrelated to the content (e.g. HTML, cookies, website navigation). It can also include sentences that look automatically generated, instead of being written by a human. Some examples of boilerplate:
@@ -781,7 +787,7 @@ else {
                           <strong>Sentence 2</strong> <br />
                           Our meeting about our final situation takes place on Thursday the 28th of March.<br />
                           On 28-03 we will meet about our finances.<br />
-                          Next week Thursday 28-03 the meeting about the budget will take place.
+                          Next week, on Thursday 28-03, the meeting about the budget will take place.
                         </p>
                       </div>
                       
