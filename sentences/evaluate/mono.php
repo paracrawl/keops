@@ -167,7 +167,7 @@ else {
                   <?php } ?>
 
                   <div class="col-sm-6 "style="width:60%;">
-                      <div class="text-increase mb-2 ">How would you rate this sentence in <?= $task->target_lang_object->langname ?> ?</div>
+                      <div class="text-increase mb-2 ">How would you rate this text in <?= $task->target_lang_object->langname ?> ?</div>
                       <div class="well"><?=  $sentence->source_text ?></div>
                   </div>
                   
@@ -189,11 +189,11 @@ else {
                       <div class="col-md-11 col-md-offset-1">
                   <div class="row vertical-align mt-1 mt-sm-0 mb-4" style="margin-bottom: 1em;">
                     <div class="col-sm-4 col-xs-6">
-                      <h4 class="my-0">Annotation</h4>
+                      <h4 class="my-0">Rating scale</h4>
                     </div>
                     <div class="col-sm-8 col-xs-6 text-right">
                       <a href="#" data-toggle="modal" data-target="#evaluation-help">
-                        Validation guidelines <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                        Guidelines <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
                       </a>
                     </div>
                 </div>
@@ -301,7 +301,7 @@ else {
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">How to annotate</h4>
+              <h4 class="modal-title">How to rate</h4>
             </div>
             <div class="modal-body">
               <ul class="nav nav-tabs" role="tablist">
@@ -317,10 +317,13 @@ else {
                         <p class="h4"><strong class="label label-info pt-3">Keep in mind</strong></p>
                         <ul class="arrow-list">
                           <li>
-                            Only one type of error should be attributed to each sentence.
+                            Always pick only 1 option for each piece of text.
                           </li>
                           <li>
-                            Sub-specifications for some errors are optional: mark them only if indicated by your PM.
+                            If you’re in doubt, pick the option with lowest number that you are considering.
+                          </li>
+                          <li>
+                           Please read the definition of each option carefully and refer back when needed.
                           </li>
                         
                         </ul>
