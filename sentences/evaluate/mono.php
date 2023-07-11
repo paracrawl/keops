@@ -393,9 +393,6 @@ else {
                     </div>
                   </div>
                   <div role="tabpanel" class="tab-pane" id="examples">
-                    <p>
-                      These examples use English as the source language and Spanish as the target language.
-                    </p>
                     <div class="row">
                       <div class="col-xs-12 col-md-12 h5">
                       <strong>Wrong Language / Not Language</strong>
@@ -454,7 +451,6 @@ else {
                       <div class="col-xs-12 col-md-12 row pt-3 pb-3">
                         <ul><li>The Caucasian rugs are made in the regions located in the mountain chain of the Caucasus, an area situated between the Black Sea and the Caspian Sea. The area is spanned across Georgia, Russian, Armenia and Azerbaijan.</li>
                         <li>You don't mean that, said Bones hoarsely.</li>
-                        <li>Friday.4th: At Noon, the Detachment of Marines fired 3 vollies in honour of the Day.</li>
                         <li>Sounds delicious. My daughter makes it with a puréed jalapeño swirl that looks and tastes amazing.</li>
                         <li>Does your business need an interactive website or app?</li>
                       </ul>
