@@ -62,6 +62,26 @@ $(document).ready(function () {
   resonableTranslationInput.parent("label").addClass("btn-success");
   resonableTranslationInput.parent("label").siblings().addClass("btn-success");
 
+  if (
+    missingContentInput.parent("label").hasClass("active") ||
+    replacedContentInput.parent("label").hasClass("active") ||
+    misalignmentInput.parent("label").hasClass("active")
+  ) {
+    secondLoop.removeClass("d-none");
+    secondLoop.css("display", "flex");
+  }
+
+  if (
+    lowQualityTranslationInput.parent("label").hasClass("active") ||
+    correctBoilerplateTranslationInput.parent("label").hasClass("active") ||
+    resonableTranslationInput.parent("label").hasClass("active")
+  ) {
+    secondLoop.removeClass("d-none");
+    secondLoop.css("display", "flex");
+    thirdLoop.removeClass("d-none");
+    thirdLoop.css("display", "flex");
+  }
+
   sameContentInput.parent("label").on("click", () => {
     if (!sameContentInput.is(":checked")) {
       thirdLoop.addClass("d-none");

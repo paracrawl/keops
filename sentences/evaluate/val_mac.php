@@ -294,7 +294,7 @@ else {
                           <?php } ?>
                           
                         </div>
-                        <?php } else {  ?> &nbsp; <?php } ?>
+                        <?php } else {  ?> <?php } ?>
                       </div>
                     </div>
                     
