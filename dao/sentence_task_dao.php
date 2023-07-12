@@ -600,7 +600,6 @@ from sentences_tasks, sentences as s where task_id = ? and sentence_id = s.id an
       $query->bindParam(1, $task_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
-      error_log($tasktype);
       while ($row = $query->fetch()) {
         if ($tasktype=="VAL_MAC"){
           foreach (sentence_task_dto::$labels_valmac as $label) {

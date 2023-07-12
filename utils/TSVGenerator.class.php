@@ -24,6 +24,12 @@ class TSVGenerator {
                 $headers  = array("Target", "Target lang");
                 $headers = array_merge($headers, array("Evaluation", "Description", "Evaluation details"));
                 $rows[] = $headers;
+            }
+            elseif ($task->mode == "MONO") {
+                $headers = array("Source", "Source lang");
+                $headers = array_merge($headers, array("Evaluation", "Description","Time"));
+                $rows[] = $headers;
+            
             } else {
                 $sample = (count($st_array) > 0) ? $st_array[0] : null;
                 if (!isset($sample)) return;
@@ -31,9 +37,9 @@ class TSVGenerator {
                 $headers  = array("Source");
         
                 if ((isset($task->target_lang))) {
-                for ($i = 0; $i < count($sample->target_text); $i++) {
-                    $headers[] = (isset($sample->target_text[$i]->system) ? $sample->target_text[$i]->system : "Target " . ($i + 1));
-                }
+                    for ($i = 0; $i < count($sample->target_text); $i++) {
+                        $headers[] = (isset($sample->target_text[$i]->system) ? $sample->target_text[$i]->system : "Target " . ($i + 1));
+                    }
                 }
         
                 $headers[] = "Source lang";
@@ -58,7 +64,7 @@ class TSVGenerator {
                 $sentence_comments = $comment_dao->getCommentsByPair($st->id);
                 $sentence_comment = array();
                 foreach ($sentence_comments as $stc) {
-                $sentence_comment[] = $stc->name . ": " . $stc->value;
+                    $sentence_comment[] = $stc->name . ": " . $stc->value;
                 }
         
                 $row = array($source_text);
@@ -70,7 +76,12 @@ class TSVGenerator {
         
                 if (isset($task->source_lang)) $row[] = $task->source_lang;
                 if (isset($task->target_lang)) $row[] = $task->target_lang;
-                $row = array_merge($row, array($st->evaluation, $sentence_task_dto->getLabel($st->evaluation), implode($sentence_comment, "; ")));
+                if ($task->mode == "MONO") {
+                    $row = array_merge($row, array($st->evaluation, $sentence_task_dto->getMonoLabel($st->evaluation)));
+                }
+                else {                
+                    $row = array_merge($row, array($st->evaluation, $sentence_task_dto->getLabel($st->evaluation), implode($sentence_comment, "; ")));
+                }
                 $row[] = $st->time;
 
                 if ($task->mode == "ADE") {
