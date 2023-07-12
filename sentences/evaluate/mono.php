@@ -173,18 +173,11 @@ else {
                   
 
                   <div class="col-sm-6 my-3 d-flex" style="display:flex;flex-direction:column;width: 40%;">
-                    <!-- <div class="row">
-                      <div class="col-md-12 col-xs-12 slider-component mt-3"> 
-                        <div class="custom-range slider">
-                            <input type=range id="evaluation" name="evaluation" min="0" max="100" value="<?= ($sentence->evaluation == "P") ? 50 : $sentence->evaluation ?>" />
-                            <div class="custom-range-control">
-                              <div class="pre"></div>
-                              <div class="post"></div>
-                              <div class="handle"></div>
-                            </div>
-                          </div>
-                      </div> --><!-- .slider-component -->
+                  
                       <?php $comment_dao = new comment_dao(); $count = 0; ?>
+
+
+                   
 
                       <div class="col-md-11 col-md-offset-1">
                   <div class="row vertical-align mt-1 mt-sm-0 mb-4" style="margin-bottom: 1em;">
@@ -197,80 +190,60 @@ else {
                       </a>
                     </div>
                 </div>
-               
-                      <div class=" col-xs-12">
-                        <div class="btn-group btn-group-annotation w-100 mb-1" role="group" >
-                          <span class="btn btn-danger disabled outline col-md-2 col-xs-2 px-0">0</span>
-                          <label class="btn btn-annotation outline btn-danger col-md-10 col-xs-10 mb-2">
-                            <input type="radio" name="evaluation" autocomplete="off" style="display: none;" type="radio" value="WLN"> Wrong language or no language
+                      <div class="col-md-7 col-xs-12 question-column d-none">
+                        
+                        <?php
+                            if (array_key_exists($label['value'], $comments)) {
+                            $comment = $comments[$label['value']];
+                        ?>
+                        
+                        
+                        <div class="btn-group btn-group-justified w-100 my-3 my-sm-0" data-toggle="buttons" data-single="<?= $comment["single_option"] ?>">
+                          <?php foreach ($comment["options"] as $option) { ?>
+                          <?php $comment_dto = $comment_dao->getCommentById($sentence->id, $option["name"]); ?>
+                          <label class="btn btn-default <?= ($comment_dto) ? ($comment_dto->value == $option["value"] ? "active" : "") : "" ?>">
+                            <input type="checkbox" name="<?= $option["name"] ?>" value="<?= $option["value"] ?>" <?= ($comment_dto) ? ($comment_dto->value == $option["value"] ? "checked" : "") : "" ?> /> <?= str_replace("[SOURCE]", $task->source_lang_object->langname, str_replace("[TARGET]",  $task->target_lang_object->langname, $option["text"])); ?>
+                          </label>
+                          <?php } ?>
+                          
+                        </div>
+                        <?php } else {  ?> <?php } ?>
+                      </div>
+                      <?php foreach (array_slice(sentence_task_dto::$labels_monolingual, 1, 5) as $label) { ?>
+                        <?php $count++; ?>
+                      <div class="col-xs-12" style="padding-left:0;">
+                      <div class="btn-group w-100 mb-1" role="group" style="display:flex;">
+                          <span class="btn btn-primary disabled outline col-md-2 col-xs-2 px-0"><?= $count ?></span>
+                          <label class="btn btn-annotation outline btn-primary px-0 col-md-10 col-xs-10 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                            <input type="radio" style="display:none;" name="evaluation" autocomplete="off" <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
                           </label>
                         </div>
                       </div>
-                    
-               
-                      <div class=" col-xs-12">
-                        <div class="btn-group btn-group-annotation w-100 mb-1" role="group" >
-                          <span class="btn btn-warning disabled outline col-md-2 col-xs-2 px-0">1</span>
-                          <label class="btn btn-annotation outline btn-warning col-md-10 col-xs-10 mb-2">
-                            <input type="radio" name="evaluation" autocomplete="off" style="display: none;" type="radio" value="NRT"> Not running text 
-                          </label>
-                        </div>
-                      </div>
-                    
-                      <div class=" col-xs-12">
-                        <div class="btn-group btn-group-annotation w-100 mb-1" role="group" >
-                          <span class="btn btn-info disabled outline col-md-2 col-xs-2 px-0">2</span>
-                          <label class="btn btn-annotation outline btn-info col-md-10 col-xs-10 mb-2">
-                            <input type="radio" name="evaluation" autocomplete="off" style="display: none;" type="radio" value="PRT"> Partially running text 
-                          </label>
-                        </div>
-                      </div>
-                      <div class="col-xs-12">
-                        <div class="btn-group btn-group-annotation w-100 mb-1" role="group" >
-                          <span class="btn btn-primary disabled outline col-md-2 col-xs-2 px-0">3</span>
-                          <label class="btn btn-annotation outline btn-primary col-md-10 col-xs-10 mb-2">
-                            <input type="radio" name="evaluation" autocomplete="off" style="display: none;" type="radio" value="RTE"> Running text 
-                          </label>
-                        </div>
-                      </div>
-                      <div class=" col-xs-12">
-                        <div class="btn-group btn-group-annotation w-100 mb-1" role="group" >
-                          <span class="btn btn-success disabled outline col-md-2 col-xs-2 px-0">4</span>
-                          <label class="btn btn-annotation outline btn-success col-md-10 col-xs-10 mb-2">
-                            <input type="radio" name="evaluation" autocomplete="off" style="display: none;" type="radio" value="PT"> Publishable running text 
-                          </label>
-                        </div>
-                      </div>
-                    
+                      <?php } ?>
               </div>
-          
           </form>
         </div>
-        <div class="col-md-12 col-xs-12 mt-sm-5 mt-3">
-            <div class="row same-height-sm">
-                <div class="col-md-6 same-height-column">
-                </div>
-            </div>
-        </div>
+      
       </div>
 
       <div class="row">
         <hr />
         <div class="col-md-2 col-md-push-6 col-xs-2 pt-xs-1">
-          <a class="btn btn-lg btn-previous <?= ($task_progress->current-1 == 0) ? "disabled" : "" ?>" style="padding-left: 0em;" href="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current-1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>" title="Go to the previous sentence"><span class="glyphicon glyphicon-arrow-left"></span> Previous</a>
-        </div>
+            <a class="btn btn-lg btn-previous <?= ($task_progress->current-1 == 0) ? "disabled" : "" ?>" style="padding-left: 0em;" href="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current-1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>" title="Go to the previous sentence"><span class="glyphicon glyphicon-arrow-left"></span> Previous</a>
+          </div>
 
-        <div class="col-md-4 col-md-push-6 col-xs-10 text-right">
-          <a href="/sentences/evaluate.php?task_id=<?= $task->id ?>" class="btn btn-link" title="Go to the first pending sentence">First pending</a>
+          <div class="col-md-4 col-md-push-6 col-xs-10 text-right">
+            <a href="/sentences/evaluate.php?task_id=<?= $task->id ?>" class="btn btn-link" title="Go to the first pending sentence">First pending</a>
 
-          <?php if ($task->status == "DONE") { ?>
-            <button id="evalutionsavebutton" data-next="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current+1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" title="Go to the next sentence">
-              Next <span class="glyphicon glyphicon-arrow-right"></span>
-            </button>
-          <?php } else { ?>
-            <button id="evalutionsavebutton" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" title="Save this evaluation and go to the next sentence">Next <span class="glyphicon glyphicon-arrow-right"></span></button>
-          <?php } ?>
-        </div>
+            <?php if ($task->status == "DONE") { ?>
+              <button id="evalutionsavebutton" data-next="/sentences/evaluate.php?task_id=<?= $task->id ?>&p=1&id=<?= $task_progress->current+1 ?><?php if (isset($search_term)) { echo "&term=".$search_term; } ?><?php if (isset($filter_label)) { echo "&label=".$filter_label; } ?>" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" title="Go to the next sentence">
+                Next <span class="glyphicon glyphicon-arrow-right"></span>
+              </button>
+            <?php } else { ?>
+              <button id="evalutionsavebutton" class="btn btn-primary btn-lg" style="padding-left: 1em; padding-right: 1em;" title="Save this evaluation and go to the next sentence">Next <span class="glyphicon glyphicon-arrow-right"></span></button>
+            <?php } ?>
+          </div>
+
 
         <div class="col-md-6 col-md-pull-6 col-xs-12 mt-4 mt-sm-0">
           <div class="row">
@@ -291,9 +264,9 @@ else {
           </div>
         </div>
       </div>
-      <?php } ?>
+   
     </div>
-
+    <?php } ?>
     <div id="evaluation-help" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg">
 

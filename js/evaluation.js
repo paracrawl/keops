@@ -1,11 +1,20 @@
 ///// Monolingual eval new feature replacing slider
-const wrongLanguage = $("input[value=WL]");
+const wrongLanguage = $("input[value=WLN]");
 const notRunningText = $("input[value=NRT]");
 const partiallyRunningText = $("input[value=PRT]");
 const runningText = $("input[value=RTE]");
 const publishableRunningText = $("input[value=PT]");
 
 $(document).ready(function () {
+  wrongLanguage.parent("label").addClass("btn-danger");
+  wrongLanguage.parent("label").siblings().addClass("btn-danger");
+  notRunningText.parent("label").addClass("btn-warning");
+  notRunningText.parent("label").siblings().addClass("btn-warning");
+  partiallyRunningText.parent("label").addClass("btn-info");
+  partiallyRunningText.parent("label").siblings().addClass("btn-info");
+  publishableRunningText.parent("label").addClass("btn-success");
+  publishableRunningText.parent("label").siblings().addClass("btn-success");
+
   $(".btn-annotation.active")
     .closest(".row")
     .find(".question-column")
@@ -55,22 +64,21 @@ $(document).ready(function () {
 
   $(document).on("keydown", (e) => {
     if (e.which == 13) {
-      // Intro
       $("#evalutionsavebutton").trigger("click");
     }
-    if (e.which == 45) {
+    if (e.which == 35) {
       wrongLanguage.trigger("click");
     }
-    if (e.which == 35) {
+    if (e.which == 40) {
       notRunningText.trigger("click");
     }
-    if (e.which == 40) {
+    if (e.which == 34) {
       partiallyRunningText.trigger("click");
     }
-    if (e.which == 34) {
+    if (e.which == 37) {
       runningText.trigger("click");
     }
-    if (e.which == 37) {
+    if (e.which == 12) {
       publishableRunningText.trigger("click");
     }
   });

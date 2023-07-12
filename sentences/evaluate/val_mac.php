@@ -301,8 +301,8 @@ else {
                     <?php } ?>
                           </div>
                           <div class="btn-group btn-group-annotation w-100 mb-2" role="group" style="width:47%;display:flex;align-items:flex-end;">
-                          <span class="btn btn-primary disabled outline col-md-2 col-xs-2 px-0" ><?= 3?></span>
-                          <label class="btn btn-annotation outline btn-primary col-md-10 col-xs-10" disabled  style="margin-top:auto;">
+                          <span class="btn btn-primary disabled outline col-md-2 col-xs-2 px-0" ><?= 2?></span>
+                          <label class="btn btn-annotation outline btn-primary col-md-10 col-xs-10" disabled  style="margin-top:auto;cursor:pointer;">
                             <input type="radio" name="evaluation" autocomplete="off"  disabled <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="CL"> Correct language
                           </label>
                           
@@ -327,7 +327,7 @@ else {
                       </div>
                       <div class="btn-group btn-group-annotation w-100 mb-2" role="group" style="width:47%;">
                           <span class="btn btn-primary disabled outline col-md-2 col-xs-2 px-0"><?= 6?></span>
-                          <label class="btn btn-annotation outline btn-primary col-md-10 col-xs-10" disabled >
+                          <label class="btn btn-annotation outline btn-primary col-md-10 col-xs-10" disabled style="cursor:pointer;" >
                             <input type="radio" name="evaluation" autocomplete="off"  disabled <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="SC"> Same content
                           </label>
                           
@@ -362,7 +362,7 @@ else {
                   </div>
       
 
-                <div class="row" style="margin-bottom: 1em;">
+                  <div class="row" style="margin-bottom: 1em;">
                   <hr />
 
                   <!--
@@ -371,7 +371,7 @@ else {
                     followed by an underscore (for example, MT_ for Machine Translation).
                   
                   -->
-                  
+
                   <?php
                     $content_error = $comment_dao->getCommentById($sentence->id, "content_error");
                     $personal_data = $comment_dao->getCommentById($sentence->id, "personal_data");
@@ -380,13 +380,11 @@ else {
                   <div class="col-xs-12 col-md-12">
                     <label for="personal_data" class="checkbox-custom <?= ($task->status == "DONE") ? "disabled" : "" ?>">
                       <input type="checkbox" id="personal_data" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($personal_data) ? (($personal_data->value == "1") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="personal_data" />
+                      <span class="checkbox-control"></span>
+                      Contains offensive or pornographic content
+                    </label>
                   </div>
                   <div class="col-xs-12 col-md-12">
-                    <label for="content_error" class="checkbox-custom <?= ($task->status == "DONE") ? "disabled" : "" ?>">
-                      <input type="checkbox" id="content_error" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($content_error) ? (($content_error->value == "1") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="content_error" />
-                      <span class="checkbox-control"></span>
-                      Offensive or pornographic content
-                    </label><br>
                     <label for="content_error" class="checkbox-custom <?= ($task->status == "DONE") ? "disabled" : "" ?>">
                       <input type="checkbox" id="content_error" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($content_error) ? (($content_error->value == "1") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="content_error" />
                       <span class="checkbox-control"></span>
