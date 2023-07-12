@@ -79,6 +79,9 @@ class TSVGenerator {
                 if ($task->mode == "MONO") {
                     $row = array_merge($row, array($st->evaluation, $sentence_task_dto->getMonoLabel($st->evaluation)));
                 }
+                elseif ($task->mode == "VAL_MAC") {
+                    $row = array_merge($row, array($st->evaluation, $sentence_task_dto->getValMacLabel($st->evaluation), implode($sentence_comment, "; ")));
+                }
                 else {                
                     $row = array_merge($row, array($st->evaluation, $sentence_task_dto->getLabel($st->evaluation), implode($sentence_comment, "; ")));
                 }
