@@ -338,7 +338,7 @@ else {
                           </div>
                     <div class="row third-loop d-none" style="align-items:flex-end">
                     <div style="display:flex;flex-direction:column;width:50%;">
-                      <?php foreach (array_slice(sentence_task_dto::$labels_valmac, 8, 3) as $label) { ?>
+                    <?php foreach (array_slice(sentence_task_dto::$labels_valmac, 8, 3) as $label) if($label['value']!="RT"){ ?>
                         <?php $count++; ?>
                       <div class=" col-xs-12" style="padding-left:0;">
                       <div class="btn-group w-100 mb-1" role="group" style="display:flex;">
@@ -348,10 +348,21 @@ else {
                           </label>
                         </div>
                       </div>
+                      <?php } else { ?>
+                      </div>
+                      <?php $count++; ?>
+                      <div class=" col-xs-12" style="padding-left:0;width:50%;">
+                      <div class="btn-group w-100 mb-1" role="group" style="display:flex;">
+                          <span class="btn btn-success disabled outline col-md-2 col-xs-2 px-0"><?= $count +1?></span>
+                          <label class="btn btn-annotation outline btn-success px-0 col-md-10 col-xs-10 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                            <input type="radio" name="evaluation" autocomplete="off" <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
+                          </label>
+                        </div>
+                      </div>
                       <?php } ?>
                       </div>
                       
-                    </div>
+              
 
                   </div>
       
@@ -372,7 +383,7 @@ else {
                   ?>
 
                   <div class="col-xs-12 col-md-12">
-                    <label for="personal_data" class="checkbox-custom <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                    <label for="personal_data" class="checkbox-custom <?= ($task->status == "DONE") ? "disabled" : "" ?>" style="margin-top:20px;">
                       <input type="checkbox" id="personal_data" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($personal_data) ? (($personal_data->value == "1") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="personal_data" />
                       <span class="checkbox-control"></span>
                       Contains offensive or pornographic content
