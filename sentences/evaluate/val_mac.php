@@ -378,20 +378,20 @@ else {
                   -->
 
                   <?php
-                    $content_error = $comment_dao->getCommentById($sentence->id, "content_error");
-                    $personal_data = $comment_dao->getCommentById($sentence->id, "personal_data");
+                    $offensive_or_porn = $comment_dao->getCommentById($sentence->id, "offensive_or_porn");
+                    $not_running_text = $comment_dao->getCommentById($sentence->id, "not_running_text");
                   ?>
 
                   <div class="col-xs-12 col-md-12">
-                    <label for="personal_data" class="checkbox-custom <?= ($task->status == "DONE") ? "disabled" : "" ?>" style="margin-top:20px;">
-                      <input type="checkbox" id="personal_data" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($personal_data) ? (($personal_data->value == "1") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="personal_data" />
+                    <label for="offensive_or_porn" class="checkbox-custom <?= ($task->status == "DONE") ? "disabled" : "" ?>" style="margin-top:20px;">
+                      <input type="checkbox" id="offensive_or_porn" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($offensive_or_porn) ? (($offensive_or_porn->value == "1") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="offensive_or_porn" />
                       <span class="checkbox-control"></span>
                       Contains offensive or pornographic content
                     </label>
                   </div>
                   <div class="col-xs-12 col-md-12">
-                    <label for="content_error" class="checkbox-custom <?= ($task->status == "DONE") ? "disabled" : "" ?>">
-                      <input type="checkbox" id="content_error" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($content_error) ? (($content_error->value == "1") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="content_error" />
+                    <label for="not_running_text" class="checkbox-custom <?= ($task->status == "DONE") ? "disabled" : "" ?>">
+                      <input type="checkbox" id="not_running_text" <?php if ($task->status == "DONE") { echo "disabled"; } ?> <?= (($not_running_text) ? (($not_running_text->value == "1") ? "checked" : "") : "") ?> autocomplete="off" type="radio" name="not_running_text" />
                       <span class="checkbox-control"></span>
                       Not running text
                     </label>

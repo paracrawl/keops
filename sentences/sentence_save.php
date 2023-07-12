@@ -48,9 +48,14 @@ if (count($failedparams) == 0){
 
       $personal_data = filter_input(INPUT_POST, "personal_data");
       $content_error = filter_input(INPUT_POST, "content_error");
+      $not_running_text = filter_input(INPUT_POST, "not_running_text");
+      $offensive_or_porn = filter_input(INPUT_POST, "offensive_or_porn");
 
       if (isset($personal_data)) $comment_dao->upsertComment(comment_dto::newComment($sentence_task_dto->id, "personal_data", ($personal_data == "on")));
       if (isset($content_error)) $comment_dao->upsertComment(comment_dto::newComment($sentence_task_dto->id, "content_error", ($content_error == "on")));
+      if (isset($offensive_or_porn)) $comment_dao->upsertComment(comment_dto::newComment($sentence_task_dto->id, "offensive_or_porn", ($offensive_or_porn == "on")));
+      if (isset($not_running_text)) $comment_dao->upsertComment(comment_dto::newComment($sentence_task_dto->id, "not_running_text", ($not_running_text == "on")));
+      
 
       $keys = array_keys($_POST);
       foreach (array_keys($_POST) as $key) {
