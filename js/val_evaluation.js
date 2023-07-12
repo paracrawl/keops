@@ -9,10 +9,6 @@ $(document).ready(function () {
   let secondLoop = $(".second-loop");
   let thirdLoop = $(".third-loop");
 
-  correctLanguageInput.parent("label").addClass("btn-success");
-
-  correctLanguageInput.parent("label").siblings().addClass("btn-success");
-
   correctLanguageInput.parent("label").on("click", () => {
     if (!correctLanguageInput.is(":checked")) {
       secondLoop.addClass("d-none");
@@ -56,11 +52,6 @@ $(document).ready(function () {
   let lowQualityTranslationInput = $("input[value=LQT]");
   let correctBoilerplateTranslationInput = $("input[value=CBT]");
   let resonableTranslationInput = $("input[value=RT]");
-
-  sameContentInput.parent("label").addClass("btn-success");
-  sameContentInput.parent("label").siblings().addClass("btn-success");
-  resonableTranslationInput.parent("label").addClass("btn-success");
-  resonableTranslationInput.parent("label").siblings().addClass("btn-success");
 
   if (
     missingContentInput.parent("label").hasClass("active") ||
