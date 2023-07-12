@@ -103,37 +103,37 @@ $(document).ready(function () {
 
   let annotations = $(".btn-annotation");
   $(document).on("keydown", (e) => {
-    if (e.which == 35) {
-      mixedLanguageInput.trigger("click");
-    }
-    if (e.which == 45) {
+    if (e.which == 48) {
       wrongLanguageInput.trigger("click");
     }
-    if (e.which == 40) {
+    if (e.which == 49) {
+      mixedLanguageInput.trigger("click");
+    }
+    if (e.which == 50) {
       correctLanguageInput.trigger("click");
     }
-    if (e.which == 34) {
+    if (e.which == 51) {
       missingContentInput.trigger("click");
     }
-    if (e.which == 37) {
+    if (e.which == 52) {
       replacedContentInput.trigger("click");
     }
 
-    if (e.which == 12) {
+    if (e.which == 53) {
       misalignmentInput.trigger("click");
     }
-    if (e.which == 39 && !secondLoop.hasClass("d-none")) {
+    if (e.which == 54 && !secondLoop.hasClass("d-none")) {
       sameContentInput.trigger("click");
     }
     ////
-    if (e.which == 36) {
+    if (e.which == 55) {
       lowQualityTranslationInput.trigger("click");
     }
 
-    if (e.which == 38) {
+    if (e.which == 56) {
       correctBoilerplateTranslationInput.trigger("click");
     }
-    if (e.which == 33) {
+    if (e.which == 57) {
       resonableTranslationInput.trigger("click");
     }
     //////
