@@ -63,22 +63,23 @@ $(document).ready(function () {
   });
 
   $(document).on("keydown", (e) => {
+    console.log(e.which, e.key, "why");
     if (e.which == 13) {
       $("#evalutionsavebutton").trigger("click");
     }
-    if (e.which == 35) {
+    if (e.which == 49) {
       wrongLanguage.trigger("click");
     }
-    if (e.which == 40) {
+    if (e.which == 50) {
       notRunningText.trigger("click");
     }
-    if (e.which == 34) {
+    if (e.which == 51) {
       partiallyRunningText.trigger("click");
     }
-    if (e.which == 37) {
+    if (e.which == 52) {
       runningText.trigger("click");
     }
-    if (e.which == 12) {
+    if (e.which == 53) {
       publishableRunningText.trigger("click");
     }
   });
