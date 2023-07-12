@@ -303,7 +303,7 @@ else {
                           <div class="btn-group btn-group-annotation w-100 mb-2" role="group" style="width:47%;display:flex;align-items:flex-end;">
                           <span class="btn btn-success disabled outline col-md-2 col-xs-2 px-0" ><?= 2?></span>
                           <label class="btn btn-annotation outline btn-success col-md-10 col-xs-10" disabled  style="margin-top:auto;cursor:pointer;">
-                            <input type="radio" name="evaluation" autocomplete="off"  disabled <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="CL"> Correct language
+                            <input type="radio" name="evaluation" autocomplete="off"  disabled  type="radio" value="CL"> Correct language
                           </label>
                           
                         </div>
@@ -313,7 +313,7 @@ else {
                           </div>
                     <div class="row second-loop d-none" style="align-items:flex-end" >
                     <div style="display:flex;flex-direction:column;width:50%;">
-                      <?php foreach (array_slice(sentence_task_dto::$labels_valmac, 4, 3) as $label) { ?>
+                      <?php foreach (array_slice(sentence_task_dto::$labels_valmac, 3, 3) as $label) { ?>
                         <?php $count++; ?>
                       <div class="col-xs-12" style="padding-left:0;">
                       <div class="btn-group w-100 mb-1" role="group" style="display:flex;">
@@ -328,17 +328,18 @@ else {
                       <div class="btn-group btn-group-annotation w-100 mb-2" role="group" style="width:47%;">
                           <span class="btn btn-success disabled outline col-md-2 col-xs-2 px-0"><?= 6?></span>
                           <label class="btn btn-annotation outline btn-success col-md-10 col-xs-10" disabled style="cursor:pointer;" >
-                            <input type="radio" name="evaluation" autocomplete="off"  disabled <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="SC"> Same content
+                            <input type="radio" name="evaluation" autocomplete="off"  disabled  type="radio" value="SC"> Same content
                           </label>
                           
                         </div>
+                        
                     </div>
                     <div  style="margin-left:-15px" class="third-loop d-none" >
                    <hr />
                           </div>
                     <div class="row third-loop d-none" style="align-items:flex-end">
                     <div style="display:flex;flex-direction:column;width:50%;">
-                    <?php foreach (array_slice(sentence_task_dto::$labels_valmac, 8, 3) as $label) if($label['value']!="RT"){ ?>
+                    <?php foreach (array_slice(sentence_task_dto::$labels_valmac, 6, 3) as $label) if($label['value']!="RT"){ ?>
                         <?php $count++; ?>
                       <div class=" col-xs-12" style="padding-left:0;">
                       <div class="btn-group w-100 mb-1" role="group" style="display:flex;">
