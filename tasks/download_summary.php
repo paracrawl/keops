@@ -25,13 +25,26 @@ if (isset($task_id)) {
 
     if ($task->mode == "VAL" || $task->mode=="VAL_MAC" || $task->mode=="MONO") {
       $sentence_task_dao = new sentence_task_dao();
-      $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id);
+      $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id, $task->mode);
 
       $rows[] = array("Label", "Description", "Count", "Percentage");
-
-      foreach (sentence_task_dto::$labels as $label) {
-        $rows[] = array($label["value"], $label["label"], $task_stats_dto->array_type[$label['value']], (($task_stats_dto->array_type[$label['value']]) / $task_stats_dto->total) * 100);
+      
+      if ($task->mode =="VAL"){
+        foreach (sentence_task_dto::$labels as $label) {
+          $rows[] = array($label["value"], $label["label"], $task_stats_dto->array_type[$label['value']], (($task_stats_dto->array_type[$label['value']]) / $task_stats_dto->total) * 100);
+        }
       }
+      if ($task->mode=="VAL_MAC"){
+        foreach (sentence_task_dto::$labels_valmac as $label) {
+          $rows[] = array($label["value"], $label["label"], $task_stats_dto->array_type[$label['value']], (($task_stats_dto->array_type[$label['value']]) / $task_stats_dto->total) * 100);
+        }
+      }
+      if ($task->mode=="MONO"){
+        foreach (sentence_task_dto::$labels_monolingual as $label) {
+          $rows[] = array($label["value"], $label["label"], $task_stats_dto->array_type[$label['value']], (($task_stats_dto->array_type[$label['value']]) / $task_stats_dto->total) * 100);
+        }
+      }
+
 
       $rows[] = array("Total", "Total", $task_stats_dto->total);
     } else if ($task->mode == "ADE" || $task->mode == "FLU") {
