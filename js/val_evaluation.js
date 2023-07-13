@@ -103,37 +103,37 @@ $(document).ready(function () {
 
   let annotations = $(".btn-annotation");
   $(document).on("keydown", (e) => {
-    if (e.which == 48) {
+    if (e.which == 48 || e.which == 96) {
       wrongLanguageInput.trigger("click");
     }
-    if (e.which == 49) {
+    if (e.which == 49 || e.which == 97) {
       mixedLanguageInput.trigger("click");
     }
-    if (e.which == 50) {
+    if (e.which == 50 || e.which == 98) {
       correctLanguageInput.trigger("click");
     }
-    if (e.which == 51) {
+    if (e.which == 51 || e.which == 99) {
       missingContentInput.trigger("click");
     }
-    if (e.which == 52) {
+    if (e.which == 52 || e.which == 100) {
       replacedContentInput.trigger("click");
     }
 
-    if (e.which == 53) {
+    if (e.which == 53 || e.which == 101) {
       misalignmentInput.trigger("click");
     }
-    if (e.which == 54 && !secondLoop.hasClass("d-none")) {
+    if ((e.which == 54 || e.which == 102) && !secondLoop.hasClass("d-none")) {
       sameContentInput.trigger("click");
     }
     ////
-    if (e.which == 55) {
+    if (e.which == 55 || e.which == 103) {
       lowQualityTranslationInput.trigger("click");
     }
 
-    if (e.which == 56) {
+    if (e.which == 56 || e.which == 104) {
       correctBoilerplateTranslationInput.trigger("click");
     }
-    if (e.which == 57) {
+    if (e.which == 57 || e.which == 105) {
       resonableTranslationInput.trigger("click");
     }
     //////
@@ -165,8 +165,9 @@ $(document).ready(function () {
         }
 
         // Transform numpad keys
+        /*
         if (e.which >= 97 && e.which <= 104) e.which -= 48;
-
+        */
         if (e.which < 49 || e.which > 56) return;
 
         $("#evaluationform :radio").removeAttr("checked");
