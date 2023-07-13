@@ -20,7 +20,7 @@ Base = declarative_base(metadata=meta)
 roleEnum = Enum('ADMIN', 'PM', 'USER', name='role', create_type=True, schema='keopsdb')
 taskstatusEnum = Enum('PENDING', 'STARTED', 'DONE', name='taskstatus', create_type=True, schema='keopsdb')
 labelEnum = Enum('P','V','L','A','T','MT','E','F', name='label', create_type=True, schema='keopsdb')
-macLabelEnum = Enum ('WL', 'ML', 'CL', 'MC', 'RC','MA', 'SC', 'LQT', 'CBT', 'RT', name= 'mac_label', create_type=True, schema='keopsdb')
+macLabelEnum = Enum ('WL', 'ML', 'MC', 'RC','MA', 'LQT', 'CBT', 'RT', name= 'mac_label', create_type=True, schema='keopsdb')
 modeEnum = Enum('VAL', 'ADE', 'FLU', 'RAN' 'MONO', 'VAL_MAC' , name='evalmode', create_type=True, schema='keopsdb')
 
 user_langs = Table('user_langs', Base.metadata,

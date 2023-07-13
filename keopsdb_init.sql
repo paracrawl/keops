@@ -4,7 +4,7 @@ CREATE SCHEMA keopsdb;
 CREATE TYPE keopsdb.role AS ENUM ('PM', 'USER', 'root');
 CREATE TYPE keopsdb.taskstatus AS ENUM ('PENDING', 'STARTED', 'DONE');
 CREATE TYPE keopsdb.label AS ENUM ('P','V','L','A','T','MT','E','F');
-CREATE TYPE keopsdb.mac_label AS ENUM ('WL', 'ML', 'CL', 'MC', 'RC','MA', 'SC', 'LQT', 'CBT', 'RT');
+CREATE TYPE keopsdb.mac_label AS ENUM ('WL', 'ML', 'MC', 'RC','MA', 'LQT', 'CBT', 'RT');
 CREATE TYPE keopsdb.evalmode AS ENUM ('VAL', 'ADE', 'FLU', 'RAN', 'PAR', 'MONO', 'VAL_MAC');
 
 CREATE TABLE keopsdb.USERS (
