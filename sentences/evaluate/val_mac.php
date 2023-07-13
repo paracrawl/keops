@@ -270,7 +270,7 @@ else {
                   
                       <div class=" col-xs-12" style="padding-left:0;">
                         <div class="btn-group btn-group-annotation w-100 mb-2" role="group" style="display:flex;">
-                          <span class="btn btn-primary disabled outline col-md-2 col-xs-2 px-0"><?= $count -1?></span>
+                          <span class="btn btn-primary disabled outline col-md-2 col-xs-2 px-0"><?= $count ?></span>
                           <label class="btn btn-annotation outline btn-primary col-md-10 col-xs-10 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
                             <input type="radio" name="evaluation" autocomplete="off" <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
                           </label>
@@ -301,7 +301,7 @@ else {
                     <?php } ?>
                           </div>
                           <div class="btn-group btn-group-annotation w-100 mb-2" role="group" style="width:47%;display:flex;align-items:flex-end;">
-                          <span class="btn btn-success disabled outline col-md-2 col-xs-2 px-0" ><?= 2?></span>
+                          <span class="btn btn-success disabled outline col-md-2 col-xs-2 px-0" ><?= 3?></span>
                           <label class="btn btn-annotation outline btn-success col-md-10 col-xs-10" disabled  style="margin-top:auto;cursor:pointer;">
                             <input type="radio" name="evaluation" autocomplete="off"  disabled  type="radio" value="CL"> Correct language
                           </label>
@@ -317,7 +317,7 @@ else {
                         <?php $count++; ?>
                       <div class="col-xs-12" style="padding-left:0;">
                       <div class="btn-group w-100 mb-1" role="group" style="display:flex;">
-                          <span class="btn btn-primary disabled outline col-md-2 col-xs-2 px-0"><?= $count ?></span>
+                          <span class="btn btn-primary disabled outline col-md-2 col-xs-2 px-0"><?= $count +1?></span>
                           <label class="btn btn-annotation outline btn-primary px-0 col-md-10 col-xs-10 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
                             <input type="radio" name="evaluation" autocomplete="off" <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
                           </label>
@@ -326,7 +326,7 @@ else {
                       <?php } ?>
                       </div>
                       <div class="btn-group btn-group-annotation w-100 mb-2" role="group" style="width:47%;">
-                          <span class="btn btn-success disabled outline col-md-2 col-xs-2 px-0"><?= 6?></span>
+                          <span class="btn btn-success disabled outline col-md-2 col-xs-2 px-0"><?= 7?></span>
                           <label class="btn btn-annotation outline btn-success col-md-10 col-xs-10" disabled style="cursor:pointer;" >
                             <input type="radio" name="evaluation" autocomplete="off"  disabled  type="radio" value="SC"> Same content
                           </label>
@@ -343,7 +343,7 @@ else {
                         <?php $count++; ?>
                       <div class=" col-xs-12" style="padding-left:0;">
                       <div class="btn-group w-100 mb-1" role="group" style="display:flex;">
-                          <span class="btn btn-primary disabled outline col-md-2 col-xs-2 px-0"><?= $count +1?></span>
+                          <span class="btn btn-primary disabled outline col-md-2 col-xs-2 px-0"><?= $count +2?></span>
                           <label class="btn btn-annotation outline btn-primary px-0 col-md-10 col-xs-10 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
                             <input type="radio" name="evaluation" autocomplete="off" <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
                           </label>
@@ -354,7 +354,7 @@ else {
                       <?php $count++; ?>
                       <div class=" col-xs-12" style="padding-left:0;width:50%;">
                       <div class="btn-group w-100 mb-1" role="group" style="display:flex;">
-                          <span class="btn btn-success disabled outline col-md-2 col-xs-2 px-0"><?= $count +1?></span>
+                          <span class="btn btn-success disabled outline col-md-2 col-xs-2 px-0"><?= V?></span>
                           <label class="btn btn-annotation outline btn-success px-0 col-md-10 col-xs-10 <?= $sentence->evaluation == $label['value'] ? "active" : "" ?>  <?= ($task->status == "DONE") ? "disabled" : "" ?>">
                             <input type="radio" name="evaluation" autocomplete="off" <?= $sentence->evaluation == $label['value'] ? "checked" : "" ?> type="radio" value="<?= $label['value'] ?>"> <?= $label['label'] ?>
                           </label>
