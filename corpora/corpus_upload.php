@@ -229,7 +229,7 @@ function file_reader($filename, $count, $callback, $batch_size = null, $has_head
 
       $valid = !empty(trim($buffer)) && count($data) == $count;
       for ($i = 0; $valid && $i < count($data); $i++) {
-        $valid = $valid && (strlen($data[$i]) <= 5000);
+        $valid = $valid && (strlen($data[$i]) <= 10000);
       }
 
       if ($valid) {
