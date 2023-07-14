@@ -101,7 +101,7 @@
       </div>
       
         <?php
-        if (in_array($corpus->mode, ["VAL", "FLU", "PAR"])) {
+        if (in_array($corpus->mode, ["VAL", "FLU", "PAR", "VAL_MAC", "MONO"])) {
           foreach ($preview as $line){
             ?>
             <div class="row">

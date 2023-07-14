@@ -25,5 +25,12 @@
     case 'PAR':
       header("Location: /sentences/evaluate/par.php?".$_SERVER['QUERY_STRING']);
       break;
+    case 'VAL_MAC':
+      header("Location: /sentences/evaluate/val_mac.php?".$_SERVER['QUERY_STRING']);
+      break;
+    case 'MONO':
+      header("Location: /sentences/evaluate/mono.php?".$_SERVER['QUERY_STRING']);
+      break;
+
   }
 ?>

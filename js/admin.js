@@ -65,6 +65,39 @@ Dropzone.options.dropzoneval = { // camelized id
   autoProcessQueue: true
 };
 
+
+
+Dropzone.options.dropzonevalmac = { // camelized id
+  paramName: "file",
+  maxFilesize: 10, // 10 MB
+  filesizeBase: 1000,
+  //acceptedFiles: "text/*,application/*",
+  //maxFiles: 40, // needed?
+  init: function() {
+    this.on("complete", function(file) {
+      obj = this;
+
+      setTimeout(function() {
+        obj.removeFile(file);
+        $('#corpora-table-valmac').DataTable().ajax.reload();
+      }, 10000);
+      $('#corpora-table-valmac').DataTable().ajax.reload();
+    });
+
+    this.on("canceled", function(file) {
+      this.removeFile(file);
+    });
+  },
+  sending: function(file, xhr, formData) {
+    formData.append("source_lang", $("#corpora_evaluation_mac .source_lang"));
+    formData.append("target_lang", $("#corpora_evaluation_mac .target_lang"));
+  },
+//  previewTemplate: document.querySelector('#custom-dz-template').innerHTML,
+  autoProcessQueue: true
+};
+
+
+
 Dropzone.options.dropzoneade = { // camelized id
   paramName: "file",
   maxFilesize: 10, // 10 MB
@@ -95,6 +128,11 @@ Dropzone.options.dropzoneade = { // camelized id
   autoProcessQueue: true
 };
 
+
+
+
+
+
 Dropzone.options.dropzoneflu = { // camelized id
   paramName: "file",
   maxFilesize: 10, // 10 MB
@@ -122,6 +160,37 @@ Dropzone.options.dropzoneflu = { // camelized id
 //  previewTemplate: document.querySelector('#custom-dz-template').innerHTML,
   autoProcessQueue: true
 };
+
+
+
+Dropzone.options.dropzonemono = { // camelized id
+  paramName: "file",
+  maxFilesize: 10, // 10 MB
+  filesizeBase: 1000,
+  //acceptedFiles: "text/*,application/*",
+  //maxFiles: 40, // needed?
+  init: function() {
+    this.on("complete", function(file) {
+      obj = this;
+
+      setTimeout(function() {
+        obj.removeFile(file);
+        $('#corpora-table-mono').DataTable().ajax.reload();
+      }, 10000);
+      $('#corpora-table-mono').DataTable().ajax.reload();
+    });
+
+    this.on("canceled", function(file) {
+      this.removeFile(file);
+    });
+  },
+  sending: function(file, xhr, formData) {
+    formData.append("source_lang", $("#corpora_mono .source_lang"));
+  },
+//  previewTemplate: document.querySelector('#custom-dz-template').innerHTML,
+  autoProcessQueue: true
+};
+
 
 Dropzone.options.dropzoneran = { // camelized id
   paramName: "file",
@@ -235,13 +304,13 @@ $(document).ready(function() {
       }
 
       let mode = $("#mode").val();
-      if (mode == "FLU") {
+      if (mode == "FLU" || mode == "MONO") {
         $("#source_lang_group").addClass("d-none");
       } else {
         $("#source_lang_group").removeClass("d-none");
       }
 
-      if (target_lang != -1 && (source_lang != -1 || mode == "FLU")) {
+      if (target_lang != -1 && (source_lang != -1 || mode == "FLU" || mode == "MONO")) {
         // We get available users for that language pair
         $.getJSON(`/services/languages_service.php?service=usersByLanguage&source_lang=${source_lang}&target_lang=${target_lang}&mode=${mode}`, ({result, data}) => {
           if (result == 200) {
@@ -590,6 +659,10 @@ $(document).ready(function() {
               return "Ranking";
             case "PAR":
               return "Paraphrasing";
+            case "VAL_MAC":
+              return "Validation (MaCoCu)";
+            case "MONO":
+              return "Monolingual evaluation"
           }
         }
       },
@@ -713,6 +786,10 @@ $(document).ready(function() {
               return 'Ranking';
             case 'PAR':
               return 'Paraphrasing';
+            case "VAL_MAC": 
+              return "Validation (MaCoCu)";
+            case "MONO":
+              return "Monolingual evaluation";
           } 
         }
       },

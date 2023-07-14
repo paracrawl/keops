@@ -67,7 +67,7 @@
         <?php } ?>
 
         <?php
-        if ($task->mode == "VAL" || $task->mode == "FLU") {
+        if ($task->mode == "VAL" || $task->mode == "FLU" || $task->mode == "VAL_MAC" || $task->mode == "MONO") {
           foreach ($preview as $line){
             ?>
             <div class="row mt-3">

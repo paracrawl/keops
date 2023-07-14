@@ -117,7 +117,7 @@ $tasks = $task_dao->getTasksByProject($project_id);
             <?php
             $sentence_task_dao = new sentence_task_dao();
             foreach ($tasks as $task) {
-                $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id);      
+                $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id, $task->mode);      
             ?>
 
             <a href="/tasks/recap.php?id=<?= $task->id ?>" class="list-group-item col-sm-4">

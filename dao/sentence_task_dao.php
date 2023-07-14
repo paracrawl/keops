@@ -569,7 +569,7 @@ class sentence_task_dao {
    * @return \task_stats_dto Task stats object
    * @throws Exception
    */
-  function getStatsByTask($task_id) {
+  function getStatsByTask($task_id, $tasktype="") {
     try {
       $task_stats_dto = new task_stats_dto();
       $query = $this->conn->prepare("select count(*) as total,
@@ -580,14 +580,40 @@ count(case when evaluation = 'MT' then 1 end) as MT,
 count(case when evaluation = 'E' then 1 end) as E,
 count(case when evaluation = 'F' then 1 end) as F,
 count(case when evaluation = 'P' then 1 end) as P,
-count(case when evaluation = 'V' then 1 end) as V
+count(case when evaluation = 'V' then 1 end) as V,
+count(case when evaluation = 'WL' then 1 end) as WL,
+count(case when evaluation = 'ML' then 1 end) as ML,
+count(case when evaluation = 'CL' then 1 end) as CL,
+count(case when evaluation = 'MC' then 1 end) as MC,
+count(case when evaluation = 'RC' then 1 end) as RC,
+count(case when evaluation = 'MA' then 1 end) as MA,
+count(case when evaluation = 'SC' then 1 end) as SC,
+count(case when evaluation = 'LQT' then 1 end) as LQT,
+count(case when evaluation = 'CBT' then 1 end) as CBT,
+count(case when evaluation = 'RT' then 1 end) as RT,
+count(case when evaluation = 'WLN' then 1 end) as WLN,
+count(case when evaluation = 'NRT' then 1 end) as NRT,
+count(case when evaluation = 'PRT' then 1 end) as PRT,
+count(case when evaluation = 'RTE' then 1 end) as RTE,
+count(case when evaluation = 'PT' then 1 end) as PT
 from sentences_tasks, sentences as s where task_id = ? and sentence_id = s.id and s.is_source = true;");
       $query->bindParam(1, $task_id);
       $query->execute();
       $query->setFetchMode(PDO::FETCH_ASSOC);
       while ($row = $query->fetch()) {
-        foreach (sentence_task_dto::$labels as $label) {
-          $task_stats_dto->array_type[$label['value']] = $row[strtolower($label['value'])];
+        if ($tasktype=="VAL_MAC"){
+          foreach (sentence_task_dto::$labels_valmac as $label) {
+            $task_stats_dto->array_type[$label['value']] = $row[strtolower($label['value'])];
+         }
+        }
+        elseif ($tasktype=="MONO")  {
+          foreach (sentence_task_dto::$labels_monolingual as $label) {
+            $task_stats_dto->array_type[$label['value']] = $row[strtolower($label['value'])];
+         }
+        } else{
+          foreach (sentence_task_dto::$labels as $label) {
+            $task_stats_dto->array_type[$label['value']] = $row[strtolower($label['value'])];
+         }
         }
         $task_stats_dto->total = $row['total'];
       }
@@ -652,3 +678,4 @@ from sentences_tasks, sentences as s where task_id = ? and sentence_id = s.id an
     }
   }
 }
+  

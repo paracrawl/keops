@@ -36,8 +36,8 @@ services:
     container_name: keopsdb
     networks:
       - keops
-#    ports:
-        #- 5432:5432
+    ports:
+        - 5432:5432
     environment:
       - POSTGRESPASSWORD=PASSWORD_FOR_POSTGRES
     volumes:

@@ -128,7 +128,7 @@ require_once(RESOURCES_PATH . "/session.php");
 
                         <?php
                         foreach ($tasks[$project->id] as $task) {
-                            $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id);      
+                            $task_stats_dto = $sentence_task_dao->getStatsByTask($task->id, $task->mode);      
                         ?>
 
                         <a href="/tasks/recap.php?id=<?= $task->id ?>" class="list-group-item col-sm-4">
