@@ -155,6 +155,7 @@ else {
         <?php } else {?>
         <div class=" col-xs-12">
           <form id="evaluationform" action="/sentences/sentence_save.php" role="form" method="post" data-toggle="validator">
+          <input type=hidden name="evaluation" value="P" />
               <div class="row ">
                   <input type="hidden" name="task_id" value="<?= $task->id ?>">
                   <input type="hidden" name="sentence_id" value="<?= $sentence->id ?>">

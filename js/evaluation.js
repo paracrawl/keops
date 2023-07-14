@@ -1,4 +1,5 @@
 ///// Monolingual eval new feature replacing slider
+let numberInput = $("input[name=id]");
 const wrongLanguage = $("input[value=WLN]");
 const notRunningText = $("input[value=NRT]");
 const partiallyRunningText = $("input[value=PRT]");
@@ -63,23 +64,25 @@ $(document).ready(function () {
   });
 
   $(document).on("keydown", (e) => {
-    if (e.which == 13) {
-      $("#evalutionsavebutton").trigger("click");
-    }
-    if (e.which == 49 || e.which == 97) {
-      wrongLanguage.trigger("click");
-    }
-    if (e.which == 50 || e.which == 98) {
-      notRunningText.trigger("click");
-    }
-    if (e.which == 51 || e.which == 99) {
-      partiallyRunningText.trigger("click");
-    }
-    if (e.which == 52 || e.which == 100) {
-      runningText.trigger("click");
-    }
-    if (e.which == 53 || e.which == 101) {
-      publishableRunningText.trigger("click");
+    if (!numberInput.is(":focus")) {
+      if (e.which == 13) {
+        $("#evalutionsavebutton").trigger("click");
+      }
+      if (e.which == 49 || e.which == 97) {
+        wrongLanguage.trigger("click");
+      }
+      if (e.which == 50 || e.which == 98) {
+        notRunningText.trigger("click");
+      }
+      if (e.which == 51 || e.which == 99) {
+        partiallyRunningText.trigger("click");
+      }
+      if (e.which == 52 || e.which == 100) {
+        runningText.trigger("click");
+      }
+      if (e.which == 53 || e.which == 101) {
+        publishableRunningText.trigger("click");
+      }
     }
   });
 
