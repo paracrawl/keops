@@ -23,7 +23,8 @@
             <div class="col-xs-12 col-md-8 text-md-right">
                 <div class="row">
                     <div class="col-xs-12 col-md-12 eu-logos">
-                        <a href="http://paracrawl.eu/"  target="_blank" style="margin-right: 1em;" rel="noopener"><img src="/img/paracrawl-logo135x62.png" alt="Paracrawl Project home"></a>
+                    <a href="http://paracrawl.eu/"  target="_blank" style="margin-right: 1em;" rel="noopener"><img src="/img/paracrawl-logo135x62.png" alt="Paracrawl Project home" style="width: 100px;"></a>
+                        <a href="http://macocu.eu/"  target="_blank" style="margin-right: 1em;" rel="noopener"><img src="/img/macocu-logo.svg" alt="macocu project" style="width: 140px;"></a>
                         <a href="https://ec.europa.eu/inea/en/connecting-europe-facility" target="_blank" rel="noopener"><img src="/img/eu-logo.png" alt="European Union home"></a>
                     </div>
 
