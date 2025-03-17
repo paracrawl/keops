@@ -148,7 +148,8 @@ The validation for MaCoCu is carried out following a hierarchical annotation sch
 3. CL (Correct Languages). The content of both sentences is in the expected languages. We move to level 2.
 
 **Level 2. Is the content on both sides roughly the same?**
-![Level 2](https://github.com/user-attachments/assets/32dbbc92-f352-48ac-b054-7ea9071d6a73)
+<img width="935" alt="Level 2" src="https://github.com/user-attachments/assets/52a51e37-1521-4cc0-984d-dbce133d7ce0" />
+
 
 4. MC (Missing Content). The content in one sentence is missing a substantial part of the content from the other sentence. Annotation finishes.
 5. RC (Replaced Content). The content is roughly the same in both sentences but some content words or numbers are different. Annotation finishes
@@ -156,7 +157,8 @@ The validation for MaCoCu is carried out following a hierarchical annotation sch
 7. SC (Same Content). The content of both sentences is roughly the same. We move to level 3.
 
 **Level 3. Is the translation reasonably correct?**
-![Level 3](https://github.com/user-attachments/assets/6f105961-99c8-420c-8e6a-c758ae850818)
+<img width="928" alt="Level 3" src="https://github.com/user-attachments/assets/daba6820-b4f1-4ba0-bbe4-1a33b4adf052" />
+
 
 8. LQT (Low Quality Translation). The content of both sentences is roughly the same but there are serious translation errors. Annotation finishes
 9. CBT (Correct boilerplate translation). The content of both sentences is roughly the same but the content is boilerplate. Annotation finishes
