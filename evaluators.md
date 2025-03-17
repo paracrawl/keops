@@ -135,7 +135,8 @@ Finally, some keyboard shortcuts are available. Press the key corresponding to t
 <a name="validation-MaCoCU"></a>
 
 #### Validation (MaCoCu)
-![Validation screen](/screenshots/guide/validation.png)
+![Validation screen]![MaCoCU_Validation](https://github.com/user-attachments/assets/d36cfcb7-a465-4963-b016-9499e5fb252c)
+
 
 The validation for MaCoCu is carried out following a hierarchical annotation scheme divided into 3 levels, each of them relating to a different question.  Each question has a set of predefined answers, and depending on the annotator's choice, the annotation is either completed or proceeds to the next question. To simplify the annotation interface, these questions are not displayed during the annotation process. The annotation hierarchy is outlined below:
 
