@@ -148,27 +148,22 @@ The validation for MaCoCu is carried out following a hierarchical annotation sch
 3. CL (Correct Languages). The content of both sentences is in the expected languages. We move to level 2.
 
 **Level 2. Is the content on both sides roughly the same?**
-<img width="935" alt="Level 2" src="https://github.com/user-attachments/assets/52a51e37-1521-4cc0-984d-dbce133d7ce0" />
-
-
 4. MC (Missing Content). The content in one sentence is missing a substantial part of the content from the other sentence. Annotation finishes.
 5. RC (Replaced Content). The content is roughly the same in both sentences but some content words or numbers are different. Annotation finishes
 6. MA (Misalignment). The content of both sentences is completely different. Annotation finishes
 7. SC (Same Content). The content of both sentences is roughly the same. We move to level 3.
+<img width="935" alt="Level 2" src="https://github.com/user-attachments/assets/52a51e37-1521-4cc0-984d-dbce133d7ce0" />
 
 **Level 3. Is the translation reasonably correct?**
-<img width="928" alt="Level 3" src="https://github.com/user-attachments/assets/daba6820-b4f1-4ba0-bbe4-1a33b4adf052" />
-
-
 8. LQT (Low Quality Translation). The content of both sentences is roughly the same but there are serious translation errors. Annotation finishes
 9. CBT (Correct boilerplate translation). The content of both sentences is roughly the same but the content is boilerplate. Annotation finishes
 
 If none of these errors apply, the pairs are then considered as **RT (Reasonable Translation):**
 10. RT (Reasonable Translation). The content of both sentences is roughly the same and the translation is at least reasonable. Annotation finishes.
+<img width="928" alt="Level 3" src="https://github.com/user-attachments/assets/daba6820-b4f1-4ba0-bbe4-1a33b4adf052" />
 
 ## Additional Checks
 Independently of the main annotation, the following issues are identified by clicking on the checkbox below the annotation scheme:
-![Additional](https://github.com/user-attachments/assets/55594e01-1963-4b7f-ba91-fec4092ec843)
 - **Contains offensive or pornographic content**
 - **Not running text**: This means that a substantial part of the text is just a bunch of words together, for which it does not make sense to judge the translation.
 
