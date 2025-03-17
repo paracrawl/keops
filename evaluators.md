@@ -8,7 +8,8 @@ KEOPS (Keen Evaluation Of Parallel Sentences) provides a complete tool for manua
 * [Your tasks](#tasks)
 * [Evaluating](#evaluating)
     * [Evaluation modes](#modes)
-        * [Validation](#validation)
+        * [Validation (ParaCrawl-ELRC)](#validation-ELRC)
+        * [Validation (MaCoCu)](#validation-MaCoCu)
         * [Adequacy](#adequacy)
         * [Fluency](#fluency)
         * [Ranking](#ranking)
@@ -91,7 +92,7 @@ You can also search through the sentences using the search box. Depending on the
 ### Evaluation modes
 A task has always an evaluation mode. This will change the way you evaluate the sentences.
 
-<a name="validation"></a>
+<a name="validation-ELRC"></a>
 
 #### Validation (ParaCrawl-ELRC)
 ![Validation screen](/screenshots/guide/validation.png)
@@ -131,6 +132,21 @@ This is also additional information that only needs to be provided in addition t
 
 Finally, some keyboard shortcuts are available. Press the key corresponding to the number of the label to select it. If an optional question is available, you can answer using <kbd>←</kbd> or <kbd>→</kbd>. Press <kbd>Enter</kbd> to save the evaluation and go to the next sentence.
 
+<a name="validation-MaCoCU"></a>
+
+#### Validation (MaCoCu)
+![Validation screen](/screenshots/guide/validation.png)
+
+This mode is used to classify pairs of sentences using the [European Language Resource Coordination (ELRC)](http://www.lr-coordination.eu/) validation guidelines. These guidelines define a set of labels to __annotate sentences following a hierarchical error typology__:
+
+1. Wrong language identification (see examples [here](https://github.com/paracrawl/keops/blob/master/screenshots/guide/Wrong-language-identification.png))
+2. Incorrect alignment (see examples [here](https://github.com/paracrawl/keops/blob/master/screenshots/guide/Incorrect-alignment.png))
+3. Wrong tokenization (see examples [here](https://github.com/paracrawl/keops/blob/master/screenshots/guide/Wrong-Tokenization.png))
+4. MT translation (see examples [here](https://github.com/paracrawl/keops/blob/master/screenshots/guide/MT-errors.png))
+5. Translation error
+6. Free translation
+
+If none of these errors apply, the pairs are then considered as __valid__: 
 
 <a name="adequacy"></a>
 
