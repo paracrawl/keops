@@ -137,16 +137,37 @@ Finally, some keyboard shortcuts are available. Press the key corresponding to t
 #### Validation (MaCoCu)
 ![Validation screen](/screenshots/guide/validation.png)
 
-This mode is used to classify pairs of sentences using the [European Language Resource Coordination (ELRC)](http://www.lr-coordination.eu/) validation guidelines. These guidelines define a set of labels to __annotate sentences following a hierarchical error typology__:
+The validation for MaCoCu is carried out following a hierarchical annotation scheme divided into 3 levels, each of them relating to a different question.  Each question has a set of predefined answers, and depending on the annotator's choice, the annotation is either completed or proceeds to the next question. To simplify the annotation interface, these questions are not displayed during the annotation process. The annotation hierarchy is outlined below:
 
-1. Wrong language identification (see examples [here](https://github.com/paracrawl/keops/blob/master/screenshots/guide/Wrong-language-identification.png))
-2. Incorrect alignment (see examples [here](https://github.com/paracrawl/keops/blob/master/screenshots/guide/Incorrect-alignment.png))
-3. Wrong tokenization (see examples [here](https://github.com/paracrawl/keops/blob/master/screenshots/guide/Wrong-Tokenization.png))
-4. MT translation (see examples [here](https://github.com/paracrawl/keops/blob/master/screenshots/guide/MT-errors.png))
-5. Translation error
-6. Free translation
+Level 1. Is the content written in the expected languages?
+1. WL (Wrong Language). The content of one of the two sentences is not in the expected language. If this is the case, annotation stops (see examples [here](https://github.com/paracrawl/keops/blob/master/screenshots/guide/Wrong-language-identification.png))
+2. ML (Mixed Languages). The content of one of the two sentences is written in a mix of languages, one of which is the expected one. If this is the case, annotation stops (see examples [here](https://github.com/paracrawl/keops/blob/master/screenshots/guide/Incorrect-alignment.png))
+3. CL (Correct Languages). The content of both sentences is in the expected languages. We move to level 2 (see examples [here](https://github.com/paracrawl/keops/blob/master/screenshots/guide/Wrong-Tokenization.png))
 
-If none of these errors apply, the pairs are then considered as __valid__: 
+Level 2. Is the content on both sides roughly the same?
+4.	MC (Missing Content). The content in one sentence is missing a substantial part of the content from the other sentence. Annotation finishes (see examples [here](https://github.com/paracrawl/keops/blob/master/screenshots/guide/MT-errors.png))
+5.	RC (Replaced Content). The content is roughly the same in both sentences but some content words or numbers are different. Annotation finishes
+6.	MA (Misalignment). The content of both sentences is completely different. Annotation finishes
+7. SC (Same Content). The content of both sentences is roughly the same. We move to level 3.
+
+Level 3. Is the translation reasonably correct? 
+8.	LQT (Low Quality Translation). The content of both sentences is roughly the same but there are serious translation errors. Annotation finishes
+9.	CBT (Correct boilerplate translation). The content of both sentences is roughly the same but the content is boilerplate. Annotation finishes
+
+If none of these errors apply, the pairs are then considered as RT (Reasonable Translation):
+10. RT (Reasonable Translation). The content of both sentences is roughly the same and the translation is at least reasonable. Annotation finishes.
+
+## Additional Checks
+Independently of the main annotation, the following issues are identified by clicking on the checkbox below the annotation scheme:
+- **Contains offensive or pornographic content**
+- **Not running text**: This means that a substantial part of the text is just a bunch of words together, for which it does not make sense to judge the translation.
+
+## Annotation Screen Overview
+
+This is how the screen will look if a sentence pair reaches the last level:
+
+You can see the **three levels** in the annotation screen and the **two columns**. The **blue options** are annotation stoppers (e.g., if the languages are wrong, we do not want to further evaluate this sentence pair), while the **green options** will prompt you to the next set of choices.
+
 
 <a name="adequacy"></a>
 
