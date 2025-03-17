@@ -93,7 +93,7 @@ A task has always an evaluation mode. This will change the way you evaluate the 
 
 <a name="validation"></a>
 
-#### Validation
+#### Validation (ParaCrawl-ELRC)
 ![Validation screen](/screenshots/guide/validation.png)
 
 This mode is used to classify pairs of sentences using the [European Language Resource Coordination (ELRC)](http://www.lr-coordination.eu/) validation guidelines. These guidelines define a set of labels to __annotate sentences following a hierarchical error typology__:
