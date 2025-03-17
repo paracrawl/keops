@@ -180,6 +180,9 @@ V. RT (Reasonable Translation). The content of both sentences is roughly the sam
 
 Independently of the main annotation, the following issues are identified by clicking on the checkbox below the annotation scheme:
 
+<img width="240" alt="additional" src="https://github.com/user-attachments/assets/a77fc751-a07a-401a-a3a2-8ba2827abdb6" />
+
+
 - **Contains offensive or pornographic content**
 - **Not running text**: This means that a substantial part of the text is just a bunch of words together, for which it does not make sense to judge the translation.
 
