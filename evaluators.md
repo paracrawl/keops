@@ -170,8 +170,7 @@ Independently of the main annotation, the following issues are identified by cli
 ## Annotation Screen Overview
 
 This is how the screen will look if a sentence pair reaches the last level:
-![Final](https://github.com/user-attachments/assets/6b122a21-af67-4079-a9da-5b94fe299073)
-
+<img width="927" alt="Final" src="https://github.com/user-attachments/assets/e5218768-0ffd-46e6-8766-606f61484b22" />
 
 You can see the **three levels** in the annotation screen and the **two columns**. The **blue options** are annotation stoppers (e.g., if the languages are wrong, we do not want to further evaluate this sentence pair), while the **green options** will prompt you to the next set of choices.
 
