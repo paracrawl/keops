@@ -139,22 +139,22 @@ Finally, some keyboard shortcuts are available. Press the key corresponding to t
 
 The validation for MaCoCu is carried out following a hierarchical annotation scheme divided into 3 levels, each of them relating to a different question.  Each question has a set of predefined answers, and depending on the annotator's choice, the annotation is either completed or proceeds to the next question. To simplify the annotation interface, these questions are not displayed during the annotation process. The annotation hierarchy is outlined below:
 
-Level 1. Is the content written in the expected languages?
+**Level 1. Is the content written in the expected languages?**
 1. WL (Wrong Language). The content of one of the two sentences is not in the expected language. If this is the case, annotation stops (see examples [here](https://github.com/paracrawl/keops/blob/master/screenshots/guide/Wrong-language-identification.png))
 2. ML (Mixed Languages). The content of one of the two sentences is written in a mix of languages, one of which is the expected one. If this is the case, annotation stops (see examples [here](https://github.com/paracrawl/keops/blob/master/screenshots/guide/Incorrect-alignment.png))
 3. CL (Correct Languages). The content of both sentences is in the expected languages. We move to level 2 (see examples [here](https://github.com/paracrawl/keops/blob/master/screenshots/guide/Wrong-Tokenization.png))
 
-Level 2. Is the content on both sides roughly the same?
-4.	MC (Missing Content). The content in one sentence is missing a substantial part of the content from the other sentence. Annotation finishes (see examples [here](https://github.com/paracrawl/keops/blob/master/screenshots/guide/MT-errors.png))
-5.	RC (Replaced Content). The content is roughly the same in both sentences but some content words or numbers are different. Annotation finishes
-6.	MA (Misalignment). The content of both sentences is completely different. Annotation finishes
+**Level 2. Is the content on both sides roughly the same?**
+4. MC (Missing Content). The content in one sentence is missing a substantial part of the content from the other sentence. Annotation finishes (see examples [here](https://github.com/paracrawl/keops/blob/master/screenshots/guide/MT-errors.png))
+5. RC (Replaced Content). The content is roughly the same in both sentences but some content words or numbers are different. Annotation finishes
+6. MA (Misalignment). The content of both sentences is completely different. Annotation finishes
 7. SC (Same Content). The content of both sentences is roughly the same. We move to level 3.
 
-Level 3. Is the translation reasonably correct? 
-8.	LQT (Low Quality Translation). The content of both sentences is roughly the same but there are serious translation errors. Annotation finishes
-9.	CBT (Correct boilerplate translation). The content of both sentences is roughly the same but the content is boilerplate. Annotation finishes
+**Level 3. Is the translation reasonably correct?**
+8. LQT (Low Quality Translation). The content of both sentences is roughly the same but there are serious translation errors. Annotation finishes
+9. CBT (Correct boilerplate translation). The content of both sentences is roughly the same but the content is boilerplate. Annotation finishes
 
-If none of these errors apply, the pairs are then considered as RT (Reasonable Translation):
+If none of these errors apply, the pairs are then considered as **RT (Reasonable Translation):**
 10. RT (Reasonable Translation). The content of both sentences is roughly the same and the translation is at least reasonable. Annotation finishes.
 
 ## Additional Checks
