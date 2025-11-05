@@ -73,6 +73,7 @@ if (isset($task_id)) {
       }
     }
     
+
     //TODO if the user reached the end of the task -> they should have an option to mark the task as DONE
     if($sentence->task_id == null) { // Check that sentence exists in db
       if (!$filtered) {
@@ -226,12 +227,12 @@ else {
             <div class="row same-height-sm">
                 <div class="col-md-6 same-height-column">
                     <div class="text-increase mb-2">Source text</div>
-                    <div class="well h-100"><?=  $sentence->source_text ?></div>
+                    <div class="well h-100"><?php echo str_replace('\n', '<br/>', $sentence->source_text);; ?></div>
                 </div>
 
                 <div class="col-md-6 same-height-column">
                     <div class="text-increase mb-2">Candidate translation</div>
-                    <div class="well h-100"><?=  $sentence->target_text[0]->source_text ?></div>
+                    <div class="well h-100"><?php  echo str_replace('\n', '<br/>', $sentence->target_text[0]->source_text); ?></div>
                 </div>
             </div>
         </div>

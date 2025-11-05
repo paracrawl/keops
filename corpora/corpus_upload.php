@@ -78,8 +78,11 @@ try {
         foreach ($values as $sentence) {
           $sentencesWithType[] = array($sentence, 'legit');
         }
-
+        error_log("¿?¿?¿?¿?¿?");
+        
         $result = $sentence_dao->insertBatchSentences($corpus_dto->id, $corpus_dto->source_lang, $corpus_dto->target_lang, $sentencesWithType, $mode, 2);
+        error_log("**********");
+        error_log($result);
         $corpus_dao->updateLinesInCorpus($corpus_dto->id);
       }, 1000, true);
     } else {
@@ -212,12 +215,20 @@ function file_reader($filename, $count, $callback, $batch_size = null, $has_head
   $handle = @fopen($filename, "r");
   $values = array();
   $headers = array();
+  error_log("=====");
+  error_log($filename);
+  error_log($count);
+  #error_log(string($callback));
+  error_log($batch_size);
+  error_log($has_headers);
+  
   try {
     while (!feof($handle)) {
       $buffer = fgets($handle);
-      $buffer =  preg_replace("/\r|\n/", "", $buffer);
+      //$buffer =  preg_replace("/\r|\n/", "", $buffer);
       $data = explode("\t", $buffer);
-
+      #error_log("=================");
+      #error_log(implode("********************", $data));
       if ($has_headers) {
         $headers = $data;
         $has_headers = false;
@@ -228,8 +239,9 @@ function file_reader($filename, $count, $callback, $batch_size = null, $has_head
       $data = array_slice($data, 0, $count);
 
       $valid = !empty(trim($buffer)) && count($data) == $count;
+            
       for ($i = 0; $valid && $i < count($data); $i++) {
-        $valid = $valid && (strlen($data[$i]) <= 10000);
+        $valid = $valid && (strlen($data[$i]) <= 10000000);
       }
 
       if ($valid) {
