@@ -84,7 +84,7 @@ sudo docker build -t keopsdocker .
 Once built, run it:
 
 ```
-sudo docker run -d --network=keops -p OUT_PORT:80 --name keops keopsdocker:latest
+sudo docker run -d --env-file envs --network=keops -p OUT_PORT:80 --name keops keopsdocker:latest
 ```
 
 With "OUT_PORT" being the port where Keops is going to be reachable (usually, 80)
@@ -99,7 +99,7 @@ sudo docker build -f Dockerfile-db -t keopsdb .
 And run it:
 
 ```
-sudo docker run -d --name keopsdb --network=keops keopsdb:latest
+sudo docker run -d --env-file envsdb --name keopsdb --network=keops keopsdb:latest
 ```
 
 ## Local installation ##
