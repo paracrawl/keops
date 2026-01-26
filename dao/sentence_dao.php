@@ -31,7 +31,6 @@ class sentence_dao {
   function insertBatchSentences($corpus_id, $source_lang, $target_lang, $data, $mode = "", $count = 2) {
     try {
       $insert_values = array();
-      error_log("HOLI");
       // Calc batch size
       $base_factor = 1000 / $count;
       $batch_size = ceil($base_factor) * $count;
@@ -69,12 +68,11 @@ class sentence_dao {
             $paramvalues[] = ($type == "ranking") ? $_d[2] : NULL;
           }          
         }
-        error_log(" **** STILL HERE **** ");
+        
         $query = $this->conn->prepare(substr_replace($query_str, "RETURNING id", -1));
-        error_log("  BEFORE QUERY  ");
-        error_log($query->debugDumpParams());
+        
         $query->execute($paramvalues);
-        error_log("  AFTER QUER  ");
+        
         
         if ($mode != "FLU" &&  $mode != "MONO") {
           while($row = $query->fetch()) {
@@ -117,7 +115,7 @@ class sentence_dao {
       $this->conn->close_conn();
       return true;
     } catch (Exception $ex) {
-      error_log("FUCK MY LIFE");
+      error_log("Error inserting batch sentences");
       error_log($ex->getMessage());
       $this->conn->close_conn();      
       throw new Exception("Error in sentence_dao::insertBatchSentences : " . $ex->getMessage());
