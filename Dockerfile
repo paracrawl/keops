@@ -39,4 +39,4 @@ EXPOSE 80
 
 RUN rm -r /opt/keops/.git || :
 
-CMD ./opt/keops/docker-entrypoint.sh
+CMD ["/opt/keops/docker-entrypoint.sh"]
