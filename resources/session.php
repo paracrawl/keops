@@ -8,6 +8,28 @@ if(!isset($_SESSION)) {
   session_start();
 }
 
+// Generate CSRF token if not exists
+if (empty($_SESSION['csrf_token'])) {
+    if (function_exists('random_bytes')) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    } else {
+        $_SESSION['csrf_token'] = bin2hex(openssl_random_pseudo_bytes(32));
+    }
+}
+
+/**
+ * Verifies the CSRF token
+ * 
+ * @param string $token Token to verify
+ * @return boolean True if valid, otherwise false
+ */
+function verifyCSRFToken($token) {
+    if (!isset($_SESSION['csrf_token']) || empty($token)) {
+        return false;
+    }
+    return hash_equals($_SESSION['csrf_token'], $token);
+}
+
 /**
  * Checks if the user is logged in
  * 

@@ -15,6 +15,13 @@ class CorpusException extends Exception{ }
 try {
   if (empty($_FILES)) return;
 
+  if (!isset($_POST['csrf_token']) || !verifyCSRFToken($_POST['csrf_token'])) {
+      error_log("CSRF Attack detected");
+      header("HTTP/1.1 403 Forbidden");
+      echo "Invalid CSRF token";
+      exit;
+  }
+
   $mode = filter_input(INPUT_POST, "mode");
 
   $tempFile = $_FILES['file']['tmp_name'];

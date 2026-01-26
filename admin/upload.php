@@ -59,6 +59,7 @@
           <div class="col-md-12 col-xs-12">
             <form action="/corpora/corpus_upload.php" class="form-horizontal dropzone dropzone-looks dz-clickable" id="dropzoneval" method="post" enctype="multipart/form-data">
               <input type="hidden" name="mode" value="VAL" />
+              <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>" />
 
               <div class="row">
                 <div class="col-md-6 col-xs-12">
@@ -145,6 +146,7 @@
         <form action="/corpora/corpus_upload.php" class="form-horizontal dropzone dropzone-looks dz-clickable" id="dropzoneade" method="post" enctype="multipart/form-data">
           <div class="row">
             <input type="hidden" name="mode" value="ADE" />
+            <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>" />
             <div class="col-md-6 col-xs-12">
               <div class="text-center-sm help-block with-errors">
                 1. Select your languages
@@ -245,6 +247,7 @@
           <div class="col-md-12 col-xs-12">
             <form action="/corpora/corpus_upload.php" class="form-horizontal dropzone dropzone-looks dz-clickable" id="dropzoneflu" method="post" enctype="multipart/form-data">
               <input type="hidden" name="mode" value="FLU" />
+              <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>" />
               <input type="hidden" name="source_lang" value="NULL" />
 
               <div class="row">
@@ -324,6 +327,7 @@
           <div class="col-md-12 col-xs-12">
             <form action="/corpora/corpus_upload.php" class="form-horizontal dropzone dropzone-looks dz-clickable" id="dropzoneran" method="post" enctype="multipart/form-data">
               <input type="hidden" name="mode" value="RAN" />
+              <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>" />
 
               <div class="row">
                 <div class="col-md-6 col-xs-12">
@@ -410,6 +414,7 @@
             <form action="/corpora/corpus_upload.php" class="form-horizontal dropzone dropzone-looks dz-clickable" id="dropzonepar" method="post" enctype="multipart/form-data">
                 <div class="row">
                     <input type="hidden" name="mode" value="PAR" />
+                    <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>" />
                     <div class="col-md-6 col-xs-12">
                         <div class="text-center-sm help-block with-errors">
                             1. Select your languages
@@ -506,6 +511,7 @@
           <div class="col-md-12 col-xs-12">
             <form action="/corpora/corpus_upload.php" class="form-horizontal dropzone dropzone-looks dz-clickable" id="dropzonevalmac" method="post" enctype="multipart/form-data">
               <input type="hidden" name="mode" value="VAL_MAC" />
+              <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>" />
 
               <div class="row">
                 <div class="col-md-6 col-xs-12">
@@ -594,6 +600,7 @@
           <div class="col-md-12 col-xs-12">
             <form action="/corpora/corpus_upload.php" class="form-horizontal dropzone dropzone-looks dz-clickable" id="dropzonemono" method="post" enctype="multipart/form-data">
               <input type="hidden" name="mode" value="MONO" />
+              <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>" />
               <input type="hidden" name="source_lang" value="NULL" />
 
               <div class="row">
