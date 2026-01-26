@@ -82,8 +82,12 @@ class DatatablesProcessing {
 
         // Order SQL clause
         $ordersql = "";
-        if (isset($dt_params['order'][0]['column'])) {
-            $ordersql = "ORDER BY lower_if_text(" . $columns[$dt_params['order'][0]['column']][0] . ") " . $dt_params['order'][0]['dir'];
+        if (isset($dt_params['order'][0]['column']) && isset($columns[$dt_params['order'][0]['column']])) {
+            $dir = isset($dt_params['order'][0]['dir']) ? $dt_params['order'][0]['dir'] : 'asc';
+            if (strtolower($dir) !== 'asc' && strtolower($dir) !== 'desc') {
+                $dir = 'asc';
+            }
+            $ordersql = "ORDER BY lower_if_text(" . $columns[$dt_params['order'][0]['column']][0] . ") " . $dir;
         }
 
         $query = $this->conn->prepare("
