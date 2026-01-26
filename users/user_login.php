@@ -33,7 +33,6 @@ if (count($failedparams) == 0){
   }
   else {
     if (password_verify($password, $password_hash)) {
-      echo "valid!";
       //Valid password
       $user_langs_dao = new user_langs_dao();
       $userinfo->langs = $user_langs_dao->getUserLangs($userinfo->id);
@@ -45,7 +44,6 @@ if (count($failedparams) == 0){
       header("Location: /index.php");
     die();
     } else {
-      echo "wrong pw";
       //echo "Wrong password";
       $_SESSION['error']="wrongpassword";
       $_SESSION['userinfo']=null;
@@ -56,14 +54,12 @@ if (count($failedparams) == 0){
 }
 else {
   if (in_array("email", $failedparams) || in_array("password", $failedparams)){
-    echo "missing mail";
     $_SESSION["error"] = "missingdata";   
     $_SESSION["userinfo"] = null;
     header("Location: /signin.php");
     die();
   }
   else {
-    echo "unknown";
     $_SESSION["error"] = "unknownerror";
     $_SESSION["userinfo"] = null;
     header("Location: /signin.php");
