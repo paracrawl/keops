@@ -24,6 +24,24 @@ try {
 
   $mode = filter_input(INPUT_POST, "mode");
 
+  // File validation
+  $allowed_extensions = ['tsv', 'txt'];
+  $file_ext = strtolower(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION));
+  
+  if (!in_array($file_ext, $allowed_extensions)) {
+      throw new CorpusException("Invalid file extension. Only .tsv and .txt are allowed.");
+  }
+
+  $finfo = finfo_open(FILEINFO_MIME_TYPE);
+  $mime_type = finfo_file($finfo, $_FILES['file']['tmp_name']);
+  finfo_close($finfo);
+
+  $allowed_mimes = ['text/plain', 'text/csv', 'text/tab-separated-values', 'application/csv'];
+  // Allow text/* generally as fallback
+  if (!in_array($mime_type, $allowed_mimes) && strpos($mime_type, 'text/') !== 0) {
+       throw new CorpusException("Invalid file type: " . $mime_type . ". Only text files are allowed.");
+  }
+
   $tempFile = $_FILES['file']['tmp_name'];
   $corpus_dto = new corpus_dto();
   $corpus_dto->name = $_FILES['file']['name'];
@@ -231,7 +249,8 @@ function file_reader($filename, $count, $callback, $batch_size = null, $has_head
   
   try {
     while (!feof($handle)) {
-      $buffer = fgets($handle);
+      $buffer = fgets($handle, 1048576); // Limit line length to 1MB
+      if ($buffer === false) break;
       //$buffer =  preg_replace("/\r|\n/", "", $buffer);
       $data = explode("\t", $buffer);
       #error_log("=================");
