@@ -24,11 +24,11 @@ if (count($failedparams) == 0){
   if ($task->id == $task_id && $task->status != "DONE" && $task->assigned_user == $USER->id) {
     $sentence_task_dto = new sentence_task_dto();
 
-    $sentence_task_dto->id = filter_input(INPUT_POST, "sentence_id", FILTER_SANITIZE_STRING);
-    $sentence_task_dto->task_id = filter_input(INPUT_POST, "task_id", FILTER_SANITIZE_STRING);
+    $sentence_task_dto->id = filter_input(INPUT_POST, "sentence_id", FILTER_SANITIZE_SPECIAL_CHARS);
+    $sentence_task_dto->task_id = filter_input(INPUT_POST, "task_id", FILTER_SANITIZE_SPECIAL_CHARS);
     $sentence_task_dto->evaluation = filter_input(INPUT_POST, "evaluation");
     
-    $start_time = filter_input(INPUT_POST, "time");
+    $start_time = (int)filter_input(INPUT_POST, "time");
     $datetime = new DateTime();
     $end_time = $datetime->getTimestamp();
 
@@ -67,7 +67,7 @@ if (count($failedparams) == 0){
 
       $search_term = filter_input(INPUT_POST, "term");
       $label = filter_input(INPUT_POST, "label");
-      $p_id = filter_input(INPUT_POST, "p_id");
+      $p_id = (int)filter_input(INPUT_POST, "p_id");
       $str = "Location: /sentences/evaluate.php?task_id=" . $sentence_task_dto->task_id . "&p=1&id=" . ($p_id+1) . ((isset($search_term) && isset($label)) ? "&term=".$search_term."&label=".$label : "");
       header($str);
       die();

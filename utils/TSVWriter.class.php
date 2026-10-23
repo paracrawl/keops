@@ -1,5 +1,7 @@
 <?php
 class TSVWriter {
+  public $delimiter;
+
   function __construct($delimiter = null) {
     $this->delimiter = isset($delimiter) ? $delimiter : chr(9);
   }
@@ -9,10 +11,10 @@ class TSVWriter {
     fputs($output, $bom = ( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
     foreach ($rows as $row) {
       for ($i = 0; $i < count($row); $i++) {
-        $row[$i] = preg_replace("/\t+/", ' ', $row[$i]);
+        $row[$i] = preg_replace("/\t+/", ' ', (string)($row[$i] ?? ''));
       }
 
-      fputs($output, implode($row, $this->delimiter)."\n");
+      fputs($output, implode($this->delimiter, $row)."\n");
     }
     fclose($output);
   }

@@ -21,8 +21,11 @@ class user_dto{
   public $password;
   public $active;
   public $langs;
+  public $token;
   
+  const ADMIN = "ADMIN";
   const PM = "PM";
+  const USER = "USER";
   const EVALUATOR = "USER";
   const ROOT = "root";
    
@@ -41,7 +44,7 @@ class user_dto{
      * @param boolean $active Active status
      * @return \self
      */
-  public function newUser($id, $name, $email, $role, $active){
+  public static function newUser($id, $name, $email, $role, $active){
     $instance = new self();
     $instance->id = $id;
     $instance->name = $name;

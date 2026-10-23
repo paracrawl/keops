@@ -20,18 +20,18 @@ const MISSING_PARAMETERS = "Missing parameters while saving the task: ";
 $failedparams = checkPostParameters(["project", "assigned_user", "corpus", "source_lang", "target_lang"]);
 
 if (count($failedparams) == 0){
-  $assigned_user = filter_input(INPUT_POST, "assigned_user", FILTER_SANITIZE_STRING);
+  $assigned_user = filter_input(INPUT_POST, "assigned_user", FILTER_SANITIZE_SPECIAL_CHARS);
 
   $task_dto = new task_dto();
 
-  $task_dto->project_id = filter_input(INPUT_POST, "project", FILTER_SANITIZE_STRING);
+  $task_dto->project_id = filter_input(INPUT_POST, "project", FILTER_SANITIZE_SPECIAL_CHARS);
   $task_dto->assigned_user = $assigned_user;
-  $task_dto->corpus_id = filter_input(INPUT_POST, "corpus", FILTER_SANITIZE_STRING);
+  $task_dto->corpus_id = filter_input(INPUT_POST, "corpus", FILTER_SANITIZE_SPECIAL_CHARS);
   $datetime= date('Y-m-d H:i:s');
   $task_dto->assigned_date = $datetime;
-  $task_dto->source_lang = filter_input(INPUT_POST, "source_lang", FILTER_SANITIZE_STRING);
-  $task_dto->target_lang = filter_input(INPUT_POST, "target_lang", FILTER_SANITIZE_STRING);
-  $task_dto->mode = filter_input(INPUT_POST, "mode", FILTER_SANITIZE_STRING);
+  $task_dto->source_lang = filter_input(INPUT_POST, "source_lang", FILTER_SANITIZE_SPECIAL_CHARS);
+  $task_dto->target_lang = filter_input(INPUT_POST, "target_lang", FILTER_SANITIZE_SPECIAL_CHARS);
+  $task_dto->mode = filter_input(INPUT_POST, "mode", FILTER_SANITIZE_SPECIAL_CHARS);
 
   $result = false;
   $task_dao = new task_dao();

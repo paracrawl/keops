@@ -24,7 +24,7 @@ class user_langs_dto {
    * @param int $lang_id Lang ID
    * @return \self
    */
-  public function newUserLang($user_id, $lang_id){
+  public static function newUserLang($user_id, $lang_id){
     $instance = new self();
     $instance->user_id = $user_id;
     $instance->lang_id = $lang_id;

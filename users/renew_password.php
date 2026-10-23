@@ -18,7 +18,7 @@ $service = filter_input(INPUT_POST, 'service');
 
 if ($service == "renew") {
     if (count($failedparams) == 0) {
-        $given_token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING);
+        $given_token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS);
         $password = filter_input(INPUT_POST, 'password');
         $password2 = filter_input(INPUT_POST, 'password2');
         $password_renew_dao = new password_renew_dao();

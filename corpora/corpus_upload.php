@@ -150,7 +150,7 @@ try {
           $sentence = $sentence_pair[1];
           $words = explode(" ", $sentence);
           $c = count($words);
-          $remove = ($c < 4) ? 1 : ($c < 6) ? 2 : ($c < 9) ? 3 : ($c < 16) ? 5 : floor($c / 5);
+          $remove = ($c < 4) ? 1 : (($c < 6) ? 2 : (($c < 9) ? 3 : (($c < 16) ? 5 : floor($c / 5))));
           for ($j = 0; $j < $remove; $j++) {
             $p = mt_rand(0, $c);
             array_splice($words, $p, 1);

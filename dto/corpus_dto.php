@@ -36,7 +36,7 @@ class corpus_dto {
    * @param boolean $active Active status
    * @return \self
    */
-  public function newCorpus($id, $name, $source_lang, $target_lang, $active) {
+  public static function newCorpus($id, $name, $source_lang, $target_lang, $active) {
     $instance = new self();
     $instance->id = $id;
     $instance->name = $name;

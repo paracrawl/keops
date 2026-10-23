@@ -21,7 +21,7 @@ const ERROR_CREATE_TASK = "Error while closing the task.";
 const MISSING_PARAMETERS = "Missing parameters while saving the task: ";
 
 if (!isset($_GET["task_id"]) || ($_GET["task_id"])==""){
-  $_SESSION['error'] = MISSING_PARAMETERS . implode(', ', "task_id");
+  $_SESSION['error'] = MISSING_PARAMETERS . "task_id";
   header("Location: " . filter_input(INPUT_SERVER, 'HTTP_REFERER'));
 }
 

@@ -16,7 +16,7 @@ $service = filter_input(INPUT_GET, "service");
 
 if ($service == "post") {
     $score = filter_input(INPUT_POST, "feedback_score");
-    $comments = filter_input(INPUT_POST, "feedback_comments", FILTER_SANITIZE_STRING);
+    $comments = filter_input(INPUT_POST, "feedback_comments", FILTER_SANITIZE_SPECIAL_CHARS);
     $task = filter_input(INPUT_POST, "feedback_task_id");
 
     if (isset($score)) {

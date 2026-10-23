@@ -275,7 +275,6 @@ if (isset($task_id)) {
                         <?= $label['label'] ?> [<?= $label['value'] ?>]
                       </a>
                     </td>
-                    <?  error.log($task_stats_dto)?>
                     <td class="text-right"><?= $task_stats_dto->array_type[$label['value']] ?></td>
                     <td class="text-right">
                      <?= round((($task_stats_dto->array_type[$label['value']]) / $task_stats_dto->total) * 100, 2) ?>%

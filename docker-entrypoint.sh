@@ -39,7 +39,10 @@ ENDOFMESSAGE
 cat >/opt/keops/resources/db/keopsdb.class.php
 
 echo "STARTING PHP..."
-service php7.2-fpm stop && sudo -E /etc/init.d/php7.2-fpm start
+mkdir -p /run/php
+PHP_VER=$(php -r 'echo PHP_MAJOR_VERSION.".".PHP_MINOR_VERSION;')
+service php${PHP_VER}-fpm stop || true
+sudo -E /etc/init.d/php${PHP_VER}-fpm start
 
 echo "STARTING NGINX..."
 service nginx stop && service nginx start

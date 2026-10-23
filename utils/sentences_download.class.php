@@ -1,5 +1,7 @@
 <?php
-require filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/vendor/autoload.php";
+if (file_exists(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/vendor/autoload.php")) {
+    require_once filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . "/vendor/autoload.php";
+}
 
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/task_dao.php");
 require_once(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') ."/dao/project_dao.php");

@@ -29,4 +29,6 @@ class task_dto {
   public $target_lang_object;
   public $mode;
   public $score;
+  public $username;
+  public $email;
 }

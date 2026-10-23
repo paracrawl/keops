@@ -21,8 +21,8 @@ if ($service == "new") {
   if (count($failedparams) == 0){
     $project_dto = new project_dto();
 
-    $project_dto->name = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
-    $project_dto->description = filter_input(INPUT_POST, "description", FILTER_SANITIZE_STRING);
+    $project_dto->name = filter_input(INPUT_POST, "name", FILTER_SANITIZE_SPECIAL_CHARS);
+    $project_dto->description = filter_input(INPUT_POST, "description", FILTER_SANITIZE_SPECIAL_CHARS);
     $project_dto->owner = $USER->id;
     
     $project_dao = new project_dao();

@@ -25,7 +25,7 @@ class language_dto {
    * @param string $langname Language name
    * @return \self 
    */
-  public function newLanguage($id, $langcode, $langname) {
+  public static function newLanguage($id, $langcode, $langname) {
     $instance = new self();
     $instance->id = $id;
     $instance->langcode = $langcode;

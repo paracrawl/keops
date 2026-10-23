@@ -16,10 +16,10 @@
         header("Location: /contact.php");
         exit();
     } else {
-        $from = filter_input(INPUT_POST, "from", FILTER_SANITIZE_STRING);
-        $name = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
-        $subject = filter_input(INPUT_POST, "subject", FILTER_SANITIZE_STRING);
-        $message = filter_input(INPUT_POST, "message", FILTER_SANITIZE_STRING);
+        $from = filter_input(INPUT_POST, "from", FILTER_SANITIZE_SPECIAL_CHARS);
+        $name = filter_input(INPUT_POST, "name", FILTER_SANITIZE_SPECIAL_CHARS);
+        $subject = filter_input(INPUT_POST, "subject", FILTER_SANITIZE_SPECIAL_CHARS);
+        $message = filter_input(INPUT_POST, "message", FILTER_SANITIZE_SPECIAL_CHARS);
         $recaptcha = filter_input(INPUT_POST, "g-recaptcha-response");
         $pm = filter_input(INPUT_POST, "pm");
         $u = filter_input(INPUT_POST, "u");

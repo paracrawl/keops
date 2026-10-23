@@ -9,8 +9,8 @@
     $PAGETYPE = "public";
     require_once(RESOURCES_PATH . "/session.php");
 
-    $project_id = filter_input(INPUT_GET, 'p', FILTER_SANITIZE_STRING);
-    $user_id = filter_input(INPUT_GET, 'u', FILTER_SANITIZE_STRING);
+    $project_id = filter_input(INPUT_GET, 'p', FILTER_SANITIZE_SPECIAL_CHARS);
+    $user_id = filter_input(INPUT_GET, 'u', FILTER_SANITIZE_SPECIAL_CHARS);
     if ($project_id && !isSignedIn()) { 
         header("Location: /signin.php");
         exit();

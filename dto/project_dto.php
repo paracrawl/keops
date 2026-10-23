@@ -27,6 +27,8 @@ class project_dto {
   public $active;
   public $owner;
   
+  public $source_lang_object;
+  public $target_lang_object;
   public $owner_object;
   
   public function __construct(){
@@ -46,7 +48,7 @@ class project_dto {
    * @param boolean $active Active status (active/deactivated)
    * @return \self
    */
-  public function newProject($id, $name, $description, $active){
+  public static function newProject($id, $name, $description, $active){
       $instance = new self();
       $instance->id = $id;
       $instance->name = $name;
